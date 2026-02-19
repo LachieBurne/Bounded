@@ -11,7 +11,7 @@ BASE_URL = "https://api.justtcg.com/v1/cards"
 SETS_TO_SYNC = {
     "origins-riftbound-league-of-legends-trading-card-game": "OGN",
     "origins-proving-grounds-riftbound-league-of-legends-trading-card-game": "OGS",
-    "spiritforged-riftbound-league-of-legends-trading-card-game": "SPD"
+    "spiritforged-riftbound-league-of-legends-trading-card-game": "SFD"
 }
 
 def clean_card_number(raw_number):
