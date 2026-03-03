@@ -4,7 +4,8 @@ import time
 import requests
 
 # --- CONFIGURATION ---
-API_KEY = os.environ.get("JUSTTCG_API_KEY")
+#API_KEY = os.environ.get("JUSTTCG_API_KEY")
+API_KEY = "tcg_f8dd7615d7a04c8199c0be1bd73b827e"
 BASE_URL = "https://api.justtcg.com/v1/cards"
 
 # Map the API's specific Set IDs to your Internal 3-Letter Codes
@@ -12,7 +13,13 @@ SETS_TO_SYNC = {
     "origins-riftbound-league-of-legends-trading-card-game": "OGN",
     "origins-proving-grounds-riftbound-league-of-legends-trading-card-game": "OGS",
     "spiritforged-riftbound-league-of-legends-trading-card-game": "SFD",
-    "riftbound-organized-play-promotional-cards-riftbound-league-of-legends-trading-card-game": ["OGN", "OGS", "SFD"]
+    "riftbound-organized-play-promotional-cards-riftbound-league-of-legends-trading-card-game": "PRM"
+}
+
+SET_NUMBERS = {
+    "OGN": 298,
+    "SFD": 221,
+    "OGS": 24
 }
 
 def clean_card_number(raw_number):
@@ -55,7 +62,8 @@ def fetch_riftbound_prices():
                     "offset": offset
                 }
                 
-                response = requests.get(BASE_URL, headers=headers, params=params)
+                # Added timeout to prevent hanging indefinitely
+                response = requests.get(BASE_URL, headers=headers, params=params, timeout=15)
                 total_requests += 1
                 
                 if response.status_code != 200:
@@ -78,13 +86,37 @@ def fetch_riftbound_prices():
                     if not variants:
                         continue
 
+                    actual_internal_code = internal_code
+
+                    if internal_code == "PRM":
+                        if not card_number:
+                            continue
+                            
+                        raw_num_str = str(card_number)
+                        clean_num = raw_num_str.split('/')[0].strip()
+                        
+                        # Only worry about alternate arts ending with 'b'
+                        if not clean_num.endswith('b'):
+                            continue
+                            
+                        if clean_num.startswith('R'):
+                            actual_internal_code = "SFD"
+                        else:
+                            parts = raw_num_str.split('/')
+                            if len(parts) > 1:
+                                max_cards = parts[1].strip()
+                                for s, n in SET_NUMBERS.items():
+                                    if str(n) in max_cards:
+                                        actual_internal_code = s
+                                        break
+
                     # 3. Clean ID (Split at /)
                     formatted_suffix = clean_card_number(card_number)
                     
                     if not formatted_suffix:
                         continue
                         
-                    full_id = f"{internal_code}-{formatted_suffix}"
+                    full_id = f"{actual_internal_code}-{formatted_suffix}"
 
                     # 4. Find Best Price
                     best_price = None
