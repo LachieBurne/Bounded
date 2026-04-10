@@ -1,6 +1,7 @@
 <div align="center">
-
-# 🃏 Bounded
+<img src="Android App/app/src/main/ic_launcher-playstore.png" alt="Bounded App Icon" width="120">
+ 
+# Bounded
 
 **The Ultimate Digital Binder & Interactive Deckbuilder for Riftbound.**
 
