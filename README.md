@@ -10,7 +10,7 @@
 [![Firebase](https://img.shields.io/badge/Firebase-FFCA28?style=for-the-badge&logo=firebase&logoColor=black)](#)
 [![GitHub Actions](https://img.shields.io/badge/GitHub_Actions-2088FF?style=for-the-badge&logo=github-actions&logoColor=white)](#)
 
-[Live Web App Demo](https://bounded.web.app) • [Download Android App](#) • [Report Bug](https://github.com/LachieBurne/bounded/issues)
+[Live Web App Demo](https://bounded.web.app) • [Download Android App](#) • [Report Bug](https://github.com/LachieBurne/Bounded/issues)
 
 ![Bounded Hero Presentation](docs/assets/hero_presentation.gif)
 *Placeholder: Replace with a high-quality GIF showing the app and website side-by-side syncing in real-time.*
