@@ -1,0 +1,111 @@
+@import "tailwindcss";
+
+@theme {
+  --color-riftbound-darkest: #0A0E17;
+  --color-riftbound-darker: #131A26;
+  --color-riftbound-dark: #1C2638;
+  --color-riftbound-accent: #4C6EF5;
+  --color-riftbound-accentBright: #748FFC;
+  --color-riftbound-textPrimary: #F1F3F5;
+  --color-riftbound-textDim: #ADB5BD;
+
+  --font-family-sans: ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+}
+
+@layer base {
+  body {
+    background-color: var(--color-riftbound-darkest);
+    color: var(--color-riftbound-textPrimary);
+    font-family: var(--font-family-sans);
+    -webkit-font-smoothing: antialiased;
+  }
+}
+
+@layer components {
+
+  /* Scrollbar Customization */
+  ::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    @apply bg-riftbound-dark rounded-full border-2 border-riftbound-darkest;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    @apply bg-riftbound-textDim;
+  }
+
+  /* Glassmorphism Classes */
+  .glass-panel {
+    @apply bg-riftbound-darker/60 backdrop-blur-md border border-white/5 shadow-xl;
+  }
+
+  .glass-card {
+    @apply bg-riftbound-dark/40 backdrop-blur-sm border border-white/10 hover:border-white/20 transition-all duration-300;
+  }
+
+  .nav-btn {
+    @apply flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-colors hover:bg-white/5 active:bg-white/10;
+  }
+
+  .nav-btn-active {
+    @apply bg-riftbound-accent/10 text-riftbound-accentBright;
+  }
+
+  .primary-btn {
+    @apply bg-riftbound-accent hover:bg-riftbound-accentBright text-white px-4 py-2 rounded-lg font-semibold shadow-lg shadow-riftbound-accent/20 transition-all active:scale-95;
+  }
+
+  /* Shimmer Loading Animation */
+  .shimmer {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .shimmer::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    transform: translateX(-100%);
+    background-image: linear-gradient(90deg,
+        rgba(255, 255, 255, 0) 0,
+        rgba(255, 255, 255, 0.05) 20%,
+        rgba(255, 255, 255, 0.1) 60%,
+        rgba(255, 255, 255, 0));
+    animation: shimmer 2s infinite;
+  }
+
+  @keyframes shimmer {
+    100% {
+      transform: translateX(100%);
+    }
+  }
+
+  @keyframes gradient-border {
+    0% {
+      background-position: 0% 50%;
+    }
+
+    50% {
+      background-position: 100% 50%;
+    }
+
+    100% {
+      background-position: 0% 50%;
+    }
+  }
+
+  .animate-gradient-border {
+    animation: gradient-border 3s ease infinite;
+    background-size: 200% 200% !important;
+  }
+}
