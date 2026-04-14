@@ -126,6 +126,6 @@ Simply visit: **[bounded.web.app](https://bounded.web.app)**
 ### 📱 Android Application
 You do not need to build the app from source to use it on your device. 
 
-1. Download the latest `.apk` file directly from this repository (located in the `[Insert Folder Name]` folder or the Releases tab).
+1. Download the latest `.apk` file directly from this repository (located in the `Android App` folder or the Releases tab).
 2. Transfer the `.apk` file to your Android device (or download it directly on your phone).
 3. Open the file to install the app. *(Note: You may need to enable "Install unknown apps" in your Android security settings).*
