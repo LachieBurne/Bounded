@@ -13,9 +13,6 @@
 
 [Live Web App](https://bounded.web.app) • [Download Android App](https://github.com/LachieBurne/Bounded/blob/main/Android%20App/riftbound-app.apk) • [Report Bug](https://github.com/LachieBurne/Bounded/issues)
 
-![Bounded Hero Presentation](docs/assets/hero_presentation.gif)
-*Placeholder: Replace with a high-quality GIF showing the app and website side-by-side syncing in real-time.*
-
 </div>
 
 ---
@@ -44,9 +41,6 @@ Designed with scalability and cost-efficiency in mind, Bounded leverages a serve
   * **Financials:** Calculate the total market cost of the deck and the specific cost of the cards you are missing.
   * **Curves:** Visualize your Might and Energy curves via responsive bar graphs.
   * **Composition:** Break down your deck's Domains and Card Types using dynamic donut charts.
-
-![Deckbuilder Flow](docs/assets/deckbuilder_flow.gif)
-*Placeholder: Replace with a GIF showing the guided deck-building process and the interactive stats charts.*
 
 ---
 
