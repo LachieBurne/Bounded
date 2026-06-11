@@ -25,7 +25,7 @@ export const PriceProvider: React.FC<{ children: React.ReactNode }> = ({ childre
     useEffect(() => {
         const fetchPrices = async () => {
             try {
-                const res = await fetch('https://lachieburne.github.io/Riftbounded/prices.json');
+                const res = await fetch('https://lachieburne.github.io/Bounded/prices.json');
                 const data = await res.json();
                 setPrices(data);
             } catch (e) {

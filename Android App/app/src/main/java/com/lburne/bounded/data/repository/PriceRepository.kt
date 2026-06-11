@@ -34,7 +34,7 @@ class PriceRepository(context: Context) {
     private fun fetchPrices() {
         CoroutineScope(Dispatchers.IO).launch {
             val request = Request.Builder()
-                .url("https://lachieburne.github.io/Riftbounded/prices.json")
+                .url("https://lachieburne.github.io/Bounded/prices.json")
                 .build()
 
             try {

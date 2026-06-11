@@ -114,7 +114,7 @@ const DeckList: React.FC = () => {
                             }
 
                             // Placeholder default bg
-                            bgImage = bgImage || 'https://lachieburne.github.io/Riftbounded/card_images/OGN-001.png';
+                            bgImage = bgImage || 'https://lachieburne.github.io/Bounded/card_images/OGN-001.png';
 
                             return (
                                 <div key={deck.deckId} onClick={() => navigate(`/decks/${deck.deckId}`)} className="group relative rounded-2xl overflow-hidden border border-white/10 aspect-[3/2] flex flex-col justify-end cursor-pointer transition-all duration-300 hover:scale-[1.02] hover:border-riftbound-accent shadow-xl">

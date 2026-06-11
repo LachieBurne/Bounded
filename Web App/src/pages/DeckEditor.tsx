@@ -728,7 +728,7 @@ export default function DeckEditor() {
                                                             </h4>
                                                             <div className="flex items-center gap-2 mt-0.5">
                                                                 {card.domain.map(d => (
-                                                                    <img key={d} src={`https://lachieburne.github.io/Riftbounded/domain_images/${d.toLowerCase()}.png`} alt={d} className="w-3 h-3" />
+                                                                    <img key={d} src={`https://lachieburne.github.io/Bounded/domain_images/${d.toLowerCase()}.png`} alt={d} className="w-3 h-3" />
                                                                 ))}
                                                                 {isMissing && (
                                                                     <span className="text-[10px] text-red-400 font-bold whitespace-nowrap sm:hidden">
@@ -927,7 +927,7 @@ export default function DeckEditor() {
                                                     ></div>
                                                 </div>
                                                 <div className="mt-3 w-6 h-6 shrink-0 flex items-center justify-center">
-                                                    <img src={`https://lachieburne.github.io/Riftbounded/domain_images/${domain.toLowerCase()}.png`} alt={domain} className="w-full h-full object-contain drop-shadow" />
+                                                    <img src={`https://lachieburne.github.io/Bounded/domain_images/${domain.toLowerCase()}.png`} alt={domain} className="w-full h-full object-contain drop-shadow" />
                                                 </div>
                                             </div>
                                         );

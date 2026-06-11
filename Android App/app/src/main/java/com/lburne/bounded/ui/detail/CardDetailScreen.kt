@@ -83,7 +83,7 @@ fun CardDetailScreen(
     val setName = RiftSet.values().find { it.code == card.setCode }?.displayName ?: card.setCode
 
     // Resolve Rarity Icon URL
-    val rarityIconUrl = "https://lachieburne.github.io/Riftbounded/rarity_images/${card.rarity.name.lowercase()}.png"
+    val rarityIconUrl = "https://lachieburne.github.io/Bounded/rarity_images/${card.rarity.name.lowercase()}.png"
 
     Box(modifier = Modifier.fillMaxSize().background(Color.Black)) {
 

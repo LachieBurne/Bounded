@@ -13,7 +13,7 @@ export const CardDetailModal: React.FC<CardDetailModalProps> = ({ item, onClose 
     const [price, setPrice] = React.useState<number | null>(null);
 
     React.useEffect(() => {
-        fetch('https://lachieburne.github.io/Riftbounded/prices.json')
+        fetch('https://lachieburne.github.io/Bounded/prices.json')
             .then(res => res.json())
             .then(data => {
                 const key = item.card.cardId;
@@ -76,11 +76,11 @@ export const CardDetailModal: React.FC<CardDetailModalProps> = ({ item, onClose 
                                     {item.card.type}
                                 </span>
                                 {item.card.domain.map(d => (
-                                    <img key={d} src={`https://lachieburne.github.io/Riftbounded/domain_images/${d.toLowerCase()}.png`} alt={d} className="w-5 h-5" title={d} />
+                                    <img key={d} src={`https://lachieburne.github.io/Bounded/domain_images/${d.toLowerCase()}.png`} alt={d} className="w-5 h-5" title={d} />
                                 ))}
                             </div>
                             <div className="flex items-center gap-2">
-                                <img src={`https://lachieburne.github.io/Riftbounded/rarity_images/${item.card.rarity.toLowerCase()}.png`} alt={item.card.rarity} className="h-4" title={item.card.rarity} />
+                                <img src={`https://lachieburne.github.io/Bounded/rarity_images/${item.card.rarity.toLowerCase()}.png`} alt={item.card.rarity} className="h-4" title={item.card.rarity} />
                                 <span className="text-xs font-medium text-riftbound-textDim bg-white/5 py-1 px-3 rounded-full border border-white/10">
                                     {item.card.setCode} • {item.card.cardId.replace(`${item.card.setCode}-`, '')}
                                 </span>

@@ -135,7 +135,7 @@ export const FilterPanel: React.FC<FilterPanelProps> = ({
                                 className={`w-10 h-10 rounded-full flex items-center justify-center transition-all p-1 border-2 ${selectedDomain === d ? 'border-riftbound-accent bg-white/10 scale-110 shadow-lg shadow-riftbound-accent/20' : 'border-transparent bg-riftbound-darker hover:bg-white/5 hover:scale-105 opacity-60 hover:opacity-100'}`}
                                 title={d}
                             >
-                                <img src={`https://lachieburne.github.io/Riftbounded/domain_images/${d.toLowerCase()}.png`} alt={d} className="w-full h-full object-contain" />
+                                <img src={`https://lachieburne.github.io/Bounded/domain_images/${d.toLowerCase()}.png`} alt={d} className="w-full h-full object-contain" />
                             </button>
                         ))}
                     </div>
@@ -158,7 +158,7 @@ export const FilterPanel: React.FC<FilterPanelProps> = ({
                                 className={`w-10 h-10 rounded-full flex items-center justify-center transition-all p-1 border-2 ${selectedRarity === r ? 'border-riftbound-accent bg-white/10 scale-110 shadow-lg shadow-riftbound-accent/20' : 'border-transparent bg-riftbound-darker hover:bg-white/5 hover:scale-105 opacity-60 hover:opacity-100'}`}
                                 title={r}
                             >
-                                <img src={`https://lachieburne.github.io/Riftbounded/rarity_images/${r.toLowerCase()}.png`} alt={r} className="w-full h-full object-contain" />
+                                <img src={`https://lachieburne.github.io/Bounded/rarity_images/${r.toLowerCase()}.png`} alt={r} className="w-full h-full object-contain" />
                             </button>
                         ))}
                     </div>
