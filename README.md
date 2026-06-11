@@ -11,7 +11,7 @@
 [![Firebase](https://img.shields.io/badge/Firebase-FFCA28?style=for-the-badge&logo=firebase&logoColor=black)](#)
 [![GitHub Actions](https://img.shields.io/badge/GitHub_Actions-2088FF?style=for-the-badge&logo=github-actions&logoColor=white)](#)
 
-[Live Web App Demo](https://bounded.web.app) • [Download Android App](#) • [Report Bug](https://github.com/LachieBurne/Bounded/issues)
+[Live Web App](https://bounded.web.app) • [Download Android App](https://github.com/LachieBurne/Bounded/blob/main/Android%20App/riftbound-app.apk) • [Report Bug](https://github.com/LachieBurne/Bounded/issues)
 
 ![Bounded Hero Presentation](docs/assets/hero_presentation.gif)
 *Placeholder: Replace with a high-quality GIF showing the app and website side-by-side syncing in real-time.*
@@ -126,6 +126,6 @@ Simply visit: **[bounded.web.app](https://bounded.web.app)**
 ### 📱 Android Application
 You do not need to build the app from source to use it on your device. 
 
-1. Download the latest `.apk` file directly from this repository (located in the `[Insert Folder Name]` folder or the Releases tab).
+1. Download the latest `.apk` file directly from this repository (located in the `Android App` folder or the Releases tab).
 2. Transfer the `.apk` file to your Android device (or download it directly on your phone).
 3. Open the file to install the app. *(Note: You may need to enable "Install unknown apps" in your Android security settings).*
