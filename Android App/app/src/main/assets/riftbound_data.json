@@ -10638,7 +10638,7 @@
   },
   {
     "cardId": "OGS-009",
-    "name": "Yi, Honed",
+    "name": "Master Yi, Honed",
     "setCode": "OGS",
     "collectorNumber": 9,
     "artistName": "Kudos Productions",
@@ -10654,7 +10654,7 @@
   },
   {
     "cardId": "OGS-004",
-    "name": "Yi, Meditative",
+    "name": "Master Yi, Meditative",
     "setCode": "OGS",
     "collectorNumber": 4,
     "artistName": "Kudos Productions",
@@ -11022,4 +11022,3 @@
     "isToken": false
   }
 ]
-

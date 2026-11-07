@@ -6,7 +6,8 @@
 **The Ultimate Digital Binder & Interactive Deckbuilder for Riftbound.**
 
 [![Kotlin](https://img.shields.io/badge/Kotlin-B125EA?style=for-the-badge&logo=kotlin&logoColor=white)](#)
-[![Next.js](https://img.shields.io/badge/Next.js-000000?style=for-the-badge&logo=nextdotjs&logoColor=white)](#)
+[![React](https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)](#)
+[![Vite](https://img.shields.io/badge/Vite-646CFF?style=for-the-badge&logo=vite&logoColor=white)](#)
 [![TypeScript](https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white)](#)
 [![Firebase](https://img.shields.io/badge/Firebase-FFCA28?style=for-the-badge&logo=firebase&logoColor=black)](#)
 [![GitHub Actions](https://img.shields.io/badge/GitHub_Actions-2088FF?style=for-the-badge&logo=github-actions&logoColor=white)](#)
@@ -50,7 +51,7 @@ Bounded is built as a distributed, cross-platform system synced perfectly via Go
 
 ### Frontend
 * **Mobile App:** Built natively with **Kotlin** for optimal performance and camera hardware access.
-* **Web Companion:** Built with **Next.js** and **TypeScript** for SEO optimization, fast rendering, and type-safe component development.
+* **Web Companion:** Built with **React**, **Vite** and **TypeScript**, styled with Tailwind CSS.
 
 ### Backend & Data
 * **Database:** **Google Firestore (NoSQL)**. Selected for its generous free tier and exceptional real-time synchronization capabilities. 
@@ -64,7 +65,7 @@ Bounded is built as a distributed, cross-platform system synced perfectly via Go
 graph TD
     subgraph Frontend [📱 Client Applications]
         A["Android App <br/> Kotlin"]
-        W["Web App <br/> Next.js / TypeScript"]
+        W["Web App <br/> React / Vite / TypeScript"]
     end
 
     subgraph Backend [☁️ Google Firebase]
@@ -123,3 +124,42 @@ You do not need to build the app from source to use it on your device.
 1. Download the latest `.apk` file directly from this repository (located in the `Android App` folder or the Releases tab).
 2. Transfer the `.apk` file to your Android device (or download it directly on your phone).
 3. Open the file to install the app. *(Note: You may need to enable "Install unknown apps" in your Android security settings).*
+
+---
+
+## 🛠️ Building from Source
+
+The repo holds everything needed to build both apps. The only files kept out of git are the Firebase configs, which you download from the Firebase console (project `riftbounded-d8951`).
+
+```
+Android App/   Kotlin + Jetpack Compose app (open this folder in Android Studio)
+Web App/       React + Vite web app, deployed to Firebase Hosting
+scripts/       Price pipeline (run by GitHub Actions)
+card_images/, domain_images/, rarity_images/, prices.json
+               Served by GitHub Pages and read by both apps. Keep these paths stable.
+```
+
+### Android
+1. Put `google-services.json` in `Android App/app/`.
+2. Open `Android App/` in Android Studio, or build from the command line:
+   ```bash
+   cd "Android App" && ./gradlew assembleDebug
+   ```
+
+### Web
+1. Copy `Web App/.env.example` to `Web App/.env.local` and fill in the Firebase web config.
+2. Run it:
+   ```bash
+   cd "Web App" && npm ci && npm run dev
+   ```
+3. Deploy with `npm run build && firebase deploy --only hosting`.
+
+### Card data
+`riftbound_data.json` exists in both `Android App/app/src/main/assets/` and `Web App/public/`. The two copies must be identical, and CI checks this.
+
+### Prices
+`scripts/update_prices.py` runs on a schedule in GitHub Actions and commits `prices.json`. It needs the `JUSTTCG_API_KEY` repository secret. To run it locally:
+```bash
+pip install -r scripts/requirements.txt
+JUSTTCG_API_KEY=... python scripts/update_prices.py
+```

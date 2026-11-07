@@ -1,0 +1,85 @@
+name: Checks
+
+on:
+  push:
+    branches: [main]
+    paths-ignore: ['prices.json']
+  pull_request:
+
+jobs:
+  card-data:
+    name: Card data in sync
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - name: Android and web card data must match
+        run: |
+          if ! cmp -s "Android App/app/src/main/assets/riftbound_data.json" "Web App/public/riftbound_data.json"; then
+            echo "::error::riftbound_data.json differs between Android App and Web App. Copy one over the other."
+            exit 1
+          fi
+
+  web:
+    name: Web app builds
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: Web App
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 24
+          cache: npm
+          cache-dependency-path: Web App/package-lock.json
+      - run: npm ci
+      # Firebase config is only checked at runtime, so the build works without .env.local.
+      - run: npm run build
+
+  android:
+    name: Android app builds
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: Android App
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-java@v6
+        with:
+          distribution: temurin
+          java-version: 17
+      - uses: gradle/actions/setup-gradle@v6
+      # The real google-services.json stays out of git. A placeholder with the right
+      # package name is enough for the Google Services plugin to build.
+      - name: Write placeholder google-services.json
+        run: |
+          cat > app/google-services.json <<'JSON'
+          {
+            "project_info": {
+              "project_number": "000000000000",
+              "project_id": "ci-placeholder",
+              "storage_bucket": "ci-placeholder.appspot.com"
+            },
+            "client": [{
+              "client_info": {
+                "mobilesdk_app_id": "1:000000000000:android:0000000000000000",
+                "android_client_info": { "package_name": "com.lburne.bounded" }
+              },
+              "oauth_client": [],
+              "api_key": [{ "current_key": "ci-placeholder" }],
+              "services": { "appinvite_service": { "other_platform_oauth_client": [] } }
+            }],
+            "configuration_version": "1"
+          }
+          JSON
+      - run: chmod +x gradlew && ./gradlew assembleDebug --stacktrace
+
+  price-script:
+    name: Price script compiles
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v7
+        with:
+          python-version: '3.12'
+      - run: python -m py_compile scripts/update_prices.py
