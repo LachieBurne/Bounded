@@ -316,9 +316,10 @@ export default function DeckEditor() {
                     if (card.type !== 'LEGEND') return false;
                     break;
                 case DeckBuildStep.SELECT_CHAMPION: {
-                    const legendName = legendCard?.name || "";
-                    const baseName = legendName.split(" - ")[0]?.trim() || "";
-                    if (!baseName || !card.name.toLowerCase().startsWith(baseName.toLowerCase()) || card.type !== 'UNIT') return false;
+                    // Champion units carry their legend's champion tag (e.g. "Master Yi").
+                    const championTag = legendCard?.championTag?.toLowerCase();
+                    if (!championTag || card.type !== 'UNIT' || card.isToken) return false;
+                    if (!card.tags.some(t => t.toLowerCase() === championTag)) return false;
                     break;
                 }
                 case DeckBuildStep.SELECT_RUNES:
@@ -329,8 +330,7 @@ export default function DeckEditor() {
                     break;
                 case DeckBuildStep.SELECT_MAIN:
                 case DeckBuildStep.SELECT_SIDEBOARD: {
-                    const isToken = card.cost === 0 && card.domain.includes('COLORLESS') as unknown as boolean; // Simplification
-                    if (isToken || card.type === 'BATTLEFIELD' || card.type === 'LEGEND' || card.type === 'RUNE') return false;
+                    if (card.isToken || card.type === 'OTHER' || card.type === 'BATTLEFIELD' || card.type === 'LEGEND' || card.type === 'RUNE') return false;
                     if (!card.domain.every(d => legendDomains.includes(d))) return false;
                     break;
                 }

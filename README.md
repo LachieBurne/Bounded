@@ -155,7 +155,15 @@ card_images/, domain_images/, rarity_images/, prices.json
 3. Deploy with `npm run build && firebase deploy --only hosting`.
 
 ### Card data
-`riftbound_data.json` exists in both `Android App/app/src/main/assets/` and `Web App/public/`. The two copies must be identical, and CI checks this.
+`scripts/generate_card_data.py` builds `riftbound_data.json` from the official [card gallery](https://playriftbound.com/en-us/card-gallery/) and writes the same file to `Android App/app/src/main/assets/` and `Web App/public/`. It also saves any missing card image to `card_images/<cardId>.webp`.
+```bash
+pip install -r scripts/requirements.txt
+python scripts/generate_card_data.py          # fetch the gallery, update data + images
+python scripts/generate_card_data.py --check  # validate the committed data (CI runs this)
+```
+- Cards the gallery doesn't list (promos, reprint variants) go in `data/extra_cards.json`.
+- Fixes for gallery data (e.g. a missing domain) go in `data/card_overrides.json`.
+- The **Update Card Data** workflow runs this weekly and opens a PR when anything changes.
 
 ### Prices
 `scripts/update_prices.py` runs on a schedule in GitHub Actions and commits `prices.json`. It needs the `JUSTTCG_API_KEY` repository secret. To run it locally:

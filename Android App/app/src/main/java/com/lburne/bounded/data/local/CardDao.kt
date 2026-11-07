@@ -10,7 +10,7 @@ import kotlinx.coroutines.flow.Flow
 @Dao
 interface CardDao {
 
-    @Query("SELECT * FROM card_definitions ORDER BY CASE setCode WHEN 'OGS' THEN 1 WHEN 'OGN' THEN 2 WHEN 'SPD' THEN 3 ELSE 4 END ASC, collectorNumber ASC")
+    @Query("SELECT * FROM card_definitions ORDER BY sortOrder ASC")
     fun getAllCards(): Flow<List<Card>>
 
     @Query("SELECT * FROM card_definitions WHERE cardId = :cardId")

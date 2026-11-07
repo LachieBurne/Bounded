@@ -5,7 +5,8 @@ enum class RiftRarity {
 }
 
 enum class CardType {
-    LEGEND, UNIT, SPELL, GEAR, RUNE, BATTLEFIELD
+    LEGEND, UNIT, SPELL, GEAR, RUNE, BATTLEFIELD,
+    OTHER // Token helpers the gallery gives no type, e.g. "Buff" and "XP Tracker"
 }
 
 enum class Domain {

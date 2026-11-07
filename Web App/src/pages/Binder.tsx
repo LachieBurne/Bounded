@@ -49,7 +49,8 @@ export default function BinderPage() {
         }) as RiftRarity[];
     }, [masterCards]);
 
-    const sets = useMemo(() => Array.from(new Set(masterCards.map(c => c.setCode))).sort(), [masterCards]);
+    // masterCards arrive in release order (sortOrder), so first appearance gives set order.
+    const sets = useMemo(() => Array.from(new Set(masterCards.map(c => c.setCode))), [masterCards]);
 
     const maxMight = useMemo(() => {
         return Math.max(0, ...masterCards.map(c => c.might || 0));
@@ -58,14 +59,7 @@ export default function BinderPage() {
     const filteredCards = useMemo(() => {
         let result = [...binderCards];
 
-        result.sort((a, b) => {
-            const setComp = a.card.setCode.localeCompare(b.card.setCode);
-            if (setComp !== 0) return setComp;
-
-            const numA = parseInt(a.card.collectorNumber) || 0;
-            const numB = parseInt(b.card.collectorNumber) || 0;
-            return numA - numB;
-        });
+        result.sort((a, b) => a.card.sortOrder - b.card.sortOrder);
 
         if (query) {
             const lowerQ = query.toLowerCase();

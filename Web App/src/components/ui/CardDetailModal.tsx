@@ -114,7 +114,7 @@ export const CardDetailModal: React.FC<CardDetailModalProps> = ({ item, onClose 
                         {/* Rules Text */}
                         <div className="prose prose-invert max-w-none">
                             <p className="text-lg leading-relaxed text-riftbound-textPrimary whitespace-pre-wrap">
-                                {item.card.text}
+                                {[item.card.text, item.card.effect].filter(Boolean).join('\n\n')}
                             </p>
                             {item.card.flavorText && (
                                 <p className="text-riftbound-textDim italic mt-4 border-l-2 border-white/10 pl-4">

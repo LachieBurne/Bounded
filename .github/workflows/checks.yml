@@ -8,16 +8,16 @@ on:
 
 jobs:
   card-data:
-    name: Card data in sync
+    name: Card data valid and in sync
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v7
-      - name: Android and web card data must match
-        run: |
-          if ! cmp -s "Android App/app/src/main/assets/riftbound_data.json" "Web App/public/riftbound_data.json"; then
-            echo "::error::riftbound_data.json differs between Android App and Web App. Copy one over the other."
-            exit 1
-          fi
+      - uses: actions/setup-python@v7
+        with:
+          python-version: '3.12'
+      - run: pip install -r scripts/requirements.txt
+      # Same JSON in both apps, valid fields, and an image for every card.
+      - run: python scripts/generate_card_data.py --check
 
   web:
     name: Web app builds
@@ -82,4 +82,4 @@ jobs:
       - uses: actions/setup-python@v7
         with:
           python-version: '3.12'
-      - run: python -m py_compile scripts/update_prices.py
+      - run: python -m py_compile scripts/update_prices.py scripts/generate_card_data.py

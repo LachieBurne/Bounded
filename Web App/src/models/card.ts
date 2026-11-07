@@ -4,7 +4,8 @@ export type CardType =
     | 'SPELL'
     | 'GEAR'
     | 'RUNE'
-    | 'BATTLEFIELD';
+    | 'BATTLEFIELD'
+    | 'OTHER'; // Token helpers the gallery gives no type, e.g. "Buff"
 
 export type Domain =
     | 'MIND'
@@ -20,27 +21,34 @@ export type RiftRarity =
     | 'UNCOMMON'
     | 'RARE'
     | 'EPIC'
-    | 'SHOWCASE'
-    | 'TOKEN';
+    | 'SHOWCASE';
 
+// Matches public/riftbound_data.json, which scripts/generate_card_data.py generates.
 export interface Card {
-    cardId: string;
-    name: string;
-    type: CardType;
-    domain: Domain[];
-    cost: number;
-    might: number;
-    text: string;
-    flavorText: string | null;
-    power: number | null;
-    health: number | null;
-    rarity: RiftRarity;
-    artistName: string | null;
+    cardId: string;          // e.g. "OGN-001", "OGN-299*", "UNL-T01"
+    name: string;            // Display name, e.g. "Master Yi, Honed" or "Master Yi - Wuju Bladesman"
     setCode: string;
-    collectorNumber: string;
+    collectorNumber: number;
+    artistName: string | null;
     imageUrl: string;
-    foilImageUrl: string | null;
-    isAlternativeArt: boolean;
+    domain: Domain[];
+    rarity: RiftRarity;
+    type: CardType;
+    cost: number;
+    might: number | null;
+    isToken: boolean;
+    baseName: string;        // Name without subtitle, e.g. "Master Yi"
+    subtitle: string | null;
+    setName: string;
+    sortOrder: number;       // Release order across all sets
+    orientation: 'portrait' | 'landscape';
+    power: number | null;
+    mightBonus: number | null;
+    tags: string[];          // Champion and region tags, e.g. ["Master Yi", "Ionia"]
+    championTag: string | null; // Legends only: the tag their champion units carry
+    text: string | null;
+    effect: string | null;
+    flavorText?: string | null;
 }
 
 export interface BinderEntry {
