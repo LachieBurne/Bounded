@@ -164,6 +164,7 @@ python scripts/generate_card_data.py --check  # validate the committed data (CI 
 - Cards the gallery doesn't list (promos, reprint variants) go in `data/extra_cards.json`.
 - Fixes for gallery data (e.g. a missing domain) go in `data/card_overrides.json`.
 - The **Update Card Data** workflow runs this weekly and opens a PR when anything changes.
+- Known missing cards (promos, signatures, alt-art runes) and what blocks them: [docs/card-backlog.md](docs/card-backlog.md).
 
 ### Prices
 `scripts/update_prices.py` runs daily in GitHub Actions and commits `prices.json` and `data/price_state.json`. It needs the `JUSTTCG_API_KEY` repository secret.
