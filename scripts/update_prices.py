@@ -404,6 +404,14 @@ def print_plan(state, today, rarities, known_prices):
         print(f"Steady state: ~{per_month / PAGE_LIMIT:.0f} batch requests/month for "
               f"{len(state['cards'])} cards, plus ~{crawl_pages:.0f} for set crawls")
 
+    # Cards JustTCG prices that the apps can't show yet: candidates for data/extra_cards.json.
+    unknown = sorted(card_id for card_id in state["cards"] if card_id not in rarities)
+    if unknown and rarities:
+        print(f"JustTCG cards not in riftbound_data.json ({len(unknown)}):")
+        for card_id in unknown:
+            jt_ids = ", ".join(state["cards"][card_id]["ids"])
+            print(f"  {card_id}  {jt_ids}")
+
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__.split("\n")[0])
