@@ -59,7 +59,7 @@ Bounded is built as a distributed, cross-platform system synced perfectly via Go
 * **Asset Hosting:** Card images, Domain icons, and Rarity icons are served efficiently via **GitHub Pages** to minimize database bandwidth and storage costs.
 
 ### Automation & CI/CD
-* **Market Price Pipeline:** A custom **Python** script runs on a cron job via **GitHub Actions** every few days. It fetches the latest pricing data from the JustTCG API, processes it, and commits a streamlined JSON file directly back to the repository for the frontend clients to consume.
+* **Market Price Pipeline:** A custom **Python** script runs daily via **GitHub Actions**, refreshing valuable cards more often than commons to stay within the JustTCG free tier. It fetches the latest pricing data from the JustTCG API, processes it, and commits a streamlined JSON file directly back to the repository for the frontend clients to consume.
 
 ```mermaid
 graph TD
@@ -166,8 +166,21 @@ python scripts/generate_card_data.py --check  # validate the committed data (CI 
 - The **Update Card Data** workflow runs this weekly and opens a PR when anything changes.
 
 ### Prices
-`scripts/update_prices.py` runs on a schedule in GitHub Actions and commits `prices.json`. It needs the `JUSTTCG_API_KEY` repository secret. To run it locally:
+`scripts/update_prices.py` runs daily in GitHub Actions and commits `prices.json` and `data/price_state.json`. It needs the `JUSTTCG_API_KEY` repository secret.
+
+The JustTCG free tier allows 1,000 requests a month, so each run spends at most 30 and only on the cards that are due:
+
+| Cards | Refreshed every |
+|---|---|
+| Showcase, or any card worth $20+ | 2 days |
+| Epic | 4 days |
+| Rare | 7 days |
+| Uncommon, Common | 14 days |
+
+Each set is also crawled every 30 days (straight away for a new set) to find cards JustTCG has added. That comes to roughly 500 requests a month. Tune the intervals with `REFRESH_DAYS` at the top of the script.
+
 ```bash
 pip install -r scripts/requirements.txt
-JUSTTCG_API_KEY=... python scripts/update_prices.py
+python scripts/update_prices.py --plan               # what's due and the monthly cost; no API calls
+JUSTTCG_API_KEY=... python scripts/update_prices.py --budget 30
 ```
