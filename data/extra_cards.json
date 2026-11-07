@@ -159,6 +159,150 @@
         "setCode": "SFD",
         "artistName": "华锐"
       }
+    },
+    {
+      "cardId": "RAD-168*",
+      "variantOf": "RAD-168",
+      "_note": "Signature printing, listed on TCGplayer/JustTCG but not the gallery. Uses the overnumbered art.",
+      "imageFile": "RAD-168"
+    },
+    {
+      "cardId": "RAD-169*",
+      "variantOf": "RAD-169",
+      "_note": "Signature printing, listed on TCGplayer/JustTCG but not the gallery. Uses the overnumbered art.",
+      "imageFile": "RAD-169"
+    },
+    {
+      "cardId": "RAD-170*",
+      "variantOf": "RAD-170",
+      "_note": "Signature printing, listed on TCGplayer/JustTCG but not the gallery. Uses the overnumbered art.",
+      "imageFile": "RAD-170"
+    },
+    {
+      "cardId": "RAD-171*",
+      "variantOf": "RAD-171",
+      "_note": "Signature printing, listed on TCGplayer/JustTCG but not the gallery. Uses the overnumbered art.",
+      "imageFile": "RAD-171"
+    },
+    {
+      "cardId": "RAD-172*",
+      "variantOf": "RAD-172",
+      "_note": "Signature printing, listed on TCGplayer/JustTCG but not the gallery. Uses the overnumbered art.",
+      "imageFile": "RAD-172"
+    },
+    {
+      "cardId": "RAD-173*",
+      "variantOf": "RAD-173",
+      "_note": "Signature printing, listed on TCGplayer/JustTCG but not the gallery. Uses the overnumbered art.",
+      "imageFile": "RAD-173"
+    },
+    {
+      "cardId": "RAD-174*",
+      "variantOf": "RAD-174",
+      "_note": "Signature printing, listed on TCGplayer/JustTCG but not the gallery. Uses the overnumbered art.",
+      "imageFile": "RAD-174"
+    },
+    {
+      "cardId": "RAD-175*",
+      "variantOf": "RAD-175",
+      "_note": "Signature printing, listed on TCGplayer/JustTCG but not the gallery. Uses the overnumbered art.",
+      "imageFile": "RAD-175"
+    },
+    {
+      "cardId": "RAD-176*",
+      "variantOf": "RAD-176",
+      "_note": "Signature printing, listed on TCGplayer/JustTCG but not the gallery. Uses the overnumbered art.",
+      "imageFile": "RAD-176"
+    },
+    {
+      "cardId": "RAD-178*",
+      "variantOf": "RAD-178",
+      "_note": "Signature printing, listed on TCGplayer/JustTCG but not the gallery. Uses the overnumbered art.",
+      "imageFile": "RAD-178"
+    },
+    {
+      "cardId": "RAD-179*",
+      "variantOf": "RAD-179",
+      "_note": "Signature printing, listed on TCGplayer/JustTCG but not the gallery. Uses the overnumbered art.",
+      "imageFile": "RAD-179"
+    },
+    {
+      "cardId": "RAD-180*",
+      "variantOf": "RAD-180",
+      "_note": "Signature printing, listed on TCGplayer/JustTCG but not the gallery. Uses the overnumbered art.",
+      "imageFile": "RAD-180"
+    },
+    {
+      "cardId": "RAD-181*",
+      "variantOf": "RAD-181",
+      "_note": "Signature printing, listed on TCGplayer/JustTCG but not the gallery. Uses the overnumbered art.",
+      "imageFile": "RAD-181"
+    },
+    {
+      "cardId": "RAD-182*",
+      "variantOf": "RAD-182",
+      "_note": "Signature printing, listed on TCGplayer/JustTCG but not the gallery. Uses the overnumbered art.",
+      "imageFile": "RAD-182"
+    },
+    {
+      "cardId": "RAD-183*",
+      "variantOf": "RAD-183",
+      "_note": "Signature printing, listed on TCGplayer/JustTCG but not the gallery. Uses the overnumbered art.",
+      "imageFile": "RAD-183"
+    },
+    {
+      "cardId": "VEN-R01a",
+      "variantOf": "VEN-R01",
+      "_note": "Alt-art rune not in the gallery. Placeholder image: the standard rune art. Save the real art as card_images/VEN-R01a.webp and set imageFile to VEN-R01a.",
+      "imageFile": "VEN-R01",
+      "overrides": {
+        "rarity": "SHOWCASE"
+      }
+    },
+    {
+      "cardId": "VEN-R02a",
+      "variantOf": "VEN-R02",
+      "_note": "Alt-art rune not in the gallery. Placeholder image: the standard rune art. Save the real art as card_images/VEN-R02a.webp and set imageFile to VEN-R02a.",
+      "imageFile": "VEN-R02",
+      "overrides": {
+        "rarity": "SHOWCASE"
+      }
+    },
+    {
+      "cardId": "VEN-R03a",
+      "variantOf": "VEN-R03",
+      "_note": "Alt-art rune not in the gallery. Placeholder image: the standard rune art. Save the real art as card_images/VEN-R03a.webp and set imageFile to VEN-R03a.",
+      "imageFile": "VEN-R03",
+      "overrides": {
+        "rarity": "SHOWCASE"
+      }
+    },
+    {
+      "cardId": "VEN-R04a",
+      "variantOf": "VEN-R04",
+      "_note": "Alt-art rune not in the gallery. Placeholder image: the standard rune art. Save the real art as card_images/VEN-R04a.webp and set imageFile to VEN-R04a.",
+      "imageFile": "VEN-R04",
+      "overrides": {
+        "rarity": "SHOWCASE"
+      }
+    },
+    {
+      "cardId": "VEN-R05a",
+      "variantOf": "VEN-R05",
+      "_note": "Alt-art rune not in the gallery. Placeholder image: the standard rune art. Save the real art as card_images/VEN-R05a.webp and set imageFile to VEN-R05a.",
+      "imageFile": "VEN-R05",
+      "overrides": {
+        "rarity": "SHOWCASE"
+      }
+    },
+    {
+      "cardId": "VEN-R06a",
+      "variantOf": "VEN-R06",
+      "_note": "Alt-art rune not in the gallery. Placeholder image: the standard rune art. Save the real art as card_images/VEN-R06a.webp and set imageFile to VEN-R06a.",
+      "imageFile": "VEN-R06",
+      "overrides": {
+        "rarity": "SHOWCASE"
+      }
     }
   ]
 }

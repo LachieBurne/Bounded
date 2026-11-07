@@ -3,7 +3,7 @@ name: Checks
 on:
   push:
     branches: [main]
-    paths-ignore: ['prices.json']
+    paths-ignore: ['prices.json', 'data/price_state.json']
   pull_request:
 
 jobs:
