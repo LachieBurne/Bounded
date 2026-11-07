@@ -12,7 +12,7 @@ import com.lburne.bounded.data.model.Card
     entities = [
         Card::class
     ],
-    version = 10, // Increment Version
+    version = 11, // 11: card tags, text, sortOrder and other generator fields
     exportSchema = false
 )
 @TypeConverters(Converters::class)

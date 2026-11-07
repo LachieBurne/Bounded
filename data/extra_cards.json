@@ -1,0 +1,164 @@
+{
+  "_comment": "Cards the official gallery doesn't list (promos, reprint variants). Each entry copies its variantOf card, then applies overrides. imageFile is the card_images/ file to use (without extension).",
+  "cards": [
+    {
+      "cardId": "OGN-007b",
+      "variantOf": "OGN-007",
+      "imageFile": "OGN-007b",
+      "overrides": {
+        "rarity": "SHOWCASE"
+      }
+    },
+    {
+      "cardId": "OGN-042b",
+      "variantOf": "OGN-042",
+      "imageFile": "OGN-042b",
+      "overrides": {
+        "rarity": "SHOWCASE"
+      }
+    },
+    {
+      "cardId": "OGN-089b",
+      "variantOf": "OGN-089",
+      "imageFile": "OGN-089b",
+      "overrides": {
+        "rarity": "SHOWCASE"
+      }
+    },
+    {
+      "cardId": "OGN-126b",
+      "variantOf": "OGN-126",
+      "imageFile": "OGN-126b",
+      "overrides": {
+        "rarity": "SHOWCASE"
+      }
+    },
+    {
+      "cardId": "OGN-166b",
+      "variantOf": "OGN-166",
+      "imageFile": "OGN-166b",
+      "overrides": {
+        "rarity": "SHOWCASE"
+      }
+    },
+    {
+      "cardId": "OGN-197b",
+      "variantOf": "OGN-197",
+      "imageFile": "OGN-197b",
+      "overrides": {
+        "rarity": "SHOWCASE",
+        "artistName": "Alsie Lau"
+      }
+    },
+    {
+      "cardId": "OGN-214b",
+      "variantOf": "OGN-214",
+      "imageFile": "OGN-214b",
+      "overrides": {
+        "rarity": "SHOWCASE"
+      }
+    },
+    {
+      "cardId": "SFD-R01a",
+      "variantOf": "OGN-007a",
+      "imageFile": "OGN-007a",
+      "overrides": {
+        "setCode": "SFD"
+      }
+    },
+    {
+      "cardId": "SFD-R01b",
+      "variantOf": "OGN-007a",
+      "imageFile": "SFD-R01b",
+      "overrides": {
+        "setCode": "SFD",
+        "artistName": "华锐"
+      }
+    },
+    {
+      "cardId": "SFD-R02a",
+      "variantOf": "OGN-042a",
+      "imageFile": "OGN-042a",
+      "overrides": {
+        "setCode": "SFD"
+      }
+    },
+    {
+      "cardId": "SFD-R02b",
+      "variantOf": "OGN-042a",
+      "imageFile": "SFD-R02b",
+      "overrides": {
+        "setCode": "SFD",
+        "artistName": "华锐"
+      }
+    },
+    {
+      "cardId": "SFD-R03a",
+      "variantOf": "OGN-089a",
+      "imageFile": "OGN-089a",
+      "overrides": {
+        "setCode": "SFD"
+      }
+    },
+    {
+      "cardId": "SFD-R03b",
+      "variantOf": "OGN-089a",
+      "imageFile": "SFD-R03b",
+      "overrides": {
+        "setCode": "SFD",
+        "artistName": "华锐"
+      }
+    },
+    {
+      "cardId": "SFD-R04a",
+      "variantOf": "OGN-126a",
+      "imageFile": "OGN-126a",
+      "overrides": {
+        "setCode": "SFD"
+      }
+    },
+    {
+      "cardId": "SFD-R04b",
+      "variantOf": "OGN-126a",
+      "imageFile": "SFD-R04b",
+      "overrides": {
+        "setCode": "SFD",
+        "artistName": "华锐"
+      }
+    },
+    {
+      "cardId": "SFD-R05a",
+      "variantOf": "OGN-166a",
+      "imageFile": "OGN-166a",
+      "overrides": {
+        "setCode": "SFD"
+      }
+    },
+    {
+      "cardId": "SFD-R05b",
+      "variantOf": "OGN-166a",
+      "imageFile": "SFD-R05b",
+      "overrides": {
+        "setCode": "SFD",
+        "artistName": "华锐"
+      }
+    },
+    {
+      "cardId": "SFD-R06a",
+      "variantOf": "OGN-214a",
+      "imageFile": "OGN-214a",
+      "overrides": {
+        "setCode": "SFD"
+      }
+    },
+    {
+      "cardId": "SFD-R06b",
+      "variantOf": "OGN-214a",
+      "imageFile": "SFD-R06b",
+      "overrides": {
+        "setCode": "SFD",
+        "artistName": "华锐"
+      }
+    }
+  ]
+}

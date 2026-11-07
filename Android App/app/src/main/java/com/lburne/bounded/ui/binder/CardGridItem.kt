@@ -47,7 +47,7 @@ fun CardGridItem(
 ) {
     val card = item.card
     val borderBrush = getCardBorderBrush(card.domain)
-    val domainColor = getDomainColor(card.domain.first())
+    val domainColor = card.domain.firstOrNull()?.let { getDomainColor(it) } ?: Color.Gray
 
     // Visual State: Is the card owned?
     val isOwned = item.quantity > 0

@@ -5,10 +5,14 @@ import com.lburne.bounded.data.model.CardType
 import com.lburne.bounded.data.model.Domain
 import com.lburne.bounded.data.model.RiftRarity
 
+// Release order. Add new sets here when the card data gains them.
 enum class RiftSet(val code: String, val displayName: String) {
     PROVING_GROUNDS("OGS", "Proving Grounds"),
     ORIGINS("OGN", "Origins"),
-    SPIRITFORGED("SFD", "Spiritforged")
+    SPIRITFORGED("SFD", "Spiritforged"),
+    UNLEASHED("UNL", "Unleashed"),
+    VENDETTA("VEN", "Vendetta"),
+    RADIANCE("RAD", "Radiance")
 }
 data class BinderUiState(
     val cards: List<CardWithQuantity> = emptyList(),

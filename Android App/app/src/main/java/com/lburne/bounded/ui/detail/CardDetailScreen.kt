@@ -80,7 +80,9 @@ fun CardDetailScreen(
     val isHorizontal = card.type == CardType.BATTLEFIELD
 
     // Resolve Set Name (e.g., "OGN" -> "Origins")
-    val setName = RiftSet.values().find { it.code == card.setCode }?.displayName ?: card.setCode
+    val setName = card.setName.ifBlank {
+        RiftSet.values().find { it.code == card.setCode }?.displayName ?: card.setCode
+    }
 
     // Resolve Rarity Icon URL
     val rarityIconUrl = "https://lachieburne.github.io/Bounded/rarity_images/${card.rarity.name.lowercase()}.png"

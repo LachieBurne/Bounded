@@ -248,17 +248,18 @@ class DeckEditorViewModel(
             val matchesStepConstraint = when (step) {
                 DeckBuildStep.SELECT_LEGEND -> card.type == CardType.LEGEND
                 DeckBuildStep.SELECT_CHAMPION -> {
-                    val legendName = legendCard?.name ?: ""
-                    val baseName = legendName.split(" - ").firstOrNull()?.trim() ?: ""
-                    baseName.isNotEmpty() && card.name.startsWith(baseName, ignoreCase = true) && card.type == CardType.UNIT
+                    // Champion units carry their legend's champion tag (e.g. "Master Yi").
+                    val championTag = legendCard?.championTag
+                    championTag != null && card.type == CardType.UNIT && !card.isToken &&
+                            card.tags.any { it.equals(championTag, ignoreCase = true) }
                 }
                 DeckBuildStep.SELECT_RUNES -> {
                     card.type == CardType.RUNE && legendDomains.containsAll(card.domain)
                 }
                 DeckBuildStep.SELECT_BATTLEFIELDS -> card.type == CardType.BATTLEFIELD
                 DeckBuildStep.SELECT_MAIN, DeckBuildStep.SELECT_SIDEBOARD -> {
-                    val isToken = (card.cost == 0 && card.domain.contains(Domain.COLORLESS) && card.rarity == RiftRarity.COMMON)
-                    !isToken &&
+                    !card.isToken &&
+                            card.type != CardType.OTHER &&
                             card.type != CardType.BATTLEFIELD &&
                             card.type != CardType.LEGEND &&
                             card.type != CardType.RUNE &&
