@@ -1,0 +1,35 @@
+# --- OS / editors ---
+.DS_Store
+Thumbs.db
+.vscode/*
+!.vscode/extensions.json
+*.swp
+
+# --- Android ---
+*.iml
+.gradle/
+build/
+captures/
+.externalNativeBuild/
+.cxx/
+local.properties
+.idea/
+.kotlin/
+# Firebase Android config. Download from the Firebase console into "Android App/app/".
+google-services.json
+
+# --- Web ---
+node_modules/
+dist/
+dist-ssr/
+*.local
+.env
+.env.*
+!.env.example
+.firebase/
+*.log
+
+# --- Python ---
+__pycache__/
+*.pyc
+.venv/

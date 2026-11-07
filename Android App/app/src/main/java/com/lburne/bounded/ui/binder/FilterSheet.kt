@@ -44,7 +44,7 @@ import com.lburne.bounded.data.model.CardType
 import com.lburne.bounded.data.model.Domain
 import com.lburne.bounded.data.model.RiftRarity
 
-private const val GITHUB_ASSETS_URL = "https://lachieburne.github.io/Riftbounded"
+private const val GITHUB_ASSETS_URL = "https://lachieburne.github.io/Bounded"
 
 private fun getRarityIconUrl(rarity: RiftRarity): String {
     return "$GITHUB_ASSETS_URL/rarity_images/${rarity.name.lowercase()}.png"

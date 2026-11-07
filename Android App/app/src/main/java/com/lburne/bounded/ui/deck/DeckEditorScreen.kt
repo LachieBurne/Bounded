@@ -83,7 +83,7 @@ import com.lburne.bounded.ui.binder.SleekSearchBar
 import com.lburne.bounded.ui.binder.getCardBorderBrush
 import com.lburne.bounded.ui.binder.getDomainColor
 
-private const val GITHUB_ASSETS_URL = "https://lachieburne.github.io/Riftbounded"
+private const val GITHUB_ASSETS_URL = "https://lachieburne.github.io/Bounded"
 
 private fun getDomainIconUrl(domain: Domain): String {
     return "$GITHUB_ASSETS_URL/domain_images/${domain.name.lowercase()}.png"
