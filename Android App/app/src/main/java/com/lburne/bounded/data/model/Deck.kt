@@ -9,6 +9,7 @@ data class Deck(
     val legendCardId: String? = null,
     val championCardId: String? = null,
     val coverCardUrl: String? = null,
-    val cardCount: Int = 0, // <--- NEW FIELD
+    val mainCount: Int = 0, // Units, spells and gear in the main deck, including the champion
+    val sideCount: Int = 0,
     val lastModified: Long = System.currentTimeMillis()
 )

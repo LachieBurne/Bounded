@@ -1,5 +1,9 @@
 package com.lburne.bounded.ui.deck
 
+import com.lburne.bounded.data.rules.DeckIssue
+import com.lburne.bounded.data.rules.DeckRules
+import com.lburne.bounded.data.rules.IssueCode
+
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -104,8 +108,17 @@ fun DeckEditorScreen(
     val deckStats by viewModel.deckStats.collectAsState()
     val prices by viewModel.cardPrices.collectAsState()
     val currencySymbol = viewModel.getCurrencySymbol()
+    val deckCounts by viewModel.deckCounts.collectAsState()
+    val deckIssues by viewModel.deckIssues.collectAsState()
 
     val context = LocalContext.current
+
+    // Why a card couldn't be added (copy limit, wrong domain, ...).
+    LaunchedEffect(viewModel) {
+        viewModel.messages.collect { message ->
+            android.widget.Toast.makeText(context, message, android.widget.Toast.LENGTH_SHORT).show()
+        }
+    }
 
     // Counts & Stats
     val totalCountsById = remember(mainSlots, sideSlots) {
@@ -225,17 +238,11 @@ fun DeckEditorScreen(
                     )
                 }
                 1 -> {
-                    val runeCount = mainSlots.sumOf { if (it.card.type == CardType.RUNE) it.deckQuantity else 0 }
-                    val battlefieldCount = mainSlots.sumOf { if (it.card.type == CardType.BATTLEFIELD) it.deckQuantity else 0 }
-                    val totalMain = mainSlots.sumOf { it.deckQuantity }
-                    val variableCount = (totalMain - 17).coerceAtLeast(0)
-                    val sideCount = sideSlots.sumOf { it.deckQuantity }
-
                     val dynamicTitle = when (currentStep) {
-                        DeckBuildStep.SELECT_RUNES -> "Select Runes ($runeCount/12)"
-                        DeckBuildStep.SELECT_BATTLEFIELDS -> "Select Battlefields ($battlefieldCount/3)"
-                        DeckBuildStep.SELECT_MAIN -> "Main Deck ($variableCount/39)"
-                        DeckBuildStep.SELECT_SIDEBOARD -> "Sideboard ($sideCount/8)"
+                        DeckBuildStep.SELECT_RUNES -> "Select Runes (${deckCounts.runes}/${DeckRules.RUNE_DECK_SIZE})"
+                        DeckBuildStep.SELECT_BATTLEFIELDS -> "Select Battlefields (${deckCounts.battlefields}/${DeckRules.BATTLEFIELD_COUNT})"
+                        DeckBuildStep.SELECT_MAIN -> "Main Deck (${deckCounts.mainDeck}/${DeckRules.MAIN_DECK_MIN})"
+                        DeckBuildStep.SELECT_SIDEBOARD -> "Sideboard (${deckCounts.sideboard}/${DeckRules.SIDEBOARD_MAX})"
                         DeckBuildStep.COMPLETE -> "Deck Complete!"
                         else -> currentStep.title
                     }
@@ -251,6 +258,7 @@ fun DeckEditorScreen(
                     }
 
                     DeckBrowseTab(
+                        issues = deckIssues,
                         step = currentStep,
                         title = dynamicTitle,
                         instruction = currentStep.instruction,
@@ -830,6 +838,7 @@ fun DeckSlotItem(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun DeckBrowseTab(
+    issues: List<DeckIssue>,
     step: DeckBuildStep,
     title: String,
     instruction: String,
@@ -849,17 +858,19 @@ fun DeckBrowseTab(
     val filterDomain by viewModel.filterDomain.collectAsState()
     val filterRarity by viewModel.filterRarity.collectAsState()
     val filterType by viewModel.filterType.collectAsState()
+    val filterSet by viewModel.filterSet.collectAsState()
     val filterCost by viewModel.filterCost.collectAsState()
     val filterMight by viewModel.filterMight.collectAsState()
     val showOwnedOnly by viewModel.showOwnedOnly.collectAsState()
 
-    val isFiltering = filterDomain != null || filterRarity != null || filterType != null || filterCost != null || filterMight != null || showOwnedOnly
+    val isFiltering = filterDomain != null || filterRarity != null || filterType != null || filterSet != null || filterCost != null || filterMight != null || showOwnedOnly
 
     val dummyUiState = BinderUiState(
         searchQuery = searchQuery,
         filterDomain = filterDomain,
         filterRarity = filterRarity,
         filterType = filterType,
+        filterSet = filterSet,
         filterCost = filterCost,
         filterMight = filterMight,
         showOwnedOnly = showOwnedOnly
@@ -904,9 +915,9 @@ fun DeckBrowseTab(
                     val visualCount = totalCountsById[item.card.cardId] ?: 0
                     val logicalCount = totalCountsByName[item.card.name] ?: 0
                     val currentZoneCount = activeZoneCounts[item.card.cardId] ?: 0
-                    val isRune = item.card.type == CardType.RUNE
-                    val shouldEnforceLimit = (step == DeckBuildStep.SELECT_MAIN || step == DeckBuildStep.SELECT_SIDEBOARD) && !isRune
-                    val isMaxed = shouldEnforceLimit && logicalCount >= 3
+                    val shouldEnforceLimit = (step == DeckBuildStep.SELECT_MAIN || step == DeckBuildStep.SELECT_SIDEBOARD) &&
+                        DeckRules.isPlayable(item.card)
+                    val isMaxed = shouldEnforceLimit && logicalCount >= DeckRules.COPY_LIMIT
                     val clickAction = if (isMaxed) { {} } else { { onAdd(item.card) } }
 
                     DeckBuilderGridItem(
@@ -944,6 +955,19 @@ fun DeckBrowseTab(
                 ) {
                     Text(text = title, style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.Bold, color = Color.White)
                     Text(text = instruction, style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                    // Rules a finished step now breaks, e.g. a card from before the rules were enforced.
+                    val ruleBreaks = issues.filter { it.code in RULE_BREAK_CODES }
+                    if (ruleBreaks.isNotEmpty()) {
+                        Text(
+                            text = ruleBreaks.joinToString("
+") { issue ->
+                                issue.code.message + (issue.subject?.let { " ($it)" } ?: "")
+                            },
+                            style = MaterialTheme.typography.bodySmall,
+                            color = MaterialTheme.colorScheme.error,
+                            modifier = Modifier.padding(top = 4.dp)
+                        )
+                    }
                 }
                 SleekSearchBar(
                     query = searchQuery,
@@ -1032,3 +1056,17 @@ fun DeckBuilderGridItem(
         }
     }
 }
+
+/** Issues that mean the deck breaks a rule, as opposed to simply being unfinished. */
+private val RULE_BREAK_CODES = setOf(
+    IssueCode.INVALID_CHAMPION,
+    IssueCode.COPY_LIMIT,
+    IssueCode.SIGNATURE_LIMIT,
+    IssueCode.SIGNATURE_WRONG_CHAMPION,
+    IssueCode.OUTSIDE_DOMAIN_IDENTITY,
+    IssueCode.DUPLICATE_BATTLEFIELD,
+    IssueCode.NOT_PLAYABLE,
+    IssueCode.NOT_ALLOWED_IN_SIDEBOARD,
+    IssueCode.SIDEBOARD_TOO_LARGE,
+    IssueCode.UNKNOWN_CARD
+)

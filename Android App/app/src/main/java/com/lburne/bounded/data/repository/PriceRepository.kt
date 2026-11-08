@@ -4,8 +4,13 @@ import android.content.Context
 import android.util.Log
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import okhttp3.OkHttpClient
 import okhttp3.Request
@@ -13,18 +18,23 @@ import org.json.JSONObject
 
 class PriceRepository(context: Context) {
     private val client = OkHttpClient()
+    private val scope = CoroutineScope(SupervisorJob() + Dispatchers.IO)
     private val prefs = context.getSharedPreferences("riftbinder_settings", Context.MODE_PRIVATE)
 
     // 1. Raw Prices (USD) from GitHub
     private val _prices = MutableStateFlow<Map<String, Double>>(emptyMap())
     val prices = _prices.asStateFlow()
 
-    // 2. Exchange Rates (Base USD)
-    private var exchangeRates = mutableMapOf<String, Double>("USD" to 1.0)
+    // 2. Exchange Rates (Base USD). A flow, so prices re-convert when the rates arrive.
+    private val exchangeRates = MutableStateFlow(mapOf("USD" to 1.0))
 
     // 3. User's Selected Currency
     private val _currency = MutableStateFlow(prefs.getString("currency_code", "USD") ?: "USD")
     val currency = _currency.asStateFlow()
+
+    /** USD -> selected currency. Combine with this (not just [prices]) to stay up to date. */
+    val rate: StateFlow<Double> = combine(_currency, exchangeRates) { code, rates -> rates[code] ?: 1.0 }
+        .stateIn(scope, SharingStarted.Eagerly, 1.0)
 
     fun init() {
         fetchPrices()
@@ -32,7 +42,7 @@ class PriceRepository(context: Context) {
     }
 
     private fun fetchPrices() {
-        CoroutineScope(Dispatchers.IO).launch {
+        scope.launch {
             val request = Request.Builder()
                 .url("https://lachieburne.github.io/Bounded/prices.json")
                 .build()
@@ -58,7 +68,7 @@ class PriceRepository(context: Context) {
     }
 
     private fun fetchExchangeRates() {
-        CoroutineScope(Dispatchers.IO).launch {
+        scope.launch {
             // Free API: Frankfurter (No Key Required)
             val request = Request.Builder()
                 .url("https://api.frankfurter.app/latest?from=USD")
@@ -80,7 +90,7 @@ class PriceRepository(context: Context) {
                         newRates[key] = rates.getDouble(key)
                     }
 
-                    exchangeRates = newRates
+                    exchangeRates.value = newRates
                 }
             } catch (e: Exception) {
                 Log.e("PriceRepo", "Failed to fetch rates", e)
@@ -95,7 +105,7 @@ class PriceRepository(context: Context) {
 
     // Helper to get converted price
     fun convertPrice(usdPrice: Double): Double {
-        val rate = exchangeRates[_currency.value] ?: 1.0
+        val rate = exchangeRates.value[_currency.value] ?: 1.0
         return usdPrice * rate
     }
 

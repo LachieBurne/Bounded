@@ -20,10 +20,11 @@ class CardDetailViewModel(
 
     val uiState: StateFlow<CardDetailUiState> = combine(
         repository.getCardWithQuantity(cardId, "main"),
-        priceRepository.prices // <--- Listen to price updates
-    ) { cardWithQuantity, prices ->
+        priceRepository.prices,
+        priceRepository.rate // Re-convert when the currency or exchange rates change
+    ) { cardWithQuantity, prices, rate ->
         if (cardWithQuantity != null) {
-            val price = priceRepository.convertPrice(prices[cardId] ?: 0.0)
+            val price = (prices[cardId] ?: 0.0) * rate
             CardDetailUiState.Success(cardWithQuantity, price)
         } else {
             CardDetailUiState.Error

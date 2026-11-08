@@ -46,6 +46,7 @@ export interface Card {
     mightBonus: number | null;
     tags: string[];          // Champion and region tags, e.g. ["Master Yi", "Ionia"]
     championTag: string | null; // Legends only: the tag their champion units carry
+    isSignature: boolean;    // Carries a champion's tag without being that champion, e.g. Tibbers
     text: string | null;
     effect: string | null;
     flavorText?: string | null;

@@ -19,6 +19,13 @@ android {
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
+    testOptions {
+        unitTests.all {
+            // Deck rule cases shared with the web app's tests.
+            it.systemProperty("deckRulesCases", rootProject.file("../shared/deck-rules-test-cases.json").absolutePath)
+        }
+    }
+
     buildTypes {
         release {
             isMinifyEnabled = false

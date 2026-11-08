@@ -14,6 +14,7 @@ import com.lburne.bounded.data.model.DeckEntry
 import com.lburne.bounded.data.model.DeckFormat
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.map
 
 class CardRepository(
     private val cardDao: CardDao,
@@ -77,76 +78,47 @@ class CardRepository(
 
     fun getDeck(deckId: String): Flow<Deck?> = firebaseRepo.getDeck(deckId)
 
-    // Helper Flow combiners for Deck Cards
-    fun getMainDeckCards(deckId: String): Flow<List<DeckCardView>> {
-        return buildDeckCardView(deckId, false)
-    }
-
-    fun getSideboardCards(deckId: String): Flow<List<DeckCardView>> {
-        return buildDeckCardView(deckId, true)
-    }
-
-    private fun buildDeckCardView(deckId: String, isSideboard: Boolean): Flow<List<DeckCardView>> {
+    /** A deck's main deck and sideboard, built from one snapshot so the two always agree. */
+    fun getDeckCards(deckId: String): Flow<DeckCards> {
         return combine(
             cardDao.getAllCards(),
-            firebaseRepo.getDeckEntries(deckId, false), // Fetch Main
-            firebaseRepo.getDeckEntries(deckId, true),  // Fetch Sideboard
-            firebaseRepo.getBinderEntries("main") 
-        ) { cards, mainEntries, sideEntries, binderEntries ->
-            val mainEntryMap = mainEntries.associateBy { it.cardId }
-            val sideEntryMap = sideEntries.associateBy { it.cardId }
-            val binderEntryMap = binderEntries.associateBy { it.cardId }
-            
-            // Depending on which view we are building, we filter to that list
-            val targetMap = if (isSideboard) sideEntryMap else mainEntryMap
-            
-            cards.filter { targetMap.containsKey(it.cardId) }.map { card ->
-                val baseOwned = binderEntryMap[card.cardId]?.quantity ?: 0
-                val mainAllocated = mainEntryMap[card.cardId]?.quantity ?: 0
-                
-                // If building Sideboard, subtract the amount already allocated to Main
-                val effectiveOwned = if (isSideboard) {
-                    maxOf(0, baseOwned - mainAllocated)
-                } else {
-                    baseOwned
-                }
+            firebaseRepo.getDeckEntries(deckId),
+            firebaseRepo.getBinderEntries("main")
+        ) { cards, entries, binderEntries ->
+            val mainEntryMap = entries.filter { !it.isSideboard && it.quantity > 0 }.associateBy { it.cardId }
+            val sideEntryMap = entries.filter { it.isSideboard && it.quantity > 0 }.associateBy { it.cardId }
+            val owned = binderEntries.associate { it.cardId to it.quantity }
 
-                DeckCardView(
-                    card = card,
-                    deckQuantity = targetMap[card.cardId]!!.quantity,
-                    ownedQuantity = effectiveOwned
-                )
+            val main = cards.filter { it.cardId in mainEntryMap }.map { card ->
+                DeckCardView(card, mainEntryMap.getValue(card.cardId).quantity, owned[card.cardId] ?: 0)
             }
+            // Sideboard copies can only use what the main deck hasn't already claimed.
+            val side = cards.filter { it.cardId in sideEntryMap }.map { card ->
+                val claimed = mainEntryMap[card.cardId]?.quantity ?: 0
+                DeckCardView(card, sideEntryMap.getValue(card.cardId).quantity, maxOf(0, (owned[card.cardId] ?: 0) - claimed))
+            }
+            DeckCards(main, side)
         }
     }
+
+    fun getMainDeckCards(deckId: String): Flow<List<DeckCardView>> = getDeckCards(deckId).map { it.main }
+
+    fun getSideboardCards(deckId: String): Flow<List<DeckCardView>> = getDeckCards(deckId).map { it.side }
 
     fun getAllCardsWithOwnership(): Flow<List<CardWithQuantity>> {
         return getBinderCards("main")
     }
 
-    suspend fun addCardToDeck(deck: Deck, cardId: String, currentQuantity: Int, isSideboard: Boolean = false) {
-        val entry = DeckEntry(deck.deckId, cardId, currentQuantity + 1, isSideboard)
-        firebaseRepo.updateDeckEntry(entry)
-        if (!isSideboard) { // Usually only main deck counts towards total, but let's count both since its just cardCount
-            firebaseRepo.incrementDeckCardCount(deck.deckId, 1)
-        }
+    val allCards: Flow<List<Card>> = cardDao.getAllCards()
+
+    /** Sets a deck entry's quantity and the deck's [deckFields] together (see FirebaseUserRepository.applyDeckEdit). */
+    fun applyDeckEdit(deckId: String, cardId: String, quantity: Int, isSideboard: Boolean, deckFields: Map<String, Any?>) {
+        firebaseRepo.applyDeckEdit(DeckEntry(deckId, cardId, quantity.coerceAtLeast(0), isSideboard), deckFields)
     }
 
-    suspend fun removeCardFromDeck(deck: Deck, cardId: String, currentQuantity: Int, isSideboard: Boolean = false) {
-        if (currentQuantity > 0) {
-            val entry = DeckEntry(deck.deckId, cardId, currentQuantity - 1, isSideboard)
-            firebaseRepo.updateDeckEntry(entry)
-            if (!isSideboard) {
-                firebaseRepo.incrementDeckCardCount(deck.deckId, -1)
-            }
-        }
-    }
-
-    fun setDeckLegend(deck: Deck, card: Card) {
-        firebaseRepo.updateDeck(deck.copy(legendCardId = card.cardId, coverCardUrl = card.imageUrl))
-    }
-
-    fun setDeckChampion(deck: Deck, cardId: String?) {
-        firebaseRepo.updateDeck(deck.copy(championCardId = cardId))
+    fun updateDeckFields(deckId: String, fields: Map<String, Any?>) {
+        firebaseRepo.updateDeckFields(deckId, fields)
     }
 }
+
+data class DeckCards(val main: List<DeckCardView>, val side: List<DeckCardView>)

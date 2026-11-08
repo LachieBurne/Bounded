@@ -51,7 +51,7 @@ FIELDS = [
     "cardId", "name", "setCode", "collectorNumber", "artistName", "imageUrl",
     "domain", "rarity", "type", "cost", "might", "isToken",
     "baseName", "subtitle", "setName", "sortOrder", "orientation",
-    "power", "mightBonus", "tags", "championTag", "text", "effect",
+    "power", "mightBonus", "tags", "championTag", "isSignature", "text", "effect",
 ]
 
 ID_RE = re.compile(r"^(?P<set>[A-Z]{2,4})-(?P<prefix>[A-Z]*)(?P<num>\d+)(?P<suffix>[a-z*]*)$")
@@ -182,6 +182,7 @@ def normalise(raw, set_names):
         "mightBonus": value_id(raw.get("mightBonus")),
         "tags": tags,
         "championTag": None,  # legends only; set in assign_champion_tags
+        "isSignature": False,  # set in assign_champion_tags
         "text": rich_text_to_plain(raw.get("text")),
         "effect": rich_text_to_plain(raw.get("effect")),
         # Not written to the JSON; used to download the image.
@@ -217,6 +218,15 @@ def assign_champion_tags(cards):
     if unresolved:
         print(f"warning: could not work out the champion for legends {unresolved}; "
               f"set championTag in {OVERRIDES_PATH.name}")
+
+    # Signature cards carry a champion's tag without being that champion, e.g. Tibbers
+    # (tag "Annie") or Highlander (tag "Master Yi"). A deck may hold 3 in total, all
+    # matching its legend (core rule 103.3.d).
+    champion_tags = {c["championTag"] for c in cards if c["type"] == "LEGEND" and c["championTag"]}
+    for card in cards:
+        if card["type"] == "LEGEND" or card["isToken"]:
+            continue
+        card["isSignature"] = any(t in champion_tags and t != card["baseName"] for t in card["tags"])
 
 
 def apply_extras_and_overrides(cards, set_names):

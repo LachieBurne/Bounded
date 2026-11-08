@@ -34,8 +34,14 @@ export const CardProvider: React.FC<{ children: React.ReactNode }> = ({ children
     useEffect(() => {
         if (masterCards.length === 0) return;
 
-        // Auth Listener
+        // The binder listener for the signed-in user. Kept here (not returned from the auth
+        // callback, where it was ignored) so it is removed on sign-out and on unmount.
+        let unsubscribeSnapshot: (() => void) | undefined;
+
         const unsubscribeAuth = auth.onAuthStateChanged((user: User | null) => {
+            unsubscribeSnapshot?.();
+            unsubscribeSnapshot = undefined;
+
             if (!user) {
                 setBinderCards([]);
                 setLoading(false);
@@ -43,10 +49,9 @@ export const CardProvider: React.FC<{ children: React.ReactNode }> = ({ children
             }
 
             setLoading(true);
-            const uid = user.uid;
-            const entriesRef = collection(db, 'users', uid, 'binders', 'main', 'entries');
+            const entriesRef = collection(db, 'users', user.uid, 'binders', 'main', 'entries');
 
-            const unsubscribeSnapshot = onSnapshot(entriesRef, (snapshot: QuerySnapshot<DocumentData, DocumentData>) => {
+            unsubscribeSnapshot = onSnapshot(entriesRef, (snapshot: QuerySnapshot<DocumentData, DocumentData>) => {
                 const entriesMap = new Map<string, number>();
                 snapshot.forEach((doc: DocumentData) => {
                     const data = doc.data() as BinderEntry;
@@ -61,11 +66,12 @@ export const CardProvider: React.FC<{ children: React.ReactNode }> = ({ children
                 setBinderCards(combined);
                 setLoading(false);
             });
-
-            return () => unsubscribeSnapshot();
         });
 
-        return () => unsubscribeAuth();
+        return () => {
+            unsubscribeAuth();
+            unsubscribeSnapshot?.();
+        };
     }, [masterCards]);
 
     const updateCardQuantity = async (cardId: string, quantity: number) => {

@@ -20,7 +20,7 @@ jobs:
       - run: python scripts/generate_card_data.py --check
 
   web:
-    name: Web app builds
+    name: Web app builds and tests pass
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -35,9 +35,11 @@ jobs:
       - run: npm ci
       # Firebase config is only checked at runtime, so the build works without .env.local.
       - run: npm run build
+      # Deck rules, against the cases shared with the Android tests.
+      - run: npm test
 
   android:
-    name: Android app builds
+    name: Android app builds and tests pass
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -72,7 +74,7 @@ jobs:
             "configuration_version": "1"
           }
           JSON
-      - run: chmod +x gradlew && ./gradlew assembleDebug --stacktrace
+      - run: chmod +x gradlew && ./gradlew assembleDebug testDebugUnitTest --stacktrace
 
   price-script:
     name: Price script compiles

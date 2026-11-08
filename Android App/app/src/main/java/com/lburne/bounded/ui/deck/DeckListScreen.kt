@@ -293,7 +293,7 @@ fun DeckGridItem(
                     }
                     Spacer(Modifier.width(8.dp))
                     Text(
-                        text = "${deck.cardCount} Cards",
+                        text = "${deck.mainCount} Cards",
                         style = MaterialTheme.typography.labelSmall,
                         color = Color.White.copy(alpha = 0.7f)
                     )

@@ -27,6 +27,7 @@ data class Card(
     val mightBonus: Int? = null,
     val tags: List<String> = emptyList(), // Champion and region tags, e.g. ["Master Yi", "Ionia"]
     val championTag: String? = null, // Legends only: the tag their champion units carry
+    val isSignature: Boolean = false, // Carries a champion's tag without being that champion, e.g. Tibbers
     val text: String? = null,
     val effect: String? = null
 )

@@ -1,0 +1,2274 @@
+{
+  "_comment": "Deck rules test cases shared by the Android (DeckRulesTest.kt) and web (deckRules.test.ts) implementations. Both must pass every case. See docs/deck-rules.md.",
+  "cards": [
+    {
+      "cardId": "L-YI",
+      "name": "Master Yi - Wuju Bladesman",
+      "type": "LEGEND",
+      "domain": [
+        "CALM",
+        "BODY"
+      ],
+      "tags": [
+        "Master Yi"
+      ],
+      "championTag": "Master Yi",
+      "isToken": false,
+      "isSignature": false,
+      "baseName": "Wuju Bladesman"
+    },
+    {
+      "cardId": "L-KEN",
+      "name": "Kennen - Heart of the Tempest",
+      "type": "LEGEND",
+      "domain": [
+        "MIND",
+        "CHAOS"
+      ],
+      "tags": [
+        "Yordle",
+        "Kennen"
+      ],
+      "championTag": "Kennen",
+      "isToken": false,
+      "isSignature": false,
+      "baseName": "Heart of the Tempest"
+    },
+    {
+      "cardId": "YI-1",
+      "name": "Master Yi, Honed",
+      "type": "UNIT",
+      "domain": [
+        "CALM"
+      ],
+      "tags": [
+        "Master Yi",
+        "Ionia"
+      ],
+      "championTag": null,
+      "isToken": false,
+      "isSignature": false,
+      "baseName": "Master Yi"
+    },
+    {
+      "cardId": "YI-1a",
+      "name": "Master Yi, Honed",
+      "type": "UNIT",
+      "domain": [
+        "CALM"
+      ],
+      "tags": [
+        "master yi",
+        "Ionia"
+      ],
+      "championTag": null,
+      "isToken": false,
+      "isSignature": false,
+      "baseName": "Master Yi"
+    },
+    {
+      "cardId": "YI-2",
+      "name": "Master Yi, Meditative",
+      "type": "UNIT",
+      "domain": [
+        "BODY"
+      ],
+      "tags": [
+        "Master Yi",
+        "Ionia"
+      ],
+      "championTag": null,
+      "isToken": false,
+      "isSignature": false,
+      "baseName": "Master Yi"
+    },
+    {
+      "cardId": "KEN-1",
+      "name": "Kennen, Swift",
+      "type": "UNIT",
+      "domain": [
+        "MIND"
+      ],
+      "tags": [
+        "Kennen",
+        "Yordle"
+      ],
+      "championTag": null,
+      "isToken": false,
+      "isSignature": false,
+      "baseName": "Kennen"
+    },
+    {
+      "cardId": "SIG-S",
+      "name": "Highlander",
+      "type": "SPELL",
+      "domain": [
+        "CALM"
+      ],
+      "tags": [
+        "Master Yi"
+      ],
+      "championTag": null,
+      "isToken": false,
+      "isSignature": true,
+      "baseName": "Highlander"
+    },
+    {
+      "cardId": "SIG-Sa",
+      "name": "Highlander",
+      "type": "SPELL",
+      "domain": [
+        "CALM"
+      ],
+      "tags": [
+        "Master Yi"
+      ],
+      "championTag": null,
+      "isToken": false,
+      "isSignature": true,
+      "baseName": "Highlander"
+    },
+    {
+      "cardId": "SIG-U",
+      "name": "Wuju Spirit",
+      "type": "UNIT",
+      "domain": [
+        "BODY"
+      ],
+      "tags": [
+        "Master Yi"
+      ],
+      "championTag": null,
+      "isToken": false,
+      "isSignature": true,
+      "baseName": "Wuju Spirit"
+    },
+    {
+      "cardId": "SIG-GA",
+      "name": "Decisive Strike",
+      "type": "SPELL",
+      "domain": [
+        "BODY"
+      ],
+      "tags": [
+        "Garen"
+      ],
+      "championTag": null,
+      "isToken": false,
+      "isSignature": true,
+      "baseName": "Decisive Strike"
+    },
+    {
+      "cardId": "CB-1",
+      "name": "Twin Stance",
+      "type": "SPELL",
+      "domain": [
+        "CALM",
+        "BODY"
+      ],
+      "tags": [],
+      "championTag": null,
+      "isToken": false,
+      "isSignature": false,
+      "baseName": "Twin Stance"
+    },
+    {
+      "cardId": "CF-1",
+      "name": "Hot Temper",
+      "type": "SPELL",
+      "domain": [
+        "CALM",
+        "FURY"
+      ],
+      "tags": [],
+      "championTag": null,
+      "isToken": false,
+      "isSignature": false,
+      "baseName": "Hot Temper"
+    },
+    {
+      "cardId": "FU-1",
+      "name": "Fury Brawler",
+      "type": "UNIT",
+      "domain": [
+        "FURY"
+      ],
+      "tags": [],
+      "championTag": null,
+      "isToken": false,
+      "isSignature": false,
+      "baseName": "Fury Brawler"
+    },
+    {
+      "cardId": "CL-1",
+      "name": "Wandering Poro",
+      "type": "UNIT",
+      "domain": [
+        "COLORLESS"
+      ],
+      "tags": [],
+      "championTag": null,
+      "isToken": false,
+      "isSignature": false,
+      "baseName": "Wandering Poro"
+    },
+    {
+      "cardId": "ND-1",
+      "name": "Blank Slate",
+      "type": "GEAR",
+      "domain": [],
+      "tags": [],
+      "championTag": null,
+      "isToken": false,
+      "isSignature": false,
+      "baseName": "Blank Slate"
+    },
+    {
+      "cardId": "R-CALM",
+      "name": "Calm Rune",
+      "type": "RUNE",
+      "domain": [
+        "CALM"
+      ],
+      "tags": [],
+      "championTag": null,
+      "isToken": false,
+      "isSignature": false,
+      "baseName": "Calm Rune"
+    },
+    {
+      "cardId": "R-CALMa",
+      "name": "Calm Rune",
+      "type": "RUNE",
+      "domain": [
+        "CALM"
+      ],
+      "tags": [],
+      "championTag": null,
+      "isToken": false,
+      "isSignature": false,
+      "baseName": "Calm Rune"
+    },
+    {
+      "cardId": "R-BODY",
+      "name": "Body Rune",
+      "type": "RUNE",
+      "domain": [
+        "BODY"
+      ],
+      "tags": [],
+      "championTag": null,
+      "isToken": false,
+      "isSignature": false,
+      "baseName": "Body Rune"
+    },
+    {
+      "cardId": "R-FURY",
+      "name": "Fury Rune",
+      "type": "RUNE",
+      "domain": [
+        "FURY"
+      ],
+      "tags": [],
+      "championTag": null,
+      "isToken": false,
+      "isSignature": false,
+      "baseName": "Fury Rune"
+    },
+    {
+      "cardId": "BF-1",
+      "name": "Sunken Temple",
+      "type": "BATTLEFIELD",
+      "domain": [
+        "COLORLESS"
+      ],
+      "tags": [],
+      "championTag": null,
+      "isToken": false,
+      "isSignature": false,
+      "baseName": "Sunken Temple"
+    },
+    {
+      "cardId": "BF-1a",
+      "name": "Sunken Temple",
+      "type": "BATTLEFIELD",
+      "domain": [
+        "COLORLESS"
+      ],
+      "tags": [],
+      "championTag": null,
+      "isToken": false,
+      "isSignature": false,
+      "baseName": "Sunken Temple"
+    },
+    {
+      "cardId": "BF-2",
+      "name": "Grand Plaza",
+      "type": "BATTLEFIELD",
+      "domain": [
+        "COLORLESS"
+      ],
+      "tags": [],
+      "championTag": null,
+      "isToken": false,
+      "isSignature": false,
+      "baseName": "Grand Plaza"
+    },
+    {
+      "cardId": "BF-3",
+      "name": "Bandle Tree",
+      "type": "BATTLEFIELD",
+      "domain": [
+        "COLORLESS"
+      ],
+      "tags": [],
+      "championTag": null,
+      "isToken": false,
+      "isSignature": false,
+      "baseName": "Bandle Tree"
+    },
+    {
+      "cardId": "BF-4",
+      "name": "Void Gate",
+      "type": "BATTLEFIELD",
+      "domain": [
+        "COLORLESS"
+      ],
+      "tags": [],
+      "championTag": null,
+      "isToken": false,
+      "isSignature": false,
+      "baseName": "Void Gate"
+    },
+    {
+      "cardId": "TK-1",
+      "name": "Sprite",
+      "type": "UNIT",
+      "domain": [
+        "COLORLESS"
+      ],
+      "tags": [],
+      "championTag": null,
+      "isToken": true,
+      "isSignature": false,
+      "baseName": "Sprite"
+    },
+    {
+      "cardId": "OT-1",
+      "name": "Buff",
+      "type": "OTHER",
+      "domain": [
+        "COLORLESS"
+      ],
+      "tags": [],
+      "championTag": null,
+      "isToken": true,
+      "isSignature": false,
+      "baseName": "Buff"
+    },
+    {
+      "cardId": "F01",
+      "name": "Calm Filler 1",
+      "type": "SPELL",
+      "domain": [
+        "CALM"
+      ],
+      "tags": [],
+      "championTag": null,
+      "isToken": false,
+      "isSignature": false,
+      "baseName": "Calm Filler 1"
+    },
+    {
+      "cardId": "F02",
+      "name": "Calm Filler 2",
+      "type": "GEAR",
+      "domain": [
+        "CALM"
+      ],
+      "tags": [],
+      "championTag": null,
+      "isToken": false,
+      "isSignature": false,
+      "baseName": "Calm Filler 2"
+    },
+    {
+      "cardId": "F03",
+      "name": "Calm Filler 3",
+      "type": "UNIT",
+      "domain": [
+        "CALM"
+      ],
+      "tags": [],
+      "championTag": null,
+      "isToken": false,
+      "isSignature": false,
+      "baseName": "Calm Filler 3"
+    },
+    {
+      "cardId": "F04",
+      "name": "Calm Filler 4",
+      "type": "SPELL",
+      "domain": [
+        "CALM"
+      ],
+      "tags": [],
+      "championTag": null,
+      "isToken": false,
+      "isSignature": false,
+      "baseName": "Calm Filler 4"
+    },
+    {
+      "cardId": "F05",
+      "name": "Calm Filler 5",
+      "type": "GEAR",
+      "domain": [
+        "CALM"
+      ],
+      "tags": [],
+      "championTag": null,
+      "isToken": false,
+      "isSignature": false,
+      "baseName": "Calm Filler 5"
+    },
+    {
+      "cardId": "F06",
+      "name": "Calm Filler 6",
+      "type": "UNIT",
+      "domain": [
+        "CALM"
+      ],
+      "tags": [],
+      "championTag": null,
+      "isToken": false,
+      "isSignature": false,
+      "baseName": "Calm Filler 6"
+    },
+    {
+      "cardId": "F07",
+      "name": "Calm Filler 7",
+      "type": "SPELL",
+      "domain": [
+        "CALM"
+      ],
+      "tags": [],
+      "championTag": null,
+      "isToken": false,
+      "isSignature": false,
+      "baseName": "Calm Filler 7"
+    },
+    {
+      "cardId": "F08",
+      "name": "Calm Filler 8",
+      "type": "GEAR",
+      "domain": [
+        "CALM"
+      ],
+      "tags": [],
+      "championTag": null,
+      "isToken": false,
+      "isSignature": false,
+      "baseName": "Calm Filler 8"
+    },
+    {
+      "cardId": "F09",
+      "name": "Calm Filler 9",
+      "type": "UNIT",
+      "domain": [
+        "CALM"
+      ],
+      "tags": [],
+      "championTag": null,
+      "isToken": false,
+      "isSignature": false,
+      "baseName": "Calm Filler 9"
+    },
+    {
+      "cardId": "F10",
+      "name": "Calm Filler 10",
+      "type": "SPELL",
+      "domain": [
+        "CALM"
+      ],
+      "tags": [],
+      "championTag": null,
+      "isToken": false,
+      "isSignature": false,
+      "baseName": "Calm Filler 10"
+    },
+    {
+      "cardId": "F11",
+      "name": "Calm Filler 11",
+      "type": "GEAR",
+      "domain": [
+        "CALM"
+      ],
+      "tags": [],
+      "championTag": null,
+      "isToken": false,
+      "isSignature": false,
+      "baseName": "Calm Filler 11"
+    },
+    {
+      "cardId": "F12",
+      "name": "Calm Filler 12",
+      "type": "UNIT",
+      "domain": [
+        "CALM"
+      ],
+      "tags": [],
+      "championTag": null,
+      "isToken": false,
+      "isSignature": false,
+      "baseName": "Calm Filler 12"
+    },
+    {
+      "cardId": "F13",
+      "name": "Calm Filler 13",
+      "type": "SPELL",
+      "domain": [
+        "CALM"
+      ],
+      "tags": [],
+      "championTag": null,
+      "isToken": false,
+      "isSignature": false,
+      "baseName": "Calm Filler 13"
+    },
+    {
+      "cardId": "F14",
+      "name": "Calm Filler 14",
+      "type": "GEAR",
+      "domain": [
+        "CALM"
+      ],
+      "tags": [],
+      "championTag": null,
+      "isToken": false,
+      "isSignature": false,
+      "baseName": "Calm Filler 14"
+    }
+  ],
+  "step": [
+    {
+      "name": "empty deck starts at legend",
+      "deck": {
+        "legendId": null,
+        "championId": null,
+        "main": {},
+        "side": {}
+      },
+      "expect": "LEGEND"
+    },
+    {
+      "name": "legend chosen, no champion",
+      "deck": {
+        "legendId": "L-YI",
+        "championId": null,
+        "main": {
+          "L-YI": 1
+        },
+        "side": {}
+      },
+      "expect": "CHAMPION"
+    },
+    {
+      "name": "champion chosen",
+      "deck": {
+        "legendId": "L-YI",
+        "championId": "YI-1",
+        "main": {
+          "L-YI": 1,
+          "YI-1": 1
+        },
+        "side": {}
+      },
+      "expect": "RUNES"
+    },
+    {
+      "name": "11 runes is not enough",
+      "deck": {
+        "legendId": "L-YI",
+        "championId": "YI-1",
+        "main": {
+          "L-YI": 1,
+          "YI-1": 1,
+          "R-CALM": 6,
+          "R-BODY": 5
+        },
+        "side": {}
+      },
+      "expect": "RUNES"
+    },
+    {
+      "name": "12 runes moves on to battlefields",
+      "deck": {
+        "legendId": "L-YI",
+        "championId": "YI-1",
+        "main": {
+          "L-YI": 1,
+          "YI-1": 1,
+          "R-CALM": 6,
+          "R-BODY": 6
+        },
+        "side": {}
+      },
+      "expect": "BATTLEFIELDS"
+    },
+    {
+      "name": "3 battlefields moves on to main deck",
+      "deck": {
+        "legendId": "L-YI",
+        "championId": "YI-1",
+        "main": {
+          "L-YI": 1,
+          "YI-1": 1,
+          "BF-1": 1,
+          "BF-2": 1,
+          "BF-3": 1,
+          "R-CALM": 6,
+          "R-BODY": 6
+        },
+        "side": {}
+      },
+      "expect": "MAIN"
+    },
+    {
+      "name": "39 main deck cards including the champion is not enough",
+      "deck": {
+        "legendId": "L-YI",
+        "championId": "YI-1",
+        "main": {
+          "L-YI": 1,
+          "YI-1": 1,
+          "BF-1": 1,
+          "BF-2": 1,
+          "BF-3": 1,
+          "F01": 3,
+          "F02": 3,
+          "F03": 3,
+          "F04": 3,
+          "F05": 3,
+          "F06": 3,
+          "F07": 3,
+          "F08": 3,
+          "F09": 3,
+          "F10": 3,
+          "F11": 3,
+          "F12": 3,
+          "F13": 2,
+          "R-CALM": 6,
+          "R-BODY": 6
+        },
+        "side": {}
+      },
+      "expect": "MAIN"
+    },
+    {
+      "name": "40 main deck cards including the champion moves on to sideboard",
+      "deck": {
+        "legendId": "L-YI",
+        "championId": "YI-1",
+        "main": {
+          "L-YI": 1,
+          "YI-1": 1,
+          "BF-1": 1,
+          "BF-2": 1,
+          "BF-3": 1,
+          "F01": 3,
+          "F02": 3,
+          "F03": 3,
+          "F04": 3,
+          "F05": 3,
+          "F06": 3,
+          "F07": 3,
+          "F08": 3,
+          "F09": 3,
+          "F10": 3,
+          "F11": 3,
+          "F12": 3,
+          "F13": 3,
+          "R-CALM": 6,
+          "R-BODY": 6
+        },
+        "side": {}
+      },
+      "expect": "SIDEBOARD"
+    },
+    {
+      "name": "extra champion copies count toward the main deck",
+      "deck": {
+        "legendId": "L-YI",
+        "championId": "YI-1",
+        "main": {
+          "L-YI": 1,
+          "YI-1": 3,
+          "BF-1": 1,
+          "BF-2": 1,
+          "BF-3": 1,
+          "F01": 3,
+          "F02": 3,
+          "F03": 3,
+          "F04": 3,
+          "F05": 3,
+          "F06": 3,
+          "F07": 3,
+          "F08": 3,
+          "F09": 3,
+          "F10": 3,
+          "F11": 3,
+          "F12": 3,
+          "F13": 1,
+          "R-CALM": 6,
+          "R-BODY": 6
+        },
+        "side": {}
+      },
+      "expect": "SIDEBOARD"
+    },
+    {
+      "name": "7 sideboard cards is still the sideboard step",
+      "deck": {
+        "legendId": "L-YI",
+        "championId": "YI-1",
+        "main": {
+          "L-YI": 1,
+          "YI-1": 1,
+          "BF-1": 1,
+          "BF-2": 1,
+          "BF-3": 1,
+          "F01": 3,
+          "F02": 3,
+          "F03": 3,
+          "F04": 3,
+          "F05": 3,
+          "F06": 3,
+          "F07": 3,
+          "F08": 3,
+          "F09": 3,
+          "F10": 3,
+          "F11": 3,
+          "F12": 3,
+          "F13": 3,
+          "R-CALM": 6,
+          "R-BODY": 6
+        },
+        "side": {
+          "F14": 3,
+          "CB-1": 3,
+          "CL-1": 1
+        }
+      },
+      "expect": "SIDEBOARD"
+    },
+    {
+      "name": "8 sideboard cards completes the deck",
+      "deck": {
+        "legendId": "L-YI",
+        "championId": "YI-1",
+        "main": {
+          "L-YI": 1,
+          "YI-1": 1,
+          "BF-1": 1,
+          "BF-2": 1,
+          "BF-3": 1,
+          "F01": 3,
+          "F02": 3,
+          "F03": 3,
+          "F04": 3,
+          "F05": 3,
+          "F06": 3,
+          "F07": 3,
+          "F08": 3,
+          "F09": 3,
+          "F10": 3,
+          "F11": 3,
+          "F12": 3,
+          "F13": 3,
+          "R-CALM": 6,
+          "R-BODY": 6
+        },
+        "side": {
+          "F14": 3,
+          "CB-1": 3,
+          "CL-1": 2
+        }
+      },
+      "expect": "COMPLETE"
+    }
+  ],
+  "checkAdd": [
+    {
+      "name": "first legend",
+      "deck": {
+        "legendId": null,
+        "championId": null,
+        "main": {},
+        "side": {}
+      },
+      "cardId": "L-YI",
+      "section": "MAIN",
+      "expect": "OK"
+    },
+    {
+      "name": "second legend",
+      "deck": {
+        "legendId": "L-YI",
+        "championId": null,
+        "main": {
+          "L-YI": 1
+        },
+        "side": {}
+      },
+      "cardId": "L-KEN",
+      "section": "MAIN",
+      "expect": "LEGEND_ALREADY_CHOSEN"
+    },
+    {
+      "name": "the same legend twice",
+      "deck": {
+        "legendId": "L-YI",
+        "championId": null,
+        "main": {
+          "L-YI": 1
+        },
+        "side": {}
+      },
+      "cardId": "L-YI",
+      "section": "MAIN",
+      "expect": "LEGEND_ALREADY_CHOSEN"
+    },
+    {
+      "name": "legend in the sideboard",
+      "deck": {
+        "legendId": null,
+        "championId": null,
+        "main": {},
+        "side": {}
+      },
+      "cardId": "L-YI",
+      "section": "SIDEBOARD",
+      "expect": "NOT_ALLOWED_IN_SIDEBOARD"
+    },
+    {
+      "name": "non-legend before a legend",
+      "deck": {
+        "legendId": null,
+        "championId": null,
+        "main": {},
+        "side": {}
+      },
+      "cardId": "F01",
+      "section": "MAIN",
+      "expect": "NO_LEGEND"
+    },
+    {
+      "name": "token",
+      "deck": {
+        "legendId": "L-YI",
+        "championId": "YI-1",
+        "main": {
+          "L-YI": 1,
+          "YI-1": 1,
+          "BF-1": 1,
+          "BF-2": 1,
+          "BF-3": 1,
+          "R-CALM": 6,
+          "R-BODY": 6
+        },
+        "side": {}
+      },
+      "cardId": "TK-1",
+      "section": "MAIN",
+      "expect": "NOT_PLAYABLE"
+    },
+    {
+      "name": "token helper card",
+      "deck": {
+        "legendId": "L-YI",
+        "championId": "YI-1",
+        "main": {
+          "L-YI": 1,
+          "YI-1": 1,
+          "BF-1": 1,
+          "BF-2": 1,
+          "BF-3": 1,
+          "R-CALM": 6,
+          "R-BODY": 6
+        },
+        "side": {}
+      },
+      "cardId": "OT-1",
+      "section": "MAIN",
+      "expect": "NOT_PLAYABLE"
+    },
+    {
+      "name": "single-domain card in identity",
+      "deck": {
+        "legendId": "L-YI",
+        "championId": "YI-1",
+        "main": {
+          "L-YI": 1,
+          "YI-1": 1,
+          "BF-1": 1,
+          "BF-2": 1,
+          "BF-3": 1,
+          "R-CALM": 6,
+          "R-BODY": 6
+        },
+        "side": {}
+      },
+      "cardId": "F01",
+      "section": "MAIN",
+      "expect": "OK"
+    },
+    {
+      "name": "single-domain card outside identity",
+      "deck": {
+        "legendId": "L-YI",
+        "championId": "YI-1",
+        "main": {
+          "L-YI": 1,
+          "YI-1": 1,
+          "BF-1": 1,
+          "BF-2": 1,
+          "BF-3": 1,
+          "R-CALM": 6,
+          "R-BODY": 6
+        },
+        "side": {}
+      },
+      "cardId": "FU-1",
+      "section": "MAIN",
+      "expect": "OUTSIDE_DOMAIN_IDENTITY"
+    },
+    {
+      "name": "multi-domain card fully inside identity",
+      "deck": {
+        "legendId": "L-YI",
+        "championId": "YI-1",
+        "main": {
+          "L-YI": 1,
+          "YI-1": 1,
+          "BF-1": 1,
+          "BF-2": 1,
+          "BF-3": 1,
+          "R-CALM": 6,
+          "R-BODY": 6
+        },
+        "side": {}
+      },
+      "cardId": "CB-1",
+      "section": "MAIN",
+      "expect": "OK"
+    },
+    {
+      "name": "multi-domain card partly outside identity",
+      "deck": {
+        "legendId": "L-YI",
+        "championId": "YI-1",
+        "main": {
+          "L-YI": 1,
+          "YI-1": 1,
+          "BF-1": 1,
+          "BF-2": 1,
+          "BF-3": 1,
+          "R-CALM": 6,
+          "R-BODY": 6
+        },
+        "side": {}
+      },
+      "cardId": "CF-1",
+      "section": "MAIN",
+      "expect": "OUTSIDE_DOMAIN_IDENTITY"
+    },
+    {
+      "name": "colorless card fits any identity",
+      "deck": {
+        "legendId": "L-YI",
+        "championId": "YI-1",
+        "main": {
+          "L-YI": 1,
+          "YI-1": 1,
+          "BF-1": 1,
+          "BF-2": 1,
+          "BF-3": 1,
+          "R-CALM": 6,
+          "R-BODY": 6
+        },
+        "side": {}
+      },
+      "cardId": "CL-1",
+      "section": "MAIN",
+      "expect": "OK"
+    },
+    {
+      "name": "card with no domain fits any identity",
+      "deck": {
+        "legendId": "L-YI",
+        "championId": "YI-1",
+        "main": {
+          "L-YI": 1,
+          "YI-1": 1,
+          "BF-1": 1,
+          "BF-2": 1,
+          "BF-3": 1,
+          "R-CALM": 6,
+          "R-BODY": 6
+        },
+        "side": {}
+      },
+      "cardId": "ND-1",
+      "section": "MAIN",
+      "expect": "OK"
+    },
+    {
+      "name": "rune in identity",
+      "deck": {
+        "legendId": "L-YI",
+        "championId": "YI-1",
+        "main": {
+          "L-YI": 1,
+          "YI-1": 1
+        },
+        "side": {}
+      },
+      "cardId": "R-CALM",
+      "section": "MAIN",
+      "expect": "OK"
+    },
+    {
+      "name": "rune outside identity",
+      "deck": {
+        "legendId": "L-YI",
+        "championId": "YI-1",
+        "main": {
+          "L-YI": 1,
+          "YI-1": 1
+        },
+        "side": {}
+      },
+      "cardId": "R-FURY",
+      "section": "MAIN",
+      "expect": "OUTSIDE_DOMAIN_IDENTITY"
+    },
+    {
+      "name": "13th rune",
+      "deck": {
+        "legendId": "L-YI",
+        "championId": "YI-1",
+        "main": {
+          "L-YI": 1,
+          "YI-1": 1,
+          "R-CALM": 6,
+          "R-BODY": 6
+        },
+        "side": {}
+      },
+      "cardId": "R-CALMa",
+      "section": "MAIN",
+      "expect": "RUNE_DECK_FULL"
+    },
+    {
+      "name": "rune in the sideboard",
+      "deck": {
+        "legendId": "L-YI",
+        "championId": "YI-1",
+        "main": {
+          "L-YI": 1,
+          "YI-1": 1,
+          "R-CALM": 6,
+          "R-BODY": 6
+        },
+        "side": {}
+      },
+      "cardId": "R-CALM",
+      "section": "SIDEBOARD",
+      "expect": "NOT_ALLOWED_IN_SIDEBOARD"
+    },
+    {
+      "name": "first battlefield",
+      "deck": {
+        "legendId": "L-YI",
+        "championId": "YI-1",
+        "main": {
+          "L-YI": 1,
+          "YI-1": 1,
+          "R-CALM": 6,
+          "R-BODY": 6
+        },
+        "side": {}
+      },
+      "cardId": "BF-1",
+      "section": "MAIN",
+      "expect": "OK"
+    },
+    {
+      "name": "second copy of a battlefield name",
+      "deck": {
+        "legendId": "L-YI",
+        "championId": "YI-1",
+        "main": {
+          "L-YI": 1,
+          "YI-1": 1,
+          "R-CALM": 6,
+          "R-BODY": 6,
+          "BF-1": 1
+        },
+        "side": {}
+      },
+      "cardId": "BF-1a",
+      "section": "MAIN",
+      "expect": "DUPLICATE_BATTLEFIELD"
+    },
+    {
+      "name": "4th battlefield",
+      "deck": {
+        "legendId": "L-YI",
+        "championId": "YI-1",
+        "main": {
+          "L-YI": 1,
+          "YI-1": 1,
+          "BF-1": 1,
+          "BF-2": 1,
+          "BF-3": 1,
+          "R-CALM": 6,
+          "R-BODY": 6
+        },
+        "side": {}
+      },
+      "cardId": "BF-4",
+      "section": "MAIN",
+      "expect": "BATTLEFIELDS_FULL"
+    },
+    {
+      "name": "battlefield in the sideboard",
+      "deck": {
+        "legendId": "L-YI",
+        "championId": "YI-1",
+        "main": {
+          "L-YI": 1,
+          "YI-1": 1,
+          "R-CALM": 6,
+          "R-BODY": 6
+        },
+        "side": {}
+      },
+      "cardId": "BF-1",
+      "section": "SIDEBOARD",
+      "expect": "NOT_ALLOWED_IN_SIDEBOARD"
+    },
+    {
+      "name": "3rd copy of a name",
+      "deck": {
+        "legendId": "L-YI",
+        "championId": "YI-1",
+        "main": {
+          "L-YI": 1,
+          "YI-1": 1,
+          "BF-1": 1,
+          "BF-2": 1,
+          "BF-3": 1,
+          "R-CALM": 6,
+          "R-BODY": 6,
+          "F01": 2
+        },
+        "side": {}
+      },
+      "cardId": "F01",
+      "section": "MAIN",
+      "expect": "OK"
+    },
+    {
+      "name": "4th copy of a name",
+      "deck": {
+        "legendId": "L-YI",
+        "championId": "YI-1",
+        "main": {
+          "L-YI": 1,
+          "YI-1": 1,
+          "BF-1": 1,
+          "BF-2": 1,
+          "BF-3": 1,
+          "R-CALM": 6,
+          "R-BODY": 6,
+          "F01": 3
+        },
+        "side": {}
+      },
+      "cardId": "F01",
+      "section": "MAIN",
+      "expect": "COPY_LIMIT"
+    },
+    {
+      "name": "alt art shares the copy limit of its name",
+      "deck": {
+        "legendId": "L-YI",
+        "championId": "YI-1",
+        "main": {
+          "L-YI": 1,
+          "YI-1": 3,
+          "BF-1": 1,
+          "BF-2": 1,
+          "BF-3": 1,
+          "R-CALM": 6,
+          "R-BODY": 6
+        },
+        "side": {}
+      },
+      "cardId": "YI-1a",
+      "section": "MAIN",
+      "expect": "COPY_LIMIT"
+    },
+    {
+      "name": "champion counts toward its copy limit",
+      "deck": {
+        "legendId": "L-YI",
+        "championId": "YI-1",
+        "main": {
+          "L-YI": 1,
+          "YI-1": 2,
+          "BF-1": 1,
+          "BF-2": 1,
+          "BF-3": 1,
+          "R-CALM": 6,
+          "R-BODY": 6
+        },
+        "side": {}
+      },
+      "cardId": "YI-1a",
+      "section": "MAIN",
+      "expect": "OK"
+    },
+    {
+      "name": "sideboard copies count toward the copy limit",
+      "deck": {
+        "legendId": "L-YI",
+        "championId": "YI-1",
+        "main": {
+          "L-YI": 1,
+          "YI-1": 1,
+          "BF-1": 1,
+          "BF-2": 1,
+          "BF-3": 1,
+          "R-CALM": 6,
+          "R-BODY": 6,
+          "F01": 2
+        },
+        "side": {
+          "F01": 1
+        }
+      },
+      "cardId": "F01",
+      "section": "SIDEBOARD",
+      "expect": "COPY_LIMIT"
+    },
+    {
+      "name": "different champion units have separate limits",
+      "deck": {
+        "legendId": "L-YI",
+        "championId": "YI-1",
+        "main": {
+          "L-YI": 1,
+          "YI-1": 3,
+          "BF-1": 1,
+          "BF-2": 1,
+          "BF-3": 1,
+          "R-CALM": 6,
+          "R-BODY": 6
+        },
+        "side": {}
+      },
+      "cardId": "YI-2",
+      "section": "MAIN",
+      "expect": "OK"
+    },
+    {
+      "name": "signature card for the legend",
+      "deck": {
+        "legendId": "L-YI",
+        "championId": "YI-1",
+        "main": {
+          "L-YI": 1,
+          "YI-1": 1,
+          "BF-1": 1,
+          "BF-2": 1,
+          "BF-3": 1,
+          "R-CALM": 6,
+          "R-BODY": 6
+        },
+        "side": {}
+      },
+      "cardId": "SIG-S",
+      "section": "MAIN",
+      "expect": "OK"
+    },
+    {
+      "name": "signature card for another champion",
+      "deck": {
+        "legendId": "L-YI",
+        "championId": "YI-1",
+        "main": {
+          "L-YI": 1,
+          "YI-1": 1,
+          "BF-1": 1,
+          "BF-2": 1,
+          "BF-3": 1,
+          "R-CALM": 6,
+          "R-BODY": 6
+        },
+        "side": {}
+      },
+      "cardId": "SIG-GA",
+      "section": "MAIN",
+      "expect": "SIGNATURE_WRONG_CHAMPION"
+    },
+    {
+      "name": "4th signature card across names",
+      "deck": {
+        "legendId": "L-YI",
+        "championId": "YI-1",
+        "main": {
+          "L-YI": 1,
+          "YI-1": 1,
+          "BF-1": 1,
+          "BF-2": 1,
+          "BF-3": 1,
+          "R-CALM": 6,
+          "R-BODY": 6,
+          "SIG-S": 2,
+          "SIG-U": 1
+        },
+        "side": {}
+      },
+      "cardId": "SIG-Sa",
+      "section": "MAIN",
+      "expect": "SIGNATURE_LIMIT"
+    },
+    {
+      "name": "sideboard signature cards count toward the limit",
+      "deck": {
+        "legendId": "L-YI",
+        "championId": "YI-1",
+        "main": {
+          "L-YI": 1,
+          "YI-1": 1,
+          "BF-1": 1,
+          "BF-2": 1,
+          "BF-3": 1,
+          "R-CALM": 6,
+          "R-BODY": 6,
+          "SIG-S": 2
+        },
+        "side": {
+          "SIG-U": 1
+        }
+      },
+      "cardId": "SIG-U",
+      "section": "MAIN",
+      "expect": "SIGNATURE_LIMIT"
+    },
+    {
+      "name": "3rd signature card",
+      "deck": {
+        "legendId": "L-YI",
+        "championId": "YI-1",
+        "main": {
+          "L-YI": 1,
+          "YI-1": 1,
+          "BF-1": 1,
+          "BF-2": 1,
+          "BF-3": 1,
+          "R-CALM": 6,
+          "R-BODY": 6,
+          "SIG-S": 2
+        },
+        "side": {}
+      },
+      "cardId": "SIG-U",
+      "section": "MAIN",
+      "expect": "OK"
+    },
+    {
+      "name": "main deck has no maximum",
+      "deck": {
+        "legendId": "L-YI",
+        "championId": "YI-1",
+        "main": {
+          "L-YI": 1,
+          "YI-1": 1,
+          "BF-1": 1,
+          "BF-2": 1,
+          "BF-3": 1,
+          "F01": 3,
+          "F02": 3,
+          "F03": 3,
+          "F04": 3,
+          "F05": 3,
+          "F06": 3,
+          "F07": 3,
+          "F08": 3,
+          "F09": 3,
+          "F10": 3,
+          "F11": 3,
+          "F12": 3,
+          "F13": 3,
+          "R-CALM": 6,
+          "R-BODY": 6
+        },
+        "side": {}
+      },
+      "cardId": "F14",
+      "section": "MAIN",
+      "expect": "OK"
+    },
+    {
+      "name": "sideboard card",
+      "deck": {
+        "legendId": "L-YI",
+        "championId": "YI-1",
+        "main": {
+          "L-YI": 1,
+          "YI-1": 1,
+          "BF-1": 1,
+          "BF-2": 1,
+          "BF-3": 1,
+          "F01": 3,
+          "F02": 3,
+          "F03": 3,
+          "F04": 3,
+          "F05": 3,
+          "F06": 3,
+          "F07": 3,
+          "F08": 3,
+          "F09": 3,
+          "F10": 3,
+          "F11": 3,
+          "F12": 3,
+          "F13": 3,
+          "R-CALM": 6,
+          "R-BODY": 6
+        },
+        "side": {}
+      },
+      "cardId": "F14",
+      "section": "SIDEBOARD",
+      "expect": "OK"
+    },
+    {
+      "name": "9th sideboard card",
+      "deck": {
+        "legendId": "L-YI",
+        "championId": "YI-1",
+        "main": {
+          "L-YI": 1,
+          "YI-1": 1,
+          "BF-1": 1,
+          "BF-2": 1,
+          "BF-3": 1,
+          "F01": 3,
+          "F02": 3,
+          "F03": 3,
+          "F04": 3,
+          "F05": 3,
+          "F06": 3,
+          "F07": 3,
+          "F08": 3,
+          "F09": 3,
+          "F10": 3,
+          "F11": 3,
+          "F12": 3,
+          "F13": 3,
+          "R-CALM": 6,
+          "R-BODY": 6
+        },
+        "side": {
+          "F14": 3,
+          "CB-1": 3,
+          "CL-1": 2
+        }
+      },
+      "cardId": "ND-1",
+      "section": "SIDEBOARD",
+      "expect": "SIDEBOARD_FULL"
+    },
+    {
+      "name": "unknown card",
+      "deck": {
+        "legendId": "L-YI",
+        "championId": "YI-1",
+        "main": {
+          "L-YI": 1,
+          "YI-1": 1,
+          "BF-1": 1,
+          "BF-2": 1,
+          "BF-3": 1,
+          "R-CALM": 6,
+          "R-BODY": 6
+        },
+        "side": {}
+      },
+      "cardId": "GONE-1",
+      "section": "MAIN",
+      "expect": "UNKNOWN_CARD"
+    }
+  ],
+  "canBeChampion": [
+    {
+      "name": "champion unit with the legend's tag",
+      "legendId": "L-YI",
+      "cardId": "YI-1",
+      "expect": true
+    },
+    {
+      "name": "another champion unit with the legend's tag",
+      "legendId": "L-YI",
+      "cardId": "YI-2",
+      "expect": true
+    },
+    {
+      "name": "tag matching ignores case",
+      "legendId": "L-YI",
+      "cardId": "YI-1a",
+      "expect": true
+    },
+    {
+      "name": "signature unit with the legend's tag",
+      "legendId": "L-YI",
+      "cardId": "SIG-U",
+      "expect": false
+    },
+    {
+      "name": "signature spell",
+      "legendId": "L-YI",
+      "cardId": "SIG-S",
+      "expect": false
+    },
+    {
+      "name": "unit of another champion",
+      "legendId": "L-YI",
+      "cardId": "KEN-1",
+      "expect": false
+    },
+    {
+      "name": "legend whose champion tag is not its first tag",
+      "legendId": "L-KEN",
+      "cardId": "KEN-1",
+      "expect": true
+    },
+    {
+      "name": "ordinary unit",
+      "legendId": "L-YI",
+      "cardId": "F02",
+      "expect": false
+    },
+    {
+      "name": "token",
+      "legendId": "L-YI",
+      "cardId": "TK-1",
+      "expect": false
+    }
+  ],
+  "isCandidate": [
+    {
+      "name": "legend step shows legends",
+      "step": "LEGEND",
+      "legendId": null,
+      "cardId": "L-KEN",
+      "expect": true
+    },
+    {
+      "name": "legend step hides units",
+      "step": "LEGEND",
+      "legendId": null,
+      "cardId": "YI-1",
+      "expect": false
+    },
+    {
+      "name": "champion step shows the legend's champion units",
+      "step": "CHAMPION",
+      "legendId": "L-YI",
+      "cardId": "YI-2",
+      "expect": true
+    },
+    {
+      "name": "champion step hides signature units",
+      "step": "CHAMPION",
+      "legendId": "L-YI",
+      "cardId": "SIG-U",
+      "expect": false
+    },
+    {
+      "name": "rune step shows runes in identity",
+      "step": "RUNES",
+      "legendId": "L-YI",
+      "cardId": "R-BODY",
+      "expect": true
+    },
+    {
+      "name": "rune step hides runes outside identity",
+      "step": "RUNES",
+      "legendId": "L-YI",
+      "cardId": "R-FURY",
+      "expect": false
+    },
+    {
+      "name": "battlefield step shows battlefields",
+      "step": "BATTLEFIELDS",
+      "legendId": "L-YI",
+      "cardId": "BF-4",
+      "expect": true
+    },
+    {
+      "name": "main step shows cards in identity",
+      "step": "MAIN",
+      "legendId": "L-YI",
+      "cardId": "CB-1",
+      "expect": true
+    },
+    {
+      "name": "main step shows colorless cards",
+      "step": "MAIN",
+      "legendId": "L-YI",
+      "cardId": "CL-1",
+      "expect": true
+    },
+    {
+      "name": "main step shows cards with no domain",
+      "step": "MAIN",
+      "legendId": "L-YI",
+      "cardId": "ND-1",
+      "expect": true
+    },
+    {
+      "name": "main step hides cards outside identity",
+      "step": "MAIN",
+      "legendId": "L-YI",
+      "cardId": "FU-1",
+      "expect": false
+    },
+    {
+      "name": "main step shows the legend's signature cards",
+      "step": "MAIN",
+      "legendId": "L-YI",
+      "cardId": "SIG-U",
+      "expect": true
+    },
+    {
+      "name": "main step hides other champions' signature cards",
+      "step": "MAIN",
+      "legendId": "L-YI",
+      "cardId": "SIG-GA",
+      "expect": false
+    },
+    {
+      "name": "main step hides runes",
+      "step": "MAIN",
+      "legendId": "L-YI",
+      "cardId": "R-CALM",
+      "expect": false
+    },
+    {
+      "name": "main step hides battlefields",
+      "step": "MAIN",
+      "legendId": "L-YI",
+      "cardId": "BF-1",
+      "expect": false
+    },
+    {
+      "name": "main step hides legends",
+      "step": "MAIN",
+      "legendId": "L-YI",
+      "cardId": "L-KEN",
+      "expect": false
+    },
+    {
+      "name": "main step hides tokens",
+      "step": "MAIN",
+      "legendId": "L-YI",
+      "cardId": "TK-1",
+      "expect": false
+    },
+    {
+      "name": "sideboard step shows cards in identity",
+      "step": "SIDEBOARD",
+      "legendId": "L-YI",
+      "cardId": "F14",
+      "expect": true
+    },
+    {
+      "name": "complete step shows nothing",
+      "step": "COMPLETE",
+      "legendId": "L-YI",
+      "cardId": "F14",
+      "expect": false
+    }
+  ],
+  "validate": [
+    {
+      "name": "complete legal deck",
+      "deck": {
+        "legendId": "L-YI",
+        "championId": "YI-1",
+        "main": {
+          "L-YI": 1,
+          "YI-1": 1,
+          "BF-1": 1,
+          "BF-2": 1,
+          "BF-3": 1,
+          "F01": 3,
+          "F02": 3,
+          "F03": 3,
+          "F04": 3,
+          "F05": 3,
+          "F06": 3,
+          "F07": 3,
+          "F08": 3,
+          "F09": 3,
+          "F10": 3,
+          "F11": 3,
+          "F12": 3,
+          "F13": 3,
+          "R-CALM": 6,
+          "R-BODY": 6
+        },
+        "side": {
+          "F14": 3,
+          "CB-1": 3,
+          "CL-1": 2
+        }
+      },
+      "expect": []
+    },
+    {
+      "name": "deck without a sideboard is legal",
+      "deck": {
+        "legendId": "L-YI",
+        "championId": "YI-1",
+        "main": {
+          "L-YI": 1,
+          "YI-1": 1,
+          "BF-1": 1,
+          "BF-2": 1,
+          "BF-3": 1,
+          "F01": 3,
+          "F02": 3,
+          "F03": 3,
+          "F04": 3,
+          "F05": 3,
+          "F06": 3,
+          "F07": 3,
+          "F08": 3,
+          "F09": 3,
+          "F10": 3,
+          "F11": 3,
+          "F12": 3,
+          "F13": 3,
+          "R-CALM": 6,
+          "R-BODY": 6
+        },
+        "side": {}
+      },
+      "expect": []
+    },
+    {
+      "name": "empty deck",
+      "deck": {
+        "legendId": null,
+        "championId": null,
+        "main": {},
+        "side": {}
+      },
+      "expect": [
+        "BATTLEFIELD_COUNT",
+        "MAIN_DECK_TOO_SMALL",
+        "NO_CHAMPION",
+        "NO_LEGEND",
+        "RUNE_COUNT"
+      ]
+    },
+    {
+      "name": "champion missing from the main deck",
+      "deck": {
+        "legendId": "L-YI",
+        "championId": "YI-1",
+        "main": {
+          "L-YI": 1,
+          "BF-1": 1,
+          "BF-2": 1,
+          "BF-3": 1,
+          "F01": 3,
+          "F02": 3,
+          "F03": 3,
+          "F04": 3,
+          "F05": 3,
+          "F06": 3,
+          "F07": 3,
+          "F08": 3,
+          "F09": 3,
+          "F10": 3,
+          "F11": 3,
+          "F12": 3,
+          "F13": 3,
+          "R-CALM": 6,
+          "R-BODY": 6,
+          "F14": 1
+        },
+        "side": {}
+      },
+      "expect": [
+        "INVALID_CHAMPION"
+      ]
+    },
+    {
+      "name": "champion that doesn't match the legend",
+      "deck": {
+        "legendId": "L-YI",
+        "championId": "KEN-1",
+        "main": {
+          "L-YI": 1,
+          "BF-1": 1,
+          "BF-2": 1,
+          "BF-3": 1,
+          "F01": 3,
+          "F02": 3,
+          "F03": 3,
+          "F04": 3,
+          "F05": 3,
+          "F06": 3,
+          "F07": 3,
+          "F08": 3,
+          "F09": 3,
+          "F10": 3,
+          "F11": 3,
+          "F12": 3,
+          "F13": 3,
+          "R-CALM": 6,
+          "R-BODY": 6,
+          "KEN-1": 1
+        },
+        "side": {}
+      },
+      "expect": [
+        "INVALID_CHAMPION",
+        "OUTSIDE_DOMAIN_IDENTITY:KEN-1"
+      ]
+    },
+    {
+      "name": "13 runes",
+      "deck": {
+        "legendId": "L-YI",
+        "championId": "YI-1",
+        "main": {
+          "L-YI": 1,
+          "YI-1": 1,
+          "BF-1": 1,
+          "BF-2": 1,
+          "BF-3": 1,
+          "F01": 3,
+          "F02": 3,
+          "F03": 3,
+          "F04": 3,
+          "F05": 3,
+          "F06": 3,
+          "F07": 3,
+          "F08": 3,
+          "F09": 3,
+          "F10": 3,
+          "F11": 3,
+          "F12": 3,
+          "F13": 3,
+          "R-CALM": 7,
+          "R-BODY": 6
+        },
+        "side": {}
+      },
+      "expect": [
+        "RUNE_COUNT"
+      ]
+    },
+    {
+      "name": "duplicate battlefield",
+      "deck": {
+        "legendId": "L-YI",
+        "championId": "YI-1",
+        "main": {
+          "L-YI": 1,
+          "YI-1": 1,
+          "BF-1": 1,
+          "BF-2": 1,
+          "F01": 3,
+          "F02": 3,
+          "F03": 3,
+          "F04": 3,
+          "F05": 3,
+          "F06": 3,
+          "F07": 3,
+          "F08": 3,
+          "F09": 3,
+          "F10": 3,
+          "F11": 3,
+          "F12": 3,
+          "F13": 3,
+          "R-CALM": 6,
+          "R-BODY": 6,
+          "BF-1a": 1
+        },
+        "side": {}
+      },
+      "expect": [
+        "DUPLICATE_BATTLEFIELD:Sunken Temple"
+      ]
+    },
+    {
+      "name": "too many copies across printings",
+      "deck": {
+        "legendId": "L-YI",
+        "championId": "YI-1",
+        "main": {
+          "L-YI": 1,
+          "YI-1": 1,
+          "BF-1": 1,
+          "BF-2": 1,
+          "BF-3": 1,
+          "F01": 3,
+          "F02": 3,
+          "F03": 3,
+          "F04": 3,
+          "F05": 3,
+          "F06": 3,
+          "F07": 3,
+          "F08": 3,
+          "F09": 3,
+          "F10": 3,
+          "F11": 3,
+          "F12": 3,
+          "F13": 3,
+          "R-CALM": 6,
+          "R-BODY": 6,
+          "YI-1a": 3
+        },
+        "side": {}
+      },
+      "expect": [
+        "COPY_LIMIT:Master Yi, Honed"
+      ]
+    },
+    {
+      "name": "too many copies across main deck and sideboard",
+      "deck": {
+        "legendId": "L-YI",
+        "championId": "YI-1",
+        "main": {
+          "L-YI": 1,
+          "YI-1": 1,
+          "BF-1": 1,
+          "BF-2": 1,
+          "BF-3": 1,
+          "F01": 3,
+          "F02": 3,
+          "F03": 3,
+          "F04": 3,
+          "F05": 3,
+          "F06": 3,
+          "F07": 3,
+          "F08": 3,
+          "F09": 3,
+          "F10": 3,
+          "F11": 3,
+          "F12": 3,
+          "F13": 3,
+          "R-CALM": 6,
+          "R-BODY": 6
+        },
+        "side": {
+          "CB-1": 3,
+          "CL-1": 3,
+          "F01": 1,
+          "ND-1": 1
+        }
+      },
+      "expect": [
+        "COPY_LIMIT:Calm Filler 1"
+      ]
+    },
+    {
+      "name": "sideboard over 8",
+      "deck": {
+        "legendId": "L-YI",
+        "championId": "YI-1",
+        "main": {
+          "L-YI": 1,
+          "YI-1": 1,
+          "BF-1": 1,
+          "BF-2": 1,
+          "BF-3": 1,
+          "F01": 3,
+          "F02": 3,
+          "F03": 3,
+          "F04": 3,
+          "F05": 3,
+          "F06": 3,
+          "F07": 3,
+          "F08": 3,
+          "F09": 3,
+          "F10": 3,
+          "F11": 3,
+          "F12": 3,
+          "F13": 3,
+          "R-CALM": 6,
+          "R-BODY": 6
+        },
+        "side": {
+          "F14": 3,
+          "CB-1": 3,
+          "CL-1": 2,
+          "ND-1": 1
+        }
+      },
+      "expect": [
+        "SIDEBOARD_TOO_LARGE"
+      ]
+    },
+    {
+      "name": "4 signature cards",
+      "deck": {
+        "legendId": "L-YI",
+        "championId": "YI-1",
+        "main": {
+          "L-YI": 1,
+          "YI-1": 1,
+          "BF-1": 1,
+          "BF-2": 1,
+          "BF-3": 1,
+          "F01": 3,
+          "F02": 3,
+          "F03": 3,
+          "F04": 3,
+          "F05": 3,
+          "F06": 3,
+          "F07": 3,
+          "F08": 3,
+          "F09": 3,
+          "F10": 3,
+          "F11": 3,
+          "F12": 3,
+          "F13": 3,
+          "R-CALM": 6,
+          "R-BODY": 6,
+          "SIG-S": 3,
+          "SIG-U": 1
+        },
+        "side": {}
+      },
+      "expect": [
+        "SIGNATURE_LIMIT"
+      ]
+    },
+    {
+      "name": "another champion's signature card",
+      "deck": {
+        "legendId": "L-YI",
+        "championId": "YI-1",
+        "main": {
+          "L-YI": 1,
+          "YI-1": 1,
+          "BF-1": 1,
+          "BF-2": 1,
+          "BF-3": 1,
+          "F01": 3,
+          "F02": 3,
+          "F03": 3,
+          "F04": 3,
+          "F05": 3,
+          "F06": 3,
+          "F07": 3,
+          "F08": 3,
+          "F09": 3,
+          "F10": 3,
+          "F11": 3,
+          "F12": 3,
+          "F13": 3,
+          "R-CALM": 6,
+          "R-BODY": 6,
+          "SIG-GA": 1
+        },
+        "side": {}
+      },
+      "expect": [
+        "SIGNATURE_WRONG_CHAMPION:SIG-GA"
+      ]
+    },
+    {
+      "name": "card outside identity",
+      "deck": {
+        "legendId": "L-YI",
+        "championId": "YI-1",
+        "main": {
+          "L-YI": 1,
+          "YI-1": 1,
+          "BF-1": 1,
+          "BF-2": 1,
+          "BF-3": 1,
+          "F01": 3,
+          "F02": 3,
+          "F03": 3,
+          "F04": 3,
+          "F05": 3,
+          "F06": 3,
+          "F07": 3,
+          "F08": 3,
+          "F09": 3,
+          "F10": 3,
+          "F11": 3,
+          "F12": 3,
+          "F13": 3,
+          "R-CALM": 6,
+          "R-BODY": 6,
+          "FU-1": 1
+        },
+        "side": {}
+      },
+      "expect": [
+        "OUTSIDE_DOMAIN_IDENTITY:FU-1"
+      ]
+    },
+    {
+      "name": "rune outside identity",
+      "deck": {
+        "legendId": "L-YI",
+        "championId": "YI-1",
+        "main": {
+          "L-YI": 1,
+          "YI-1": 1,
+          "BF-1": 1,
+          "BF-2": 1,
+          "BF-3": 1,
+          "F01": 3,
+          "F02": 3,
+          "F03": 3,
+          "F04": 3,
+          "F05": 3,
+          "F06": 3,
+          "F07": 3,
+          "F08": 3,
+          "F09": 3,
+          "F10": 3,
+          "F11": 3,
+          "F12": 3,
+          "F13": 3,
+          "R-CALM": 6,
+          "R-BODY": 5,
+          "R-FURY": 1
+        },
+        "side": {}
+      },
+      "expect": [
+        "OUTSIDE_DOMAIN_IDENTITY:R-FURY"
+      ]
+    },
+    {
+      "name": "token in the deck",
+      "deck": {
+        "legendId": "L-YI",
+        "championId": "YI-1",
+        "main": {
+          "L-YI": 1,
+          "YI-1": 1,
+          "BF-1": 1,
+          "BF-2": 1,
+          "BF-3": 1,
+          "F01": 3,
+          "F02": 3,
+          "F03": 3,
+          "F04": 3,
+          "F05": 3,
+          "F06": 3,
+          "F07": 3,
+          "F08": 3,
+          "F09": 3,
+          "F10": 3,
+          "F11": 3,
+          "F12": 3,
+          "F13": 3,
+          "R-CALM": 6,
+          "R-BODY": 6,
+          "TK-1": 1
+        },
+        "side": {}
+      },
+      "expect": [
+        "NOT_PLAYABLE:TK-1"
+      ]
+    },
+    {
+      "name": "rune in the sideboard",
+      "deck": {
+        "legendId": "L-YI",
+        "championId": "YI-1",
+        "main": {
+          "L-YI": 1,
+          "YI-1": 1,
+          "BF-1": 1,
+          "BF-2": 1,
+          "BF-3": 1,
+          "F01": 3,
+          "F02": 3,
+          "F03": 3,
+          "F04": 3,
+          "F05": 3,
+          "F06": 3,
+          "F07": 3,
+          "F08": 3,
+          "F09": 3,
+          "F10": 3,
+          "F11": 3,
+          "F12": 3,
+          "F13": 3,
+          "R-CALM": 6,
+          "R-BODY": 6
+        },
+        "side": {
+          "R-CALM": 1
+        }
+      },
+      "expect": [
+        "NOT_ALLOWED_IN_SIDEBOARD:R-CALM"
+      ]
+    },
+    {
+      "name": "unknown card",
+      "deck": {
+        "legendId": "L-YI",
+        "championId": "YI-1",
+        "main": {
+          "L-YI": 1,
+          "YI-1": 1,
+          "BF-1": 1,
+          "BF-2": 1,
+          "BF-3": 1,
+          "F01": 3,
+          "F02": 3,
+          "F03": 3,
+          "F04": 3,
+          "F05": 3,
+          "F06": 3,
+          "F07": 3,
+          "F08": 3,
+          "F09": 3,
+          "F10": 3,
+          "F11": 3,
+          "F12": 3,
+          "F13": 3,
+          "R-CALM": 6,
+          "R-BODY": 6,
+          "GONE-1": 1
+        },
+        "side": {}
+      },
+      "expect": [
+        "UNKNOWN_CARD:GONE-1"
+      ]
+    }
+  ]
+}
