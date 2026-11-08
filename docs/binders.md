@@ -2,6 +2,8 @@
 
 The collection is one set of quantities. Sub-binders, such as a master set binder for Origins, are saved views of it: they choose which cards to show and never hold quantities of their own. Adding a copy in any binder updates the collection, so a card can't be counted twice.
 
+In the Android app the Collection tab opens on All cards. Sub-binders sit in a tab strip under the title and swap the grid in place; "+ New binder" at the end of the strip creates one, with one-tap master sets for sets that don't have one yet. When the grid is in set order and spans more than one set, it's split into a section per set.
+
 ## Firestore
 
 Everything lives under `users/{uid}/binders`.
@@ -16,7 +18,7 @@ Sub-binder fields:
 | Field | Type | Meaning |
 |---|---|---|
 | `binderId` | string | Same as the document ID. |
-| `name` | string | Shown in the binder list. |
+| `name` | string | Shown on the binder's tab. |
 | `sets` | string[] | Set codes, e.g. `["OGN"]`. Empty means every set. |
 | `domains` | string[] | `Domain` names, e.g. `["FURY"]`. Empty means any. |
 | `rarities` | string[] | `RiftRarity` names. Empty means any. |

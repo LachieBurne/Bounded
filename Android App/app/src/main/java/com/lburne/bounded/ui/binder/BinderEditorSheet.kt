@@ -34,12 +34,23 @@ import com.lburne.bounded.data.model.Binder
 import com.lburne.bounded.data.model.Domain
 import com.lburne.bounded.data.model.RiftRarity
 import com.lburne.bounded.ui.common.FilterableTypes
+import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.material3.OutlinedButton
+import androidx.compose.ui.graphics.RectangleShape
+import androidx.compose.ui.unit.sp
+import com.lburne.bounded.ui.common.GoldButton
+import com.lburne.bounded.ui.common.RiftLabelText
 import com.lburne.bounded.ui.common.RiftSet
+import com.lburne.bounded.ui.common.SetCodeBadge
 import com.lburne.bounded.ui.common.SheetWithAction
+import com.lburne.bounded.ui.theme.Rift
+import com.lburne.bounded.ui.theme.RiftLabel
+import com.lburne.bounded.ui.theme.RiftNumber
 import com.lburne.bounded.ui.common.ToggleChip
 import com.lburne.bounded.ui.common.domainIconUrl
 import com.lburne.bounded.ui.common.label
-import com.lburne.bounded.ui.common.rarityIconUrl
+import com.lburne.bounded.ui.common.RarityGem
 
 /**
  * Creates or edits a sub-binder. Choosing a single set names the binder after it until you
@@ -51,7 +62,10 @@ fun BinderEditorSheet(
     initial: Binder?,
     countFor: (Binder) -> Int,
     onSave: (Binder) -> Unit,
-    onDismiss: () -> Unit
+    onDismiss: () -> Unit,
+    /** Sets without a master set binder, offered as one-tap binders when creating. */
+    suggestedSets: List<RiftSet> = emptyList(),
+    onQuickMasterSet: (RiftSet) -> Unit = {}
 ) {
     val start = initial ?: Binder()
     var name by rememberSaveable { mutableStateOf(start.name) }
@@ -80,10 +94,14 @@ fun BinderEditorSheet(
     )
     val count = remember(draft) { countFor(draft) }
 
-    ModalBottomSheet(onDismissRequest = onDismiss, sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)) {
+    ModalBottomSheet(
+        onDismissRequest = onDismiss,
+        sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true),
+        containerColor = Rift.Surface
+    ) {
         SheetWithAction(
             action = {
-                Button(
+                GoldButton(
                     onClick = { onSave(draft) },
                     enabled = count > 0,
                     modifier = Modifier.fillMaxWidth()
@@ -93,18 +111,37 @@ fun BinderEditorSheet(
                             count == 0 -> "No cards match"
                             initial == null -> "Create binder · $count cards"
                             else -> "Save · $count cards"
-                        }
+                        }.uppercase(),
+                        style = RiftNumber.copy(fontSize = 17.sp, letterSpacing = 1.sp)
                     )
                 }
             },
             verticalArrangement = Arrangement.spacedBy(8.dp)
         ) {
-            Text(if (initial == null) "New binder" else "Edit binder", style = MaterialTheme.typography.titleLarge)
+            RiftLabelText(if (initial == null) "New binder" else "Edit binder", style = RiftLabel.copy(fontSize = 22.sp))
             Text(
                 "A binder is a view of your collection. Copies you add in any binder count everywhere.",
                 style = MaterialTheme.typography.bodyMedium,
                 color = MaterialTheme.colorScheme.onSurfaceVariant
             )
+
+            if (suggestedSets.isNotEmpty()) {
+                SheetSection("Master set in one tap", "Every printing in the set, showcase cards included.")
+                FlowRow(horizontalArrangement = Arrangement.spacedBy(8.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                    suggestedSets.forEach { set ->
+                        OutlinedButton(
+                            onClick = { onQuickMasterSet(set) },
+                            shape = RectangleShape,
+                            border = BorderStroke(1.dp, Rift.GoldDeep),
+                            contentPadding = PaddingValues(start = 6.dp, end = 12.dp)
+                        ) {
+                            SetCodeBadge(set.code, fontSize = 12)
+                            Text(set.displayName, color = Rift.Ivory, modifier = Modifier.padding(start = 8.dp))
+                        }
+                    }
+                }
+                SheetSection("Or build your own", "Pick any mix of sets, domains, rarities and types.")
+            }
 
             OutlinedTextField(
                 value = if (nameEdited) name else suggestedName(sets),
@@ -147,7 +184,7 @@ fun BinderEditorSheet(
             SheetSection("Rarities", "Optional.")
             FlowRow(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                 RiftRarity.values().filter { it != RiftRarity.SHOWCASE }.forEach { r ->
-                    ToggleChip(r.label(), r.name in rarities, iconUrl = rarityIconUrl(r)) { rarities = toggle(rarities, r.name) }
+                    ToggleChip(r.label(), r.name in rarities, leading = { RarityGem(r) }) { rarities = toggle(rarities, r.name) }
                 }
             }
 

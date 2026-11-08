@@ -2,25 +2,21 @@ package com.lburne.bounded.ui.theme
 
 import androidx.compose.material3.Typography
 import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
 
-// Simple default typography
+private val Base = Typography()
+
+/**
+ * Material's scale with bolder titles for card names, and condensed labels to match the
+ * type lines printed on the cards.
+ */
 val Typography = Typography(
-    bodyLarge = TextStyle(
-        fontFamily = FontFamily.Default,
-        fontWeight = FontWeight.Normal,
-        fontSize = 16.sp,
-        lineHeight = 24.sp,
-        letterSpacing = 0.5.sp
-    ),
-    // You can customize titles here later
-    titleLarge = TextStyle(
-        fontFamily = FontFamily.Default,
-        fontWeight = FontWeight.Normal,
-        fontSize = 22.sp,
-        lineHeight = 28.sp,
-        letterSpacing = 0.sp
-    )
+    headlineSmall = Base.headlineSmall.copy(fontWeight = FontWeight.Bold),
+    titleLarge = Base.titleLarge.copy(fontWeight = FontWeight.Bold),
+    titleMedium = Base.titleMedium.copy(fontWeight = FontWeight.SemiBold),
+    titleSmall = Base.titleSmall.copy(fontWeight = FontWeight.SemiBold),
+    labelLarge = TextStyle(fontFamily = Condensed, fontWeight = FontWeight.Bold, fontSize = 15.sp, letterSpacing = 0.6.sp),
+    labelMedium = TextStyle(fontFamily = Condensed, fontWeight = FontWeight.Bold, fontSize = 13.sp, letterSpacing = 0.5.sp),
+    labelSmall = TextStyle(fontFamily = Condensed, fontWeight = FontWeight.Bold, fontSize = 12.sp, letterSpacing = 0.5.sp)
 )

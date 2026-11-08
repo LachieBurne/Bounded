@@ -13,7 +13,7 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         val app = application as BoundedApplication
         setContent {
-            RiftboundTheme(darkTheme = true) {
+            RiftboundTheme {
                 BoundedApp(app)
             }
         }
