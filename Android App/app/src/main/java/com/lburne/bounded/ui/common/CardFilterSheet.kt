@@ -44,6 +44,13 @@ import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.selection.selectable
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.drawWithContent
+import androidx.compose.ui.graphics.Color
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableFloatStateOf
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.semantics.contentDescription
@@ -268,13 +275,33 @@ private fun DomainToggle(domain: Domain, selected: Boolean, modifier: Modifier =
             .background(if (selected) getDomainBand(domain) else Rift.Raised, ChamferSmall)
             .border(1.dp, if (selected) getDomainColor(domain) else Rift.Line, ChamferSmall)
             .selectable(selected = selected, role = Role.Checkbox, onClick = onClick)
-            .padding(start = 6.dp, end = 8.dp),
+            .padding(start = 6.dp, end = 6.dp),
         verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.spacedBy(8.dp)
+        horizontalArrangement = Arrangement.spacedBy(6.dp)
     ) {
-        AsyncImage(model = domainIconUrl(domain), contentDescription = null, modifier = Modifier.size(30.dp))
-        Text(domain.label(), fontSize = 15.sp, fontWeight = FontWeight.SemiBold, color = Rift.Ivory, maxLines = 1)
+        AsyncImage(model = domainIconUrl(domain), contentDescription = null, modifier = Modifier.size(26.dp))
+        ShrinkToFitText(domain.label(), maxSize = 15f, color = Rift.Ivory)
     }
+}
+
+/** One line of text that steps its size down until it fits, e.g. "Colorless" in a narrow toggle. */
+@Composable
+private fun ShrinkToFitText(text: String, maxSize: Float, color: Color, minSize: Float = 11f) {
+    var size by remember(text) { mutableFloatStateOf(maxSize) }
+    var fitted by remember(text) { mutableStateOf(false) }
+    Text(
+        text,
+        fontSize = size.sp,
+        fontWeight = FontWeight.SemiBold,
+        color = color,
+        maxLines = 1,
+        softWrap = false,
+        onTextLayout = { layout ->
+            if (layout.hasVisualOverflow && size > minSize) size -= 1f else fitted = true
+        },
+        // Hidden until it fits, so the clipped first attempt never shows.
+        modifier = Modifier.drawWithContent { if (fitted) drawContent() }
+    )
 }
 
 /** A cost or might value as a round token, filled ivory when chosen. */

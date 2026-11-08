@@ -62,6 +62,7 @@ import coil.request.ImageRequest
 import com.lburne.bounded.data.local.CardWithQuantity
 import com.lburne.bounded.data.model.Card
 import com.lburne.bounded.data.model.CardType
+import androidx.compose.ui.text.style.TextAlign
 import com.lburne.bounded.data.model.Domain
 import com.lburne.bounded.ui.common.EnergyToken
 import com.lburne.bounded.ui.common.RarityGem
@@ -240,18 +241,25 @@ private fun CardInfo(item: CardWithQuantity, price: Double?, currencySymbol: Str
 
         OwnedPanel(item.quantity, price, currencySymbol, viewModel)
 
-        val rules = card.text ?: card.effect
-        if (!rules.isNullOrBlank() && rules != "[NO TEXT]") {
-            Text(
-                rulesText(rules),
-                fontSize = 15.sp,
-                lineHeight = 22.sp,
-                color = Rift.InkText,
-                modifier = Modifier
+        val rules = card.text?.takeIf { it.isNotBlank() && it != "[NO TEXT]" }
+        // Equipment prints what it gives the unit it's attached to in a box of its own,
+        // which the card data keeps in `effect`.
+        val granted = card.effect?.takeIf { card.type == CardType.GEAR && it.isNotBlank() && it != card.text }
+        if (rules != null || granted != null) {
+            Column(
+                Modifier
                     .fillMaxWidth()
                     .background(Rift.Ivory)
-                    .padding(horizontal = 16.dp, vertical = 14.dp)
-            )
+                    .padding(horizontal = 16.dp, vertical = 14.dp),
+                verticalArrangement = Arrangement.spacedBy(10.dp)
+            ) {
+                rules?.let { RulesParagraph(it) }
+                if (granted != null) {
+                    if (rules != null) Box(Modifier.fillMaxWidth().height(1.dp).background(Rift.InkMuted.copy(alpha = 0.35f)))
+                    RiftLabelText("Equipped unit has", color = Rift.InkMuted, style = RiftLabel.copy(fontSize = 13.sp))
+                    RulesParagraph(granted)
+                }
+            }
         }
 
         Text(
@@ -263,6 +271,11 @@ private fun CardInfo(item: CardWithQuantity, price: Double?, currencySymbol: Str
             color = Rift.Muted
         )
     }
+}
+
+@Composable
+private fun RulesParagraph(text: String) {
+    Text(rulesText(text), fontSize = 15.sp, lineHeight = 22.sp, color = Rift.InkText)
 }
 
 /** Cost, might, rarity and domain sigils, the way the card shows them. */
@@ -319,6 +332,7 @@ private fun OwnedPanel(quantity: Int, price: Double?, currencySymbol: String, vi
             quantity.toString(),
             style = RiftNumber.copy(fontSize = 30.sp),
             color = Rift.Ivory,
+            textAlign = TextAlign.Center,
             modifier = Modifier.widthIn(min = 36.dp)
         )
         FilledIconButton(
