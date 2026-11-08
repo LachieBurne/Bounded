@@ -7,9 +7,12 @@ import com.lburne.bounded.data.local.DeckCardView
 import com.lburne.bounded.data.model.CardType
 import com.lburne.bounded.data.model.Deck
 import com.lburne.bounded.data.model.DeckFormat
+import com.lburne.bounded.data.model.Domain
 import com.lburne.bounded.data.repository.CardRepository
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.firstOrNull
@@ -74,23 +77,34 @@ fun exportDecklistToText(deck: Deck, mainSlots: List<DeckCardView>, sideSlots: L
     }
 }.trimEnd()
 
+/** A deck in the list, with the legend's domains for its badge. */
+data class DeckSummary(val deck: Deck, val legendDomains: List<Domain>)
+
 class DeckListViewModel(private val repository: CardRepository) : ViewModel() {
 
-    // Hot flow of all decks
-    val decks: StateFlow<List<Deck>> = repository.allDecks
-        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), emptyList())
+    private val cardsById = repository.allCards.map { cards -> cards.associateBy { it.cardId } }
 
-    // Create a Navigation Event Channel
+    val decks: StateFlow<List<DeckSummary>?> = combine(repository.allDecks, cardsById) { decks, cards ->
+        decks.map { DeckSummary(it, it.legendCardId?.let { id -> cards[id]?.domain } ?: emptyList()) }
+    }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), null)
+
+    // Opens a deck after it's created or copied.
     private val _navigationEvent = Channel<String>()
     val navigationEvent = _navigationEvent.receiveAsFlow()
 
-    // Update createDeck to send the event
     fun createDeck(name: String, format: DeckFormat) {
         viewModelScope.launch {
             if (name.isNotBlank()) {
-                val newId = repository.createDeck(name, format)
-                _navigationEvent.send(newId) // Trigger Navigation
+                val newId = repository.createDeck(name.trim(), format)
+                _navigationEvent.send(newId)
             }
+        }
+    }
+
+    fun duplicateDeck(deck: Deck) {
+        viewModelScope.launch {
+            val newId = repository.duplicateDeck(deck, "${deck.name} (copy)")
+            _navigationEvent.send(newId)
         }
     }
 
@@ -103,7 +117,7 @@ class DeckListViewModel(private val repository: CardRepository) : ViewModel() {
     fun renameDeck(deckId: String, newName: String) {
         viewModelScope.launch {
             if (newName.isNotBlank()) {
-                repository.renameDeck(deckId, newName)
+                repository.renameDeck(deckId, newName.trim())
             }
         }
     }

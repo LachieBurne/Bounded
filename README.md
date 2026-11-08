@@ -29,6 +29,7 @@ Designed with scalability and cost-efficiency in mind, Bounded leverages a serve
 ### 📁 Smart Digital Binder
 * **Visual Grid & Dynamic UI:** Browse all released cards in a sleek grid format. Cards you own are dynamically highlighted using their specific Domain colors (including gradient highlights for multi-domain cards).
 * **Live Market Pricing:** Card prices are kept up-to-date via an automated JustTCG API integration. View values in your local currency with real-time conversion rates.
+* **Binders (Android):** Make a binder for each set you're completing, or for any group of cards, and track how much of it you own. Binders are views of one collection, so a card is never counted twice ([docs/binders.md](docs/binders.md)).
 * **Deep Filtering:** Instantly search and filter your collection by Set, Energy Cost, Card Might, Domain Colors, and Card Type.
 * **Granular Details:** Click any card to access an expanded view featuring high-resolution artwork, detailed rulings, and pricing trends.
 
@@ -38,6 +39,7 @@ Designed with scalability and cost-efficiency in mind, Bounded leverages a serve
 
 ### ⚔️ Interactive, Guided Deckbuilder
 * **Multi-Stage Crafting:** A wizard-like interface guides you through the complex Riftbound deck-building ruleset: *Legend → Champion → 3 Battlefields → 12 Runes → Main Deck → Side Deck*.
+* **Import & Export:** Paste a decklist from another site to import it (Android), or share and copy yours as text.
 * **Advanced Analytics:** Once your deck is built, analyze its viability on the Stats Page:
   * **Financials:** Calculate the total market cost of the deck and the specific cost of the cards you are missing.
   * **Curves:** Visualize your Might and Energy curves via responsive bar graphs.
@@ -165,6 +167,7 @@ python scripts/generate_card_data.py --check  # validate the committed data (CI 
 - Fixes for gallery data (e.g. a missing domain) go in `data/card_overrides.json`.
 - The **Update Card Data** workflow runs this weekly and opens a PR when anything changes.
 - Known missing cards (promos, signatures, alt-art runes) and what blocks them: [docs/card-backlog.md](docs/card-backlog.md).
+- Tech debt and things to revisit across the project: [docs/tech-debt.md](docs/tech-debt.md).
 
 ### Prices
 `scripts/update_prices.py` runs daily in GitHub Actions and commits `prices.json` and `data/price_state.json`. It needs the `JUSTTCG_API_KEY` repository secret.

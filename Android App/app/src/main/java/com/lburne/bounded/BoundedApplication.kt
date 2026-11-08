@@ -5,6 +5,7 @@ import com.lburne.bounded.data.local.AppDatabase
 import com.lburne.bounded.data.repository.CardRepository
 import com.lburne.bounded.data.repository.FirebaseUserRepository
 import com.lburne.bounded.data.repository.PriceRepository
+import com.lburne.bounded.data.repository.SettingsRepository
 
 class BoundedApplication : Application() {
     // 1. Initialize the Database lazily (only when first accessed)
@@ -16,6 +17,8 @@ class BoundedApplication : Application() {
     val repository by lazy { CardRepository(database.cardDao(), firebaseUserRepository, this) }
 
     val priceRepository by lazy { PriceRepository(this) }
+
+    val settingsRepository by lazy { SettingsRepository(this) }
 
     override fun onCreate() {
         super.onCreate()

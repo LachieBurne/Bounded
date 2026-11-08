@@ -13,7 +13,11 @@ import com.lburne.bounded.data.model.Deck
 import com.lburne.bounded.data.model.DeckEntry
 import com.lburne.bounded.data.model.DeckFormat
 import kotlinx.coroutines.flow.Flow
+import com.lburne.bounded.data.rules.DeckContents
+import com.lburne.bounded.data.rules.DeckRules
 import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.first
+import java.util.UUID
 import kotlinx.coroutines.flow.map
 
 class CardRepository(
@@ -55,9 +59,9 @@ class CardRepository(
         firebaseRepo.updateBinderEntry(BinderEntry(binderId, cardId, newQuantity))
     }
 
-    fun createBinder(name: String) {
-        firebaseRepo.createBinder(Binder(name = name))
-    }
+    fun saveBinder(binder: Binder) = firebaseRepo.saveBinder(binder)
+
+    fun deleteBinder(binderId: String) = firebaseRepo.deleteBinder(binderId)
 
     // --- DECKS ---
     val allDecks: Flow<List<Deck>> = firebaseRepo.getAllDecks()
@@ -77,6 +81,31 @@ class CardRepository(
     }
 
     fun getDeck(deckId: String): Flow<Deck?> = firebaseRepo.getDeck(deckId)
+
+    /** Creates a deck from [contents], with its counts and cover set, in one write. Returns the new ID. */
+    fun createDeckFrom(name: String, contents: DeckContents, cards: Map<String, Card>): String {
+        val counts = DeckRules.counts(contents, cards)
+        val deck = Deck(
+            name = name,
+            legendCardId = contents.legendId,
+            championCardId = contents.championId,
+            coverCardUrl = contents.legendId?.let { cards[it]?.imageUrl },
+            mainCount = counts.mainDeck,
+            sideCount = counts.sideboard
+        )
+        val entries = contents.main.map { (id, qty) -> DeckEntry(deck.deckId, id, qty, isSideboard = false) } +
+            contents.side.map { (id, qty) -> DeckEntry(deck.deckId, id, qty, isSideboard = true) }
+        firebaseRepo.createDeckWithEntries(deck, entries)
+        return deck.deckId
+    }
+
+    /** Copies a deck and its cards under a new name. Returns the new ID. */
+    suspend fun duplicateDeck(deck: Deck, newName: String): String {
+        val entries = firebaseRepo.getDeckEntries(deck.deckId).first()
+        val copy = deck.copy(deckId = UUID.randomUUID().toString(), name = newName, lastModified = System.currentTimeMillis())
+        firebaseRepo.createDeckWithEntries(copy, entries)
+        return copy.deckId
+    }
 
     /** A deck's main deck and sideboard, built from one snapshot so the two always agree. */
     fun getDeckCards(deckId: String): Flow<DeckCards> {

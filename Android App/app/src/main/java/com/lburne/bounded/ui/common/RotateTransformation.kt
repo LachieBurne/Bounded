@@ -1,4 +1,4 @@
-package com.lburne.bounded.ui.binder
+package com.lburne.bounded.ui.common
 
 import android.graphics.Bitmap
 import android.graphics.Matrix

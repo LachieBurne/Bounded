@@ -19,6 +19,7 @@ class FirebaseUserRepository {
     private val userId: String? get() = auth.currentUser?.uid
 
     // --- BINDERS ---
+    /** Sub-binders, oldest first. The collection itself ("main") has no document, only entries. */
     fun getBinders(): Flow<List<Binder>> = callbackFlow {
         val uid = userId ?: run {
             // Signed out: emit nothing-found and finish. Returning without awaitClose throws.
@@ -33,7 +34,11 @@ class FirebaseUserRepository {
                     close() // Close gracefully without throwing a fatal exception to UI
                     return@addSnapshotListener
                 }
-                val binders = snapshot?.documents?.mapNotNull { it.toObject(Binder::class.java) } ?: emptyList()
+                val binders = snapshot?.documents
+                    ?.filter { it.id != Binder.MAIN_ID }
+                    ?.mapNotNull { doc -> doc.toObject(Binder::class.java)?.copy(binderId = doc.id) }
+                    ?.sortedBy { it.createdAt }
+                    ?: emptyList()
                 trySend(binders)
             }
         awaitClose { registration.remove() }
@@ -60,9 +65,16 @@ class FirebaseUserRepository {
         awaitClose { registration.remove() }
     }
 
-    fun createBinder(binder: Binder) {
+    fun saveBinder(binder: Binder) {
         val uid = userId ?: return
         firestore.collection("users").document(uid).collection("binders").document(binder.binderId).set(binder)
+    }
+
+    /** Deletes a sub-binder. Its cards stay in the collection. */
+    fun deleteBinder(binderId: String) {
+        val uid = userId ?: return
+        if (binderId == Binder.MAIN_ID) return
+        firestore.collection("users").document(uid).collection("binders").document(binderId).delete()
     }
 
     fun updateBinderEntry(entry: BinderEntry) {
@@ -160,6 +172,27 @@ class FirebaseUserRepository {
         firestore.collection("users").document(uid).collection("decks").document(deck.deckId).set(deck)
     }
 
+    /** Creates a deck and all its entries in one batch, for imports and copies. */
+    fun createDeckWithEntries(deck: Deck, entries: List<DeckEntry>) {
+        val uid = userId ?: return
+        val deckRef = firestore.collection("users").document(uid).collection("decks").document(deck.deckId)
+        val batch = firestore.batch()
+        batch.set(deckRef, deck)
+        entries.filter { it.quantity > 0 }.forEach { entry ->
+            batch.set(deckRef.collection("entries").document("${entry.cardId}_${entry.isSideboard}"), entryFields(entry.copy(deckId = deck.deckId)))
+        }
+        batch.commit()
+    }
+
+    private fun entryFields(entry: DeckEntry): Map<String, Any> = mapOf(
+        "deckId" to entry.deckId,
+        "cardId" to entry.cardId,
+        "quantity" to entry.quantity,
+        "isSideboard" to entry.isSideboard,
+        // Read by app versions before 1.1.
+        "sideboard" to entry.isSideboard
+    )
+
     /** Updates only [fields] on the deck document, so a stale copy can't overwrite newer counts. */
     fun updateDeckFields(deckId: String, fields: Map<String, Any?>) {
         val uid = userId ?: return
@@ -202,17 +235,7 @@ class FirebaseUserRepository {
         val entryRef = deckRef.collection("entries").document("${entry.cardId}_${entry.isSideboard}")
         val batch = firestore.batch()
         if (entry.quantity > 0) {
-            batch.set(
-                entryRef,
-                mapOf(
-                    "deckId" to entry.deckId,
-                    "cardId" to entry.cardId,
-                    "quantity" to entry.quantity,
-                    "isSideboard" to entry.isSideboard,
-                    // Read by app versions before 1.1.
-                    "sideboard" to entry.isSideboard
-                )
-            )
+            batch.set(entryRef, entryFields(entry))
         } else {
             batch.delete(entryRef)
         }

@@ -1,181 +1,118 @@
 package com.lburne.bounded.ui.binder
 
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
+import com.lburne.bounded.data.filter.CardFilter
+import com.lburne.bounded.data.filter.CardSort
+import com.lburne.bounded.data.filter.sortedForDisplay
 import com.lburne.bounded.data.local.CardWithQuantity
-import com.lburne.bounded.data.model.CardType
-import com.lburne.bounded.data.model.Domain
-import com.lburne.bounded.data.model.RiftRarity
+import com.lburne.bounded.data.model.Binder
 import com.lburne.bounded.data.repository.CardRepository
 import com.lburne.bounded.data.repository.PriceRepository
+import com.lburne.bounded.ui.collection.BinderProgress
+import com.lburne.bounded.ui.collection.progressOf
+import com.lburne.bounded.ui.common.RiftSet
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.combine
-import kotlinx.coroutines.flow.flatMapLatest
+import kotlinx.coroutines.flow.flowOf
+import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 
-// Helper class to group filter inputs
-private data class FilterCriteria(
-    val domain: Domain? = null,
-    val rarity: RiftRarity? = null,
-    val type: CardType? = null,
-    val set: String? = null,
-    val cost: Int? = null,
-    val might: Int? = null,
-    val ownedOnly: Boolean = false
+data class BinderUiState(
+    val isLoading: Boolean = true,
+    /** null for the whole collection. */
+    val binder: Binder? = null,
+    /** The binder was deleted (perhaps on another device). */
+    val isMissing: Boolean = false,
+    val title: String = "All cards",
+    val progress: BinderProgress = BinderProgress(),
+    val cards: List<CardWithQuantity> = emptyList(),
+    val filter: CardFilter = CardFilter(),
+    val sort: CardSort = CardSort.SET
 )
 
-// Helper class for visual filters to keep combining clean
-private data class VisualFilters(
-    val domain: Domain?,
-    val rarity: RiftRarity?,
-    val type: CardType?,
-    val set: String?
-)
-
+/**
+ * One binder's grid. [binderId] is [Binder.MAIN_ID] for the whole collection. Quantities
+ * always come from the collection, so a change here shows in every binder.
+ */
 class BinderViewModel(
     private val repository: CardRepository,
-    private val priceRepository: PriceRepository
+    private val priceRepository: PriceRepository,
+    private val binderId: String
 ) : ViewModel() {
 
-    // 1. Inputs
-    private val _selectedBinderId = MutableStateFlow("main")
-    private val _searchQuery = MutableStateFlow("")
-    private val _filterDomain = MutableStateFlow<Domain?>(null)
-    private val _filterRarity = MutableStateFlow<RiftRarity?>(null)
-    private val _filterType = MutableStateFlow<CardType?>(null)
-    private val _filterSet = MutableStateFlow<String?>(null)
-    private val _filterCost = MutableStateFlow<Int?>(null)
-    private val _filterMight = MutableStateFlow<Int?>(null)
-    private val _showOwnedOnly = MutableStateFlow(false)
+    private val filter = MutableStateFlow(CardFilter())
+    private val sort = MutableStateFlow(CardSort.SET)
 
-    // 2. Intermediate Step: Group filters to avoid 5-arg combine limit
-    private val _visualFilters = combine(_filterDomain, _filterRarity, _filterType, _filterSet) { d, r, t, s ->
-        VisualFilters(d, r, t, s)
-    }
+    private val binder = if (binderId == Binder.MAIN_ID) flowOf(null) else
+        repository.binders.map { list -> list.firstOrNull { it.binderId == binderId } }
 
-    private val _statFilters = combine(_filterCost, _filterMight, _showOwnedOnly) { c, m, o ->
-        Triple(c, m, o)
-    }
+    private val view = combine(filter, sort) { f, s -> f to s }
 
-    private val _activeFilters = combine(_visualFilters, _statFilters) { visual, stats ->
-        FilterCriteria(visual.domain, visual.rarity, visual.type, visual.set, stats.first, stats.second, stats.third)
-    }
-
-    val currentCurrency = priceRepository.currency
-
-    fun setCurrency(code: String) {
-        priceRepository.setCurrency(code)
-    }
-
-    // 3. Main State Pipeline
     val uiState: StateFlow<BinderUiState> = combine(
-        _selectedBinderId,
-        _searchQuery,
-        _activeFilters
-    ) { id, query, filters -> Triple(id, query, filters) }
-        .flatMapLatest { (id, query, filters) ->
-            // --- STICKY SESSION START ---
-            // This block runs whenever the ID, Query, or Filters change.
-            // We initialize a "snapshot" of owned IDs here.
-            var stickyOwnedIds: Set<String>? = null
-
-            repository.getBinderCards(id).map { rawList ->
-                // This runs whenever the database updates (e.g., you press + button)
-
-                // 1. Initialize the snapshot ONLY ONCE for this session.
-                //    If we haven't captured the state yet, capture it now.
-                if (stickyOwnedIds == null) {
-                    stickyOwnedIds = rawList
-                        .filter { it.quantity > 0 }
-                        .map { it.card.cardId }
-                        .toSet()
-                }
-
-                // 2. Filter the list
-                val filteredList = rawList.filter { item ->
-                    // A. Search Match
-                    val matchesSearch = if (query.isBlank()) true else {
-                        item.card.name.contains(query, ignoreCase = true) ||
-                                item.card.artistName?.contains(query, ignoreCase = true) == true
-                    }
-
-                    // B. Filter Match
-                    val matchesDomain = filters.domain == null || item.card.domain.contains(filters.domain)
-                    val matchesRarity = filters.rarity == null || item.card.rarity == filters.rarity
-                    val matchesType = filters.type == null || item.card.type == filters.type
-                    val matchesSet = filters.set == null || item.card.setCode == filters.set
-                    val matchesCost = filters.cost == null || item.card.cost == filters.cost
-                    val matchesMight = filters.might == null || item.card.might == filters.might
-                    val matchesOwned = if (filters.ownedOnly) item.quantity > 0 else true
-
-                    matchesSearch && matchesDomain && matchesRarity && matchesType && matchesSet && matchesCost && matchesMight && matchesOwned
-                }
-
-                // 3. Sort using the STICKY snapshot
-                //    Instead of checking "it.quantity > 0" (which changes live),
-                //    we check "was it in the owned list when we started?"
-                val sortedList = filteredList.sortedWith(
-                    compareByDescending<CardWithQuantity> {
-                        stickyOwnedIds!!.contains(it.card.cardId)
-                    }.thenBy { it.card.cardId }
-                )
-
-                BinderUiState(
-                    cards = sortedList,
-                    currentBinderId = id,
-                    isLoading = false,
-                    searchQuery = query,
-                    filterDomain = filters.domain,
-                    filterRarity = filters.rarity,
-                    filterType = filters.type,
-                    filterSet = filters.set,
-                    filterCost = filters.cost,
-                    filterMight = filters.might,
-                    showOwnedOnly = filters.ownedOnly
-                )
-            }
-        }.stateIn(
-            scope = viewModelScope,
-            started = SharingStarted.WhileSubscribed(5000),
-            initialValue = BinderUiState(isLoading = true)
+        repository.getBinderCards(Binder.MAIN_ID),
+        binder,
+        view,
+        priceRepository.prices,
+        priceRepository.rate
+    ) { cards, binder, (userFilter, sortOrder), prices, rate ->
+        val isMissing = binderId != Binder.MAIN_ID && binder == null
+        val scope = binder?.scope() ?: CardFilter()
+        val shown = cards
+            .filter { scope.matches(it.card, it.quantity) && userFilter.matches(it.card, it.quantity) }
+            .sortedForDisplay(sortOrder, { it.card }, { it.quantity }, { prices[it.cardId] })
+        BinderUiState(
+            isLoading = false,
+            binder = binder,
+            isMissing = isMissing,
+            title = binder?.name ?: "All cards",
+            progress = progressOf(cards, scope, prices, rate),
+            cards = shown,
+            filter = userFilter,
+            sort = sortOrder
         )
+    }
+        .flowOn(Dispatchers.Default)
+        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), BinderUiState())
 
-    // --- ACTIONS ---
-    fun onSearchQueryChanged(query: String) { _searchQuery.value = query }
-    fun onDomainSelected(domain: Domain?) { _filterDomain.value = domain }
-    fun onRaritySelected(rarity: RiftRarity?) { _filterRarity.value = rarity }
-    fun onTypeSelected(type: CardType?) { _filterType.value = type }
-    fun onSetSelected(set: String?) { _filterSet.value = set }
-    fun onCostSelected(cost: Int?) { _filterCost.value = cost }
-    fun onMightSelected(might: Int?) { _filterMight.value = might }
-    fun onToggleOwnedOnly(show: Boolean) { _showOwnedOnly.value = show }
+    fun updateFilter(newFilter: CardFilter) { filter.value = newFilter }
 
-    fun clearFilters() {
-        _searchQuery.value = ""
-        _filterDomain.value = null
-        _filterRarity.value = null
-        _filterType.value = null
-        _filterSet.value = null
-        _filterCost.value = null
-        _filterMight.value = null
-        _showOwnedOnly.value = false
+    fun setQuery(query: String) { filter.value = filter.value.copy(query = query) }
+
+    fun setSort(newSort: CardSort) { sort.value = newSort }
+
+    fun setQuantity(item: CardWithQuantity, quantity: Int) {
+        if (quantity < 0) return
+        viewModelScope.launch { repository.updateCardQuantity(Binder.MAIN_ID, item.card.cardId, quantity) }
     }
 
-    fun onIncrementCard(item: CardWithQuantity) {
-        viewModelScope.launch {
-            repository.updateCardQuantity("main", item.card.cardId, item.quantity + 1)
-        }
+    private val allCards = repository.allCards.stateIn(viewModelScope, SharingStarted.Eagerly, emptyList())
+
+    /** How many cards a binder definition covers, for the editor's preview. */
+    fun countFor(binder: Binder): Int {
+        val scope = binder.scope()
+        return allCards.value.count { scope.matches(it, 0) }
     }
 
-    fun onDecrementCard(item: CardWithQuantity) {
-        viewModelScope.launch {
-            if (item.quantity > 0) {
-                repository.updateCardQuantity("main", item.card.cardId, item.quantity - 1)
-            }
-        }
+    fun saveBinder(binder: Binder) = repository.saveBinder(binder)
+
+    fun deleteBinder() = repository.deleteBinder(binderId)
+
+    /** A description of the binder's scope for its header, e.g. "Origins · No showcase". */
+    fun describe(binder: Binder?): String = binder?.describe(RiftSet.namesByCode) ?: "Every card in every set"
+
+    class Factory(
+        private val repository: CardRepository,
+        private val priceRepository: PriceRepository,
+        private val binderId: String
+    ) : ViewModelProvider.Factory {
+        @Suppress("UNCHECKED_CAST")
+        override fun <T : ViewModel> create(modelClass: Class<T>): T = BinderViewModel(repository, priceRepository, binderId) as T
     }
 }
