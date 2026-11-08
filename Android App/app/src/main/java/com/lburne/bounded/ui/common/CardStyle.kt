@@ -24,6 +24,16 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.SolidColor
+import androidx.compose.foundation.background
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.drawWithCache
+import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.graphics.PointMode
+import androidx.compose.ui.graphics.Shape
+import androidx.compose.ui.graphics.StrokeCap
+import kotlin.math.pow
+import kotlin.math.sqrt
+import kotlin.random.Random
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.text.TextRange
 import androidx.compose.ui.text.input.ImeAction
@@ -82,13 +92,56 @@ fun getCardBorderBrush(domains: List<Domain>): Brush = when (domains.size) {
 }
 
 /**
- * The band behind a card's name: one domain's band colour, or two split down the middle
- * like a dual-domain card's banner.
+ * Fills the band behind a card's name: one domain's band colour, or for two domains the
+ * first giving way to the second the way a dual-domain card's banner is printed.
  */
-fun domainBandBrush(domains: List<Domain>): Brush {
+fun Modifier.domainBand(domains: List<Domain>, shape: Shape): Modifier {
     val bands = domains.filter { it != Domain.COLORLESS }.ifEmpty { listOf(Domain.COLORLESS) }.map(::getDomainBand)
-    return if (bands.size == 1) SolidColor(bands.first())
-    else Brush.horizontalGradient(0f to bands[0], 0.495f to bands[0], 0.505f to bands[1], 1f to bands[1])
+    if (bands.size == 1) return background(bands.first(), shape)
+    val (first, second) = bands
+    return clip(shape).drawWithCache {
+        val w = size.width
+        val h = size.height
+        // Like the printed banner, the second colour takes over on a "/" slant a little
+        // left of centre, and its edge is sprayed back over the first colour as grain.
+        val lean = h * 0.8f
+        val centre = Offset(w * 0.45f, h / 2)
+        val len = sqrt(h * h + lean * lean)
+        val normal = Offset(h / len, lean / len) // across the slant, towards the second colour
+        val soft = 1.5.dp.toPx()
+        val edge = Brush.linearGradient(
+            0f to first, 1f to second,
+            start = centre - normal * soft, end = centre + normal * soft
+        )
+
+        val dot = 1.dp.toPx()
+        val sprayIn = 40.dp.toPx()  // how far the second colour's grain reaches into the first
+        val sprayOut = 8.dp.toPx()  // and the first colour's few flecks into the second
+        val random = Random(first.hashCode() * 31 + second.hashCode())
+        val left = centre.x - lean / 2 - sprayIn / normal.x
+        val right = centre.x + lean / 2 + sprayOut / normal.x
+        val count = ((right - left) * h / (dot * dot) * 1.6f).toInt().coerceAtMost(40_000)
+        val firstSpecks = ArrayList<Offset>()
+        val secondSpecks = ArrayList<Offset>()
+        repeat(count) {
+            val p = Offset(left + random.nextFloat() * (right - left), random.nextFloat() * h)
+            val d = p - centre
+            val across = d.x * normal.x + d.y * normal.y
+            if (across < 0) {
+                val near = 1 + across / sprayIn
+                if (near > 0 && random.nextFloat() < near.pow(1.6f)) secondSpecks += p
+            } else {
+                val near = 1 - across / sprayOut
+                if (near > 0 && random.nextFloat() < 0.35f * near * near) firstSpecks += p
+            }
+        }
+
+        onDrawBehind {
+            drawRect(edge)
+            drawPoints(firstSpecks, PointMode.Points, first, strokeWidth = dot, cap = StrokeCap.Round)
+            drawPoints(secondSpecks, PointMode.Points, second, strokeWidth = dot, cap = StrokeCap.Round)
+        }
+    }
 }
 
 /**

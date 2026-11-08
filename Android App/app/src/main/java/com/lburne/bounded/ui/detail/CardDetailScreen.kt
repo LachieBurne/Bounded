@@ -68,7 +68,7 @@ import com.lburne.bounded.ui.common.EnergyToken
 import com.lburne.bounded.ui.common.RarityGem
 import com.lburne.bounded.ui.common.RiftLabelText
 import com.lburne.bounded.ui.common.RiftSet
-import com.lburne.bounded.ui.common.domainBandBrush
+import com.lburne.bounded.ui.common.domainBand
 import com.lburne.bounded.ui.common.domainIconUrl
 import com.lburne.bounded.ui.common.getDomainBand
 import com.lburne.bounded.ui.common.isLandscape
@@ -229,7 +229,7 @@ private fun CardInfo(item: CardWithQuantity, price: Double?, currencySymbol: Str
                     .padding(top = 4.dp)
                     .fillMaxWidth()
                     .heightIn(min = 52.dp)
-                    .background(domainBandBrush(card.domain), BandShape)
+                    .domainBand(card.domain, BandShape)
                     .padding(horizontal = 16.dp, vertical = 10.dp),
                 contentAlignment = Alignment.CenterStart
             ) {
