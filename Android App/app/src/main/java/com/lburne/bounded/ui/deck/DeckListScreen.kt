@@ -83,7 +83,7 @@ import androidx.compose.ui.unit.sp
 import com.lburne.bounded.data.model.Domain
 import com.lburne.bounded.ui.common.EmptyState
 import com.lburne.bounded.ui.common.RiftLabelText
-import com.lburne.bounded.ui.common.domainBandBrush
+import com.lburne.bounded.ui.common.domainBand
 import com.lburne.bounded.ui.common.domainIconUrl
 import com.lburne.bounded.ui.common.label
 import com.lburne.bounded.ui.theme.BandShape
@@ -282,9 +282,9 @@ fun DeckGridItem(
                 modifier = Modifier
                     .fillMaxWidth()
                     .heightIn(min = 40.dp)
-                    .background(
-                        if (summary.legendDomains.isEmpty()) SolidColor(Rift.Raised) else domainBandBrush(summary.legendDomains),
-                        BandShape
+                    .then(
+                        if (summary.legendDomains.isEmpty()) Modifier.background(Rift.Raised, BandShape)
+                        else Modifier.domainBand(summary.legendDomains, BandShape)
                     )
                     .padding(horizontal = 12.dp, vertical = 6.dp),
                 verticalAlignment = Alignment.CenterVertically,
