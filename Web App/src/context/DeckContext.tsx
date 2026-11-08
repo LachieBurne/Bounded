@@ -9,7 +9,6 @@ interface DeckContextType {
     decks: Deck[];
     loadingDecks: boolean;
     createDeck: (deck: Deck) => Promise<void>;
-    updateDeck: (deck: Deck) => Promise<void>;
     deleteDeck: (deckId: string) => Promise<void>;
     renameDeck: (deckId: string, newName: string) => Promise<void>;
 }
@@ -23,13 +22,16 @@ export const DeckProvider: React.FC<{ children: React.ReactNode }> = ({ children
     const [loadingDecks, setLoadingDecks] = useState(true);
 
     useEffect(() => {
-        let unsubscribeSnapshot: () => void;
+        let unsubscribeSnapshot: (() => void) | undefined;
 
         const unsubscribeAuth = auth.onAuthStateChanged((user: User | null) => {
+            // Drop the previous user's listener before starting a new one.
+            unsubscribeSnapshot?.();
+            unsubscribeSnapshot = undefined;
+
             if (!user) {
                 setDecks([]);
                 setLoadingDecks(false);
-                if (unsubscribeSnapshot) unsubscribeSnapshot();
                 return;
             }
 
@@ -48,18 +50,11 @@ export const DeckProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
         return () => {
             unsubscribeAuth();
-            if (unsubscribeSnapshot) unsubscribeSnapshot();
+            unsubscribeSnapshot?.();
         };
     }, []);
 
     const createDeck = async (deck: Deck) => {
-        const user = auth.currentUser;
-        if (!user) return;
-        const deckRef = doc(db, 'users', user.uid, 'decks', deck.deckId);
-        await setDoc(deckRef, deck);
-    };
-
-    const updateDeck = async (deck: Deck) => {
         const user = auth.currentUser;
         if (!user) return;
         const deckRef = doc(db, 'users', user.uid, 'decks', deck.deckId);
@@ -106,7 +101,6 @@ export const DeckProvider: React.FC<{ children: React.ReactNode }> = ({ children
         decks,
         loadingDecks,
         createDeck,
-        updateDeck,
         deleteDeck,
         renameDeck
     };

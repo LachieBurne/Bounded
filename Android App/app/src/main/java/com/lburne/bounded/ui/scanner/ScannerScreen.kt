@@ -1,5 +1,7 @@
 package com.lburne.bounded.ui.scanner
 
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.DisposableEffect
 import android.Manifest
 import androidx.camera.core.CameraSelector
 import androidx.camera.core.ImageAnalysis
@@ -93,6 +95,11 @@ fun CameraPreviewContainer(
         }
     }
 
+    val analyzer = remember(viewModel) { CardTextAnalyzer(viewModel) }
+    DisposableEffect(analyzer) {
+        onDispose { analyzer.close() }
+    }
+
     Box(modifier = Modifier.fillMaxSize()) {
         // 1. Camera Feed
         AndroidView(
@@ -112,7 +119,7 @@ fun CameraPreviewContainer(
                         .setBackpressureStrategy(ImageAnalysis.STRATEGY_KEEP_ONLY_LATEST)
                         .build()
                         .also {
-                            it.setAnalyzer(ContextCompat.getMainExecutor(ctx), CardTextAnalyzer(viewModel))
+                            it.setAnalyzer(ContextCompat.getMainExecutor(ctx), analyzer)
                         }
 
                     try {

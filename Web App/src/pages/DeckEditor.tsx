@@ -1,7 +1,7 @@
-import { useState, useEffect, useMemo } from 'react';
+import { useState, useEffect, useMemo, useRef, useCallback } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { ArrowLeft, Plus, Minus, Save, Edit2, Copy, Download } from 'lucide-react';
-import { collection, onSnapshot, doc, setDoc, deleteDoc, updateDoc } from 'firebase/firestore';
+import { collection, onSnapshot, doc, updateDoc, writeBatch } from 'firebase/firestore';
 import { db, auth } from '../config/firebase';
 import { useCards } from '../context/CardContext';
 import { useDecks } from '../context/DeckContext';
@@ -10,6 +10,11 @@ import { CardDetailModal } from '../components/ui/CardDetailModal';
 import type { Card } from '../models/card';
 import type { Deck, DeckEntry } from '../models/deck';
 import { SleekSearchBar } from '../components/ui/SleekSearchBar';
+import {
+    ADD_RESULT_MESSAGES, BATTLEFIELD_COUNT, DECK_STEPS, ISSUE_MESSAGES, MAIN_DECK_MIN, RUNE_DECK_SIZE, SIDEBOARD_MAX,
+    canBeChampion, checkAdd, counts as deckCounts, currentStep as rulesStep, deckContents, isCandidate, isPlayable, validate,
+    type DeckSection, type DeckStep, type IssueCode,
+} from '../rules/deckRules';
 
 const DOMAIN_COLORS: Record<string, string> = {
     'FURY': '#ef4444',
@@ -21,25 +26,25 @@ const DOMAIN_COLORS: Record<string, string> = {
     'COLORLESS': '#9ca3af'
 };
 
-const DeckBuildStep = {
-    SELECT_LEGEND: 0,
-    SELECT_CHAMPION: 1,
-    SELECT_RUNES: 2,
-    SELECT_BATTLEFIELDS: 3,
-    SELECT_MAIN: 4,
-    SELECT_SIDEBOARD: 5,
-    COMPLETE: 6
-} as const;
+const STEP_LABELS: Record<DeckStep, { title: string; instruction: string }> = {
+    LEGEND: { title: "Select Legend", instruction: "Choose 1 Legend card to lead your deck." },
+    CHAMPION: { title: "Select Champion", instruction: "Choose the Champion unit that matches your Legend." },
+    RUNES: { title: "Select Runes", instruction: `Choose ${RUNE_DECK_SIZE} Runes from your Legend's domains.` },
+    BATTLEFIELDS: { title: "Select Battlefields", instruction: `Choose ${BATTLEFIELD_COUNT} Battlefields with different names.` },
+    MAIN: { title: "Build Main Deck", instruction: `Add Units, Spells and Gear: at least ${MAIN_DECK_MIN} cards, including your Champion.` },
+    SIDEBOARD: { title: "Sideboard", instruction: `Add up to ${SIDEBOARD_MAX} cards (optional).` },
+    COMPLETE: { title: "Deck Complete", instruction: "Your deck is ready!" },
+};
 
-const STEP_LABELS = [
-    { title: "Select Legend", instruction: "Choose 1 Legend card to lead your deck." },
-    { title: "Select Champion", instruction: "Choose the Champion unit that matches your Legend." },
-    { title: "Select Runes", instruction: "Choose exactly 12 Runes compatible with your Legend." },
-    { title: "Select Battlefields", instruction: "Choose exactly 3 Battlefields." },
-    { title: "Build Main Deck", instruction: "Select 39 cards (Units, Spells, etc)." },
-    { title: "Sideboard", instruction: "Select up to 8 cards (Optional)." },
-    { title: "Deck Complete", instruction: "Your deck is ready!" }
-];
+// Edits happen in event handlers, not during render; the indirection keeps the React
+// compiler's purity check from flagging Date.now().
+const timestamp = () => Date.now();
+
+/** Issues that mean the deck breaks a rule, as opposed to simply being unfinished. */
+const RULE_BREAK_CODES: ReadonlySet<IssueCode> = new Set<IssueCode>([
+    'INVALID_CHAMPION', 'COPY_LIMIT', 'SIGNATURE_LIMIT', 'SIGNATURE_WRONG_CHAMPION', 'OUTSIDE_DOMAIN_IDENTITY',
+    'DUPLICATE_BATTLEFIELD', 'NOT_PLAYABLE', 'NOT_ALLOWED_IN_SIDEBOARD', 'SIDEBOARD_TOO_LARGE', 'UNKNOWN_CARD',
+]);
 
 interface DeckStats {
     totalMainDeck: number;
@@ -60,63 +65,99 @@ export default function DeckEditor() {
     const { decks, loadingDecks, renameDeck } = useDecks();
     const { binderCards, masterCards, updateCardQuantity } = useCards();
 
-    const [deck, setDeck] = useState<Deck | null>(null);
     const [entries, setEntries] = useState<DeckEntry[]>([]);
+    const [entriesLoaded, setEntriesLoaded] = useState(false);
     const [searchQuery, setSearchQuery] = useState('');
     const [isEditingName, setIsEditingName] = useState(false);
     const [newName, setNewName] = useState('');
     const [selectedCard, setSelectedCard] = useState<Card | null>(null);
     const [showUnowned, setShowUnowned] = useState(true);
     const [activeTab, setActiveTab] = useState<'CARDS' | 'STATS'>('CARDS');
+    const [notice, setNotice] = useState<string | null>(null);
+
+    // The latest deck and entries, updated straight away on every edit. Edits read these
+    // rather than React state, so rapid clicks see each other instead of the same stale
+    // quantity (which lost copies and let decks go past the copy limit).
+    const deckRef = useRef<Deck | null>(null);
+    const entriesRef = useRef<DeckEntry[]>([]);
 
     const { prices, convertPrice, getCurrencySymbol } = usePrices();
 
+    const cardsById = useMemo(() => new Map(masterCards.map(c => [c.cardId, c])), [masterCards]);
+
+    const deck = useMemo(() => decks.find(d => d.deckId === deckId) ?? null, [decks, deckId]);
+
     useEffect(() => {
-        if (!deckId || loadingDecks) return;
-        const found = decks.find(d => d.deckId === deckId);
-        if (found) {
-            setDeck(found);
-            setNewName(found.name);
-        } else {
-            navigate('/decks'); // Deck not found
+        if (deckId && !loadingDecks && !deck) navigate('/decks'); // Deck not found
+    }, [deckId, deck, loadingDecks, navigate]);
+
+    // Follow the saved deck, but never step back to an older copy than an edit just made.
+    useEffect(() => {
+        const local = deckRef.current;
+        if (deck && (!local || local.deckId !== deck.deckId || deck.lastModified >= local.lastModified)) {
+            deckRef.current = deck;
         }
-    }, [deckId, decks, loadingDecks, navigate]);
+    }, [deck]);
 
     useEffect(() => {
         if (!deckId) return;
         const user = auth.currentUser;
         if (!user) return;
 
-        const entriesRef = collection(db, 'users', user.uid, 'decks', deckId, 'entries');
-        const unsubscribe = onSnapshot(entriesRef, snapshot => {
-            const fetched = snapshot.docs.map(doc => doc.data() as DeckEntry);
+        const entriesRefPath = collection(db, 'users', user.uid, 'decks', deckId, 'entries');
+        const unsubscribe = onSnapshot(entriesRefPath, snapshot => {
+            const fetched = snapshot.docs.map(d => {
+                const data = d.data();
+                // The Android app used to store the flag as "sideboard"; read either.
+                return {
+                    deckId: data.deckId ?? deckId,
+                    cardId: data.cardId,
+                    quantity: data.quantity ?? 0,
+                    isSideboard: data.isSideboard ?? data.sideboard ?? false,
+                } as DeckEntry;
+            }).filter(e => e.cardId && e.quantity > 0);
+            entriesRef.current = fetched;
             setEntries(fetched);
+            setEntriesLoaded(true);
         });
 
         return () => unsubscribe();
     }, [deckId]);
 
-    // Calculate current step based on deck contents
-    const currentStep = useMemo(() => {
-        if (!deck) return DeckBuildStep.SELECT_LEGEND;
+    useEffect(() => {
+        if (!notice) return;
+        const timer = setTimeout(() => setNotice(null), 3500);
+        return () => clearTimeout(timer);
+    }, [notice]);
 
-        const main = entries.filter(e => !e.isSideboard);
-        const side = entries.filter(e => e.isSideboard);
+    const contents = useMemo(() => (deck ? deckContents(deck, entries) : null), [deck, entries]);
 
-        const runes = main.reduce((acc, curr) => acc + (masterCards.find(c => c.cardId === curr.cardId)?.type === 'RUNE' ? curr.quantity : 0), 0);
-        const battlefields = main.reduce((acc, curr) => acc + (masterCards.find(c => c.cardId === curr.cardId)?.type === 'BATTLEFIELD' ? curr.quantity : 0), 0);
-        const totalMain = main.reduce((acc, curr) => acc + curr.quantity, 0);
-        const variableCards = totalMain - 17; // Assuming 12 runes + 3 battlefields + 1 legend + 1 champ are in main? Actually android logic says totalMain - 17. Wait Android says: totalMain = main.sumOf { it.deckQuantity }. variableCards = totalMain - 17.
-        const sideCount = side.reduce((acc, curr) => acc + curr.quantity, 0);
+    const currentStep: DeckStep = useMemo(
+        () => (contents && masterCards.length > 0 ? rulesStep(contents, cardsById) : 'LEGEND'),
+        [contents, cardsById, masterCards.length],
+    );
+    const counts = useMemo(
+        () => (contents ? deckCounts(contents, cardsById) : { runes: 0, battlefields: 0, mainDeck: 0, sideboard: 0 }),
+        [contents, cardsById],
+    );
+    const ruleBreaks = useMemo(
+        () => (contents && masterCards.length > 0 ? validate(contents, cardsById).filter(i => RULE_BREAK_CODES.has(i.code)) : []),
+        [contents, cardsById, masterCards.length],
+    );
 
-        if (!deck.legendCardId) return DeckBuildStep.SELECT_LEGEND;
-        if (!deck.championCardId) return DeckBuildStep.SELECT_CHAMPION;
-        if (runes < 12) return DeckBuildStep.SELECT_RUNES;
-        if (battlefields < 3) return DeckBuildStep.SELECT_BATTLEFIELDS;
-        if (variableCards < 39) return DeckBuildStep.SELECT_MAIN;
-        if (sideCount < 8) return DeckBuildStep.SELECT_SIDEBOARD;
-        return DeckBuildStep.COMPLETE;
-    }, [deck, entries, masterCards]);
+    // Decks saved before mainCount/sideCount existed, or by older Android builds, show the
+    // wrong count in the deck list. Correct it once when the deck is opened.
+    const countsChecked = useRef(false);
+    useEffect(() => {
+        if (countsChecked.current || !entriesLoaded || !deck || masterCards.length === 0) return;
+        countsChecked.current = true;
+        const user = auth.currentUser;
+        if (!user || !deckId) return;
+        if (deck.mainCount !== counts.mainDeck || deck.sideCount !== counts.sideboard) {
+            updateDoc(doc(db, 'users', user.uid, 'decks', deckId), { mainCount: counts.mainDeck, sideCount: counts.sideboard })
+                .catch(e => console.error('Failed to correct deck counts', e));
+        }
+    }, [entriesLoaded, deck, masterCards.length, counts, deckId]);
 
     const deckStats = useMemo<DeckStats>(() => {
         const stats: DeckStats = {
@@ -134,14 +175,9 @@ export default function DeckEditor() {
 
         if (masterCards.length === 0) return stats;
 
-        const gameplayEntries = entries.filter(e => {
-            const m = masterCards.find(c => c.cardId === e.cardId);
-            return m && !e.isSideboard && m.type !== 'LEGEND' && m.type !== 'RUNE' && m.type !== 'BATTLEFIELD';
-        });
-
-        gameplayEntries.forEach(entry => {
-            const master = masterCards.find(m => m.cardId === entry.cardId);
-            if (!master) return;
+        entries.forEach(entry => {
+            const master = cardsById.get(entry.cardId);
+            if (!master || entry.isSideboard || !isPlayable(master)) return;
             const qty = entry.quantity;
 
             stats.totalMainDeck += qty;
@@ -179,7 +215,7 @@ export default function DeckEditor() {
         stats.ownedValue = Math.max(0, stats.totalValue - stats.missingValue);
 
         return stats;
-    }, [entries, masterCards, binderCards, prices, convertPrice]);
+    }, [entries, masterCards, cardsById, binderCards, prices, convertPrice]);
 
     const handleSaveName = async () => {
         if (!deckId || !newName.trim() || newName === deck?.name) {
@@ -190,155 +226,116 @@ export default function DeckEditor() {
         setIsEditingName(false);
     };
 
-    const updateEntry = async (cardId: string, quantity: number, isSideboard = false) => {
+    const latestContents = useCallback(
+        () => (deckRef.current ? deckContents(deckRef.current, entriesRef.current) : null),
+        [],
+    );
+
+    /**
+     * Sets one entry's quantity and the deck's counts (and legend or champion) in a single
+     * batch. Applies the change locally first so the next click sees it.
+     */
+    const applyEdit = (
+        cardId: string,
+        section: DeckSection,
+        quantity: number,
+        changes: { legendId?: string | null; championId?: string | null } = {},
+    ) => {
         const user = auth.currentUser;
-        if (!user || !deckId) return;
+        const currentDeck = deckRef.current;
+        if (!user || !deckId || !currentDeck) return;
+        const isSideboard = section === 'SIDEBOARD';
 
-        const docId = `${cardId}_${isSideboard}`;
-        const docRef = doc(db, 'users', user.uid, 'decks', deckId, 'entries', docId);
+        const others = entriesRef.current.filter(e => !(e.cardId === cardId && e.isSideboard === isSideboard));
+        const nextEntries = quantity > 0 ? [...others, { deckId, cardId, quantity, isSideboard }] : others;
 
+        const deckFields: Partial<Deck> = {};
+        if (changes.legendId !== undefined) {
+            deckFields.legendCardId = changes.legendId;
+            deckFields.coverCardUrl = changes.legendId ? cardsById.get(changes.legendId)?.imageUrl ?? null : null;
+        }
+        if (changes.championId !== undefined) deckFields.championCardId = changes.championId;
+        const nextDeck: Deck = { ...currentDeck, ...deckFields };
+        const nextCounts = deckCounts(deckContents(nextDeck, nextEntries), cardsById);
+        Object.assign(deckFields, { mainCount: nextCounts.mainDeck, sideCount: nextCounts.sideboard, lastModified: timestamp() });
+
+        entriesRef.current = nextEntries;
+        deckRef.current = { ...nextDeck, ...deckFields };
+        setEntries(nextEntries);
+
+        const batch = writeBatch(db);
+        const entryRef = doc(db, 'users', user.uid, 'decks', deckId, 'entries', `${cardId}_${isSideboard}`);
         if (quantity > 0) {
-            await setDoc(docRef, { deckId, cardId, quantity, isSideboard });
+            // "sideboard" is what Android builds before 1.1 read.
+            batch.set(entryRef, { deckId, cardId, quantity, isSideboard, sideboard: isSideboard });
         } else {
-            await deleteDoc(docRef);
+            batch.delete(entryRef);
         }
-
-        const nonMainTypes: string[] = ['LEGEND', 'BATTLEFIELD', 'RUNE'];
-
-        const newTotalMain = entries.filter(e => {
-            if (e.isSideboard || (e.cardId === cardId && !e.isSideboard)) return false;
-            const master = masterCards.find(m => m.cardId === e.cardId);
-            return master && !nonMainTypes.includes(master.type);
-        }).reduce((acc, curr) => acc + curr.quantity, 0) + (isSideboard || nonMainTypes.includes(masterCards.find(m => m.cardId === cardId)?.type || '') ? 0 : Math.max(0, quantity));
-
-        const newTotalSide = entries.filter(e => e.isSideboard && !(e.cardId === cardId && e.isSideboard)).reduce((acc, curr) => acc + curr.quantity, 0) + (isSideboard ? Math.max(0, quantity) : 0);
-
-        const deckRef = doc(db, 'users', user.uid, 'decks', deckId);
-
-        // Special field handling for Legend / Champion setting directly on Deck doc
-        const deckUpdate: Partial<Deck> = {
-            mainCount: newTotalMain,
-            sideCount: newTotalSide,
-            lastModified: Date.now()
-        };
-
-        const cardMaster = masterCards.find(c => c.cardId === cardId);
-        if (cardMaster) {
-            // Note: DeckBuildStep enum checks below only take effect if the step logically aligns matching what we added.
-            if (currentStep === DeckBuildStep.SELECT_LEGEND && quantity > 0 && !isSideboard) {
-                deckUpdate.legendCardId = cardId;
-                deckUpdate.coverCardUrl = cardMaster.imageUrl;
-            } else if (quantity === 0 && deck?.legendCardId === cardId) {
-                deckUpdate.legendCardId = null;
-                deckUpdate.coverCardUrl = null;
-            } else if (currentStep === DeckBuildStep.SELECT_CHAMPION && quantity > 0 && !isSideboard) {
-                deckUpdate.championCardId = cardId;
-            } else if (quantity === 0 && deck?.championCardId === cardId) {
-                deckUpdate.championCardId = null;
-            }
-        }
-
-        await updateDoc(deckRef, deckUpdate);
+        batch.update(doc(db, 'users', user.uid, 'decks', deckId), deckFields);
+        batch.commit().catch(e => {
+            console.error('Failed to save deck change', e);
+            setNotice("Couldn't save that change. Check your connection.");
+        });
     };
 
     const handleAddCard = (card: Card, targetIsSideboard?: boolean) => {
-        const isSideboard = targetIsSideboard !== undefined ? targetIsSideboard : (currentStep === DeckBuildStep.SELECT_SIDEBOARD);
+        const current = latestContents();
+        if (!current) return;
+        const step = rulesStep(current, cardsById);
+        const quantityIn = (section: DeckSection) => (section === 'SIDEBOARD' ? current.side : current.main)[card.cardId] ?? 0;
+        const reject = (result: keyof typeof ADD_RESULT_MESSAGES) => setNotice(ADD_RESULT_MESSAGES[result]);
 
-        const mainCopies = entries.find(e => e.cardId === card.cardId && !e.isSideboard)?.quantity || 0;
-        const sideCopies = entries.find(e => e.cardId === card.cardId && e.isSideboard)?.quantity || 0;
-
-        const currentQtyInTarget = isSideboard ? sideCopies : mainCopies;
-
-        if (isSideboard) {
-            const sideTotal = entries.filter(e => e.isSideboard).reduce((ac, cv) => ac + cv.quantity, 0);
-            if (sideTotal >= 8) return;
-        } else {
-            if (card.type === 'RUNE') {
-                const runesTotal = entries.filter(e => !e.isSideboard && masterCards.find(m => m.cardId === e.cardId)?.type === 'RUNE').reduce((ac, cv) => ac + cv.quantity, 0);
-                if (runesTotal >= 12) return;
-            } else if (card.type === 'BATTLEFIELD') {
-                const bfTotal = entries.filter(e => !e.isSideboard && masterCards.find(m => m.cardId === e.cardId)?.type === 'BATTLEFIELD').reduce((ac, cv) => ac + cv.quantity, 0);
-                if (bfTotal >= 3) return;
-            } else if (card.cardId !== deck?.legendCardId && card.cardId !== deck?.championCardId && currentStep !== DeckBuildStep.SELECT_LEGEND && currentStep !== DeckBuildStep.SELECT_CHAMPION) {
-                const mainTotal = entries.filter(e => !e.isSideboard && e.cardId !== deck?.legendCardId && e.cardId !== deck?.championCardId && masterCards.find(m => m.cardId === e.cardId)?.type !== 'RUNE' && masterCards.find(m => m.cardId === e.cardId)?.type !== 'BATTLEFIELD').reduce((ac, cv) => ac + cv.quantity, 0);
-                if (mainTotal >= 39) return;
+        if (step === 'LEGEND') {
+            const result = checkAdd(current, card.cardId, 'MAIN', cardsById);
+            if (result !== 'OK') return reject(result);
+            applyEdit(card.cardId, 'MAIN', quantityIn('MAIN') + 1, { legendId: card.cardId });
+            return;
+        }
+        if (step === 'CHAMPION' && targetIsSideboard === undefined) {
+            const legend = current.legendId ? cardsById.get(current.legendId) : undefined;
+            if (!canBeChampion(card, legend)) {
+                setNotice('Your champion must be a champion unit that matches your legend.');
+                return;
             }
+            const result = checkAdd(current, card.cardId, 'MAIN', cardsById);
+            if (result !== 'OK') return reject(result);
+            applyEdit(card.cardId, 'MAIN', quantityIn('MAIN') + 1, { championId: card.cardId });
+            return;
         }
 
-        if (currentStep === DeckBuildStep.SELECT_LEGEND || currentStep === DeckBuildStep.SELECT_CHAMPION) {
-            if (currentQtyInTarget >= 1) return; // Only 1 legend/champ allowed
-        } else if (card.type === 'BATTLEFIELD') {
-            if (mainCopies + sideCopies >= 1) return; // Only 1 copy of each battlefield allowed
-        } else if (card.type !== 'RUNE') {
-            if (mainCopies + sideCopies >= 3) return; // General 3-copy rule for non-runes
-        }
-
-        updateEntry(card.cardId, currentQtyInTarget + 1, isSideboard);
+        const section: DeckSection = targetIsSideboard !== undefined
+            ? (targetIsSideboard ? 'SIDEBOARD' : 'MAIN')
+            : (step === 'SIDEBOARD' ? 'SIDEBOARD' : 'MAIN');
+        const result = checkAdd(current, card.cardId, section, cardsById);
+        if (result !== 'OK') return reject(result);
+        applyEdit(card.cardId, section, quantityIn(section) + 1);
     };
 
     const handleRemoveCard = (cardId: string, fromSideboard?: boolean) => {
-        if (cardId === deck?.legendCardId && currentStep !== DeckBuildStep.SELECT_LEGEND) return; // Prevent removing Legend after step 1
+        const current = latestContents();
+        if (!current) return;
+        if (cardId === current.legendId) return; // The legend can't be removed once chosen.
 
-        let isSideboard = false;
+        let section: DeckSection;
         if (fromSideboard !== undefined) {
-            isSideboard = fromSideboard;
+            section = fromSideboard ? 'SIDEBOARD' : 'MAIN';
+        } else if (rulesStep(current, cardsById) === 'SIDEBOARD') {
+            // Remove from the sideboard first if the card is there.
+            section = (current.side[cardId] ?? 0) > 0 ? 'SIDEBOARD' : 'MAIN';
         } else {
-            const sideQuantity = entries.find(e => e.cardId === cardId && e.isSideboard)?.quantity || 0;
-            const mainQuantity = entries.find(e => e.cardId === cardId && !e.isSideboard)?.quantity || 0;
-
-            if (currentStep === DeckBuildStep.SELECT_SIDEBOARD) {
-                isSideboard = sideQuantity > 0; // If they have it in sideboard, remove it there first
-            } else {
-                isSideboard = mainQuantity === 0 && sideQuantity > 0;
-            }
+            section = (current.main[cardId] ?? 0) > 0 ? 'MAIN' : 'SIDEBOARD';
         }
 
-        const existing = entries.find(e => e.cardId === cardId && e.isSideboard === isSideboard);
-        if (!existing) {
-            // Fallback just in case
-            const fallback = entries.find(e => e.cardId === cardId && e.isSideboard === !isSideboard);
-            if (fallback) updateEntry(cardId, fallback.quantity - 1, !isSideboard);
-            return;
-        }
-        updateEntry(cardId, existing.quantity - 1, isSideboard);
+        const quantity = (section === 'SIDEBOARD' ? current.side : current.main)[cardId] ?? 0;
+        if (quantity <= 0) return;
+        const removesChampion = section === 'MAIN' && cardId === current.championId && quantity === 1;
+        applyEdit(cardId, section, quantity - 1, removesChampion ? { championId: null } : {});
     };
 
     const displayCards = useMemo(() => {
-        const legendCard = masterCards.find(c => c.cardId === deck?.legendCardId);
-        const legendDomains = legendCard?.domain || [];
+        const legendCard = deck?.legendCardId ? cardsById.get(deck.legendCardId) : undefined;
 
-        let results = binderCards.filter(bc => {
-            const card = bc.card;
-
-            // Staged filter constraints
-            switch (currentStep) {
-                case DeckBuildStep.SELECT_LEGEND:
-                    if (card.type !== 'LEGEND') return false;
-                    break;
-                case DeckBuildStep.SELECT_CHAMPION: {
-                    // Champion units carry their legend's champion tag (e.g. "Master Yi").
-                    const championTag = legendCard?.championTag?.toLowerCase();
-                    if (!championTag || card.type !== 'UNIT' || card.isToken) return false;
-                    if (!card.tags.some(t => t.toLowerCase() === championTag)) return false;
-                    break;
-                }
-                case DeckBuildStep.SELECT_RUNES:
-                    if (card.type !== 'RUNE' || !card.domain.every(d => legendDomains.includes(d))) return false;
-                    break;
-                case DeckBuildStep.SELECT_BATTLEFIELDS:
-                    if (card.type !== 'BATTLEFIELD') return false;
-                    break;
-                case DeckBuildStep.SELECT_MAIN:
-                case DeckBuildStep.SELECT_SIDEBOARD: {
-                    if (card.isToken || card.type === 'OTHER' || card.type === 'BATTLEFIELD' || card.type === 'LEGEND' || card.type === 'RUNE') return false;
-                    if (!card.domain.every(d => legendDomains.includes(d))) return false;
-                    break;
-                }
-                case DeckBuildStep.COMPLETE:
-                    return false;
-            }
-            return true;
-        });
+        let results = binderCards.filter(bc => isCandidate(bc.card, currentStep, legendCard));
 
         if (searchQuery.trim()) {
             const lowerQuery = searchQuery.toLowerCase();
@@ -349,7 +346,7 @@ export default function DeckEditor() {
         }
 
         // Handle 'Show Unowned' toggle and Sort
-        let unownedFiltered = showUnowned ? results : results.filter(bc => {
+        const unownedFiltered = showUnowned ? results : results.filter(bc => {
             const isBaseRune = bc.card.type === 'RUNE' && !/[a-z]/.test(bc.card.cardId.split('-')[1] || '');
             return bc.quantity > 0 || isBaseRune;
         });
@@ -363,7 +360,7 @@ export default function DeckEditor() {
             if (!aOwned && bOwned) return 1;
             return a.card.cardId.localeCompare(b.card.cardId);
         });
-    }, [binderCards, searchQuery, currentStep, deck, masterCards, showUnowned]);
+    }, [binderCards, searchQuery, currentStep, deck, cardsById, showUnowned]);
 
     // Group deck entries by structural step for the right pane
     const deckListGroups = useMemo(() => {
@@ -491,6 +488,16 @@ export default function DeckEditor() {
         }));
     };
 
+    const stepProgress = (step: DeckStep) => {
+        switch (step) {
+            case 'RUNES': return ` (${counts.runes}/${RUNE_DECK_SIZE})`;
+            case 'BATTLEFIELDS': return ` (${counts.battlefields}/${BATTLEFIELD_COUNT})`;
+            case 'MAIN': return ` (${counts.mainDeck}/${MAIN_DECK_MIN})`;
+            case 'SIDEBOARD': return ` (${counts.sideboard}/${SIDEBOARD_MAX})`;
+            default: return '';
+        }
+    };
+
     if (!deck) {
         return <div className="p-8 text-center text-white">Loading...</div>;
     }
@@ -504,7 +511,7 @@ export default function DeckEditor() {
                 <div className="absolute top-0 left-0 right-0 h-1 bg-white/10">
                     <div
                         className="h-full bg-riftbound-accent transition-all duration-500 ease-in-out"
-                        style={{ width: `${(currentStep / 6) * 100}%` }}
+                        style={{ width: `${(DECK_STEPS.indexOf(currentStep) / (DECK_STEPS.length - 1)) * 100}%` }}
                     />
                 </div>
 
@@ -517,8 +524,20 @@ export default function DeckEditor() {
                     </button>
 
                     <div className="mb-4">
-                        <h3 className="text-xl font-black text-white">{STEP_LABELS[currentStep]?.title || "Deck Complete"}</h3>
-                        <p className="text-sm text-riftbound-accentBright font-bold">{STEP_LABELS[currentStep]?.instruction}</p>
+                        <h3 className="text-xl font-black text-white">{STEP_LABELS[currentStep].title}{stepProgress(currentStep)}</h3>
+                        <p className="text-sm text-riftbound-accentBright font-bold">{STEP_LABELS[currentStep].instruction}</p>
+                        {notice && (
+                            <p role="status" className="mt-2 text-sm text-amber-300">{notice}</p>
+                        )}
+                        {ruleBreaks.length > 0 && (
+                            <ul className="mt-2 text-xs text-red-300 space-y-0.5">
+                                {ruleBreaks.map(issue => (
+                                    <li key={`${issue.code}:${issue.subject ?? ''}`}>
+                                        {ISSUE_MESSAGES[issue.code]}{issue.subject ? ` (${cardsById.get(issue.subject)?.name ?? issue.subject})` : ''}
+                                    </li>
+                                ))}
+                            </ul>
+                        )}
                     </div>
 
                     <div className="flex gap-2 mb-2 items-center">
@@ -625,7 +644,7 @@ export default function DeckEditor() {
                             <div className="flex items-center gap-3 group">
                                 <h2 className="text-2xl md:text-3xl font-black text-white">{deck.name}</h2>
                                 <button
-                                    onClick={() => setIsEditingName(true)}
+                                    onClick={() => { setNewName(deck.name); setIsEditingName(true); }}
                                     className="opacity-0 group-hover:opacity-100 p-1 text-riftbound-textDim hover:text-white transition-all transform hover:scale-110"
                                 >
                                     <Edit2 className="w-4 h-4" />
@@ -634,7 +653,7 @@ export default function DeckEditor() {
                         )}
                         {/* Display Total Gameplay Cards */}
                         <p className="text-riftbound-textDim text-sm font-medium mt-1">
-                            {deck.format} • Main: {entries.filter(e => !e.isSideboard && !['LEGEND', 'BATTLEFIELD', 'RUNE'].includes(masterCards.find(m => m.cardId === e.cardId)?.type || '')).reduce((a, c) => a + c.quantity, 0)} / 40 | Side: {entries.filter(e => e.isSideboard).reduce((a, c) => a + c.quantity, 0)} / 8
+                            {deck.format} • Main: {counts.mainDeck} / {MAIN_DECK_MIN} | Side: {counts.sideboard} / {SIDEBOARD_MAX}
                         </p>
                     </div>
 

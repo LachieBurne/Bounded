@@ -66,14 +66,13 @@ class ScanResultViewModel(
             val targetBinderId = binderId ?: "main" // Riftbounder uses 'main'
             val selectedCards = _scannedCards.value.filterIndexed { index, _ -> _selectedIndices.value.contains(index) }
             
-            for (card in selectedCards) {
-                try {
-                    val currentCardQty = cardRepository.getCardWithQuantity(card.cardId, targetBinderId).first()
-                    cardRepository.updateCardQuantity(targetBinderId, card.cardId, currentCardQty.quantity + 1)
-                } catch(e: Exception) {
-                    // Fallback to 1 if card didn't exist in binder yet
-                    cardRepository.updateCardQuantity(targetBinderId, card.cardId, 1)
-                }
+            // Add each card's copies in one write. Reading and writing per copy lost copies,
+            // because the second read came back before the first write showed up.
+            val copiesById = selectedCards.groupingBy { it.cardId }.eachCount()
+            val owned = cardRepository.getBinderCards(targetBinderId).first()
+                .associate { it.card.cardId to it.quantity }
+            for ((cardId, copies) in copiesById) {
+                cardRepository.updateCardQuantity(targetBinderId, cardId, (owned[cardId] ?: 0) + copies)
             }
             onComplete()
         }

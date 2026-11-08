@@ -20,7 +20,12 @@ class FirebaseUserRepository {
 
     // --- BINDERS ---
     fun getBinders(): Flow<List<Binder>> = callbackFlow {
-        val uid = userId ?: return@callbackFlow
+        val uid = userId ?: run {
+            // Signed out: emit nothing-found and finish. Returning without awaitClose throws.
+            trySend(emptyList())
+            close()
+            return@callbackFlow
+        }
         val registration = firestore.collection("users").document(uid).collection("binders")
             .addSnapshotListener { snapshot, error ->
                 if (error != null) {
@@ -35,7 +40,12 @@ class FirebaseUserRepository {
     }
 
     fun getBinderEntries(binderId: String): Flow<List<BinderEntry>> = callbackFlow {
-        val uid = userId ?: return@callbackFlow
+        val uid = userId ?: run {
+            // Signed out: emit nothing-found and finish. Returning without awaitClose throws.
+            trySend(emptyList())
+            close()
+            return@callbackFlow
+        }
         val registration = firestore.collection("users").document(uid)
             .collection("binders").document(binderId).collection("entries")
             .addSnapshotListener { snapshot, error ->
@@ -72,7 +82,12 @@ class FirebaseUserRepository {
 
     // --- DECKS ---
     fun getAllDecks(): Flow<List<Deck>> = callbackFlow {
-        val uid = userId ?: return@callbackFlow
+        val uid = userId ?: run {
+            // Signed out: emit nothing-found and finish. Returning without awaitClose throws.
+            trySend(emptyList())
+            close()
+            return@callbackFlow
+        }
         val registration = firestore.collection("users").document(uid).collection("decks")
             .orderBy("lastModified", Query.Direction.DESCENDING)
             .addSnapshotListener { snapshot, error ->
@@ -88,7 +103,12 @@ class FirebaseUserRepository {
     }
 
     fun getDeck(deckId: String): Flow<Deck?> = callbackFlow {
-        val uid = userId ?: return@callbackFlow
+        val uid = userId ?: run {
+            // Signed out: emit nothing-found and finish. Returning without awaitClose throws.
+            trySend(null)
+            close()
+            return@callbackFlow
+        }
         val registration = firestore.collection("users").document(uid).collection("decks").document(deckId)
             .addSnapshotListener { snapshot, error ->
                 if (error != null) {
@@ -102,19 +122,34 @@ class FirebaseUserRepository {
         awaitClose { registration.remove() }
     }
 
-    fun getDeckEntries(deckId: String, isSideboard: Boolean): Flow<List<DeckEntry>> = callbackFlow {
-        val uid = userId ?: return@callbackFlow
+    /**
+     * Every entry in a deck, main deck and sideboard. Older Android builds stored the
+     * sideboard flag as "sideboard" and the web app as "isSideboard"; read either.
+     */
+    fun getDeckEntries(deckId: String): Flow<List<DeckEntry>> = callbackFlow {
+        val uid = userId ?: run {
+            // Signed out: emit nothing-found and finish. Returning without awaitClose throws.
+            trySend(emptyList())
+            close()
+            return@callbackFlow
+        }
         val registration = firestore.collection("users").document(uid)
             .collection("decks").document(deckId).collection("entries")
-            // Firestore data-mapping converts Kotlin 'isSideboard' boolean properties to 'sideboard'.
-            .whereEqualTo("sideboard", isSideboard)
             .addSnapshotListener { snapshot, error ->
                 if (error != null) {
                     android.util.Log.e("FirebaseRepo", "Snapshot error gracefully suppressed", error)
                     close()
                     return@addSnapshotListener
                 }
-                val entries = snapshot?.documents?.mapNotNull { it.toObject(DeckEntry::class.java) } ?: emptyList()
+                val entries = snapshot?.documents?.mapNotNull { doc ->
+                    val cardId = doc.getString("cardId") ?: return@mapNotNull null
+                    DeckEntry(
+                        deckId = doc.getString("deckId") ?: deckId,
+                        cardId = cardId,
+                        quantity = (doc.getLong("quantity") ?: 0L).toInt(),
+                        isSideboard = doc.getBoolean("isSideboard") ?: doc.getBoolean("sideboard") ?: false
+                    )
+                } ?: emptyList()
                 trySend(entries)
             }
         awaitClose { registration.remove() }
@@ -125,9 +160,11 @@ class FirebaseUserRepository {
         firestore.collection("users").document(uid).collection("decks").document(deck.deckId).set(deck)
     }
 
-    fun updateDeck(deck: Deck) {
+    /** Updates only [fields] on the deck document, so a stale copy can't overwrite newer counts. */
+    fun updateDeckFields(deckId: String, fields: Map<String, Any?>) {
         val uid = userId ?: return
-        firestore.collection("users").document(uid).collection("decks").document(deck.deckId).set(deck)
+        firestore.collection("users").document(uid).collection("decks").document(deckId)
+            .update(fields + ("lastModified" to System.currentTimeMillis()))
     }
 
     fun deleteDeck(deckId: String) {
@@ -155,25 +192,31 @@ class FirebaseUserRepository {
             .update("name", newName, "lastModified", System.currentTimeMillis())
     }
 
-    fun incrementDeckCardCount(deckId: String, amount: Long) {
+    /**
+     * Sets one deck entry's quantity and updates [deckFields] (counts, legend, champion)
+     * in a single batch, so the entry and the deck's counts can't disagree.
+     */
+    fun applyDeckEdit(entry: DeckEntry, deckFields: Map<String, Any?>) {
         val uid = userId ?: return
-        firestore.collection("users").document(uid).collection("decks").document(deckId)
-            .update("cardCount", com.google.firebase.firestore.FieldValue.increment(amount), "lastModified", System.currentTimeMillis())
-    }
-
-    fun updateDeckEntry(entry: DeckEntry) {
-        val uid = userId ?: return
-        val docId = "${entry.cardId}_${entry.isSideboard}"
+        val deckRef = firestore.collection("users").document(uid).collection("decks").document(entry.deckId)
+        val entryRef = deckRef.collection("entries").document("${entry.cardId}_${entry.isSideboard}")
+        val batch = firestore.batch()
         if (entry.quantity > 0) {
-            firestore.collection("users").document(uid)
-                .collection("decks").document(entry.deckId)
-                .collection("entries").document(docId)
-                .set(entry)
+            batch.set(
+                entryRef,
+                mapOf(
+                    "deckId" to entry.deckId,
+                    "cardId" to entry.cardId,
+                    "quantity" to entry.quantity,
+                    "isSideboard" to entry.isSideboard,
+                    // Read by app versions before 1.1.
+                    "sideboard" to entry.isSideboard
+                )
+            )
         } else {
-            firestore.collection("users").document(uid)
-                .collection("decks").document(entry.deckId)
-                .collection("entries").document(docId)
-                .delete()
+            batch.delete(entryRef)
         }
+        batch.update(deckRef, deckFields + ("lastModified" to System.currentTimeMillis()))
+        batch.commit()
     }
 }

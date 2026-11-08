@@ -110,9 +110,8 @@ class DeckListViewModel(private val repository: CardRepository) : ViewModel() {
 
     suspend fun getExportText(deckId: String): String {
         val deck = repository.getDeck(deckId).firstOrNull() ?: return ""
-        val main = repository.getMainDeckCards(deckId).first()
-        val side = repository.getSideboardCards(deckId).first()
-        return exportDecklistToText(deck, main, side)
+        val cards = repository.getDeckCards(deckId).first()
+        return exportDecklistToText(deck, cards.main, cards.side)
     }
 }
 

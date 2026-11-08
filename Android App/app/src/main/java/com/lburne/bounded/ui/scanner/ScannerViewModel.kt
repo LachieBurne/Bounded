@@ -31,6 +31,17 @@ class ScannerViewModel(application: Application) : AndroidViewModel(application)
     private var lastDetectedIds = listOf<String>()
     private var identicalFrameCount = 0
 
+    // The cards just added. They aren't added again until they leave the frame, so holding a
+    // card still adds one copy, and scanning a second copy afterwards adds another.
+    private var awaitingClearIds: List<String>? = null
+
+    private fun resetDetection() {
+        awaitingClearIds = null
+        lastScannedText = ""
+        lastDetectedIds = emptyList()
+        identicalFrameCount = 0
+    }
+
     init {
         viewModelScope.launch {
             cardDao.getAllCards().collect { list ->
@@ -79,7 +90,12 @@ class ScannerViewModel(application: Application) : AndroidViewModel(application)
             visionText.text
         }
         
-        if (rawText.isBlank() || rawText == lastScannedText || allCards.isEmpty()) return
+        if (rawText.isBlank()) {
+            // Nothing in view: the last card has been taken away.
+            resetDetection()
+            return
+        }
+        if (rawText == lastScannedText || allCards.isEmpty()) return
         lastScannedText = rawText
         
         // Push the filtered text to the debug overlay so the user can see what the algorithm is 'seeing'
@@ -150,26 +166,20 @@ class ScannerViewModel(application: Application) : AndroidViewModel(application)
                 }
             }
 
-            // Require consecutive frames of the EXACT SAME IDS to confirm and prevent hallucinations adding 6 cards at once
             val detectedIds = detectedCards.map { it.cardId }.sorted()
+
+            awaitingClearIds?.let { waiting ->
+                if (detectedIds == waiting) return@launch // The same card is still in view.
+                awaitingClearIds = null // It left the frame, so the next sighting is a new copy.
+            }
+
+            // Require consecutive frames of the EXACT SAME IDS to confirm and prevent hallucinations adding 6 cards at once
             if (detectedIds.isNotEmpty() && detectedIds == lastDetectedIds) {
                 identicalFrameCount++
                 if (identicalFrameCount >= 2) { // Requires 3 identical frames
-                    val currentList = _scannedCardsFlow.value.toMutableList()
-                    var addedNew = false
-                    for (card in detectedCards) {
-                        // Prevent immediate duplicate spams (check last 3 added to be safe)
-                        val recentlyAdded = currentList.takeLast(3).map { it.cardId }
-                        if (!recentlyAdded.contains(card.cardId)) {
-                            currentList.add(card)
-                            addedNew = true
-                        }
-                    }
-                    if (addedNew) {
-                        _scannedCardsFlow.value = currentList
-                        lastScanTime = System.currentTimeMillis() // Start the 500ms debounce
-                    }
-                    // Reset to wait for the next unique sequence
+                    _scannedCardsFlow.value = _scannedCardsFlow.value + detectedCards
+                    lastScanTime = System.currentTimeMillis() // Start the 500ms debounce
+                    awaitingClearIds = detectedIds
                     identicalFrameCount = 0
                     lastDetectedIds = emptyList()
                 }
