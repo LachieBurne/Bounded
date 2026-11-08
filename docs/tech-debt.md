@@ -35,9 +35,12 @@ A running list. Add to it when you leave something unfinished, and delete an ite
 | No UI or instrumented tests | Layout and navigation changes are only checked by hand | Part of the testing plan: Compose UI tests for navigation, the filter sheet and deck import. |
 | Navigation uses string routes | Typos in route strings fail at runtime | Move to type-safe routes when upgrading navigation. |
 | `DeckEditorScreen.kt` is about 1,000 lines | Hard to change safely | Split the stats, deck list and card picker into their own files. |
-| The theme uses dynamic colour on Android 12+ and forces dark mode | The app looks different on every phone, and the light scheme is never used | Decide on a brand palette with the web redesign. |
+| Gilded Rift is only fully applied to Collection, the filter sheet, card detail, Decks and the navigation bar | The deck editor, deck import, settings, login and scanner pick up the palette through the Material theme but keep stock layouts | Restyle them screen by screen. The design is the "Bounded mobile redesign" Claude Design canvas. |
+| Labels use the phone's Roboto Condensed instead of Barlow Condensed from the design | Close, but not the designed type | Bundle Barlow and Barlow Condensed (SIL Open Font License) in `res/font`, or use downloadable Google Fonts. |
+| Keyword chip colours in rules text are only known for Action, Reaction, Deploy, Ganking and Assault | Other keywords use a neutral grey | Sample the rest from card art and add them to `KeywordColours` in `CardDetailScreen.kt`. |
+| The card detail backdrop blur needs Android 12 | Older phones show the zoomed art under the dark veil, unblurred | Acceptable for now; a pre-blurred copy could be made with RenderScript-free code if it matters. |
 | Binders can only be defined by filters (set, domain, rarity, type) | No hand-picked binders, such as a trade binder or a wishlist | Decide whether they're wanted. They'd need a card list on the binder document; see [binders.md](binders.md). |
-| The deck editor's card picker has its own tile (`DeckBuilderGridItem`) and hard-coded white text | It looks different from the binder grids and ignores the theme | Move it onto `CardImage`/theme colours when the theme is settled. |
+| The deck editor's card picker has its own tile (`DeckBuilderGridItem`) and hard-coded white text | It looks different from the collection grid and ignores the theme | Move it onto `CardTile`/Gilded Rift colours when the deck editor is restyled. |
 | Decklists can only be imported by pasting | Sharing a list from a browser to the app doesn't work | Add an `ACTION_SEND` text intent filter that opens the import screen. |
 | The scanner only matches one card number per frame | Slow for bulk scanning | Revisit after the card ID scheme for promos is settled. |
 
@@ -47,7 +50,7 @@ A running list. Add to it when you leave something unfinished, and delete an ite
 |---|---|---|
 | 8 existing ESLint errors outside the deck editor; CI doesn't run lint | Lint can't be added to CI until they're fixed | Fix them, then add `npm run lint` to `checks.yml`. |
 | No sub-binders or deck import yet | The Android app has them; the web app ignores binder documents and can't import a decklist | Add both in the web redesign. The binder document format is in [binders.md](binders.md). |
-| The redesign hasn't started | | Next after the Android UX work. |
+| The redesign hasn't started | | Next after the Android UX work. Bring Gilded Rift across: palette, domain bands and stripes, All cards with binder tabs. |
 
 ## Prices
 

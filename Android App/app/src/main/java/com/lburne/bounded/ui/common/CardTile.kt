@@ -37,8 +37,13 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import coil.compose.SubcomposeAsyncImage
 import coil.request.ImageRequest
+import androidx.compose.foundation.border
+import androidx.compose.ui.unit.sp
 import com.lburne.bounded.data.model.Card
 import com.lburne.bounded.data.model.CardType
+import com.lburne.bounded.ui.theme.Rift
+import com.lburne.bounded.ui.theme.RiftNumber
+import com.lburne.bounded.ui.theme.TabShape
 
 val CardShape = RoundedCornerShape(6.dp)
 
@@ -107,9 +112,10 @@ fun CardTile(
             ) {
                 CardImage(card = card, greyedOut = quantity == 0, modifier = Modifier.fillMaxWidth())
                 if (quantity > 0 && !showStepper) {
-                    QuantityBadge(quantity, Modifier.align(Alignment.TopEnd).padding(4.dp))
+                    QuantityBadge(quantity, Modifier.align(Alignment.BottomEnd).padding(bottom = 8.dp))
                 }
             }
+            DomainStripe(card.domain, faded = quantity == 0, modifier = Modifier.padding(top = 5.dp))
             if (showStepper) {
                 Row(
                     modifier = Modifier.fillMaxWidth(),
@@ -121,10 +127,9 @@ fun CardTile(
                     }
                     Text(
                         text = quantity.toString(),
-                        style = MaterialTheme.typography.titleSmall,
-                        fontWeight = FontWeight.SemiBold,
+                        style = RiftNumber.copy(fontSize = 18.sp),
                         textAlign = TextAlign.Center,
-                        color = if (quantity > 0) MaterialTheme.colorScheme.onSurface else MaterialTheme.colorScheme.onSurfaceVariant,
+                        color = if (quantity > 0) Rift.Gold else Rift.Muted,
                         modifier = Modifier.weight(1f)
                     )
                     IconButton(onClick = onIncrement) {
@@ -136,20 +141,17 @@ fun CardTile(
     }
 }
 
+/** The number owned, on a gold-edged tab over the corner of the art. */
 @Composable
 fun QuantityBadge(quantity: Int, modifier: Modifier = Modifier) {
-    Surface(
-        modifier = modifier,
-        shape = RoundedCornerShape(50),
-        color = MaterialTheme.colorScheme.primaryContainer,
-        contentColor = MaterialTheme.colorScheme.onPrimaryContainer
+    Box(
+        modifier
+            .background(Rift.Ink, TabShape)
+            .border(1.dp, Rift.Gold, TabShape)
+            .padding(horizontal = 7.dp, vertical = 1.dp),
+        contentAlignment = Alignment.Center
     ) {
-        Text(
-            text = "×$quantity",
-            style = MaterialTheme.typography.labelMedium,
-            fontWeight = FontWeight.Bold,
-            modifier = Modifier.padding(horizontal = 6.dp, vertical = 1.dp)
-        )
+        Text(text = "×$quantity", style = RiftNumber.copy(fontSize = 15.sp), color = Rift.Ivory)
     }
 }
 

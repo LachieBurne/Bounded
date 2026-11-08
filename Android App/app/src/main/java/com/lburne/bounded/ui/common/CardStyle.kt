@@ -46,14 +46,32 @@ enum class RiftSet(val code: String, val displayName: String) {
     }
 }
 
+/**
+ * A domain's sigil colour: the bright colour of its icon on the cards. For icons, stripes
+ * and progress bars; too dark for small text on the ink ground.
+ */
 fun getDomainColor(domain: Domain): Color = when (domain) {
-    Domain.FURY -> Color(0xFFE53935)
-    Domain.CALM -> Color(0xFF43A047)
-    Domain.MIND -> Color(0xFF1E88E5)
-    Domain.BODY -> Color(0xFFFB8C00)
-    Domain.CHAOS -> Color(0xFF8E24AA)
-    Domain.ORDER -> Color(0xFFFDD835)
-    Domain.COLORLESS -> Color.Gray
+    Domain.FURY -> Color(0xFFDE141F)
+    Domain.CALM -> Color(0xFF508C33)
+    Domain.MIND -> Color(0xFF226A98)
+    Domain.BODY -> Color(0xFFE0790D)
+    Domain.CHAOS -> Color(0xFF683795)
+    Domain.ORDER -> Color(0xFFD4B503)
+    Domain.COLORLESS -> Color(0xFF9A9188)
+}
+
+/**
+ * A domain's band colour: the deep colour behind a card's name. White text on it passes
+ * 4.5:1 (Order's is a little darker than printed so it does).
+ */
+fun getDomainBand(domain: Domain): Color = when (domain) {
+    Domain.FURY -> Color(0xFF8D0409)
+    Domain.CALM -> Color(0xFF285F24)
+    Domain.MIND -> Color(0xFF073D69)
+    Domain.BODY -> Color(0xFFBB3C13)
+    Domain.CHAOS -> Color(0xFF3D2272)
+    Domain.ORDER -> Color(0xFF8C6610)
+    Domain.COLORLESS -> Color(0xFF4A4440)
 }
 
 /** A solid colour for one domain, a gradient for several. */
@@ -61,6 +79,16 @@ fun getCardBorderBrush(domains: List<Domain>): Brush = when (domains.size) {
     0 -> SolidColor(Color.Gray)
     1 -> SolidColor(getDomainColor(domains.first()))
     else -> Brush.linearGradient(domains.map { getDomainColor(it) })
+}
+
+/**
+ * The band behind a card's name: one domain's band colour, or two split down the middle
+ * like a dual-domain card's banner.
+ */
+fun domainBandBrush(domains: List<Domain>): Brush {
+    val bands = domains.filter { it != Domain.COLORLESS }.ifEmpty { listOf(Domain.COLORLESS) }.map(::getDomainBand)
+    return if (bands.size == 1) SolidColor(bands.first())
+    else Brush.horizontalGradient(0f to bands[0], 0.495f to bands[0], 0.505f to bands[1], 1f to bands[1])
 }
 
 /**

@@ -38,9 +38,24 @@ import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.foundation.background
+import androidx.compose.foundation.border
+import androidx.compose.foundation.layout.heightIn
+import androidx.compose.foundation.selection.selectable
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.semantics.Role
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
+import com.lburne.bounded.ui.theme.ChamferSmall
+import com.lburne.bounded.ui.theme.Rift
+import com.lburne.bounded.ui.theme.RiftLabel
+import com.lburne.bounded.ui.theme.RiftNumber
 import com.lburne.bounded.data.filter.CardFilter
 import com.lburne.bounded.data.filter.Ownership
 import com.lburne.bounded.data.model.CardType
@@ -83,23 +98,24 @@ fun CardFilterSheet(
 ) {
     SheetWithAction(
         action = {
-            Button(onClick = onDone, modifier = Modifier.fillMaxWidth()) {
+            GoldButton(onClick = onDone, modifier = Modifier.fillMaxWidth()) {
                 Text(
                     when (resultCount) {
                         0 -> "No cards match"
                         1 -> "Show 1 card"
                         else -> "Show $resultCount cards"
-                    }
+                    }.uppercase(),
+                    style = RiftNumber.copy(fontSize = 17.sp, letterSpacing = 1.sp)
                 )
             }
         }
     ) {
         Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
-            Text("Filters", style = MaterialTheme.typography.titleLarge, modifier = Modifier.weight(1f))
+            RiftLabelText("Filters", style = RiftLabel.copy(fontSize = 22.sp), modifier = Modifier.weight(1f))
             TextButton(
                 onClick = { onFilterChange(CardFilter(query = filter.query)) },
                 enabled = filter.activeCount > 0
-            ) { Text("Reset") }
+            ) { Text("RESET", style = RiftNumber.copy(fontSize = 15.sp, letterSpacing = 1.sp)) }
         }
 
         if (showOwnership) {
@@ -124,19 +140,25 @@ fun CardFilterSheet(
             }
         }
 
-        SectionTitle("Domain")
-        FlowRow(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-            (allowedDomains ?: Domain.values().toList()).forEach { domain ->
-                ToggleChip(domain.label(), domain in filter.domains, iconUrl = domainIconUrl(domain)) {
-                    onFilterChange(filter.copy(domains = filter.domains.toggle(domain)))
+        SectionTitle("Domain · any of")
+        val domains = allowedDomains ?: Domain.values().toList()
+        Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
+            domains.chunked(3).forEach { row ->
+                Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                    row.forEach { domain ->
+                        DomainToggle(domain, domain in filter.domains, Modifier.weight(1f)) {
+                            onFilterChange(filter.copy(domains = filter.domains.toggle(domain)))
+                        }
+                    }
+                    repeat(3 - row.size) { Spacer(Modifier.weight(1f)) }
                 }
             }
         }
 
         SectionTitle("Rarity")
-        FlowRow(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+        FlowRow(horizontalArrangement = Arrangement.spacedBy(8.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
             FilterableRarities.forEach { rarity ->
-                ToggleChip(rarity.label(), rarity in filter.rarities, iconUrl = rarityIconUrl(rarity)) {
+                ToggleChip(rarity.label(), rarity in filter.rarities, leading = { RarityGem(rarity) }) {
                     onFilterChange(filter.copy(rarities = filter.rarities.toggle(rarity)))
                 }
             }
@@ -152,18 +174,18 @@ fun CardFilterSheet(
         }
 
         SectionTitle("Energy cost")
-        FlowRow(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+        FlowRow(horizontalArrangement = Arrangement.spacedBy(6.dp), verticalArrangement = Arrangement.spacedBy(6.dp)) {
             StatValues.forEach { cost ->
-                ToggleChip(statLabel(cost), cost in filter.costs) {
+                StatToken(statLabel(cost), cost in filter.costs, "Energy cost") {
                     onFilterChange(filter.copy(costs = filter.costs.toggle(cost)))
                 }
             }
         }
 
         SectionTitle("Might")
-        FlowRow(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+        FlowRow(horizontalArrangement = Arrangement.spacedBy(6.dp), verticalArrangement = Arrangement.spacedBy(6.dp)) {
             StatValues.forEach { might ->
-                ToggleChip(statLabel(might), might in filter.mights) {
+                StatToken(statLabel(might), might in filter.mights, "Might") {
                     onFilterChange(filter.copy(mights = filter.mights.toggle(might)))
                 }
             }
@@ -204,37 +226,72 @@ fun SheetWithAction(
 
 @Composable
 private fun SectionTitle(text: String) {
-    Text(
-        text,
-        style = MaterialTheme.typography.titleSmall,
-        color = MaterialTheme.colorScheme.onSurfaceVariant,
-        modifier = Modifier.padding(top = 20.dp, bottom = 8.dp)
-    )
+    RiftLabelText(text, color = Rift.Muted, modifier = Modifier.padding(top = 20.dp, bottom = 8.dp))
 }
 
+/**
+ * A filter option. Selected options get a gold edge on a gold wash. [iconUrl] or [leading]
+ * puts an icon before the label.
+ */
 @Composable
-fun ToggleChip(label: String, selected: Boolean, iconUrl: String? = null, onClick: () -> Unit) {
-    FilterChip(
-        selected = selected,
-        onClick = onClick,
-        label = { Text(label) },
-        leadingIcon = when {
-            iconUrl != null -> {
-                {
-                    AsyncImage(
-                        model = iconUrl,
-                        contentDescription = null,
-                        contentScale = ContentScale.Fit,
-                        modifier = Modifier.size(FilterChipDefaults.IconSize)
-                    )
-                }
-            }
-            selected -> {
-                { Icon(Icons.Default.Check, contentDescription = null, modifier = Modifier.size(FilterChipDefaults.IconSize)) }
-            }
-            else -> null
+fun ToggleChip(
+    label: String,
+    selected: Boolean,
+    iconUrl: String? = null,
+    leading: (@Composable () -> Unit)? = null,
+    onClick: () -> Unit
+) {
+    Row(
+        Modifier
+            .heightIn(min = 40.dp)
+            .background(if (selected) Rift.GoldWash else Rift.Raised)
+            .border(1.dp, if (selected) Rift.Gold else Rift.Line)
+            .selectable(selected = selected, role = Role.Checkbox, onClick = onClick)
+            .padding(horizontal = 12.dp),
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.spacedBy(6.dp)
+    ) {
+        when {
+            leading != null -> leading()
+            iconUrl != null -> AsyncImage(model = iconUrl, contentDescription = null, contentScale = ContentScale.Fit, modifier = Modifier.size(20.dp))
         }
-    )
+        Text(label, fontSize = 14.sp, color = if (selected) Rift.Ivory else Rift.Parchment)
+    }
+}
+
+/** A domain option: its sigil and name, filled with the domain's band colour when chosen. */
+@Composable
+private fun DomainToggle(domain: Domain, selected: Boolean, modifier: Modifier = Modifier, onClick: () -> Unit) {
+    Row(
+        modifier
+            .heightIn(min = 48.dp)
+            .background(if (selected) getDomainBand(domain) else Rift.Raised, ChamferSmall)
+            .border(1.dp, if (selected) getDomainColor(domain) else Rift.Line, ChamferSmall)
+            .selectable(selected = selected, role = Role.Checkbox, onClick = onClick)
+            .padding(start = 6.dp, end = 8.dp),
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.spacedBy(8.dp)
+    ) {
+        AsyncImage(model = domainIconUrl(domain), contentDescription = null, modifier = Modifier.size(30.dp))
+        Text(domain.label(), fontSize = 15.sp, fontWeight = FontWeight.SemiBold, color = Rift.Ivory, maxLines = 1)
+    }
+}
+
+/** A cost or might value as a round token, filled ivory when chosen. */
+@Composable
+private fun StatToken(label: String, selected: Boolean, stat: String, onClick: () -> Unit) {
+    Box(
+        Modifier
+            .size(40.dp)
+            .clip(CircleShape)
+            .background(if (selected) Rift.Ivory else Rift.Raised)
+            .border(if (selected) 2.dp else 1.dp, if (selected) Rift.Gold else Rift.Line, CircleShape)
+            .selectable(selected = selected, role = Role.Checkbox, onClick = onClick)
+            .semantics { contentDescription = "$stat $label" },
+        contentAlignment = Alignment.Center
+    ) {
+        Text(label, style = RiftNumber.copy(fontSize = 17.sp), color = if (selected) Rift.OnGold else Rift.Parchment)
+    }
 }
 
 /** One removable chip for each active filter value, shown above a grid. */

@@ -1,6 +1,18 @@
 package com.lburne.bounded.ui
 
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxWithConstraints
+import androidx.compose.foundation.layout.offset
+import androidx.compose.foundation.layout.size
+import androidx.compose.material3.HorizontalDivider
+import androidx.compose.material3.NavigationBarItemDefaults
+import androidx.compose.material3.NavigationRailItemDefaults
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.draw.rotate
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.unit.sp
+import com.lburne.bounded.ui.theme.Rift
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.Row
@@ -45,9 +57,6 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.google.firebase.auth.FirebaseAuth
 import com.lburne.bounded.BoundedApplication
-import com.lburne.bounded.data.model.Binder
-import com.lburne.bounded.ui.binder.BinderScreen
-import com.lburne.bounded.ui.binder.BinderViewModel
 import com.lburne.bounded.ui.collection.CollectionScreen
 import com.lburne.bounded.ui.collection.CollectionViewModel
 import com.lburne.bounded.ui.common.LocalGridDensity
@@ -72,7 +81,6 @@ import com.lburne.bounded.ui.settings.SettingsScreen
 object Routes {
     const val LOGIN = "login"
     const val COLLECTION = "collection"
-    const val BINDER = "binder/{binderId}"
     const val CARD = "card/{cardId}"
     const val DECKS = "decks"
     const val DECK = "deck/{deckId}"
@@ -81,7 +89,6 @@ object Routes {
     const val SCAN_RESULT = "scan_result/{cardIds}"
     const val SETTINGS = "settings"
 
-    fun binder(id: String) = "binder/$id"
     fun card(id: String) = "card/$id"
     fun deck(id: String) = "deck/$id"
 }
@@ -94,7 +101,7 @@ private enum class Tab(val route: String, val label: String, val selected: Image
     companion object {
         /** The tab a screen belongs to, or null for full-screen tasks (card, deck editor, scanner). */
         fun of(route: String?): Tab? = when (route) {
-            Routes.COLLECTION, Routes.BINDER -> COLLECTION
+            Routes.COLLECTION -> COLLECTION
             Routes.DECKS -> DECKS
             Routes.SETTINGS -> SETTINGS
             else -> null
@@ -129,13 +136,20 @@ fun BoundedApp(app: BoundedApplication) {
                 }
                 Row(Modifier.fillMaxSize()) {
                     if (showRail) {
-                        NavigationRail {
+                        NavigationRail(containerColor = Rift.BarGround) {
                             Tab.values().forEach { tab ->
                                 NavigationRailItem(
                                     selected = tab == currentTab,
                                     onClick = { navController.openTab(tab, currentTab) },
-                                    icon = { Icon(if (tab == currentTab) tab.selected else tab.unselected, contentDescription = null) },
-                                    label = { Text(tab.label) }
+                                    icon = { TabIcon(tab, tab == currentTab) },
+                                    label = { Text(tab.label.uppercase(), style = MaterialTheme.typography.labelMedium.copy(letterSpacing = 1.sp)) },
+                                    colors = NavigationRailItemDefaults.colors(
+                                        selectedIconColor = Rift.Gold,
+                                        selectedTextColor = Rift.Gold,
+                                        indicatorColor = Color.Transparent,
+                                        unselectedIconColor = Rift.Muted,
+                                        unselectedTextColor = Rift.Muted
+                                    )
                                 )
                             }
                         }
@@ -143,13 +157,21 @@ fun BoundedApp(app: BoundedApplication) {
                     Column(Modifier.weight(1f)) {
                         AppNavHost(app, navController, Modifier.weight(1f).consumeWindowInsets(consumed))
                         if (showBar) {
-                            NavigationBar {
+                            HorizontalDivider(color = Rift.Line)
+                            NavigationBar(containerColor = Rift.BarGround, tonalElevation = 0.dp) {
                                 Tab.values().forEach { tab ->
                                     NavigationBarItem(
                                         selected = tab == currentTab,
                                         onClick = { navController.openTab(tab, currentTab) },
-                                        icon = { Icon(if (tab == currentTab) tab.selected else tab.unselected, contentDescription = null) },
-                                        label = { Text(tab.label) }
+                                        icon = { TabIcon(tab, tab == currentTab) },
+                                        label = { Text(tab.label.uppercase(), style = MaterialTheme.typography.labelMedium.copy(letterSpacing = 1.sp)) },
+                                        colors = NavigationBarItemDefaults.colors(
+                                            selectedIconColor = Rift.Gold,
+                                            selectedTextColor = Rift.Gold,
+                                            indicatorColor = Color.Transparent,
+                                            unselectedIconColor = Rift.Muted,
+                                            unselectedTextColor = Rift.Muted
+                                        )
                                     )
                                 }
                             }
@@ -157,6 +179,23 @@ fun BoundedApp(app: BoundedApplication) {
                     }
                 }
             }
+        }
+    }
+}
+
+/** A tab's icon, with a gold diamond above it when it's the open tab. */
+@Composable
+private fun TabIcon(tab: Tab, selected: Boolean) {
+    Box(contentAlignment = Alignment.TopCenter) {
+        Icon(if (selected) tab.selected else tab.unselected, contentDescription = null)
+        if (selected) {
+            Box(
+                Modifier
+                    .offset(y = (-10).dp)
+                    .size(7.dp)
+                    .rotate(45f)
+                    .background(Rift.Gold)
+            )
         }
     }
 }
@@ -190,18 +229,6 @@ private fun AppNavHost(app: BoundedApplication, navController: NavHostController
             val vm: CollectionViewModel = viewModel(factory = CollectionViewModel.Factory(app.repository, app.priceRepository))
             CollectionScreen(
                 viewModel = vm,
-                onOpenBinder = { navController.navigate(Routes.binder(it)) },
-                onScan = { navController.navigate(Routes.SCANNER) }
-            )
-        }
-
-        composable(Routes.BINDER, arguments = listOf(navArgument("binderId") { type = NavType.StringType })) { entry ->
-            val binderId = entry.arguments?.getString("binderId") ?: Binder.MAIN_ID
-            val vm: BinderViewModel = viewModel(factory = BinderViewModel.Factory(app.repository, app.priceRepository, binderId))
-            BinderScreen(
-                viewModel = vm,
-                currencySymbol = app.priceRepository.getCurrencySymbol(),
-                onBack = { navController.popBackStack() },
                 onCardClick = { navController.navigate(Routes.card(it)) },
                 onScan = { navController.navigate(Routes.SCANNER) },
                 onGridDensityChange = app.settingsRepository::setGridDensity

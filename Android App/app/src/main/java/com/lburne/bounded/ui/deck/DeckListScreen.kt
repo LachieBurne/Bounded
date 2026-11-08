@@ -49,6 +49,8 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarDefaults
+import androidx.compose.ui.draw.rotate
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -72,8 +74,23 @@ import coil.compose.AsyncImage
 import com.lburne.bounded.data.model.Deck
 import com.lburne.bounded.data.model.DeckFormat
 import com.lburne.bounded.data.rules.DeckRules
+import androidx.compose.foundation.border
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.heightIn
+import androidx.compose.ui.BiasAlignment
+import androidx.compose.ui.graphics.SolidColor
+import androidx.compose.ui.unit.sp
+import com.lburne.bounded.data.model.Domain
 import com.lburne.bounded.ui.common.EmptyState
-import com.lburne.bounded.ui.common.getDomainColor
+import com.lburne.bounded.ui.common.RiftLabelText
+import com.lburne.bounded.ui.common.domainBandBrush
+import com.lburne.bounded.ui.common.domainIconUrl
+import com.lburne.bounded.ui.common.label
+import com.lburne.bounded.ui.theme.BandShape
+import com.lburne.bounded.ui.theme.ChamferShape
+import com.lburne.bounded.ui.theme.Rift
+import com.lburne.bounded.ui.theme.RiftLabel
+import com.lburne.bounded.ui.theme.RiftNumber
 import kotlinx.coroutines.launch
 
 fun shareDeckText(context: Context, text: String, title: String) {
@@ -107,19 +124,32 @@ fun DeckListScreen(
     }
 
     Scaffold(
+        containerColor = Rift.Ink,
         topBar = {
             TopAppBar(
-                title = { Text("Decks") },
+                title = {
+                    Row(verticalAlignment = Alignment.CenterVertically) {
+                        Box(Modifier.size(11.dp).rotate(45f).background(Rift.Gold))
+                        RiftLabelText("Decks", style = RiftLabel.copy(fontSize = 24.sp), modifier = Modifier.padding(start = 12.dp))
+                    }
+                },
                 actions = {
-                    IconButton(onClick = onImport) { Icon(Icons.Default.ContentPaste, contentDescription = "Import decklist") }
-                }
+                    TextButton(onClick = onImport) {
+                        Icon(Icons.Default.ContentPaste, contentDescription = null, modifier = Modifier.size(18.dp))
+                        Text("IMPORT", style = RiftNumber.copy(fontSize = 15.sp, letterSpacing = 1.sp), modifier = Modifier.padding(start = 6.dp))
+                    }
+                },
+                colors = TopAppBarDefaults.topAppBarColors(containerColor = Rift.Ink)
             )
         },
         floatingActionButton = {
             ExtendedFloatingActionButton(
                 onClick = { showCreateDialog = true },
+                shape = ChamferShape,
+                containerColor = Rift.Gold,
+                contentColor = Rift.OnGold,
                 icon = { Icon(Icons.Default.Add, contentDescription = null) },
-                text = { Text("New deck") }
+                text = { Text("NEW DECK", style = RiftNumber.copy(fontSize = 17.sp, letterSpacing = 1.2.sp)) }
             )
         }
     ) { padding ->
@@ -139,7 +169,7 @@ fun DeckListScreen(
                 )
             }
             else -> LazyVerticalGrid(
-                columns = GridCells.Adaptive(minSize = 168.dp),
+                columns = GridCells.Adaptive(minSize = 300.dp),
                 contentPadding = PaddingValues(
                     start = 16.dp,
                     end = 16.dp,
@@ -204,70 +234,80 @@ fun DeckGridItem(
     var showRenameDialog by remember { mutableStateOf(false) }
     var showDeleteDialog by remember { mutableStateOf(false) }
 
-    ElevatedCard(
+    Box(
         modifier = Modifier
             .fillMaxWidth()
-            .aspectRatio(0.75f),
-        shape = RoundedCornerShape(12.dp)
+            .height(176.dp)
+            .background(Rift.Surface)
+            .border(1.dp, Rift.Line)
+            .clickable(onClickLabel = "Open deck") { onClick() }
     ) {
-        Box(modifier = Modifier.fillMaxSize().clickable(onClickLabel = "Open deck") { onClick() }) {
-            if (deck.coverCardUrl != null) {
-                AsyncImage(
-                    model = deck.coverCardUrl,
-                    contentDescription = null,
-                    contentScale = ContentScale.Crop,
-                    modifier = Modifier.fillMaxSize()
-                )
-            } else {
-                Box(
-                    modifier = Modifier.fillMaxSize().background(MaterialTheme.colorScheme.surfaceContainerHigh),
-                    contentAlignment = Alignment.Center
-                ) {
-                    Icon(
-                        imageVector = Icons.Default.Style,
-                        contentDescription = null,
-                        tint = MaterialTheme.colorScheme.onSurfaceVariant,
-                        modifier = Modifier.size(48.dp)
-                    )
-                }
-            }
-
-            // Shade the bottom so the name stays readable over any art.
-            Box(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .background(Brush.verticalGradient(0.45f to Color.Transparent, 1f to Color.Black.copy(alpha = 0.85f)))
+        if (deck.coverCardUrl != null) {
+            // The legend's art, framed on its upper half where the character usually is.
+            AsyncImage(
+                model = deck.coverCardUrl,
+                contentDescription = null,
+                contentScale = ContentScale.Crop,
+                alignment = BiasAlignment(0f, -0.55f),
+                modifier = Modifier.fillMaxSize()
             )
+        } else {
+            Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+                Icon(Icons.Default.Style, contentDescription = null, tint = Rift.Muted, modifier = Modifier.size(48.dp))
+            }
+        }
 
-            Column(
-                modifier = Modifier
-                    .align(Alignment.BottomStart)
-                    .padding(12.dp),
-                verticalArrangement = Arrangement.spacedBy(4.dp)
-            ) {
-                if (summary.legendDomains.isNotEmpty()) {
-                    Row(horizontalArrangement = Arrangement.spacedBy(4.dp)) {
-                        summary.legendDomains.forEach { domain ->
-                            Box(Modifier.size(10.dp).background(getDomainColor(domain), CircleShape))
-                        }
+        // Shade the bottom so the name stays readable over any art.
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .background(Brush.verticalGradient(0.25f to Color.Transparent, 0.8f to Rift.Ink.copy(alpha = 0.9f)))
+        )
+
+        Column(
+            modifier = Modifier
+                .align(Alignment.BottomStart)
+                .fillMaxWidth()
+                .padding(start = 12.dp, end = 12.dp, bottom = 12.dp),
+            verticalArrangement = Arrangement.spacedBy(6.dp)
+        ) {
+            if (summary.legendDomains.isNotEmpty()) {
+                Row(horizontalArrangement = Arrangement.spacedBy(4.dp)) {
+                    summary.legendDomains.filter { it != Domain.COLORLESS }.forEach { domain ->
+                        AsyncImage(model = domainIconUrl(domain), contentDescription = domain.label(), modifier = Modifier.size(22.dp))
                     }
                 }
+            }
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .heightIn(min = 40.dp)
+                    .background(
+                        if (summary.legendDomains.isEmpty()) SolidColor(Rift.Raised) else domainBandBrush(summary.legendDomains),
+                        BandShape
+                    )
+                    .padding(horizontal = 12.dp, vertical = 6.dp),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.spacedBy(8.dp)
+            ) {
                 Text(
                     text = deck.name,
-                    style = MaterialTheme.typography.titleMedium,
+                    fontSize = 18.sp,
                     fontWeight = FontWeight.Bold,
                     color = Color.White,
-                    maxLines = 2,
-                    overflow = TextOverflow.Ellipsis
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis,
+                    modifier = Modifier.weight(1f)
                 )
                 Text(
                     text = deckStatus(deck),
-                    style = MaterialTheme.typography.labelMedium,
-                    color = Color.White.copy(alpha = 0.8f)
+                    style = RiftNumber.copy(fontSize = 14.sp),
+                    color = Color.White
                 )
             }
+        }
 
-            Box(modifier = Modifier.align(Alignment.TopEnd)) {
+        Box(modifier = Modifier.align(Alignment.TopEnd)) {
                 IconButton(onClick = { showMenu = true }) {
                     Icon(Icons.Default.MoreVert, contentDescription = "${deck.name} options", tint = Color.White)
                 }
@@ -299,7 +339,6 @@ fun DeckGridItem(
                         leadingIcon = { Icon(Icons.Default.Delete, null) }
                     )
                 }
-            }
         }
     }
 
