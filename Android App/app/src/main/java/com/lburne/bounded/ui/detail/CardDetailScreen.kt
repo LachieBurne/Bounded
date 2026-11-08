@@ -101,6 +101,7 @@ fun CardDetailScreen(
 
         BoxWithConstraints(Modifier.fillMaxSize().safeDrawingPadding()) {
             val sideBySide = maxWidth > maxHeight && maxWidth >= 560.dp
+            val viewportHeight = maxHeight
             Column(Modifier.fillMaxSize()) {
                 Row(Modifier.fillMaxWidth().padding(horizontal = 4.dp), verticalAlignment = Alignment.CenterVertically) {
                     IconButton(onClick = onBack) {
@@ -142,7 +143,7 @@ fun CardDetailScreen(
                     ) {
                         // Art at most about 60% of the screen height, so the count is visible without scrolling.
                         val artRatio = if (card.isLandscape) 88f / 63f else 63f / 88f
-                        Box(Modifier.widthIn(max = maxHeight * 0.6f * artRatio).padding(vertical = 8.dp)) {
+                        Box(Modifier.widthIn(max = viewportHeight * 0.6f * artRatio).padding(vertical = 8.dp)) {
                             CardArt(card.imageUrl, card.isLandscape, card.name)
                         }
                         Spacer(Modifier.height(16.dp))
