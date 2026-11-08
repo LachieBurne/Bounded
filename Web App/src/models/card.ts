@@ -49,6 +49,8 @@ export interface Card {
     isSignature: boolean;    // Carries a champion's tag without being that champion, e.g. Tibbers
     text: string | null;
     effect: string | null;
+    bannedIn?: ('STANDARD' | '2V2')[]; // Formats Riot bans this card in, from data/banned_cards.json
+    bannedSince?: string | null;       // When the ban took effect, e.g. "2026-03-31"
     flavorText?: string | null;
 }
 

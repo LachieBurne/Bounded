@@ -13,6 +13,7 @@ A running list. Add to it when you leave something unfinished, and delete an ite
 | The gallery leaves some artists blank | 45 Radiance cards had none; they're filled in from the card art by `artistName` overrides. New cards may arrive the same way. | Check [unknown-artists.md](unknown-artists.md) after each card data update and add overrides. |
 | The gallery's Radiance data is unreliable | 23 cards had the wrong type (now taken from the image alt text), 30 had a missing or wrong domain (fixed by overrides, read from the printed icon), and tags may also be wrong (Meticulous Restorationist was tagged "Device" instead of "Piltover"; Nazuman Ntofo and Protector's Shield were missing "Equipment"; Shadows of the Past had an effect of "1"). Champion tags drive the deck rules. | Check the tags on the 23 retyped cards against the card art and add overrides. The generator now warns when a single-domain card's data doesn't match its printed icon. |
 | Domain overrides are permanent | If the gallery later corrects a Radiance domain, the override hides any further change | Once the gallery's Radiance data agrees with the art, remove the `domain` overrides from `card_overrides.json`. |
+| The ban list is kept by hand (`data/banned_cards.json`) | A new ban isn't shown until someone adds it; the last check was 2026-11-09, after the September 18 bans | Check the Riftbound Rules Hub when Riot announces bans and add them. |
 | OGN-235 Karma is fixed by an override | The official gallery still tags it Vi; if the gallery is corrected, the override becomes redundant | Remove the override from `data/card_overrides.json` once the gallery is fixed. |
 
 ## Security
@@ -50,6 +51,7 @@ A running list. Add to it when you leave something unfinished, and delete an ite
 |---|---|---|
 | 8 existing ESLint errors outside the deck editor; CI doesn't run lint | Lint can't be added to CI until they're fixed | Fix them, then add `npm run lint` to `checks.yml`. |
 | No sub-binders or deck import yet | The Android app has them; the web app ignores binder documents and can't import a decklist | Add both in the web redesign. The binder document format is in [binders.md](binders.md). |
+| Banned cards aren't marked | The web deck editor flags them as a rule break (shared deck rules), but card details and the card picker don't show a banned tag | Add the tag and notice in the web redesign, using `bannedIn` and `bannedSince` from the card data. |
 | The redesign hasn't started | | Next after the Android UX work. Bring Gilded Rift across: palette, domain bands and stripes, All cards with binder tabs. |
 
 ## Prices

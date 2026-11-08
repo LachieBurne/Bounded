@@ -34,6 +34,9 @@ object Rift {
     /** Text on the ivory rules panel. */
     val InkText = Color(0xFF1F1A14)
     val InkMuted = Color(0xFF5E5A55)
+    /** Banned in Standard, and the softer warning for a ban in 2v2 only. */
+    val Banned = Color(0xFFC62828)
+    val Banned2v2 = Color(0xFFB45309)
 }
 
 /**

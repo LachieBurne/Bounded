@@ -34,7 +34,6 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.Add
-import androidx.compose.material.icons.filled.Download
 import androidx.compose.material.icons.filled.KeyboardArrowDown
 import androidx.compose.material.icons.filled.KeyboardArrowUp
 import androidx.compose.material.icons.filled.LibraryAdd
@@ -95,6 +94,14 @@ import androidx.compose.material3.Badge
 import androidx.compose.material3.BadgedBox
 import androidx.compose.material3.VerticalDivider
 import androidx.compose.material3.rememberModalBottomSheetState
+import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.TextButton
+import androidx.compose.foundation.border
+import androidx.compose.ui.unit.sp
+import com.lburne.bounded.ui.common.BannedTag
+import com.lburne.bounded.ui.common.GoldButton
+import com.lburne.bounded.ui.theme.Rift
+import com.lburne.bounded.ui.theme.RiftNumber
 
 private const val GITHUB_ASSETS_URL = "https://lachieburne.github.io/Bounded"
 
@@ -157,8 +164,24 @@ fun DeckEditorScreen(
         map
     }
 
-    val hasMissingCards = remember(mainSlots, sideSlots) {
-        (mainSlots + sideSlots).any { it.isMissingCards }
+    // Copies the deck uses that the collection doesn't have, per card across main deck and sideboard.
+    val missingById = remember(mainSlots, sideSlots) {
+        (mainSlots + sideSlots).groupBy { it.card.cardId }.mapValues { (_, slots) ->
+            slots.first().copy(deckQuantity = slots.sumOf { it.deckQuantity }).let { if (it.isMissingCards) it.missingCount else 0 }
+        }.filterValues { it > 0 }
+    }
+    var confirmAddAll by remember { mutableStateOf(false) }
+    if (confirmAddAll) {
+        val total = missingById.values.sum()
+        AlertDialog(
+            onDismissRequest = { confirmAddAll = false },
+            title = { Text("Add $total ${if (total == 1) "card" else "cards"} to your collection?") },
+            text = { Text("This marks every copy this deck needs as owned. Use it once you have the cards.") },
+            confirmButton = {
+                TextButton(onClick = { viewModel.onAddAllMissingToBinder(); confirmAddAll = false }) { Text("Add $total") }
+            },
+            dismissButton = { TextButton(onClick = { confirmAddAll = false }) { Text("Cancel") } }
+        )
     }
 
     var selectedTabIndex by remember { mutableIntStateOf(0) }
@@ -196,14 +219,6 @@ fun DeckEditorScreen(
                             Icon(Icons.Default.Share, contentDescription = "Share decklist")
                         }
 
-                        if (hasMissingCards) {
-                            IconButton(onClick = { viewModel.onAddAllMissingToBinder() }) {
-                                Icon(
-                                    imageVector = Icons.Default.LibraryAdd,
-                                    contentDescription = "Add all missing cards to collection"
-                                )
-                            }
-                        }
                     }
                 )
                 TabRow(selectedTabIndex = selectedTabIndex) {
@@ -230,7 +245,9 @@ fun DeckEditorScreen(
                     onIncrement = { id, isSide -> viewModel.onIncrementCard(id, isSide) },
                     onDecrement = { id, isSide -> viewModel.onDecrementCard(id, isSide) },
                     onAddMissing = { id -> viewModel.onAddMissingToBinder(id) },
-                    onCardClick = onCardClick
+                    onCardClick = onCardClick,
+                    missingById = missingById,
+                    onAddAllMissing = { confirmAddAll = true }
                 )
             }
         }
@@ -545,7 +562,9 @@ fun DeckViewTab(
     onIncrement: (String, Boolean) -> Unit,
     onDecrement: (String, Boolean) -> Unit,
     onAddMissing: (String) -> Unit,
-    onCardClick: (String) -> Unit
+    onCardClick: (String) -> Unit,
+    missingById: Map<String, Int> = emptyMap(),
+    onAddAllMissing: () -> Unit = {}
 ) {
     if (mainSlots.isEmpty() && sideSlots.isEmpty()) {
         Box(
@@ -628,7 +647,11 @@ fun DeckViewTab(
             }
         }
 
-        // Section rendering remains same...
+        if (missingById.isNotEmpty()) item {
+            val missingValue = missingById.entries.sumOf { (id, n) -> (prices[id] ?: 0.0) * n }
+            MissingCardsPanel(missingById.values.sum(), missingValue, currencySymbol, onAddAllMissing)
+        }
+
         if (legendEntry != null) {
             header("Legend")
             if (!isCollapsed("Legend")) item {
@@ -714,7 +737,8 @@ fun DeckSlotItem(
         modifier = Modifier.fillMaxWidth().clickable { onCardClick(card.cardId) },
         shape = RoundedCornerShape(12.dp),
         color = MaterialTheme.colorScheme.surfaceContainerHigh,
-        tonalElevation = 2.dp
+        tonalElevation = 2.dp,
+        border = if (card.isBannedInStandard) BorderStroke(1.5.dp, Rift.Banned) else null
     ) {
         Row(
             modifier = Modifier.padding(8.dp),
@@ -738,6 +762,7 @@ fun DeckSlotItem(
 
             // 2. Text Info
             Column(modifier = Modifier.weight(1f)) {
+                BannedTag(card, Modifier.padding(bottom = 2.dp))
                 Text(
                     text = card.name,
                     style = MaterialTheme.typography.bodyLarge,
@@ -753,7 +778,7 @@ fun DeckSlotItem(
                     Row(verticalAlignment = Alignment.CenterVertically) {
                         Icon(Icons.Default.Warning, null, tint = Color(0xFFFF9800), modifier = Modifier.size(14.dp))
                         Spacer(Modifier.width(4.dp))
-                        Text("Need ${slot.missingCount}", color = Color(0xFFFF9800), style = MaterialTheme.typography.labelSmall)
+                        Text("Missing ${slot.missingCount}", color = Color(0xFFFF9800), style = MaterialTheme.typography.labelSmall)
 
                         if (price != null && price > 0) {
                             val totalCost = price * slot.missingCount
@@ -768,6 +793,7 @@ fun DeckSlotItem(
                             )
                         }
                     }
+                    AddToCollectionChip(onClick = { onAddMissing(card.cardId) }, modifier = Modifier.padding(top = 6.dp))
                 } else {
                     val showCost = card.type != CardType.LEGEND && card.type != CardType.RUNE && card.type != CardType.BATTLEFIELD
                     val typeText = card.type.name
@@ -786,21 +812,6 @@ fun DeckSlotItem(
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.spacedBy(4.dp)
             ) {
-                // Add to Binder (Download)
-                if (isGhost) {
-                    IconButton(
-                        onClick = { onAddMissing(card.cardId) },
-                        modifier = Modifier.size(32.dp)
-                    ) {
-                        Icon(
-                            Icons.Default.Download,
-                            "Add to Binder",
-                            tint = Color.White, // <--- CHANGED to White
-                            modifier = Modifier.size(20.dp)
-                        )
-                    }
-                }
-
                 // Decrement
                 IconButton(
                     onClick = { onDecrement(slot.card.cardId, isSideboard) },
@@ -1020,6 +1031,19 @@ fun DeckBuilderGridItem(
                 contentScale = ContentScale.Crop
             )
 
+            if (card.isBannedInStandard || card.isBannedIn2v2) {
+                Box(
+                    Modifier
+                        .align(Alignment.TopCenter)
+                        .fillMaxWidth()
+                        .background((if (card.isBannedInStandard) Rift.Banned else Rift.Banned2v2).copy(alpha = 0.92f))
+                        .padding(vertical = 3.dp),
+                    contentAlignment = Alignment.Center
+                ) {
+                    BannedTag(card, fontSize = 12)
+                }
+            }
+
             if (zoneCount > 0) {
                 Surface(
                     modifier = Modifier.align(Alignment.TopStart).padding(4.dp).size(28.dp).clickable { onRemove() },
@@ -1065,5 +1089,61 @@ private val RULE_BREAK_CODES = setOf(
     IssueCode.NOT_PLAYABLE,
     IssueCode.NOT_ALLOWED_IN_SIDEBOARD,
     IssueCode.SIDEBOARD_TOO_LARGE,
-    IssueCode.UNKNOWN_CARD
+    IssueCode.UNKNOWN_CARD,
+    IssueCode.BANNED
 )
+
+/**
+ * Heads the deck list when the collection is short of cards for this deck: how many,
+ * what they'd cost, and a clearly labelled way to mark them all as owned.
+ */
+@Composable
+private fun MissingCardsPanel(count: Int, value: Double, currencySymbol: String, onAddAll: () -> Unit) {
+    Column(
+        Modifier
+            .fillMaxWidth()
+            .background(Rift.Surface)
+            .border(1.dp, Rift.GoldDeep)
+            .padding(12.dp),
+        verticalArrangement = Arrangement.spacedBy(10.dp)
+    ) {
+        Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(10.dp)) {
+            Icon(Icons.Default.Warning, null, tint = Color(0xFFFF9800), modifier = Modifier.size(22.dp))
+            Column {
+                Text(
+                    "$count ${if (count == 1) "card" else "cards"} missing from your collection",
+                    style = MaterialTheme.typography.titleSmall,
+                    fontWeight = FontWeight.Bold,
+                    color = Rift.Ivory
+                )
+                Text(
+                    if (value > 0) "About $currencySymbol${String.format(java.util.Locale.US, "%,.2f", value)} to buy." else "Cards this deck uses that you don't own.",
+                    style = MaterialTheme.typography.bodySmall,
+                    color = Rift.Muted
+                )
+            }
+        }
+        GoldButton(onClick = onAddAll, modifier = Modifier.fillMaxWidth()) {
+            Icon(Icons.Default.LibraryAdd, null, modifier = Modifier.size(18.dp))
+            Spacer(Modifier.width(8.dp))
+            Text("Add all $count to collection".uppercase(), style = RiftNumber.copy(fontSize = 15.sp, letterSpacing = 0.5.sp))
+        }
+    }
+}
+
+/** On a deck row the collection is short of: adds one copy of the card to the collection. */
+@Composable
+private fun AddToCollectionChip(onClick: () -> Unit, modifier: Modifier = Modifier) {
+    Row(
+        modifier
+            .background(Rift.GoldWash)
+            .border(1.dp, Rift.GoldDeep)
+            .clickable(onClickLabel = "Add 1 copy to your collection", onClick = onClick)
+            .padding(horizontal = 8.dp, vertical = 5.dp),
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.spacedBy(6.dp)
+    ) {
+        Icon(Icons.Default.LibraryAdd, null, tint = Rift.Gold, modifier = Modifier.size(14.dp))
+        Text("Add 1 to collection", style = MaterialTheme.typography.labelMedium, color = Rift.Ivory)
+    }
+}

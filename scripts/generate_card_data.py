@@ -7,7 +7,7 @@ Usage:
 
 The gallery page (playriftbound.com/en-us/card-gallery/) embeds every card in its
 Next.js page data. We normalise those cards, merge in data/extra_cards.json (cards the
-gallery doesn't list, e.g. promos) and data/card_overrides.json (field fixes), then:
+gallery doesn't list, e.g. promos) and data/card_overrides.json (field fixes) and data/banned_cards.json (Riot's ban lists), then:
 
 - write the same riftbound_data.json into the Android and web apps
 - save any missing card image to card_images/<id>.webp (served by GitHub Pages)
@@ -35,6 +35,7 @@ PAGES_BASE_URL = "https://lachieburne.github.io/Bounded"
 IMAGE_DIR = REPO / "card_images"
 EXTRAS_PATH = REPO / "data" / "extra_cards.json"
 OVERRIDES_PATH = REPO / "data" / "card_overrides.json"
+BANS_PATH = REPO / "data" / "banned_cards.json"
 OUTPUT_PATHS = [
     REPO / "Android App" / "app" / "src" / "main" / "assets" / "riftbound_data.json",
     REPO / "Web App" / "public" / "riftbound_data.json",
@@ -46,6 +47,7 @@ WEBP_QUALITY = 85
 CARD_TYPES = {"LEGEND", "UNIT", "SPELL", "GEAR", "RUNE", "BATTLEFIELD", "OTHER"}
 DOMAINS = {"FURY", "CALM", "MIND", "BODY", "CHAOS", "ORDER", "COLORLESS"}
 RARITIES = {"COMMON", "UNCOMMON", "RARE", "EPIC", "SHOWCASE"}
+BAN_FORMATS = {"STANDARD", "2V2"}
 
 # Gallery tags that aren't printed on the cards. Every Radiance [Deploy] gear is tagged
 # "Device" in the gallery, but the card itself just says "Gear".
@@ -59,6 +61,7 @@ FIELDS = [
     "domain", "rarity", "type", "cost", "might", "isToken",
     "baseName", "subtitle", "setName", "sortOrder", "orientation",
     "power", "mightBonus", "tags", "championTag", "isSignature", "text", "effect",
+    "bannedIn", "bannedSince",
 ]
 
 ID_RE = re.compile(r"^(?P<set>[A-Z]{2,4})-(?P<prefix>[A-Z]*)(?P<num>\d+)(?P<suffix>[a-z*]*)$")
@@ -279,6 +282,27 @@ def apply_extras_and_overrides(cards, set_names):
         by_id[card_id].update(fields)
 
 
+def apply_bans(cards):
+    """Marks every printing of each card in data/banned_cards.json with its banned formats."""
+    by_id = {c["cardId"]: c for c in cards}
+    bans_by_name = {}
+    for ban in json.loads(BANS_PATH.read_text(encoding="utf-8"))["bans"]:
+        card = by_id.get(ban["cardId"])
+        if card is None:
+            raise ValueError(f"{BANS_PATH.name}: unknown card {ban['cardId']}")
+        # The gallery sometimes adds a suffix, e.g. "Master Yi - Wuju Bladesman - Starter".
+        if not card["name"].startswith(ban["name"]):
+            raise ValueError(f"{BANS_PATH.name}: {ban['cardId']} is {card['name']!r}, not {ban['name']!r}")
+        unknown = set(ban["formats"]) - BAN_FORMATS
+        if unknown:
+            raise ValueError(f"{BANS_PATH.name}: {ban['cardId']} has unknown formats {sorted(unknown)}")
+        bans_by_name[card["name"]] = ban
+    for card in cards:
+        ban = bans_by_name.get(card["name"])
+        card["bannedIn"] = list(ban["formats"]) if ban else []
+        card["bannedSince"] = ban["since"] if ban else None
+
+
 def assign_sort_order(cards, set_order):
     set_rank = {code: i for i, code in enumerate(set_order)}
     prefix_rank = {"": 0, "R": 1, "SP": 2, "T": 3}
@@ -428,6 +452,8 @@ def validate(cards, previous_ids):
             continue
         if not card["name"]:
             errors.append(f"{cid}: empty name")
+        if set(card["bannedIn"]) - BAN_FORMATS or bool(card["bannedIn"]) != bool(card["bannedSince"]):
+            errors.append(f"{cid}: bad ban fields {card['bannedIn']} {card['bannedSince']}")
         if card["type"] not in CARD_TYPES:
             errors.append(f"{cid}: unknown type {card['type']}")
         if card["rarity"] not in RARITIES:
@@ -556,6 +582,7 @@ def main():
     assign_champion_tags(cards)
     apply_extras_and_overrides(cards, set_names)
     assign_signatures(cards)
+    apply_bans(cards)
     assign_sort_order(cards, [code for code, _ in sets])
     warn_incomplete(cards)
 

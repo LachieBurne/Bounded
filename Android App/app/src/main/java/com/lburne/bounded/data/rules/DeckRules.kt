@@ -69,7 +69,8 @@ enum class IssueCode(val message: String) {
     DUPLICATE_BATTLEFIELD("Two battlefields share a name."),
     NOT_PLAYABLE("A token is in the deck."),
     NOT_ALLOWED_IN_SIDEBOARD("Only units, spells and gear can go in the sideboard."),
-    UNKNOWN_CARD("A card is no longer in the card list.")
+    UNKNOWN_CARD("A card is no longer in the card list."),
+    BANNED("A card is banned in Standard.")
 }
 
 /** A rule the deck breaks. [subject] is the card ID or, for name-wide rules, the card name. */
@@ -230,6 +231,7 @@ object DeckRules {
                     issues += DeckIssue(IssueCode.NOT_ALLOWED_IN_SIDEBOARD, id)
                     continue
                 }
+                if (card.isBannedInStandard) issues += DeckIssue(IssueCode.BANNED, id)
                 if (card.type == CardType.LEGEND) continue
                 if (card.isToken || card.type == CardType.OTHER) {
                     issues += DeckIssue(IssueCode.NOT_PLAYABLE, id)

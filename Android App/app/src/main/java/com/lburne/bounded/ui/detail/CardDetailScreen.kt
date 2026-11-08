@@ -69,6 +69,7 @@ import com.lburne.bounded.ui.common.RarityGem
 import com.lburne.bounded.ui.common.RiftLabelText
 import com.lburne.bounded.ui.common.RiftSet
 import com.lburne.bounded.ui.common.domainBand
+import com.lburne.bounded.ui.common.BannedTag
 import com.lburne.bounded.ui.common.domainIconUrl
 import com.lburne.bounded.ui.common.getDomainBand
 import com.lburne.bounded.ui.common.isLandscape
@@ -237,6 +238,8 @@ private fun CardInfo(item: CardWithQuantity, price: Double?, currencySymbol: Str
             }
         }
 
+        BannedNotice(card)
+
         StatsRow(card)
 
         OwnedPanel(item.quantity, price, currencySymbol, viewModel)
@@ -269,6 +272,38 @@ private fun CardInfo(item: CardWithQuantity, price: Double?, currencySymbol: Str
             },
             fontSize = 13.sp,
             color = Rift.Muted
+        )
+    }
+}
+
+/** Says where and since when Riot has banned the card. Nothing for legal cards. */
+@Composable
+private fun BannedNotice(card: Card) {
+    if (!card.isBannedInStandard && !card.isBannedIn2v2) return
+    val standard = card.isBannedInStandard
+    val colour = if (standard) Rift.Banned else Rift.Banned2v2
+    val formats = when {
+        standard && card.isBannedIn2v2 -> "Standard and 2v2"
+        standard -> "Standard"
+        else -> "2v2"
+    }
+    val since = card.bannedSince?.let {
+        runCatching { java.time.LocalDate.parse(it).format(java.time.format.DateTimeFormatter.ofPattern("d MMMM yyyy", java.util.Locale.ENGLISH)) }.getOrNull()
+    }
+    Row(
+        Modifier
+            .fillMaxWidth()
+            .background(colour.copy(alpha = 0.16f))
+            .border(1.dp, colour)
+            .padding(horizontal = 12.dp, vertical = 10.dp),
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.spacedBy(12.dp)
+    ) {
+        BannedTag(card, fontSize = 13)
+        Text(
+            "Banned in $formats" + (since?.let { " since $it" } ?: "") + "." + (if (standard) "" else " Still legal in Standard."),
+            fontSize = 14.sp,
+            color = Rift.Parchment
         )
     }
 }

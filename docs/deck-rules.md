@@ -28,6 +28,7 @@ To change a rule:
 | Battlefields | 103.5 | Exactly 3, with different names. |
 | Sideboard | Tournament play | Up to 8 units, spells or gear. No legends, runes or battlefields. |
 | Tokens | — | Tokens and token helpers can't go in a deck. |
+| Banned cards | Ban list | Decks are checked against the Standard ban list. A banned card can still be added, but the deck is flagged as breaking a rule. Cards banned only in 2v2 (Master Yi, Wuju Bladesman) are legal. The list is `data/banned_cards.json`, which the card data generator turns into `bannedIn` and `bannedSince` on every printing of each banned card. Update it when Riot announces bans. |
 
 ## Interpretations
 
