@@ -1,12 +1,16 @@
 package com.lburne.bounded.ui.common
 
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -21,6 +25,7 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FilterChip
 import androidx.compose.material3.FilterChipDefaults
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.InputChip
 import androidx.compose.material3.InputChipDefaults
@@ -76,12 +81,18 @@ fun CardFilterSheet(
     showOwnership: Boolean = true,
     allowedDomains: List<Domain>? = null
 ) {
-    Column(
-        modifier = Modifier
-            .fillMaxWidth()
-            .verticalScroll(rememberScrollState())
-            .padding(horizontal = 20.dp)
-            .navigationBarsPadding()
+    SheetWithAction(
+        action = {
+            Button(onClick = onDone, modifier = Modifier.fillMaxWidth()) {
+                Text(
+                    when (resultCount) {
+                        0 -> "No cards match"
+                        1 -> "Show 1 card"
+                        else -> "Show $resultCount cards"
+                    }
+                )
+            }
+        }
     ) {
         Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
             Text("Filters", style = MaterialTheme.typography.titleLarge, modifier = Modifier.weight(1f))
@@ -157,21 +168,37 @@ fun CardFilterSheet(
                 }
             }
         }
+        Spacer(Modifier.height(16.dp))
+    }
+}
 
-        Button(
-            onClick = onDone,
+/**
+ * Bottom sheet content that scrolls, with [action] pinned underneath so it's always in reach
+ * however long the content is. Use it directly inside a ModalBottomSheet.
+ */
+@Composable
+fun SheetWithAction(
+    action: @Composable () -> Unit,
+    verticalArrangement: Arrangement.Vertical = Arrangement.Top,
+    content: @Composable ColumnScope.() -> Unit
+) {
+    Column(Modifier.fillMaxWidth()) {
+        Column(
             modifier = Modifier
+                .weight(1f, fill = false)
                 .fillMaxWidth()
-                .padding(top = 24.dp, bottom = 16.dp)
-        ) {
-            Text(
-                when (resultCount) {
-                    0 -> "No cards match"
-                    1 -> "Show 1 card"
-                    else -> "Show $resultCount cards"
-                }
-            )
-        }
+                .verticalScroll(rememberScrollState())
+                .padding(horizontal = 20.dp),
+            verticalArrangement = verticalArrangement,
+            content = content
+        )
+        HorizontalDivider()
+        Box(
+            Modifier
+                .fillMaxWidth()
+                .navigationBarsPadding()
+                .padding(horizontal = 20.dp, vertical = 12.dp)
+        ) { action() }
     }
 }
 

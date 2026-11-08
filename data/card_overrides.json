@@ -1,10 +1,15 @@
 {
-  "_comment": "Field fixes applied to gallery cards by cardId, for data the gallery gets wrong or leaves blank.",
+  "_comment": "Field fixes applied to gallery cards by cardId, for data the gallery gets wrong or leaves blank (e.g. artistName; see docs/unknown-artists.md).",
   "cards": {
     "OGN-235": {
       "tags": [
         "Karma",
         "Ionia"
+      ]
+    },
+    "RAD-120": {
+      "tags": [
+        "Piltover"
       ]
     }
   }

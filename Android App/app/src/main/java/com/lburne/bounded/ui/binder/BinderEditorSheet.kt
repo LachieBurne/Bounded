@@ -5,12 +5,11 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.navigationBarsPadding
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -36,6 +35,7 @@ import com.lburne.bounded.data.model.Domain
 import com.lburne.bounded.data.model.RiftRarity
 import com.lburne.bounded.ui.common.FilterableTypes
 import com.lburne.bounded.ui.common.RiftSet
+import com.lburne.bounded.ui.common.SheetWithAction
 import com.lburne.bounded.ui.common.ToggleChip
 import com.lburne.bounded.ui.common.domainIconUrl
 import com.lburne.bounded.ui.common.label
@@ -81,12 +81,22 @@ fun BinderEditorSheet(
     val count = remember(draft) { countFor(draft) }
 
     ModalBottomSheet(onDismissRequest = onDismiss, sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)) {
-        Column(
-            modifier = Modifier
-                .fillMaxWidth()
-                .verticalScroll(rememberScrollState())
-                .padding(horizontal = 20.dp)
-                .navigationBarsPadding(),
+        SheetWithAction(
+            action = {
+                Button(
+                    onClick = { onSave(draft) },
+                    enabled = count > 0,
+                    modifier = Modifier.fillMaxWidth()
+                ) {
+                    Text(
+                        when {
+                            count == 0 -> "No cards match"
+                            initial == null -> "Create binder · $count cards"
+                            else -> "Save · $count cards"
+                        }
+                    )
+                }
+            },
             verticalArrangement = Arrangement.spacedBy(8.dp)
         ) {
             Text(if (initial == null) "New binder" else "Edit binder", style = MaterialTheme.typography.titleLarge)
@@ -147,20 +157,7 @@ fun BinderEditorSheet(
                     ToggleChip(t.label(), t.name in types) { types = toggle(types, t.name) }
                 }
             }
-
-            Button(
-                onClick = { onSave(draft) },
-                enabled = count > 0,
-                modifier = Modifier.fillMaxWidth().padding(top = 16.dp, bottom = 16.dp)
-            ) {
-                Text(
-                    when {
-                        count == 0 -> "No cards match"
-                        initial == null -> "Create binder · $count cards"
-                        else -> "Save · $count cards"
-                    }
-                )
-            }
+            Spacer(Modifier.height(8.dp))
         }
     }
 }

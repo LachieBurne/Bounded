@@ -10,6 +10,8 @@ A running list. Add to it when you leave something unfinished, and delete an ite
 | No `PROMO` rarity | Existing promos are tagged `SHOWCASE`, so the showcase filter and the "include showcase" binder option also cover promos | Decide when the first same-number promo is added. Both apps need the enum value. |
 | VEN alt-art runes (VEN-R0Xa) borrow the base rune's image | They look identical to the base runes in the binder | Add real art to `card_images/`. |
 | The set list is hard-coded (`RiftSet` in Android, the set list in the web filters) | A new set needs a code change in both apps as well as the data | Derive the set list from `riftbound_data.json`. |
+| 45 cards have no artist (all Radiance) | The gallery leaves the artist blank, so the apps show none | Read the artist off the card art and add `artistName` overrides. The list is [unknown-artists.md](unknown-artists.md). |
+| The gallery's card types and tags are unreliable for Radiance | 23 cards had the wrong type, now taken from the image alt text instead. Tags on those cards may also be wrong or missing (Meticulous Restorationist was tagged "Device" instead of "Piltover"), and champion tags drive the deck rules. | Check the tags on the 23 retyped cards (listed in the PR that fixed them) against the card art, and add overrides. |
 | OGN-235 Karma is fixed by an override | The official gallery still tags it Vi; if the gallery is corrected, the override becomes redundant | Remove the override from `data/card_overrides.json` once the gallery is fixed. |
 
 ## Security
