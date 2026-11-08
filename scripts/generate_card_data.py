@@ -16,6 +16,7 @@ Nothing is written unless the result passes validation.
 """
 
 import argparse
+import colorsys
 import html as html_lib
 import io
 import json
@@ -361,6 +362,54 @@ def sync_images(cards, workers):
     return errors
 
 
+def printed_domain(image):
+    """The domain whose icon is printed in the bottom-right corner of a portrait card,
+    judged by its colour, or None if there's no clear icon there.
+
+    Only reliable for single-domain cards: on dual-domain and full-art cards the slot
+    to its left can be artwork.
+    """
+    image = image.convert("RGB").resize((744, 1039))
+    hues = []
+    for x in range(681, 705):
+        for y in range(990, 1014):
+            h, s, v = colorsys.rgb_to_hsv(*(c / 255 for c in image.getpixel((x, y))))
+            if s > 0.5 and v > 0.4:
+                hues.append(h * 360)
+    if len(hues) < 20:
+        return None
+    hue = sorted(hues)[len(hues) // 2]
+    if hue < 15 or hue >= 345:
+        return "FURY"
+    if hue < 40:
+        return "BODY"
+    if hue < 70:
+        return "ORDER"
+    if hue < 170:
+        return "CALM"
+    if hue < 250:
+        return "MIND"
+    return "CHAOS"
+
+
+def warn_domain_mismatches(cards):
+    """Compare each single-domain card's data with the domain icon printed on it. The
+    gallery left 11 Radiance cards blank and gave 19 the wrong domain."""
+    mismatches = []
+    for card in cards:
+        domains = [d for d in card["domain"] if d != "COLORLESS"]
+        if (len(domains) > 1 or card["orientation"] != "portrait" or card["isToken"]
+                or card["type"] in ("BATTLEFIELD", "RUNE") or "COLORLESS" in card["domain"]):
+            continue
+        with Image.open(IMAGE_DIR / f"{card['_imageFile']}.webp") as image:
+            printed = printed_domain(image)
+        if printed and printed not in domains:
+            mismatches.append(f"{card['cardId']} ({domains[0] if domains else 'none'} -> {printed})")
+    if mismatches:
+        print(f"warning: {len(mismatches)} cards' domain doesn't match the icon printed on them; "
+              f"check the art and fix in {OVERRIDES_PATH.name}: {mismatches}")
+
+
 # --- Validation and output ---------------------------------------------------------
 
 def validate(cards, previous_ids):
@@ -466,7 +515,7 @@ def warn_incomplete(cards):
     no_domain = [c["cardId"] for c in cards if not c["domain"]]
     other = [c["cardId"] for c in cards if c["type"] == "OTHER"]
     if no_domain:
-        print(f"warning: {len(no_domain)} cards have no domain in the gallery yet "
+        print(f"warning: {len(no_domain)} cards have no domain "
               f"(fix in {OVERRIDES_PATH.name} if needed): {no_domain}")
     if other:
         print(f"note: {len(other)} cards have no card type and are marked OTHER: {other}")
@@ -511,6 +560,8 @@ def main():
     warn_incomplete(cards)
 
     errors = sync_images(cards, args.workers)
+    if not errors:
+        warn_domain_mismatches(cards)
 
     current = load_current()
     errors += validate(cards, {c["cardId"] for c in current})

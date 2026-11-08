@@ -36336,7 +36336,7 @@
     "artistName": "Kudos Productions",
     "imageUrl": "https://lachieburne.github.io/Bounded/card_images/RAD-001.webp",
     "domain": [
-      "CHAOS"
+      "FURY"
     ],
     "rarity": "COMMON",
     "type": "UNIT",
@@ -36392,7 +36392,7 @@
     "artistName": "Six More Vodka",
     "imageUrl": "https://lachieburne.github.io/Bounded/card_images/RAD-003.webp",
     "domain": [
-      "BODY"
+      "FURY"
     ],
     "rarity": "COMMON",
     "type": "UNIT",
@@ -36420,7 +36420,7 @@
     "artistName": "Kudos Productions",
     "imageUrl": "https://lachieburne.github.io/Bounded/card_images/RAD-004.webp",
     "domain": [
-      "CHAOS"
+      "FURY"
     ],
     "rarity": "COMMON",
     "type": "SPELL",
@@ -36475,7 +36475,9 @@
     "collectorNumber": 6,
     "artistName": "Kudos Productions",
     "imageUrl": "https://lachieburne.github.io/Bounded/card_images/RAD-006.webp",
-    "domain": [],
+    "domain": [
+      "FURY"
+    ],
     "rarity": "COMMON",
     "type": "SPELL",
     "cost": 4,
@@ -36557,7 +36559,9 @@
     "collectorNumber": 9,
     "artistName": "Caravan Studio",
     "imageUrl": "https://lachieburne.github.io/Bounded/card_images/RAD-009.webp",
-    "domain": [],
+    "domain": [
+      "FURY"
+    ],
     "rarity": "UNCOMMON",
     "type": "UNIT",
     "cost": 6,
@@ -36640,7 +36644,7 @@
     "artistName": "Kudos Productions",
     "imageUrl": "https://lachieburne.github.io/Bounded/card_images/RAD-012.webp",
     "domain": [
-      "CHAOS"
+      "FURY"
     ],
     "rarity": "UNCOMMON",
     "type": "GEAR",
@@ -36755,7 +36759,7 @@
     "artistName": "Michal Ivan",
     "imageUrl": "https://lachieburne.github.io/Bounded/card_images/RAD-016.webp",
     "domain": [
-      "MIND"
+      "FURY"
     ],
     "rarity": "RARE",
     "type": "UNIT",
@@ -36783,7 +36787,7 @@
     "artistName": "Fish Art Studio",
     "imageUrl": "https://lachieburne.github.io/Bounded/card_images/RAD-017.webp",
     "domain": [
-      "CHAOS"
+      "FURY"
     ],
     "rarity": "RARE",
     "type": "GEAR",
@@ -36990,7 +36994,9 @@
     "collectorNumber": 22,
     "artistName": "Caravan Studio",
     "imageUrl": "https://lachieburne.github.io/Bounded/card_images/RAD-022.webp",
-    "domain": [],
+    "domain": [
+      "FURY"
+    ],
     "rarity": "EPIC",
     "type": "GEAR",
     "cost": 4,
@@ -37079,7 +37085,7 @@
     "artistName": "Fish Art Studio",
     "imageUrl": "https://lachieburne.github.io/Bounded/card_images/RAD-024.webp",
     "domain": [
-      "CHAOS"
+      "CALM"
     ],
     "rarity": "COMMON",
     "type": "GEAR",
@@ -37134,7 +37140,9 @@
     "collectorNumber": 26,
     "artistName": "Kudos Productions",
     "imageUrl": "https://lachieburne.github.io/Bounded/card_images/RAD-026.webp",
-    "domain": [],
+    "domain": [
+      "CALM"
+    ],
     "rarity": "COMMON",
     "type": "UNIT",
     "cost": 2,
@@ -37555,7 +37563,9 @@
     "collectorNumber": 41,
     "artistName": "Kudos Productions",
     "imageUrl": "https://lachieburne.github.io/Bounded/card_images/RAD-041.webp",
-    "domain": [],
+    "domain": [
+      "CALM"
+    ],
     "rarity": "RARE",
     "type": "SPELL",
     "cost": 1,
@@ -37821,7 +37831,9 @@
     "collectorNumber": 47,
     "artistName": "Kudos Productions",
     "imageUrl": "https://lachieburne.github.io/Bounded/card_images/RAD-047.webp",
-    "domain": [],
+    "domain": [
+      "MIND"
+    ],
     "rarity": "COMMON",
     "type": "SPELL",
     "cost": 3,
@@ -37875,7 +37887,9 @@
     "collectorNumber": 49,
     "artistName": "Six More Vodka",
     "imageUrl": "https://lachieburne.github.io/Bounded/card_images/RAD-049.webp",
-    "domain": [],
+    "domain": [
+      "MIND"
+    ],
     "rarity": "COMMON",
     "type": "UNIT",
     "cost": 4,
@@ -38154,7 +38168,7 @@
     "artistName": "Kudos Productions",
     "imageUrl": "https://lachieburne.github.io/Bounded/card_images/RAD-059.webp",
     "domain": [
-      "ORDER"
+      "MIND"
     ],
     "rarity": "UNCOMMON",
     "type": "SPELL",
@@ -38274,7 +38288,7 @@
     "artistName": "Fish Art Studio",
     "imageUrl": "https://lachieburne.github.io/Bounded/card_images/RAD-062.webp",
     "domain": [
-      "CALM"
+      "MIND"
     ],
     "rarity": "RARE",
     "type": "GEAR",
@@ -38451,7 +38465,7 @@
     "artistName": "Polar Engine Studio",
     "imageUrl": "https://lachieburne.github.io/Bounded/card_images/RAD-067.webp",
     "domain": [
-      "FURY"
+      "MIND"
     ],
     "rarity": "EPIC",
     "type": "UNIT",
@@ -38599,7 +38613,7 @@
     "artistName": "Yeon Art Studio",
     "imageUrl": "https://lachieburne.github.io/Bounded/card_images/RAD-071.webp",
     "domain": [
-      "ORDER"
+      "BODY"
     ],
     "rarity": "COMMON",
     "type": "GEAR",
@@ -38655,7 +38669,7 @@
     "artistName": "Yeon Art Studio",
     "imageUrl": "https://lachieburne.github.io/Bounded/card_images/RAD-073.webp",
     "domain": [
-      "CALM"
+      "BODY"
     ],
     "rarity": "COMMON",
     "type": "GEAR",
@@ -38879,7 +38893,7 @@
     "artistName": "Six More Vodka",
     "imageUrl": "https://lachieburne.github.io/Bounded/card_images/RAD-081.webp",
     "domain": [
-      "FURY"
+      "BODY"
     ],
     "rarity": "UNCOMMON",
     "type": "UNIT",
@@ -39320,7 +39334,7 @@
     "artistName": "Kudos Productions",
     "imageUrl": "https://lachieburne.github.io/Bounded/card_images/RAD-093.webp",
     "domain": [
-      "FURY"
+      "CHAOS"
     ],
     "rarity": "COMMON",
     "type": "UNIT",
@@ -39572,7 +39586,7 @@
     "artistName": "Luscinia Studio",
     "imageUrl": "https://lachieburne.github.io/Bounded/card_images/RAD-102.webp",
     "domain": [
-      "FURY"
+      "CHAOS"
     ],
     "rarity": "UNCOMMON",
     "type": "SPELL",
@@ -39627,7 +39641,9 @@
     "collectorNumber": 104,
     "artistName": "Six More Vodka",
     "imageUrl": "https://lachieburne.github.io/Bounded/card_images/RAD-104.webp",
-    "domain": [],
+    "domain": [
+      "CHAOS"
+    ],
     "rarity": "UNCOMMON",
     "type": "UNIT",
     "cost": 5,
@@ -39682,7 +39698,7 @@
     "artistName": "Yeon Art Studio",
     "imageUrl": "https://lachieburne.github.io/Bounded/card_images/RAD-106.webp",
     "domain": [
-      "BODY"
+      "CHAOS"
     ],
     "rarity": "UNCOMMON",
     "type": "GEAR",
@@ -39738,7 +39754,7 @@
     "artistName": "Fish Art Studio",
     "imageUrl": "https://lachieburne.github.io/Bounded/card_images/RAD-108.webp",
     "domain": [
-      "FURY"
+      "CHAOS"
     ],
     "rarity": "RARE",
     "type": "GEAR",
@@ -39858,7 +39874,7 @@
     "artistName": "Kudos Productions",
     "imageUrl": "https://lachieburne.github.io/Bounded/card_images/RAD-111.webp",
     "domain": [
-      "FURY"
+      "CHAOS"
     ],
     "rarity": "RARE",
     "type": "GEAR",
@@ -40205,7 +40221,9 @@
     "collectorNumber": 121,
     "artistName": "Kudos Productions",
     "imageUrl": "https://lachieburne.github.io/Bounded/card_images/RAD-121.webp",
-    "domain": [],
+    "domain": [
+      "ORDER"
+    ],
     "rarity": "COMMON",
     "type": "SPELL",
     "cost": 3,
@@ -40259,7 +40277,9 @@
     "collectorNumber": 123,
     "artistName": "Six More Vodka",
     "imageUrl": "https://lachieburne.github.io/Bounded/card_images/RAD-123.webp",
-    "domain": [],
+    "domain": [
+      "ORDER"
+    ],
     "rarity": "COMMON",
     "type": "GEAR",
     "cost": 2,
@@ -40286,7 +40306,7 @@
     "artistName": "Michal Ivan",
     "imageUrl": "https://lachieburne.github.io/Bounded/card_images/RAD-124.webp",
     "domain": [
-      "BODY"
+      "ORDER"
     ],
     "rarity": "UNCOMMON",
     "type": "SPELL",
@@ -40605,7 +40625,9 @@
     "collectorNumber": 134,
     "artistName": "Kudos Productions",
     "imageUrl": "https://lachieburne.github.io/Bounded/card_images/RAD-134.webp",
-    "domain": [],
+    "domain": [
+      "ORDER"
+    ],
     "rarity": "RARE",
     "type": "SPELL",
     "cost": 7,

@@ -7,6 +7,46 @@
         "Ionia"
       ]
     },
+    "RAD-001": {
+      "domain": [
+        "FURY"
+      ]
+    },
+    "RAD-003": {
+      "domain": [
+        "FURY"
+      ]
+    },
+    "RAD-004": {
+      "domain": [
+        "FURY"
+      ]
+    },
+    "RAD-006": {
+      "domain": [
+        "FURY"
+      ]
+    },
+    "RAD-009": {
+      "domain": [
+        "FURY"
+      ]
+    },
+    "RAD-012": {
+      "domain": [
+        "FURY"
+      ]
+    },
+    "RAD-016": {
+      "domain": [
+        "FURY"
+      ]
+    },
+    "RAD-017": {
+      "domain": [
+        "FURY"
+      ]
+    },
     "RAD-020": {
       "artistName": "Pixelverse"
     },
@@ -16,14 +56,34 @@
     "RAD-021": {
       "artistName": "Yeon Art Studio"
     },
+    "RAD-022": {
+      "domain": [
+        "FURY"
+      ]
+    },
     "RAD-023": {
       "artistName": "Pixelverse"
+    },
+    "RAD-024": {
+      "domain": [
+        "CALM"
+      ]
+    },
+    "RAD-026": {
+      "domain": [
+        "CALM"
+      ]
     },
     "RAD-028": {
       "artistName": "Yeon Art Studio"
     },
     "RAD-033": {
       "artistName": "Yeon Art Studio"
+    },
+    "RAD-041": {
+      "domain": [
+        "CALM"
+      ]
     },
     "RAD-042": {
       "artistName": "Pixelverse"
@@ -37,17 +97,53 @@
     "RAD-045": {
       "artistName": "Pixelverse"
     },
+    "RAD-047": {
+      "domain": [
+        "MIND"
+      ]
+    },
+    "RAD-049": {
+      "domain": [
+        "MIND"
+      ]
+    },
+    "RAD-059": {
+      "domain": [
+        "MIND"
+      ]
+    },
+    "RAD-062": {
+      "domain": [
+        "MIND"
+      ]
+    },
     "RAD-065a": {
       "artistName": "Aling"
+    },
+    "RAD-067": {
+      "domain": [
+        "MIND"
+      ]
     },
     "RAD-068a": {
       "artistName": "Yannian"
     },
     "RAD-071": {
-      "artistName": "Yeon Art Studio"
+      "artistName": "Yeon Art Studio",
+      "domain": [
+        "BODY"
+      ]
     },
     "RAD-073": {
-      "artistName": "Yeon Art Studio"
+      "artistName": "Yeon Art Studio",
+      "domain": [
+        "BODY"
+      ]
+    },
+    "RAD-081": {
+      "domain": [
+        "BODY"
+      ]
     },
     "RAD-085": {
       "artistName": "Yeon Art Studio"
@@ -61,8 +157,36 @@
     "RAD-092": {
       "artistName": "Mogi"
     },
+    "RAD-093": {
+      "domain": [
+        "CHAOS"
+      ]
+    },
+    "RAD-102": {
+      "domain": [
+        "CHAOS"
+      ]
+    },
+    "RAD-104": {
+      "domain": [
+        "CHAOS"
+      ]
+    },
     "RAD-106": {
-      "artistName": "Yeon Art Studio"
+      "artistName": "Yeon Art Studio",
+      "domain": [
+        "CHAOS"
+      ]
+    },
+    "RAD-108": {
+      "domain": [
+        "CHAOS"
+      ]
+    },
+    "RAD-111": {
+      "domain": [
+        "CHAOS"
+      ]
     },
     "RAD-112": {
       "artistName": "Yeon Art Studio"
@@ -76,6 +200,26 @@
     "RAD-120": {
       "tags": [
         "Piltover"
+      ]
+    },
+    "RAD-121": {
+      "domain": [
+        "ORDER"
+      ]
+    },
+    "RAD-123": {
+      "domain": [
+        "ORDER"
+      ]
+    },
+    "RAD-124": {
+      "domain": [
+        "ORDER"
+      ]
+    },
+    "RAD-134": {
+      "domain": [
+        "ORDER"
       ]
     },
     "RAD-136": {
