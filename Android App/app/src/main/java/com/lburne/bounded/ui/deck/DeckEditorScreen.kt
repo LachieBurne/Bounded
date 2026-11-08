@@ -959,8 +959,7 @@ fun DeckBrowseTab(
                     val ruleBreaks = issues.filter { it.code in RULE_BREAK_CODES }
                     if (ruleBreaks.isNotEmpty()) {
                         Text(
-                            text = ruleBreaks.joinToString("
-") { issue ->
+                            text = ruleBreaks.joinToString(separator = "\n") { issue ->
                                 issue.code.message + (issue.subject?.let { " ($it)" } ?: "")
                             },
                             style = MaterialTheme.typography.bodySmall,
