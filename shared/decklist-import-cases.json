@@ -1,0 +1,128 @@
+{
+  "_comment": "Decklist import cases, run by the Android app's DecklistParserTest (and the web app once it can import). Cards come from deck-rules-test-cases.json.",
+  "cases": [
+    {
+      "name": "Reads the apps' own export",
+      "text": "Legend:\n1 Master Yi - Wuju Bladesman\n\nChampion:\n1 Master Yi, Honed\n\nMainDeck:\n2 Master Yi, Honed\n3 Twin Stance\n\nBattlefields:\n1 Sunken Temple\n1 Grand Plaza\n\nRunes:\n6 Calm Rune\n6 Body Rune\n\nSideboard:\n1 Wandering Poro",
+      "expect": {
+        "legendId": "L-YI",
+        "championId": "YI-1",
+        "main": {
+          "L-YI": 1,
+          "YI-1": 3,
+          "CB-1": 3,
+          "BF-1": 1,
+          "BF-2": 1,
+          "R-CALM": 6,
+          "R-BODY": 6
+        },
+        "side": {
+          "CL-1": 1
+        },
+        "unmatched": []
+      }
+    },
+    {
+      "name": "Works without headers, and finds the champion",
+      "text": "Master Yi, Wuju Bladesman\n3x master yi honed\n2X Twin Stance",
+      "expect": {
+        "legendId": "L-YI",
+        "championId": "YI-1",
+        "main": {
+          "L-YI": 1,
+          "YI-1": 3,
+          "CB-1": 2
+        },
+        "side": {},
+        "unmatched": []
+      }
+    },
+    {
+      "name": "Reads card IDs, including alt arts, ignoring case",
+      "text": "1 L-KEN\n2 YI-1a\n1 r-calma",
+      "expect": {
+        "legendId": "L-KEN",
+        "championId": null,
+        "main": {
+          "L-KEN": 1,
+          "YI-1a": 2,
+          "R-CALMa": 1
+        },
+        "side": {},
+        "unmatched": []
+      }
+    },
+    {
+      "name": "Uses the base printing when names are shared",
+      "text": "3 Highlander\n1 Sunken Temple",
+      "expect": {
+        "legendId": null,
+        "championId": null,
+        "main": {
+          "SIG-S": 3,
+          "BF-1": 1
+        },
+        "side": {},
+        "unmatched": []
+      }
+    },
+    {
+      "name": "Reports unknown cards and a second legend, skips comments",
+      "text": "# My deck\n// from a site\nLegend:\n1 Master Yi - Wuju Bladesman\n1 Kennen - Heart of the Tempest\n4 Not A Card\nSideboard:\n1 Master Yi - Wuju Bladesman",
+      "expect": {
+        "legendId": "L-YI",
+        "championId": null,
+        "main": {
+          "L-YI": 1
+        },
+        "side": {},
+        "unmatched": [
+          "1 Kennen - Heart of the Tempest",
+          "4 Not A Card",
+          "1 Master Yi - Wuju Bladesman"
+        ]
+      }
+    },
+    {
+      "name": "Accepts a legend and champion named by champion alone",
+      "text": "Legend: \nMaster Yi\nChampion:\nMaster Yi\nMain Deck (40):\n3 Highlander",
+      "expect": {
+        "legendId": "L-YI",
+        "championId": "YI-1",
+        "main": {
+          "L-YI": 1,
+          "YI-1": 1,
+          "SIG-S": 3
+        },
+        "side": {},
+        "unmatched": []
+      }
+    },
+    {
+      "name": "Adds up repeated lines",
+      "text": "1 Twin Stance\n2 Twin Stance\nSide deck:\n1 Twin Stance\n1 Twin Stance",
+      "expect": {
+        "legendId": null,
+        "championId": null,
+        "main": {
+          "CB-1": 3
+        },
+        "side": {
+          "CB-1": 2
+        },
+        "unmatched": []
+      }
+    },
+    {
+      "name": "An empty paste reads as an empty deck",
+      "text": "\n  \n",
+      "expect": {
+        "legendId": null,
+        "championId": null,
+        "main": {},
+        "side": {},
+        "unmatched": []
+      }
+    }
+  ]
+}

@@ -1,4 +1,4 @@
-package com.lburne.bounded.ui.binder
+package com.lburne.bounded.ui.common
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box

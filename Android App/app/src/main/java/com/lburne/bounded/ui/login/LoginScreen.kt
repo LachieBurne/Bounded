@@ -2,7 +2,12 @@ package com.lburne.bounded.ui.login
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.heightIn
+import androidx.compose.foundation.layout.widthIn
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -72,10 +77,14 @@ fun LoginScreen(
                     )
                 )
         ) {
+            // Scrolls on short landscape screens, centred otherwise; phone width on tablets.
+            BoxWithConstraints(Modifier.fillMaxSize().padding(innerPadding)) {
+            val viewportHeight = maxHeight
             Column(
                 modifier = Modifier
-                    .fillMaxSize()
-                    .padding(innerPadding)
+                    .fillMaxWidth()
+                    .verticalScroll(rememberScrollState())
+                    .heightIn(min = viewportHeight)
                     .padding(24.dp),
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.Center
@@ -83,6 +92,7 @@ fun LoginScreen(
                 // Glassmorphic Card container
                 Box(
                     modifier = Modifier
+                        .widthIn(max = 440.dp)
                         .fillMaxWidth()
                         .clip(RoundedCornerShape(32.dp))
                         .background(Color.White.copy(alpha = 0.05f))
@@ -156,6 +166,7 @@ fun LoginScreen(
                         }
                     }
                 }
+            }
             }
         }
     }

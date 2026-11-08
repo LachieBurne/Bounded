@@ -81,11 +81,20 @@ import com.lburne.bounded.data.local.CardWithQuantity
 import com.lburne.bounded.data.local.DeckCardView
 import com.lburne.bounded.data.model.CardType
 import com.lburne.bounded.data.model.Domain
-import com.lburne.bounded.ui.binder.BinderUiState
-import com.lburne.bounded.ui.binder.FilterSheet
-import com.lburne.bounded.ui.binder.SleekSearchBar
-import com.lburne.bounded.ui.binder.getCardBorderBrush
-import com.lburne.bounded.ui.binder.getDomainColor
+import com.lburne.bounded.ui.common.ActiveFilterRow
+import com.lburne.bounded.ui.common.CardFilterSheet
+import com.lburne.bounded.ui.common.EmptyState
+import com.lburne.bounded.ui.common.GridSpacing
+import com.lburne.bounded.ui.common.SearchField
+import com.lburne.bounded.ui.common.getCardBorderBrush
+import com.lburne.bounded.ui.common.getDomainColor
+import com.lburne.bounded.ui.common.rememberCardGridCells
+import androidx.compose.foundation.layout.BoxWithConstraints
+import androidx.compose.material.icons.filled.FilterList
+import androidx.compose.material3.Badge
+import androidx.compose.material3.BadgedBox
+import androidx.compose.material3.VerticalDivider
+import androidx.compose.material3.rememberModalBottomSheetState
 
 private const val GITHUB_ASSETS_URL = "https://lachieburne.github.io/Bounded"
 
@@ -154,11 +163,18 @@ fun DeckEditorScreen(
 
     var selectedTabIndex by remember { mutableIntStateOf(0) }
 
-    LaunchedEffect(currentStep) {
-        if (currentStep == DeckBuildStep.COMPLETE) {
-            selectedTabIndex = 0
-        } else if (currentStep == DeckBuildStep.SELECT_LEGEND) {
-            selectedTabIndex = 1
+    BoxWithConstraints(Modifier.fillMaxSize()) {
+    // Wide screens (tablets, unfolded foldables, landscape) show the picker and the deck side
+    // by side, so you can see what you're adding to.
+    val twoPane = maxWidth >= 840.dp
+    val tabs = if (twoPane) listOf("Build", "Stats") else listOf("My Deck", "Add Cards", "Stats")
+    val statsTab = tabs.lastIndex
+    if (selectedTabIndex > statsTab) selectedTabIndex = 0
+
+    LaunchedEffect(currentStep, twoPane) {
+        if (!twoPane) {
+            if (currentStep == DeckBuildStep.COMPLETE) selectedTabIndex = 0
+            else if (currentStep == DeckBuildStep.SELECT_LEGEND) selectedTabIndex = 1
         }
     }
 
@@ -166,7 +182,7 @@ fun DeckEditorScreen(
         topBar = {
             Column {
                 TopAppBar(
-                    title = { Text(deck?.name ?: "Edit Deck") },
+                    title = { Text(deck?.name ?: "Edit Deck", maxLines = 1, overflow = TextOverflow.Ellipsis) },
                     navigationIcon = {
                         IconButton(onClick = onBack) {
                             Icon(Icons.AutoMirrored.Filled.ArrowBack, "Back")
@@ -177,108 +193,98 @@ fun DeckEditorScreen(
                             val exportText = viewModel.getExportText()
                             shareDeckText(context, exportText, "${deck?.name ?: "Deck"} Decklist")
                         }) {
-                            Icon(Icons.Default.Share, contentDescription = "Export Deck", tint = Color.White)
+                            Icon(Icons.Default.Share, contentDescription = "Share decklist")
                         }
 
                         if (hasMissingCards) {
                             IconButton(onClick = { viewModel.onAddAllMissingToBinder() }) {
                                 Icon(
                                     imageVector = Icons.Default.LibraryAdd,
-                                    contentDescription = "Add all missing cards to binder",
-                                    tint = Color.White
+                                    contentDescription = "Add all missing cards to collection"
                                 )
                             }
                         }
                     }
                 )
                 TabRow(selectedTabIndex = selectedTabIndex) {
-                    Tab(
-                        selected = selectedTabIndex == 0,
-                        onClick = { selectedTabIndex = 0 },
-                        text = { Text(
-                            text="My Deck",
-                            color=Color.White
-                        ) }
-                    )
-                    Tab(
-                        selected = selectedTabIndex == 1,
-                        onClick = { selectedTabIndex = 1 },
-                        text = { Text(
-                            text="Add Cards",
-                            color=Color.White
-                        ) }
-                    )
-                    // NEW TAB 3: STATS
-                    Tab(
-                        selected = selectedTabIndex == 2,
-                        onClick = { selectedTabIndex = 2 },
-                        text = { Text(
-                            text="Stats",
-                            color=Color.White
-                        ) }
-                    )
+                    tabs.forEachIndexed { index, title ->
+                        Tab(
+                            selected = selectedTabIndex == index,
+                            onClick = { selectedTabIndex = index },
+                            text = { Text(title) }
+                        )
+                    }
                 }
             }
         }
     ) { innerPadding ->
-        Box(Modifier.padding(innerPadding)) {
-            when (selectedTabIndex) {
-                0 -> {
-                    DeckViewTab(
-                        deck = deck,
-                        mainSlots = mainSlots,
-                        sideSlots = sideSlots,
-                        totalCountsByName = totalCountsByName,
-                        prices = prices,
-                        currencySymbol = currencySymbol,
-                        onIncrement = { id, isSide -> viewModel.onIncrementCard(id, isSide) },
-                        onDecrement = { id, isSide -> viewModel.onDecrementCard(id, isSide) },
-                        onAddMissing = { id -> viewModel.onAddMissingToBinder(id) },
-                        onCardClick = onCardClick
-                    )
-                }
-                1 -> {
-                    val dynamicTitle = when (currentStep) {
-                        DeckBuildStep.SELECT_RUNES -> "Select Runes (${deckCounts.runes}/${DeckRules.RUNE_DECK_SIZE})"
-                        DeckBuildStep.SELECT_BATTLEFIELDS -> "Select Battlefields (${deckCounts.battlefields}/${DeckRules.BATTLEFIELD_COUNT})"
-                        DeckBuildStep.SELECT_MAIN -> "Main Deck (${deckCounts.mainDeck}/${DeckRules.MAIN_DECK_MIN})"
-                        DeckBuildStep.SELECT_SIDEBOARD -> "Sideboard (${deckCounts.sideboard}/${DeckRules.SIDEBOARD_MAX})"
-                        DeckBuildStep.COMPLETE -> "Deck Complete!"
-                        else -> currentStep.title
-                    }
-
-                    val legendEntry = mainSlots.find { it.card.cardId == deck?.legendCardId }
-                    val allowedFilterDomains = remember(currentStep, legendEntry) {
-                        if (currentStep == DeckBuildStep.SELECT_LEGEND) {
-                            null
-                        } else {
-                            val baseDomains = legendEntry?.card?.domain ?: emptyList()
-                            if (baseDomains.isNotEmpty()) (baseDomains + Domain.COLORLESS).distinct() else null
-                        }
-                    }
-
-                    DeckBrowseTab(
-                        issues = deckIssues,
-                        step = currentStep,
-                        title = dynamicTitle,
-                        instruction = currentStep.instruction,
-                        cards = availableCards,
-                        totalCountsById = totalCountsById,
-                        totalCountsByName = totalCountsByName,
-                        activeZoneCounts = activeZoneCounts,
-                        viewModel = viewModel,
-                        allowedDomains = allowedFilterDomains,
-                        onAdd = { cardObj -> viewModel.onCardSelect(cardObj) },
-                        onRemove = { cardId -> viewModel.onRemoveCard(cardId) },
-                        onCardClick = onCardClick
-                    )
-                }
-                // NEW: STATS TAB RENDER
-                2 -> {
-                    DeckStatsTab(stats = deckStats, currencySymbol = currencySymbol)
-                }
+        val deckView: @Composable (Modifier) -> Unit = { modifier ->
+            Box(modifier) {
+                DeckViewTab(
+                    deck = deck,
+                    mainSlots = mainSlots,
+                    sideSlots = sideSlots,
+                    totalCountsByName = totalCountsByName,
+                    prices = prices,
+                    currencySymbol = currencySymbol,
+                    onIncrement = { id, isSide -> viewModel.onIncrementCard(id, isSide) },
+                    onDecrement = { id, isSide -> viewModel.onDecrementCard(id, isSide) },
+                    onAddMissing = { id -> viewModel.onAddMissingToBinder(id) },
+                    onCardClick = onCardClick
+                )
             }
         }
+        val browse: @Composable (Modifier) -> Unit = { modifier ->
+            val dynamicTitle = when (currentStep) {
+                DeckBuildStep.SELECT_RUNES -> "Select Runes (${deckCounts.runes}/${DeckRules.RUNE_DECK_SIZE})"
+                DeckBuildStep.SELECT_BATTLEFIELDS -> "Select Battlefields (${deckCounts.battlefields}/${DeckRules.BATTLEFIELD_COUNT})"
+                DeckBuildStep.SELECT_MAIN -> "Main Deck (${deckCounts.mainDeck}/${DeckRules.MAIN_DECK_MIN})"
+                DeckBuildStep.SELECT_SIDEBOARD -> "Sideboard (${deckCounts.sideboard}/${DeckRules.SIDEBOARD_MAX})"
+                DeckBuildStep.COMPLETE -> "Deck Complete!"
+                else -> currentStep.title
+            }
+
+            val legendEntry = mainSlots.find { it.card.cardId == deck?.legendCardId }
+            val allowedFilterDomains = remember(currentStep, legendEntry) {
+                if (currentStep == DeckBuildStep.SELECT_LEGEND) {
+                    null
+                } else {
+                    val baseDomains = legendEntry?.card?.domain ?: emptyList()
+                    if (baseDomains.isNotEmpty()) (baseDomains + Domain.COLORLESS).distinct() else null
+                }
+            }
+
+            Box(modifier) {
+                DeckBrowseTab(
+                    issues = deckIssues,
+                    step = currentStep,
+                    title = dynamicTitle,
+                    instruction = currentStep.instruction,
+                    cards = availableCards,
+                    totalCountsById = totalCountsById,
+                    totalCountsByName = totalCountsByName,
+                    activeZoneCounts = activeZoneCounts,
+                    viewModel = viewModel,
+                    allowedDomains = allowedFilterDomains,
+                    onAdd = { cardObj -> viewModel.onCardSelect(cardObj) },
+                    onRemove = { cardId -> viewModel.onRemoveCard(cardId) }
+                )
+            }
+        }
+
+        Box(Modifier.padding(innerPadding)) {
+            when {
+                selectedTabIndex == statsTab -> DeckStatsTab(stats = deckStats, currencySymbol = currencySymbol)
+                twoPane -> Row(Modifier.fillMaxSize()) {
+                    browse(Modifier.weight(0.6f))
+                    VerticalDivider()
+                    deckView(Modifier.weight(0.4f))
+                }
+                selectedTabIndex == 0 -> deckView(Modifier.fillMaxSize())
+                else -> browse(Modifier.fillMaxSize())
+            }
+        }
+    }
     }
 }
 
@@ -849,46 +855,22 @@ fun DeckBrowseTab(
     viewModel: DeckEditorViewModel,
     allowedDomains: List<Domain>?,
     onAdd: (com.lburne.bounded.data.model.Card) -> Unit,
-    onRemove: (String) -> Unit,
-    onCardClick: (String) -> Unit
+    onRemove: (String) -> Unit
 ) {
     var showFilterSheet by remember { mutableStateOf(false) }
-
-    val searchQuery by viewModel.searchQuery.collectAsState()
-    val filterDomain by viewModel.filterDomain.collectAsState()
-    val filterRarity by viewModel.filterRarity.collectAsState()
-    val filterType by viewModel.filterType.collectAsState()
-    val filterSet by viewModel.filterSet.collectAsState()
-    val filterCost by viewModel.filterCost.collectAsState()
-    val filterMight by viewModel.filterMight.collectAsState()
-    val showOwnedOnly by viewModel.showOwnedOnly.collectAsState()
-
-    val isFiltering = filterDomain != null || filterRarity != null || filterType != null || filterSet != null || filterCost != null || filterMight != null || showOwnedOnly
-
-    val dummyUiState = BinderUiState(
-        searchQuery = searchQuery,
-        filterDomain = filterDomain,
-        filterRarity = filterRarity,
-        filterType = filterType,
-        filterSet = filterSet,
-        filterCost = filterCost,
-        filterMight = filterMight,
-        showOwnedOnly = showOwnedOnly
-    )
+    val filter by viewModel.filter.collectAsState()
 
     if (showFilterSheet) {
-        ModalBottomSheet(onDismissRequest = { showFilterSheet = false }) {
-            FilterSheet(
-                uiState = dummyUiState,
-                allowedDomains = allowedDomains,
-                onDomainChanged = { viewModel.onDomainSelected(it) },
-                onRarityChanged = { viewModel.onRaritySelected(it) },
-                onTypeChanged = { viewModel.onTypeSelected(it) },
-                onSetChanged = { viewModel.onSetSelected(it) },
-                onCostChanged = { viewModel.onCostSelected(it) },
-                onMightChanged = { viewModel.onMightSelected(it) },
-                onOwnedOnlyChanged = { viewModel.onToggleOwnedOnly(it) },
-                onClearAll = { viewModel.clearFilters() }
+        ModalBottomSheet(
+            onDismissRequest = { showFilterSheet = false },
+            sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
+        ) {
+            CardFilterSheet(
+                filter = filter,
+                onFilterChange = viewModel::updateFilter,
+                resultCount = cards.size,
+                onDone = { showFilterSheet = false },
+                allowedDomains = allowedDomains
             )
         }
     }
@@ -899,15 +881,51 @@ fun DeckBrowseTab(
     val ownedCards = remember(cards) { cards.filter { it.quantity > 0 } }
     val unownedCards = remember(cards) { cards.filter { it.quantity == 0 } }
     val isLandscapeMode = cards.firstOrNull()?.card?.type == CardType.BATTLEFIELD
-    val minColumnSize = if (isLandscapeMode) 160.dp else 120.dp
 
-    Box(modifier = Modifier.fillMaxSize()) {
+    Column(Modifier.fillMaxSize()) {
+        // The step, instruction and search stay put; only the cards scroll.
+        Column(
+            modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp).padding(top = 12.dp, bottom = 8.dp),
+            verticalArrangement = Arrangement.spacedBy(8.dp)
+        ) {
+            Column {
+                Text(text = title, style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.Bold)
+                Text(text = instruction, style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                // Rules a finished step now breaks, e.g. a card from before the rules were enforced.
+                val ruleBreaks = issues.filter { it.code in RULE_BREAK_CODES }
+                if (ruleBreaks.isNotEmpty()) {
+                    Text(
+                        text = ruleBreaks.joinToString(separator = "\n") { issue ->
+                            issue.code.message + (issue.subject?.let { " ($it)" } ?: "")
+                        },
+                        style = MaterialTheme.typography.bodySmall,
+                        color = MaterialTheme.colorScheme.error,
+                        modifier = Modifier.padding(top = 4.dp)
+                    )
+                }
+            }
+            Row(verticalAlignment = Alignment.CenterVertically) {
+                SearchField(
+                    query = filter.query,
+                    onQueryChange = viewModel::setQuery,
+                    placeholder = "Search cards",
+                    modifier = Modifier.weight(1f)
+                )
+                IconButton(onClick = { showFilterSheet = true }) {
+                    BadgedBox(badge = { if (filter.activeCount > 0) Badge { Text(filter.activeCount.toString()) } }) {
+                        Icon(Icons.Default.FilterList, contentDescription = "Filters")
+                    }
+                }
+            }
+        }
+        ActiveFilterRow(filter = filter, onFilterChange = viewModel::updateFilter, modifier = Modifier.fillMaxWidth().padding(bottom = 8.dp))
+
         LazyVerticalGrid(
             state = gridState,
-            columns = GridCells.Adaptive(minSize = minColumnSize),
-            contentPadding = PaddingValues(top = 140.dp, start = 8.dp, end = 8.dp, bottom = 8.dp),
-            horizontalArrangement = Arrangement.spacedBy(8.dp),
-            verticalArrangement = Arrangement.spacedBy(8.dp),
+            columns = rememberCardGridCells(landscape = isLandscapeMode),
+            contentPadding = PaddingValues(start = 12.dp, end = 12.dp, bottom = 16.dp),
+            horizontalArrangement = Arrangement.spacedBy(GridSpacing),
+            verticalArrangement = Arrangement.spacedBy(GridSpacing),
             modifier = Modifier.fillMaxSize()
         ) {
             fun androidx.compose.foundation.lazy.grid.LazyGridScope.cardItems(cardList: List<CardWithQuantity>) {
@@ -931,50 +949,30 @@ fun DeckBrowseTab(
                 }
             }
 
+            if (cards.isEmpty()) {
+                item(span = { GridItemSpan(maxLineSpan) }) {
+                    EmptyState(
+                        title = "No cards match",
+                        body = if (filter.isEmpty) null else "Try a different search, or clear some filters."
+                    )
+                }
+            }
             if (ownedCards.isNotEmpty()) {
                 item(span = { GridItemSpan(maxLineSpan) }) {
-                    Text("Owned Cards", style = MaterialTheme.typography.titleMedium, color = Color.White, modifier = Modifier.padding(top = 16.dp, bottom = 8.dp))
+                    Text("Owned", style = MaterialTheme.typography.titleSmall, modifier = Modifier.padding(top = 8.dp, bottom = 4.dp))
                 }
                 cardItems(ownedCards)
             }
             if (unownedCards.isNotEmpty()) {
                 item(span = { GridItemSpan(maxLineSpan) }) {
-                    Text("Unowned Cards", style = MaterialTheme.typography.titleMedium, color = MaterialTheme.colorScheme.onSurfaceVariant, modifier = Modifier.padding(top = 16.dp, bottom = 8.dp))
+                    Text(
+                        "Not owned",
+                        style = MaterialTheme.typography.titleSmall,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant,
+                        modifier = Modifier.padding(top = 16.dp, bottom = 4.dp)
+                    )
                 }
                 cardItems(unownedCards)
-            }
-        }
-
-        Surface(
-            modifier = Modifier.align(Alignment.TopCenter).fillMaxWidth(),
-            color = MaterialTheme.colorScheme.background
-        ) {
-            Column {
-                Column(
-                    modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp).padding(top = 16.dp, bottom = 4.dp)
-                ) {
-                    Text(text = title, style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.Bold, color = Color.White)
-                    Text(text = instruction, style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.onSurfaceVariant)
-                    // Rules a finished step now breaks, e.g. a card from before the rules were enforced.
-                    val ruleBreaks = issues.filter { it.code in RULE_BREAK_CODES }
-                    if (ruleBreaks.isNotEmpty()) {
-                        Text(
-                            text = ruleBreaks.joinToString(separator = "\n") { issue ->
-                                issue.code.message + (issue.subject?.let { " ($it)" } ?: "")
-                            },
-                            style = MaterialTheme.typography.bodySmall,
-                            color = MaterialTheme.colorScheme.error,
-                            modifier = Modifier.padding(top = 4.dp)
-                        )
-                    }
-                }
-                SleekSearchBar(
-                    query = searchQuery,
-                    onQueryChanged = { viewModel.onSearchQueryChanged(it) },
-                    onFilterClicked = { showFilterSheet = true },
-                    isFilterActive = isFiltering,
-                    onSettingsClicked = null
-                )
             }
         }
     }

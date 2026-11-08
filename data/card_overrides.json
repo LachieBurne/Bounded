@@ -1,11 +1,295 @@
 {
-  "_comment": "Field fixes applied to gallery cards by cardId, for data the gallery gets wrong or leaves blank.",
+  "_comment": "Field fixes applied to gallery cards by cardId, for data the gallery gets wrong or leaves blank (e.g. artistName; see docs/unknown-artists.md).",
   "cards": {
     "OGN-235": {
       "tags": [
         "Karma",
         "Ionia"
       ]
+    },
+    "RAD-001": {
+      "domain": [
+        "FURY"
+      ]
+    },
+    "RAD-003": {
+      "domain": [
+        "FURY"
+      ]
+    },
+    "RAD-004": {
+      "domain": [
+        "FURY"
+      ]
+    },
+    "RAD-006": {
+      "domain": [
+        "FURY"
+      ]
+    },
+    "RAD-009": {
+      "domain": [
+        "FURY"
+      ]
+    },
+    "RAD-012": {
+      "domain": [
+        "FURY"
+      ]
+    },
+    "RAD-016": {
+      "domain": [
+        "FURY"
+      ]
+    },
+    "RAD-017": {
+      "domain": [
+        "FURY"
+      ]
+    },
+    "RAD-020": {
+      "artistName": "Pixelverse"
+    },
+    "RAD-020a": {
+      "artistName": "Danvergiting"
+    },
+    "RAD-021": {
+      "artistName": "Yeon Art Studio"
+    },
+    "RAD-022": {
+      "domain": [
+        "FURY"
+      ]
+    },
+    "RAD-023": {
+      "artistName": "Pixelverse"
+    },
+    "RAD-024": {
+      "domain": [
+        "CALM"
+      ]
+    },
+    "RAD-026": {
+      "domain": [
+        "CALM"
+      ]
+    },
+    "RAD-028": {
+      "artistName": "Yeon Art Studio"
+    },
+    "RAD-033": {
+      "artistName": "Yeon Art Studio"
+    },
+    "RAD-041": {
+      "domain": [
+        "CALM"
+      ]
+    },
+    "RAD-042": {
+      "artistName": "Pixelverse"
+    },
+    "RAD-042a": {
+      "artistName": "ALSO YIQI"
+    },
+    "RAD-044": {
+      "artistName": "Yeon Art Studio"
+    },
+    "RAD-045": {
+      "artistName": "Pixelverse"
+    },
+    "RAD-047": {
+      "domain": [
+        "MIND"
+      ]
+    },
+    "RAD-049": {
+      "domain": [
+        "MIND"
+      ]
+    },
+    "RAD-059": {
+      "domain": [
+        "MIND"
+      ]
+    },
+    "RAD-062": {
+      "domain": [
+        "MIND"
+      ]
+    },
+    "RAD-065a": {
+      "artistName": "Aling"
+    },
+    "RAD-067": {
+      "domain": [
+        "MIND"
+      ]
+    },
+    "RAD-068a": {
+      "artistName": "Yannian"
+    },
+    "RAD-071": {
+      "artistName": "Yeon Art Studio",
+      "domain": [
+        "BODY"
+      ]
+    },
+    "RAD-073": {
+      "artistName": "Yeon Art Studio",
+      "domain": [
+        "BODY"
+      ]
+    },
+    "RAD-081": {
+      "domain": [
+        "BODY"
+      ]
+    },
+    "RAD-085": {
+      "artistName": "Yeon Art Studio"
+    },
+    "RAD-086": {
+      "artistName": "Pixelverse"
+    },
+    "RAD-087": {
+      "artistName": "Yeon Art Studio"
+    },
+    "RAD-092": {
+      "artistName": "Mogi"
+    },
+    "RAD-093": {
+      "domain": [
+        "CHAOS"
+      ]
+    },
+    "RAD-102": {
+      "domain": [
+        "CHAOS"
+      ]
+    },
+    "RAD-104": {
+      "domain": [
+        "CHAOS"
+      ]
+    },
+    "RAD-106": {
+      "artistName": "Yeon Art Studio",
+      "domain": [
+        "CHAOS"
+      ]
+    },
+    "RAD-108": {
+      "domain": [
+        "CHAOS"
+      ]
+    },
+    "RAD-111": {
+      "domain": [
+        "CHAOS"
+      ]
+    },
+    "RAD-112": {
+      "artistName": "Yeon Art Studio"
+    },
+    "RAD-114": {
+      "artistName": "Yeon Art Studio"
+    },
+    "RAD-116": {
+      "artistName": "Yeon Art Studio/Anna Nikonova"
+    },
+    "RAD-120": {
+      "tags": [
+        "Piltover"
+      ]
+    },
+    "RAD-121": {
+      "domain": [
+        "ORDER"
+      ]
+    },
+    "RAD-123": {
+      "domain": [
+        "ORDER"
+      ]
+    },
+    "RAD-124": {
+      "domain": [
+        "ORDER"
+      ]
+    },
+    "RAD-134": {
+      "domain": [
+        "ORDER"
+      ]
+    },
+    "RAD-136": {
+      "artistName": "Yeon Art Studio"
+    },
+    "RAD-138": {
+      "artistName": "Pixelverse"
+    },
+    "RAD-138a": {
+      "artistName": "J1nyuu"
+    },
+    "RAD-144": {
+      "artistName": "Pixelverse"
+    },
+    "RAD-146": {
+      "artistName": "Calf Art Studio"
+    },
+    "RAD-170": {
+      "artistName": "Taylor Jansen"
+    },
+    "RAD-170*": {
+      "artistName": "Taylor Jansen"
+    },
+    "RAD-171": {
+      "artistName": "Anh Dang"
+    },
+    "RAD-171*": {
+      "artistName": "Anh Dang"
+    },
+    "RAD-173": {
+      "artistName": "Charles Liu"
+    },
+    "RAD-173*": {
+      "artistName": "Charles Liu"
+    },
+    "RAD-174": {
+      "artistName": "Anna Nikonova"
+    },
+    "RAD-174*": {
+      "artistName": "Anna Nikonova"
+    },
+    "RAD-176": {
+      "artistName": "Herman Ng"
+    },
+    "RAD-176*": {
+      "artistName": "Herman Ng"
+    },
+    "RAD-R01a": {
+      "artistName": "Yeon Art Studio"
+    },
+    "RAD-R02a": {
+      "artistName": "Yeon Art Studio"
+    },
+    "RAD-R03a": {
+      "artistName": "Yeon Art Studio"
+    },
+    "RAD-R04a": {
+      "artistName": "Yeon Art Studio"
+    },
+    "RAD-R05a": {
+      "artistName": "Yeon Art Studio"
+    },
+    "RAD-R06a": {
+      "artistName": "Yeon Art Studio"
+    },
+    "RAD-SP2": {
+      "artistName": "Bullet lin"
+    },
+    "RAD-SP5": {
+      "artistName": "Bullet lin"
     }
   }
 }

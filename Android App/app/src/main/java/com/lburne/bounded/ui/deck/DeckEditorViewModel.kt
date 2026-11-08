@@ -3,13 +3,13 @@ package com.lburne.bounded.ui.deck
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
+import com.lburne.bounded.data.filter.CardFilter
 import com.lburne.bounded.data.local.CardWithQuantity
 import com.lburne.bounded.data.local.DeckCardView
 import com.lburne.bounded.data.model.Card
 import com.lburne.bounded.data.model.CardType
 import com.lburne.bounded.data.model.Deck
 import com.lburne.bounded.data.model.Domain
-import com.lburne.bounded.data.model.RiftRarity
 import com.lburne.bounded.data.repository.CardRepository
 import com.lburne.bounded.data.repository.DeckCards
 import com.lburne.bounded.data.repository.PriceRepository
@@ -49,23 +49,6 @@ enum class DeckBuildStep(val step: DeckStep, val title: String, val instruction:
         fun from(step: DeckStep): DeckBuildStep = values().first { it.step == step }
     }
 }
-
-private data class FilterCriteria(
-    val domain: Domain? = null,
-    val rarity: RiftRarity? = null,
-    val type: CardType? = null,
-    val set: String? = null,
-    val cost: Int? = null,
-    val might: Int? = null,
-    val ownedOnly: Boolean = false
-)
-
-private data class VisualFilters(
-    val domain: Domain?,
-    val rarity: RiftRarity?,
-    val type: CardType?,
-    val set: String?
-)
 
 data class DeckStats(
     val totalMainDeck: Int = 0,
@@ -239,97 +222,32 @@ class DeckEditorViewModel(
         )
     }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), DeckStats())
 
-    // --- FILTER STATES ---
-    private val _searchQuery = MutableStateFlow("")
-    val searchQuery = _searchQuery.asStateFlow()
-
-    private val _filterDomain = MutableStateFlow<Domain?>(null)
-    val filterDomain = _filterDomain.asStateFlow()
-
-    private val _filterRarity = MutableStateFlow<RiftRarity?>(null)
-    val filterRarity = _filterRarity.asStateFlow()
-
-    private val _filterType = MutableStateFlow<CardType?>(null)
-    val filterType = _filterType.asStateFlow()
-
-    private val _filterSet = MutableStateFlow<String?>(null)
-    val filterSet = _filterSet.asStateFlow()
-
-    private val _filterCost = MutableStateFlow<Int?>(null)
-    val filterCost = _filterCost.asStateFlow()
-
-    private val _filterMight = MutableStateFlow<Int?>(null)
-    val filterMight = _filterMight.asStateFlow()
-
-    private val _showOwnedOnly = MutableStateFlow(false)
-    val showOwnedOnly = _showOwnedOnly.asStateFlow()
-
-    private val _visualFilters = combine(_filterDomain, _filterRarity, _filterType, _filterSet) { d, r, t, s ->
-        VisualFilters(d, r, t, s)
-    }
-    private val _statFilters = combine(_filterCost, _filterMight, _showOwnedOnly) { c, m, o -> Triple(c, m, o) }
-
-    private val _activeFilters = combine(_visualFilters, _statFilters) { visual, stats ->
-        FilterCriteria(visual.domain, visual.rarity, visual.type, visual.set, stats.first, stats.second, stats.third)
-    }
+    // --- CARD PICKER FILTERS ---
+    private val _filter = MutableStateFlow(CardFilter())
+    val filter: StateFlow<CardFilter> = _filter.asStateFlow()
 
     val availableCards: StateFlow<List<CardWithQuantity>> = combine(
         repository.getAllCardsWithOwnership(),
-        _searchQuery,
-        _activeFilters,
+        _filter,
         currentStep,
         deck
-    ) { allCards, query, filters, step, deckObj ->
-
+    ) { allCards, filters, step, deckObj ->
         val legendCard = allCards.find { it.card.cardId == deckObj?.legendCardId }?.card
 
         allCards.filter { item ->
             val card = item.card
-
-            val matchesStepConstraint = DeckRules.isCandidate(card, step.step, legendCard)
-
             // Hide functional reprints of the base runes (e.g. SFD-R04 duplicates OGN-214) so the
             // picker isn't clogged with identical cards. Alternate arts (UNL-R05a) stay.
             val collectorNumberPart = card.cardId.substringAfter("-")
             val isNotReprint = !collectorNumberPart.startsWith("R", ignoreCase = true) || collectorNumberPart.any { it.isLowerCase() }
 
-            val matchesSearch = if (query.isBlank()) true else {
-                card.name.contains(query, ignoreCase = true) || card.type.name.contains(query, ignoreCase = true)
-            }
-
-            val matchesDomain = filters.domain == null || card.domain.contains(filters.domain)
-            val matchesRarity = filters.rarity == null || card.rarity == filters.rarity
-            val matchesType = filters.type == null || card.type == filters.type
-            val matchesSet = filters.set == null || card.setCode == filters.set
-            val matchesCost = filters.cost == null || card.cost == filters.cost
-            val matchesMight = filters.might == null || card.might == filters.might
-            val matchesOwned = if (filters.ownedOnly) item.quantity > 0 else true
-
-            matchesStepConstraint && isNotReprint && matchesSearch && matchesDomain && matchesRarity &&
-                matchesType && matchesSet && matchesCost && matchesMight && matchesOwned
+            DeckRules.isCandidate(card, step.step, legendCard) && isNotReprint && filters.matches(card, item.quantity)
         }
     }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), emptyList())
 
-    // --- ACTIONS ---
-    fun onSearchQueryChanged(query: String) { _searchQuery.value = query }
-    fun onDomainSelected(domain: Domain?) { _filterDomain.value = domain }
-    fun onRaritySelected(rarity: RiftRarity?) { _filterRarity.value = rarity }
-    fun onTypeSelected(type: CardType?) { _filterType.value = type }
-    fun onSetSelected(set: String?) { _filterSet.value = set }
-    fun onCostSelected(cost: Int?) { _filterCost.value = cost }
-    fun onMightSelected(might: Int?) { _filterMight.value = might }
-    fun onToggleOwnedOnly(show: Boolean) { _showOwnedOnly.value = show }
+    fun updateFilter(newFilter: CardFilter) { _filter.value = newFilter }
 
-    fun clearFilters() {
-        _searchQuery.value = ""
-        _filterDomain.value = null
-        _filterRarity.value = null
-        _filterType.value = null
-        _filterSet.value = null
-        _filterCost.value = null
-        _filterMight.value = null
-        _showOwnedOnly.value = false
-    }
+    fun setQuery(query: String) { _filter.value = _filter.value.copy(query = query) }
 
     // --- DECK EDITS ---
     // Edits run one at a time, and each waits until the deck snapshot reflects it before

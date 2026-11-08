@@ -36336,7 +36336,7 @@
     "artistName": "Kudos Productions",
     "imageUrl": "https://lachieburne.github.io/Bounded/card_images/RAD-001.webp",
     "domain": [
-      "CHAOS"
+      "FURY"
     ],
     "rarity": "COMMON",
     "type": "UNIT",
@@ -36378,9 +36378,7 @@
     "orientation": "portrait",
     "power": 1,
     "mightBonus": null,
-    "tags": [
-      "Device"
-    ],
+    "tags": [],
     "championTag": null,
     "isSignature": false,
     "text": "[Deploy] (Play this only to a battlefield. When an opponent holds here, kill this.)\nFriendly units here have [Assault]. (+1 [Might] while they're attackers.)",
@@ -36394,7 +36392,7 @@
     "artistName": "Six More Vodka",
     "imageUrl": "https://lachieburne.github.io/Bounded/card_images/RAD-003.webp",
     "domain": [
-      "BODY"
+      "FURY"
     ],
     "rarity": "COMMON",
     "type": "UNIT",
@@ -36422,7 +36420,7 @@
     "artistName": "Kudos Productions",
     "imageUrl": "https://lachieburne.github.io/Bounded/card_images/RAD-004.webp",
     "domain": [
-      "CHAOS"
+      "FURY"
     ],
     "rarity": "COMMON",
     "type": "SPELL",
@@ -36477,7 +36475,9 @@
     "collectorNumber": 6,
     "artistName": "Kudos Productions",
     "imageUrl": "https://lachieburne.github.io/Bounded/card_images/RAD-006.webp",
-    "domain": [],
+    "domain": [
+      "FURY"
+    ],
     "rarity": "COMMON",
     "type": "SPELL",
     "cost": 4,
@@ -36507,7 +36507,7 @@
       "FURY"
     ],
     "rarity": "COMMON",
-    "type": "GEAR",
+    "type": "SPELL",
     "cost": 3,
     "might": null,
     "isToken": false,
@@ -36559,7 +36559,9 @@
     "collectorNumber": 9,
     "artistName": "Caravan Studio",
     "imageUrl": "https://lachieburne.github.io/Bounded/card_images/RAD-009.webp",
-    "domain": [],
+    "domain": [
+      "FURY"
+    ],
     "rarity": "UNCOMMON",
     "type": "UNIT",
     "cost": 6,
@@ -36642,10 +36644,10 @@
     "artistName": "Kudos Productions",
     "imageUrl": "https://lachieburne.github.io/Bounded/card_images/RAD-012.webp",
     "domain": [
-      "CHAOS"
+      "FURY"
     ],
     "rarity": "UNCOMMON",
-    "type": "UNIT",
+    "type": "GEAR",
     "cost": 1,
     "might": null,
     "isToken": false,
@@ -36757,10 +36759,10 @@
     "artistName": "Michal Ivan",
     "imageUrl": "https://lachieburne.github.io/Bounded/card_images/RAD-016.webp",
     "domain": [
-      "MIND"
+      "FURY"
     ],
     "rarity": "RARE",
-    "type": "SPELL",
+    "type": "UNIT",
     "cost": 4,
     "might": 4,
     "isToken": false,
@@ -36785,7 +36787,7 @@
     "artistName": "Fish Art Studio",
     "imageUrl": "https://lachieburne.github.io/Bounded/card_images/RAD-017.webp",
     "domain": [
-      "CHAOS"
+      "FURY"
     ],
     "rarity": "RARE",
     "type": "GEAR",
@@ -36799,9 +36801,7 @@
     "orientation": "portrait",
     "power": 1,
     "mightBonus": null,
-    "tags": [
-      "Device"
-    ],
+    "tags": [],
     "championTag": null,
     "isSignature": false,
     "text": "[Deploy] (Play this only to a battlefield. When an opponent holds here, kill this.)\nWhen you play this, you may kill another friendly unit or gear to draw 1.\nFriendly [Deathknell] effects here trigger an additional time.",
@@ -36868,7 +36868,7 @@
     "name": "Mordekaiser, Twice Slain",
     "setCode": "RAD",
     "collectorNumber": 20,
-    "artistName": "Unknown",
+    "artistName": "Pixelverse",
     "imageUrl": "https://lachieburne.github.io/Bounded/card_images/RAD-020.webp",
     "domain": [
       "FURY"
@@ -36899,7 +36899,7 @@
     "name": "Mordekaiser, Twice Slain",
     "setCode": "RAD",
     "collectorNumber": 20,
-    "artistName": "Unknown",
+    "artistName": "Danvergiting",
     "imageUrl": "https://lachieburne.github.io/Bounded/card_images/RAD-020a.webp",
     "domain": [
       "FURY"
@@ -36930,7 +36930,7 @@
     "name": "Ekko, Revolutionary",
     "setCode": "RAD",
     "collectorNumber": 21,
-    "artistName": "Unknown",
+    "artistName": "Yeon Art Studio",
     "imageUrl": "https://lachieburne.github.io/Bounded/card_images/RAD-021.webp",
     "domain": [
       "FURY"
@@ -36994,7 +36994,9 @@
     "collectorNumber": 22,
     "artistName": "Caravan Studio",
     "imageUrl": "https://lachieburne.github.io/Bounded/card_images/RAD-022.webp",
-    "domain": [],
+    "domain": [
+      "FURY"
+    ],
     "rarity": "EPIC",
     "type": "GEAR",
     "cost": 4,
@@ -37018,7 +37020,7 @@
     "name": "Ziggs, Short-Fused",
     "setCode": "RAD",
     "collectorNumber": 23,
-    "artistName": "Unknown",
+    "artistName": "Pixelverse",
     "imageUrl": "https://lachieburne.github.io/Bounded/card_images/RAD-023.webp",
     "domain": [
       "FURY"
@@ -37083,7 +37085,7 @@
     "artistName": "Fish Art Studio",
     "imageUrl": "https://lachieburne.github.io/Bounded/card_images/RAD-024.webp",
     "domain": [
-      "CHAOS"
+      "CALM"
     ],
     "rarity": "COMMON",
     "type": "GEAR",
@@ -37097,9 +37099,7 @@
     "orientation": "portrait",
     "power": null,
     "mightBonus": null,
-    "tags": [
-      "Device"
-    ],
+    "tags": [],
     "championTag": null,
     "isSignature": false,
     "text": "[Deploy] (Play this only to a battlefield. When an opponent holds here, kill this.)\nWhen you win a combat here, draw 1.",
@@ -37116,7 +37116,7 @@
       "CALM"
     ],
     "rarity": "COMMON",
-    "type": "UNIT",
+    "type": "SPELL",
     "cost": 1,
     "might": null,
     "isToken": false,
@@ -37140,7 +37140,9 @@
     "collectorNumber": 26,
     "artistName": "Kudos Productions",
     "imageUrl": "https://lachieburne.github.io/Bounded/card_images/RAD-026.webp",
-    "domain": [],
+    "domain": [
+      "CALM"
+    ],
     "rarity": "COMMON",
     "type": "UNIT",
     "cost": 2,
@@ -37192,7 +37194,7 @@
     "name": "Ki Burst",
     "setCode": "RAD",
     "collectorNumber": 28,
-    "artistName": "Unknown",
+    "artistName": "Yeon Art Studio",
     "imageUrl": "https://lachieburne.github.io/Bounded/card_images/RAD-028.webp",
     "domain": [
       "CALM"
@@ -37332,13 +37334,13 @@
     "name": "Command: Attack",
     "setCode": "RAD",
     "collectorNumber": 33,
-    "artistName": "Unknown",
+    "artistName": "Yeon Art Studio",
     "imageUrl": "https://lachieburne.github.io/Bounded/card_images/RAD-033.webp",
     "domain": [
       "CALM"
     ],
     "rarity": "UNCOMMON",
-    "type": "GEAR",
+    "type": "SPELL",
     "cost": 1,
     "might": null,
     "isToken": false,
@@ -37394,7 +37396,7 @@
       "CALM"
     ],
     "rarity": "UNCOMMON",
-    "type": "UNIT",
+    "type": "GEAR",
     "cost": 3,
     "might": null,
     "isToken": false,
@@ -37509,7 +37511,7 @@
       "CALM"
     ],
     "rarity": "RARE",
-    "type": "UNIT",
+    "type": "GEAR",
     "cost": 4,
     "might": null,
     "isToken": false,
@@ -37561,7 +37563,9 @@
     "collectorNumber": 41,
     "artistName": "Kudos Productions",
     "imageUrl": "https://lachieburne.github.io/Bounded/card_images/RAD-041.webp",
-    "domain": [],
+    "domain": [
+      "CALM"
+    ],
     "rarity": "RARE",
     "type": "SPELL",
     "cost": 1,
@@ -37585,7 +37589,7 @@
     "name": "Orianna, Exquisite",
     "setCode": "RAD",
     "collectorNumber": 42,
-    "artistName": "Unknown",
+    "artistName": "Pixelverse",
     "imageUrl": "https://lachieburne.github.io/Bounded/card_images/RAD-042.webp",
     "domain": [
       "CALM"
@@ -37616,7 +37620,7 @@
     "name": "Orianna, Exquisite",
     "setCode": "RAD",
     "collectorNumber": 42,
-    "artistName": "Unknown",
+    "artistName": "ALSO YIQI",
     "imageUrl": "https://lachieburne.github.io/Bounded/card_images/RAD-042a.webp",
     "domain": [
       "CALM"
@@ -37707,13 +37711,13 @@
     "name": "Hunting Blind",
     "setCode": "RAD",
     "collectorNumber": 44,
-    "artistName": "Unknown",
+    "artistName": "Yeon Art Studio",
     "imageUrl": "https://lachieburne.github.io/Bounded/card_images/RAD-044.webp",
     "domain": [
       "CALM"
     ],
     "rarity": "EPIC",
-    "type": "UNIT",
+    "type": "GEAR",
     "cost": 4,
     "might": null,
     "isToken": false,
@@ -37724,9 +37728,7 @@
     "orientation": "portrait",
     "power": 2,
     "mightBonus": null,
-    "tags": [
-      "Device"
-    ],
+    "tags": [],
     "championTag": null,
     "isSignature": false,
     "text": "[Deploy] (Play this only to a battlefield. When an opponent holds here, kill this.)\nWhen you play this, you may move an enemy unit to this battlefield.\nFriendly units here have [Shield 2]. (+2 [Might] while they're defenders.)",
@@ -37737,7 +37739,7 @@
     "name": "K'Sante, Dauntless",
     "setCode": "RAD",
     "collectorNumber": 45,
-    "artistName": "Unknown",
+    "artistName": "Pixelverse",
     "imageUrl": "https://lachieburne.github.io/Bounded/card_images/RAD-045.webp",
     "domain": [
       "CALM"
@@ -37805,7 +37807,7 @@
       "CALM"
     ],
     "rarity": "EPIC",
-    "type": "SPELL",
+    "type": "GEAR",
     "cost": 8,
     "might": null,
     "isToken": false,
@@ -37829,7 +37831,9 @@
     "collectorNumber": 47,
     "artistName": "Kudos Productions",
     "imageUrl": "https://lachieburne.github.io/Bounded/card_images/RAD-047.webp",
-    "domain": [],
+    "domain": [
+      "MIND"
+    ],
     "rarity": "COMMON",
     "type": "SPELL",
     "cost": 3,
@@ -37883,7 +37887,9 @@
     "collectorNumber": 49,
     "artistName": "Six More Vodka",
     "imageUrl": "https://lachieburne.github.io/Bounded/card_images/RAD-049.webp",
-    "domain": [],
+    "domain": [
+      "MIND"
+    ],
     "rarity": "COMMON",
     "type": "UNIT",
     "cost": 4,
@@ -37980,9 +37986,7 @@
     "orientation": "portrait",
     "power": null,
     "mightBonus": null,
-    "tags": [
-      "Device"
-    ],
+    "tags": [],
     "championTag": null,
     "isSignature": false,
     "text": "[Deploy] (Play this only to a battlefield. When an opponent holds here, kill this.)\nAt the end of your turn, if you control this battlefield, play a Gold gear token exhausted. (It has \"[Reaction][>] Kill this, [Exhaust]: [Add] [Rune Rainbow].\")",
@@ -38083,7 +38087,7 @@
       "MIND"
     ],
     "rarity": "UNCOMMON",
-    "type": "GEAR",
+    "type": "SPELL",
     "cost": 3,
     "might": null,
     "isToken": false,
@@ -38164,10 +38168,10 @@
     "artistName": "Kudos Productions",
     "imageUrl": "https://lachieburne.github.io/Bounded/card_images/RAD-059.webp",
     "domain": [
-      "ORDER"
+      "MIND"
     ],
     "rarity": "UNCOMMON",
-    "type": "UNIT",
+    "type": "SPELL",
     "cost": 9,
     "might": null,
     "isToken": false,
@@ -38284,7 +38288,7 @@
     "artistName": "Fish Art Studio",
     "imageUrl": "https://lachieburne.github.io/Bounded/card_images/RAD-062.webp",
     "domain": [
-      "CALM"
+      "MIND"
     ],
     "rarity": "RARE",
     "type": "GEAR",
@@ -38298,9 +38302,7 @@
     "orientation": "portrait",
     "power": 1,
     "mightBonus": null,
-    "tags": [
-      "Device"
-    ],
+    "tags": [],
     "championTag": null,
     "isSignature": false,
     "text": "[Deploy] (Play this only to a battlefield. When an opponent holds here, kill this.)\nOpponents must pay [Energy 1][Rune Rainbow] to move one or more units to this battlefield.\n[Deathknell][>] Draw 1. (When I die, get the effect.)",
@@ -38348,7 +38350,7 @@
       "MIND"
     ],
     "rarity": "RARE",
-    "type": "SPELL",
+    "type": "GEAR",
     "cost": 2,
     "might": null,
     "isToken": false,
@@ -38401,7 +38403,7 @@
     "name": "Seraphine, Inspiring",
     "setCode": "RAD",
     "collectorNumber": 65,
-    "artistName": "Unknown",
+    "artistName": "Aling",
     "imageUrl": "https://lachieburne.github.io/Bounded/card_images/RAD-065a.webp",
     "domain": [
       "MIND"
@@ -38463,7 +38465,7 @@
     "artistName": "Polar Engine Studio",
     "imageUrl": "https://lachieburne.github.io/Bounded/card_images/RAD-067.webp",
     "domain": [
-      "FURY"
+      "MIND"
     ],
     "rarity": "EPIC",
     "type": "UNIT",
@@ -38521,7 +38523,7 @@
     "name": "Orianna, Mechanical Marvel",
     "setCode": "RAD",
     "collectorNumber": 68,
-    "artistName": "Unknown",
+    "artistName": "Yannian",
     "imageUrl": "https://lachieburne.github.io/Bounded/card_images/RAD-068a.webp",
     "domain": [
       "MIND"
@@ -38558,7 +38560,7 @@
       "MIND"
     ],
     "rarity": "EPIC",
-    "type": "SPELL",
+    "type": "GEAR",
     "cost": 9,
     "might": null,
     "isToken": false,
@@ -38608,10 +38610,10 @@
     "name": "Nazuman Ntofo",
     "setCode": "RAD",
     "collectorNumber": 71,
-    "artistName": "Unknown",
+    "artistName": "Yeon Art Studio",
     "imageUrl": "https://lachieburne.github.io/Bounded/card_images/RAD-071.webp",
     "domain": [
-      "ORDER"
+      "BODY"
     ],
     "rarity": "COMMON",
     "type": "GEAR",
@@ -38642,7 +38644,7 @@
       "BODY"
     ],
     "rarity": "COMMON",
-    "type": "SPELL",
+    "type": "UNIT",
     "cost": 2,
     "might": 2,
     "isToken": false,
@@ -38664,10 +38666,10 @@
     "name": "Pillaged Armory",
     "setCode": "RAD",
     "collectorNumber": 73,
-    "artistName": "Unknown",
+    "artistName": "Yeon Art Studio",
     "imageUrl": "https://lachieburne.github.io/Bounded/card_images/RAD-073.webp",
     "domain": [
-      "CALM"
+      "BODY"
     ],
     "rarity": "COMMON",
     "type": "GEAR",
@@ -38681,9 +38683,7 @@
     "orientation": "portrait",
     "power": null,
     "mightBonus": null,
-    "tags": [
-      "Device"
-    ],
+    "tags": [],
     "championTag": null,
     "isSignature": false,
     "text": "[Deploy] (Play this only to a battlefield. When an opponent holds here, kill this.)\nWhen you play this or when you conquer here, [Buff] a friendly unit. (Give it a +1 [Might] buff if it doesn't have one.)",
@@ -38893,7 +38893,7 @@
     "artistName": "Six More Vodka",
     "imageUrl": "https://lachieburne.github.io/Bounded/card_images/RAD-081.webp",
     "domain": [
-      "FURY"
+      "BODY"
     ],
     "rarity": "UNCOMMON",
     "type": "UNIT",
@@ -39002,7 +39002,7 @@
     "name": "Graves, Blasting Through",
     "setCode": "RAD",
     "collectorNumber": 85,
-    "artistName": "Unknown",
+    "artistName": "Yeon Art Studio",
     "imageUrl": "https://lachieburne.github.io/Bounded/card_images/RAD-085.webp",
     "domain": [
       "BODY"
@@ -39033,7 +39033,7 @@
     "name": "K'Sante, Courageous",
     "setCode": "RAD",
     "collectorNumber": 86,
-    "artistName": "Unknown",
+    "artistName": "Pixelverse",
     "imageUrl": "https://lachieburne.github.io/Bounded/card_images/RAD-086.webp",
     "domain": [
       "BODY"
@@ -39095,13 +39095,13 @@
     "name": "Portable Portal",
     "setCode": "RAD",
     "collectorNumber": 87,
-    "artistName": "Unknown",
+    "artistName": "Yeon Art Studio",
     "imageUrl": "https://lachieburne.github.io/Bounded/card_images/RAD-087.webp",
     "domain": [
       "BODY"
     ],
     "rarity": "RARE",
-    "type": "UNIT",
+    "type": "GEAR",
     "cost": 2,
     "might": null,
     "isToken": false,
@@ -39112,9 +39112,7 @@
     "orientation": "portrait",
     "power": null,
     "mightBonus": null,
-    "tags": [
-      "Device"
-    ],
+    "tags": [],
     "championTag": null,
     "isSignature": false,
     "text": "[Deploy] (Play this only to a battlefield. When an opponent holds here, kill this.)\nWhen you play this, you may pay [Rune Body] to ready a unit here.\nFriendly units here have [Ganking]. (They can move from battlefield to battlefield.)",
@@ -39170,9 +39168,7 @@
     "orientation": "portrait",
     "power": null,
     "mightBonus": null,
-    "tags": [
-      "Device"
-    ],
+    "tags": [],
     "championTag": null,
     "isSignature": false,
     "text": "When you play a unit with Might greater than each other unit on the board, exhaust me to draw 1.",
@@ -39305,7 +39301,7 @@
     "name": "Seraphic Wyvern",
     "setCode": "RAD",
     "collectorNumber": 92,
-    "artistName": "Unknown",
+    "artistName": "Mogi",
     "imageUrl": "https://lachieburne.github.io/Bounded/card_images/RAD-092.webp",
     "domain": [
       "BODY"
@@ -39338,7 +39334,7 @@
     "artistName": "Kudos Productions",
     "imageUrl": "https://lachieburne.github.io/Bounded/card_images/RAD-093.webp",
     "domain": [
-      "FURY"
+      "CHAOS"
     ],
     "rarity": "COMMON",
     "type": "UNIT",
@@ -39453,7 +39449,7 @@
       "CHAOS"
     ],
     "rarity": "COMMON",
-    "type": "SPELL",
+    "type": "UNIT",
     "cost": 2,
     "might": 1,
     "isToken": false,
@@ -39565,7 +39561,7 @@
       "CHAOS"
     ],
     "rarity": "UNCOMMON",
-    "type": "GEAR",
+    "type": "SPELL",
     "cost": 2,
     "might": null,
     "isToken": false,
@@ -39590,7 +39586,7 @@
     "artistName": "Luscinia Studio",
     "imageUrl": "https://lachieburne.github.io/Bounded/card_images/RAD-102.webp",
     "domain": [
-      "FURY"
+      "CHAOS"
     ],
     "rarity": "UNCOMMON",
     "type": "SPELL",
@@ -39645,7 +39641,9 @@
     "collectorNumber": 104,
     "artistName": "Six More Vodka",
     "imageUrl": "https://lachieburne.github.io/Bounded/card_images/RAD-104.webp",
-    "domain": [],
+    "domain": [
+      "CHAOS"
+    ],
     "rarity": "UNCOMMON",
     "type": "UNIT",
     "cost": 5,
@@ -39697,10 +39695,10 @@
     "name": "The Good Stuff",
     "setCode": "RAD",
     "collectorNumber": 106,
-    "artistName": "Unknown",
+    "artistName": "Yeon Art Studio",
     "imageUrl": "https://lachieburne.github.io/Bounded/card_images/RAD-106.webp",
     "domain": [
-      "BODY"
+      "CHAOS"
     ],
     "rarity": "UNCOMMON",
     "type": "GEAR",
@@ -39714,9 +39712,7 @@
     "orientation": "portrait",
     "power": 1,
     "mightBonus": null,
-    "tags": [
-      "Device"
-    ],
+    "tags": [],
     "championTag": null,
     "isSignature": false,
     "text": "[Deploy] (Play this only to a battlefield. When an opponent holds here, kill this.)\nWhen you play this, discard 1, then draw 3.\nWhen you hold here, return this to its owner's hand.",
@@ -39758,10 +39754,10 @@
     "artistName": "Fish Art Studio",
     "imageUrl": "https://lachieburne.github.io/Bounded/card_images/RAD-108.webp",
     "domain": [
-      "FURY"
+      "CHAOS"
     ],
     "rarity": "RARE",
-    "type": "UNIT",
+    "type": "GEAR",
     "cost": 1,
     "might": null,
     "isToken": false,
@@ -39772,9 +39768,7 @@
     "orientation": "portrait",
     "power": null,
     "mightBonus": null,
-    "tags": [
-      "Device"
-    ],
+    "tags": [],
     "championTag": null,
     "isSignature": false,
     "text": "[Deploy] (Play this only to a battlefield. When an opponent holds here, kill this.)\nWhile you or an ally control this battlefield, that player may hide an additional card here.",
@@ -39880,7 +39874,7 @@
     "artistName": "Kudos Productions",
     "imageUrl": "https://lachieburne.github.io/Bounded/card_images/RAD-111.webp",
     "domain": [
-      "FURY"
+      "CHAOS"
     ],
     "rarity": "RARE",
     "type": "GEAR",
@@ -39894,9 +39888,7 @@
     "orientation": "portrait",
     "power": 1,
     "mightBonus": null,
-    "tags": [
-      "Device"
-    ],
+    "tags": [],
     "championTag": null,
     "isSignature": false,
     "text": "At the start of your Beginning Phase, each player reveals the top card of their Main Deck. If you revealed a card with the lowest Energy cost, draw it. Recycle the rest.",
@@ -39907,7 +39899,7 @@
     "name": "Ziggs, Explosive",
     "setCode": "RAD",
     "collectorNumber": 112,
-    "artistName": "Unknown",
+    "artistName": "Yeon Art Studio",
     "imageUrl": "https://lachieburne.github.io/Bounded/card_images/RAD-112.webp",
     "domain": [
       "CHAOS"
@@ -39997,7 +39989,7 @@
     "name": "Riven, Deserter",
     "setCode": "RAD",
     "collectorNumber": 114,
-    "artistName": "Unknown",
+    "artistName": "Yeon Art Studio",
     "imageUrl": "https://lachieburne.github.io/Bounded/card_images/RAD-114.webp",
     "domain": [
       "CHAOS"
@@ -40085,7 +40077,7 @@
     "name": "Concert Poster",
     "setCode": "RAD",
     "collectorNumber": 116,
-    "artistName": "Unknown",
+    "artistName": "Yeon Art Studio/Anna Nikonova",
     "imageUrl": "https://lachieburne.github.io/Bounded/card_images/RAD-116.webp",
     "domain": [
       "ORDER"
@@ -40102,9 +40094,7 @@
     "orientation": "portrait",
     "power": null,
     "mightBonus": null,
-    "tags": [
-      "Device"
-    ],
+    "tags": [],
     "championTag": null,
     "isSignature": false,
     "text": "[Deploy] (Play this only to a battlefield. When an opponent holds here, kill this.)\nWhen you play this or when you conquer here, you may pay [Energy 1] to play a 1 [Might] Recruit unit token to your base.",
@@ -40205,7 +40195,7 @@
       "ORDER"
     ],
     "rarity": "COMMON",
-    "type": "GEAR",
+    "type": "UNIT",
     "cost": 2,
     "might": 2,
     "isToken": false,
@@ -40217,7 +40207,7 @@
     "power": null,
     "mightBonus": null,
     "tags": [
-      "Device"
+      "Piltover"
     ],
     "championTag": null,
     "isSignature": false,
@@ -40231,7 +40221,9 @@
     "collectorNumber": 121,
     "artistName": "Kudos Productions",
     "imageUrl": "https://lachieburne.github.io/Bounded/card_images/RAD-121.webp",
-    "domain": [],
+    "domain": [
+      "ORDER"
+    ],
     "rarity": "COMMON",
     "type": "SPELL",
     "cost": 3,
@@ -40285,7 +40277,9 @@
     "collectorNumber": 123,
     "artistName": "Six More Vodka",
     "imageUrl": "https://lachieburne.github.io/Bounded/card_images/RAD-123.webp",
-    "domain": [],
+    "domain": [
+      "ORDER"
+    ],
     "rarity": "COMMON",
     "type": "GEAR",
     "cost": 2,
@@ -40312,10 +40306,10 @@
     "artistName": "Michal Ivan",
     "imageUrl": "https://lachieburne.github.io/Bounded/card_images/RAD-124.webp",
     "domain": [
-      "BODY"
+      "ORDER"
     ],
     "rarity": "UNCOMMON",
-    "type": "GEAR",
+    "type": "SPELL",
     "cost": 3,
     "might": null,
     "isToken": false,
@@ -40485,7 +40479,7 @@
       "ORDER"
     ],
     "rarity": "RARE",
-    "type": "SPELL",
+    "type": "UNIT",
     "cost": 3,
     "might": 3,
     "isToken": false,
@@ -40513,7 +40507,7 @@
       "ORDER"
     ],
     "rarity": "RARE",
-    "type": "SPELL",
+    "type": "UNIT",
     "cost": 3,
     "might": 3,
     "isToken": false,
@@ -40631,7 +40625,9 @@
     "collectorNumber": 134,
     "artistName": "Kudos Productions",
     "imageUrl": "https://lachieburne.github.io/Bounded/card_images/RAD-134.webp",
-    "domain": [],
+    "domain": [
+      "ORDER"
+    ],
     "rarity": "RARE",
     "type": "SPELL",
     "cost": 7,
@@ -40683,13 +40679,13 @@
     "name": "Dockside Lock-Up",
     "setCode": "RAD",
     "collectorNumber": 136,
-    "artistName": "Unknown",
+    "artistName": "Yeon Art Studio",
     "imageUrl": "https://lachieburne.github.io/Bounded/card_images/RAD-136.webp",
     "domain": [
       "ORDER"
     ],
     "rarity": "EPIC",
-    "type": "UNIT",
+    "type": "GEAR",
     "cost": 6,
     "might": null,
     "isToken": false,
@@ -40700,9 +40696,7 @@
     "orientation": "portrait",
     "power": 2,
     "mightBonus": null,
-    "tags": [
-      "Device"
-    ],
+    "tags": [],
     "championTag": null,
     "isSignature": false,
     "text": "[Deploy] (Play this only to a battlefield. When an opponent holds here, kill this.)\nWhen you play this, banish a unit here.\nWhen you hold here, kill this to play the banished card, ignoring its cost. (Tokens aren't cards.)",
@@ -40775,7 +40769,7 @@
     "name": "Seraphine, Not Alone",
     "setCode": "RAD",
     "collectorNumber": 138,
-    "artistName": "Unknown",
+    "artistName": "Pixelverse",
     "imageUrl": "https://lachieburne.github.io/Bounded/card_images/RAD-138.webp",
     "domain": [
       "ORDER"
@@ -40806,7 +40800,7 @@
     "name": "Seraphine, Not Alone",
     "setCode": "RAD",
     "collectorNumber": 138,
-    "artistName": "Unknown",
+    "artistName": "J1nyuu",
     "imageUrl": "https://lachieburne.github.io/Bounded/card_images/RAD-138a.webp",
     "domain": [
       "ORDER"
@@ -40993,7 +40987,7 @@
     "name": "Realm of Death",
     "setCode": "RAD",
     "collectorNumber": 144,
-    "artistName": "Unknown",
+    "artistName": "Pixelverse",
     "imageUrl": "https://lachieburne.github.io/Bounded/card_images/RAD-144.webp",
     "domain": [
       "FURY",
@@ -41055,7 +41049,7 @@
     "name": "The Ball",
     "setCode": "RAD",
     "collectorNumber": 146,
-    "artistName": "Unknown",
+    "artistName": "Calf Art Studio",
     "imageUrl": "https://lachieburne.github.io/Bounded/card_images/RAD-146.webp",
     "domain": [
       "CALM",
@@ -41074,7 +41068,6 @@
     "power": 1,
     "mightBonus": null,
     "tags": [
-      "Device",
       "Orianna"
     ],
     "championTag": null,
@@ -41386,7 +41379,6 @@
     "power": 1,
     "mightBonus": null,
     "tags": [
-      "Device",
       "Jarvan IV"
     ],
     "championTag": null,
@@ -41836,7 +41828,7 @@
     "name": "Mordekaiser - Iron Revenant",
     "setCode": "RAD",
     "collectorNumber": 170,
-    "artistName": "Unknown",
+    "artistName": "Taylor Jansen",
     "imageUrl": "https://lachieburne.github.io/Bounded/card_images/RAD-170.webp",
     "domain": [
       "FURY",
@@ -41867,7 +41859,7 @@
     "name": "Mordekaiser - Iron Revenant",
     "setCode": "RAD",
     "collectorNumber": 170,
-    "artistName": "Unknown",
+    "artistName": "Taylor Jansen",
     "imageUrl": "https://lachieburne.github.io/Bounded/card_images/RAD-170.webp",
     "domain": [
       "FURY",
@@ -41898,7 +41890,7 @@
     "name": "Orianna - Lady of Clockwork",
     "setCode": "RAD",
     "collectorNumber": 171,
-    "artistName": "Unknown",
+    "artistName": "Anh Dang",
     "imageUrl": "https://lachieburne.github.io/Bounded/card_images/RAD-171.webp",
     "domain": [
       "CALM",
@@ -41929,7 +41921,7 @@
     "name": "Orianna - Lady of Clockwork",
     "setCode": "RAD",
     "collectorNumber": 171,
-    "artistName": "Unknown",
+    "artistName": "Anh Dang",
     "imageUrl": "https://lachieburne.github.io/Bounded/card_images/RAD-171.webp",
     "domain": [
       "CALM",
@@ -42022,7 +42014,7 @@
     "name": "Riven - The Exile",
     "setCode": "RAD",
     "collectorNumber": 173,
-    "artistName": "Unknown",
+    "artistName": "Charles Liu",
     "imageUrl": "https://lachieburne.github.io/Bounded/card_images/RAD-173.webp",
     "domain": [
       "CALM",
@@ -42053,7 +42045,7 @@
     "name": "Riven - The Exile",
     "setCode": "RAD",
     "collectorNumber": 173,
-    "artistName": "Unknown",
+    "artistName": "Charles Liu",
     "imageUrl": "https://lachieburne.github.io/Bounded/card_images/RAD-173.webp",
     "domain": [
       "CALM",
@@ -42084,7 +42076,7 @@
     "name": "Seraphine - Starry-Eyed Songstress",
     "setCode": "RAD",
     "collectorNumber": 174,
-    "artistName": "Unknown",
+    "artistName": "Anna Nikonova",
     "imageUrl": "https://lachieburne.github.io/Bounded/card_images/RAD-174.webp",
     "domain": [
       "MIND",
@@ -42115,7 +42107,7 @@
     "name": "Seraphine - Starry-Eyed Songstress",
     "setCode": "RAD",
     "collectorNumber": 174,
-    "artistName": "Unknown",
+    "artistName": "Anna Nikonova",
     "imageUrl": "https://lachieburne.github.io/Bounded/card_images/RAD-174.webp",
     "domain": [
       "MIND",
@@ -42208,7 +42200,7 @@
     "name": "Jarvan IV - Exemplar of Demacia",
     "setCode": "RAD",
     "collectorNumber": 176,
-    "artistName": "Unknown",
+    "artistName": "Herman Ng",
     "imageUrl": "https://lachieburne.github.io/Bounded/card_images/RAD-176.webp",
     "domain": [
       "BODY",
@@ -42239,7 +42231,7 @@
     "name": "Jarvan IV - Exemplar of Demacia",
     "setCode": "RAD",
     "collectorNumber": 176,
-    "artistName": "Unknown",
+    "artistName": "Herman Ng",
     "imageUrl": "https://lachieburne.github.io/Bounded/card_images/RAD-176.webp",
     "domain": [
       "BODY",
@@ -42731,7 +42723,7 @@
     "name": "Fury Rune",
     "setCode": "RAD",
     "collectorNumber": 1,
-    "artistName": "Unknown",
+    "artistName": "Yeon Art Studio",
     "imageUrl": "https://lachieburne.github.io/Bounded/card_images/RAD-R01a.webp",
     "domain": [
       "FURY"
@@ -42787,7 +42779,7 @@
     "name": "Calm Rune",
     "setCode": "RAD",
     "collectorNumber": 2,
-    "artistName": "Unknown",
+    "artistName": "Yeon Art Studio",
     "imageUrl": "https://lachieburne.github.io/Bounded/card_images/RAD-R02a.webp",
     "domain": [
       "CALM"
@@ -42843,7 +42835,7 @@
     "name": "Mind Rune",
     "setCode": "RAD",
     "collectorNumber": 3,
-    "artistName": "Unknown",
+    "artistName": "Yeon Art Studio",
     "imageUrl": "https://lachieburne.github.io/Bounded/card_images/RAD-R03a.webp",
     "domain": [
       "MIND"
@@ -42899,7 +42891,7 @@
     "name": "Body Rune",
     "setCode": "RAD",
     "collectorNumber": 4,
-    "artistName": "Unknown",
+    "artistName": "Yeon Art Studio",
     "imageUrl": "https://lachieburne.github.io/Bounded/card_images/RAD-R04a.webp",
     "domain": [
       "BODY"
@@ -42955,7 +42947,7 @@
     "name": "Chaos Rune",
     "setCode": "RAD",
     "collectorNumber": 5,
-    "artistName": "Unknown",
+    "artistName": "Yeon Art Studio",
     "imageUrl": "https://lachieburne.github.io/Bounded/card_images/RAD-R05a.webp",
     "domain": [
       "CHAOS"
@@ -43011,7 +43003,7 @@
     "name": "Order Rune",
     "setCode": "RAD",
     "collectorNumber": 6,
-    "artistName": "Unknown",
+    "artistName": "Yeon Art Studio",
     "imageUrl": "https://lachieburne.github.io/Bounded/card_images/RAD-R06a.webp",
     "domain": [
       "ORDER"
@@ -43070,7 +43062,7 @@
     "name": "Akali, Brash",
     "setCode": "RAD",
     "collectorNumber": 2,
-    "artistName": "Unknown",
+    "artistName": "Bullet lin",
     "imageUrl": "https://lachieburne.github.io/Bounded/card_images/RAD-SP2.webp",
     "domain": [
       "FURY"
@@ -43162,7 +43154,7 @@
     "name": "Seraphine, Not Alone",
     "setCode": "RAD",
     "collectorNumber": 5,
-    "artistName": "Unknown",
+    "artistName": "Bullet lin",
     "imageUrl": "https://lachieburne.github.io/Bounded/card_images/RAD-SP5.webp",
     "domain": [
       "ORDER"

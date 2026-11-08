@@ -16,6 +16,7 @@ Nothing is written unless the result passes validation.
 """
 
 import argparse
+import colorsys
 import html as html_lib
 import io
 import json
@@ -45,6 +46,12 @@ WEBP_QUALITY = 85
 CARD_TYPES = {"LEGEND", "UNIT", "SPELL", "GEAR", "RUNE", "BATTLEFIELD", "OTHER"}
 DOMAINS = {"FURY", "CALM", "MIND", "BODY", "CHAOS", "ORDER", "COLORLESS"}
 RARITIES = {"COMMON", "UNCOMMON", "RARE", "EPIC", "SHOWCASE"}
+
+# Gallery tags that aren't printed on the cards. Every Radiance [Deploy] gear is tagged
+# "Device" in the gallery, but the card itself just says "Gear".
+UNPRINTED_TAGS = {"Device"}
+
+UNKNOWN_ARTISTS_PATH = REPO / "docs" / "unknown-artists.md"
 
 # Field order in the output JSON. The first block is what the apps have always read.
 FIELDS = [
@@ -120,14 +127,17 @@ def value_id(field):
 
 
 def infer_type(raw):
-    types = raw.get("cardType", {}).get("type") or []
-    if types:
-        return types[0]["id"].upper()
-    # Some new cards have no type yet; the image alt text starts with "Riftbound Unit: ...".
+    # The image alt text ("Riftbound Gear: Portable Portal. ...") matches the printed card.
+    # The gallery's cardType field doesn't always: in Radiance about two dozen cards have
+    # the wrong type (Portable Portal is listed as a unit), so the alt text wins when it
+    # names a type. Cards with two types ("Riftbound Unit, Gear: ...") fall through.
     alt = raw.get("cardImage", {}).get("accessibilityText", "")
     match = re.match(r"Riftbound (\w+):", alt)
     if match and match.group(1).upper() in CARD_TYPES:
         return match.group(1).upper()
+    types = raw.get("cardType", {}).get("type") or []
+    if types:
+        return types[0]["id"].upper()
     return "OTHER"
 
 
@@ -144,7 +154,7 @@ def normalise(raw, set_names):
     card_type = infer_type(raw)
     base_name = raw.get("name", "").strip()
     subtitle = (raw.get("subtitle") or "").strip() or None
-    tags = list(raw.get("tags", {}).get("tags") or [])
+    tags = [t for t in raw.get("tags", {}).get("tags") or [] if t not in UNPRINTED_TAGS]
 
     # Units keep the "Master Yi, Honed" display name the apps already use. Signature cards
     # ("Tibbers", "Final Spark") use their champion as the subtitle, which is also one of
@@ -165,7 +175,8 @@ def normalise(raw, set_names):
         "name": name,
         "setCode": set_code,
         "collectorNumber": int(raw.get("collectorNumber") or match.group("num")),
-        "artistName": artists[0]["label"] if artists else "Unknown",
+        # null when the gallery doesn't say; set it in card_overrides.json from the card art.
+        "artistName": artists[0]["label"] if artists else None,
         "imageUrl": f"{PAGES_BASE_URL}/card_images/{image_file_for(card_id)}.webp",
         "domain": [d["id"].upper() for d in raw.get("domain", {}).get("values") or []],
         "rarity": (value_id(raw.get("rarity")) or "common").upper(),
@@ -351,6 +362,54 @@ def sync_images(cards, workers):
     return errors
 
 
+def printed_domain(image):
+    """The domain whose icon is printed in the bottom-right corner of a portrait card,
+    judged by its colour, or None if there's no clear icon there.
+
+    Only reliable for single-domain cards: on dual-domain and full-art cards the slot
+    to its left can be artwork.
+    """
+    image = image.convert("RGB").resize((744, 1039))
+    hues = []
+    for x in range(681, 705):
+        for y in range(990, 1014):
+            h, s, v = colorsys.rgb_to_hsv(*(c / 255 for c in image.getpixel((x, y))))
+            if s > 0.5 and v > 0.4:
+                hues.append(h * 360)
+    if len(hues) < 20:
+        return None
+    hue = sorted(hues)[len(hues) // 2]
+    if hue < 15 or hue >= 345:
+        return "FURY"
+    if hue < 40:
+        return "BODY"
+    if hue < 70:
+        return "ORDER"
+    if hue < 170:
+        return "CALM"
+    if hue < 250:
+        return "MIND"
+    return "CHAOS"
+
+
+def warn_domain_mismatches(cards):
+    """Compare each single-domain card's data with the domain icon printed on it. The
+    gallery left 11 Radiance cards blank and gave 19 the wrong domain."""
+    mismatches = []
+    for card in cards:
+        domains = [d for d in card["domain"] if d != "COLORLESS"]
+        if (len(domains) > 1 or card["orientation"] != "portrait" or card["isToken"]
+                or card["type"] in ("BATTLEFIELD", "RUNE") or "COLORLESS" in card["domain"]):
+            continue
+        with Image.open(IMAGE_DIR / f"{card['_imageFile']}.webp") as image:
+            printed = printed_domain(image)
+        if printed and printed not in domains:
+            mismatches.append(f"{card['cardId']} ({domains[0] if domains else 'none'} -> {printed})")
+    if mismatches:
+        print(f"warning: {len(mismatches)} cards' domain doesn't match the icon printed on them; "
+              f"check the art and fix in {OVERRIDES_PATH.name}: {mismatches}")
+
+
 # --- Validation and output ---------------------------------------------------------
 
 def validate(cards, previous_ids):
@@ -402,11 +461,42 @@ def to_output(card):
     return {field: card[field] for field in FIELDS}
 
 
+def unknown_artists_doc(cards):
+    """docs/unknown-artists.md: every card with no artist, for filling in by hand."""
+    missing = [c for c in cards if not c["artistName"]]
+    lines = [
+        "# Cards with no artist",
+        "",
+        "Generated by `scripts/generate_card_data.py`; don't edit this file by hand.",
+        "",
+        "The official gallery doesn't name an artist for these cards, so the apps show none.",
+        "The artist is printed at the bottom of each card. To fill one in, add it to",
+        "`data/card_overrides.json` and regenerate the card data (or wait for the weekly update):",
+        "",
+        "```json",
+        '"RAD-087": { "artistName": "Yeon Art Studio" }',
+        "```",
+        "",
+        "Variants (`a`, `*`) are separate cards and need their own entry, even when the art is the same.",
+        "",
+    ]
+    if not missing:
+        lines.append("Every card has an artist.")
+    else:
+        lines += [f"{len(missing)} cards:", "", "| Card | Name | Set | Image |", "|---|---|---|---|"]
+        for c in missing:
+            lines.append(f"| {c['cardId']} | {c['name']} | {c['setName']} | [art]({c['imageUrl']}) |")
+    return "\n".join(lines) + "\n"
+
+
 def write_outputs(cards):
     text = json.dumps([to_output(c) for c in cards], indent=2, ensure_ascii=False) + "\n"
     for path in OUTPUT_PATHS:
         path.write_text(text, encoding="utf-8", newline="\n")
         print(f"Wrote {len(cards)} cards to {path.relative_to(REPO)}")
+    UNKNOWN_ARTISTS_PATH.write_text(unknown_artists_doc(cards), encoding="utf-8", newline="\n")
+    missing = sum(1 for c in cards if not c["artistName"])
+    print(f"note: {missing} cards have no artist; see {UNKNOWN_ARTISTS_PATH.relative_to(REPO).as_posix()}")
 
 
 def report_changes(old_cards, new_cards):
@@ -425,7 +515,7 @@ def warn_incomplete(cards):
     no_domain = [c["cardId"] for c in cards if not c["domain"]]
     other = [c["cardId"] for c in cards if c["type"] == "OTHER"]
     if no_domain:
-        print(f"warning: {len(no_domain)} cards have no domain in the gallery yet "
+        print(f"warning: {len(no_domain)} cards have no domain "
               f"(fix in {OVERRIDES_PATH.name} if needed): {no_domain}")
     if other:
         print(f"note: {len(other)} cards have no card type and are marked OTHER: {other}")
@@ -438,6 +528,8 @@ def check_only():
         errors.append("riftbound_data.json differs between the Android and web apps")
     cards = json.loads(texts[OUTPUT_PATHS[-1]])
     errors += validate(cards, set())
+    if not UNKNOWN_ARTISTS_PATH.exists() or UNKNOWN_ARTISTS_PATH.read_text(encoding="utf-8") != unknown_artists_doc(cards):
+        errors.append(f"{UNKNOWN_ARTISTS_PATH.relative_to(REPO).as_posix()} is out of date; regenerate the card data")
     return cards, errors
 
 
@@ -468,6 +560,8 @@ def main():
     warn_incomplete(cards)
 
     errors = sync_images(cards, args.workers)
+    if not errors:
+        warn_domain_mismatches(cards)
 
     current = load_current()
     errors += validate(cards, {c["cardId"] for c in current})

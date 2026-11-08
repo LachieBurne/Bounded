@@ -43,7 +43,7 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          git add card_images "Android App/app/src/main/assets/riftbound_data.json" "Web App/public/riftbound_data.json"
+          git add card_images "Android App/app/src/main/assets/riftbound_data.json" "Web App/public/riftbound_data.json" docs/unknown-artists.md
           if git diff --cached --quiet; then
             echo "Card data unchanged."
             exit 0
