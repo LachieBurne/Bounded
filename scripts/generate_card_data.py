@@ -182,7 +182,7 @@ def normalise(raw, set_names):
         "mightBonus": value_id(raw.get("mightBonus")),
         "tags": tags,
         "championTag": None,  # legends only; set in assign_champion_tags
-        "isSignature": False,  # set in assign_champion_tags
+        "isSignature": False,  # set in assign_signatures
         "text": rich_text_to_plain(raw.get("text")),
         "effect": rich_text_to_plain(raw.get("effect")),
         # Not written to the JSON; used to download the image.
@@ -219,12 +219,19 @@ def assign_champion_tags(cards):
         print(f"warning: could not work out the champion for legends {unresolved}; "
               f"set championTag in {OVERRIDES_PATH.name}")
 
-    # Signature cards carry a champion's tag without being that champion, e.g. Tibbers
-    # (tag "Annie") or Highlander (tag "Master Yi"). A deck may hold 3 in total, all
-    # matching its legend (core rule 103.3.d).
+
+def assign_signatures(cards):
+    """Flag signature cards: they carry a champion's tag without being that champion,
+    e.g. Tibbers (tag "Annie") or Highlander (tag "Master Yi"). A deck may hold 3 in
+    total, all matching its legend (core rule 103.3.d).
+
+    Runs after the overrides so a corrected tag also corrects this flag. An override
+    that sets isSignature itself wins.
+    """
+    overrides = json.loads(OVERRIDES_PATH.read_text(encoding="utf-8")).get("cards", {})
     champion_tags = {c["championTag"] for c in cards if c["type"] == "LEGEND" and c["championTag"]}
     for card in cards:
-        if card["type"] == "LEGEND" or card["isToken"]:
+        if card["type"] == "LEGEND" or card["isToken"] or "isSignature" in overrides.get(card["cardId"], {}):
             continue
         card["isSignature"] = any(t in champion_tags and t != card["baseName"] for t in card["tags"])
 
@@ -456,6 +463,7 @@ def main():
     cards = [normalise(raw, set_names) for raw in raw_cards]
     assign_champion_tags(cards)
     apply_extras_and_overrides(cards, set_names)
+    assign_signatures(cards)
     assign_sort_order(cards, [code for code, _ in sets])
     warn_incomplete(cards)
 

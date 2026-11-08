@@ -1,4 +1,11 @@
 {
   "_comment": "Field fixes applied to gallery cards by cardId, for data the gallery gets wrong or leaves blank.",
-  "cards": {}
+  "cards": {
+    "OGN-235": {
+      "tags": [
+        "Karma",
+        "Ionia"
+      ]
+    }
+  }
 }

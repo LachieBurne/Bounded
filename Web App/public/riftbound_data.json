@@ -8645,11 +8645,11 @@
     "power": 1,
     "mightBonus": null,
     "tags": [
-      "Vi",
+      "Karma",
       "Ionia"
     ],
     "championTag": null,
-    "isSignature": true,
+    "isSignature": false,
     "text": "[Vision] (When you play me, look at the top card of your Main Deck. You may recycle it.)\nWhen you recycle one or more cards, buff a friendly unit. (If it doesn't have a buff, it gets a +1 [Might] buff. Runes aren't cards.)",
     "effect": null
   },
