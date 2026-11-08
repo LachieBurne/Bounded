@@ -132,6 +132,9 @@
       "artistName": "Yeon Art Studio",
       "domain": [
         "BODY"
+      ],
+      "tags": [
+        "Equipment"
       ]
     },
     "RAD-073": {
@@ -210,6 +213,9 @@
     "RAD-123": {
       "domain": [
         "ORDER"
+      ],
+      "tags": [
+        "Equipment"
       ]
     },
     "RAD-124": {
@@ -290,6 +296,9 @@
     },
     "RAD-SP5": {
       "artistName": "Bullet lin"
+    },
+    "VEN-103": {
+      "effect": null
     }
   }
 }

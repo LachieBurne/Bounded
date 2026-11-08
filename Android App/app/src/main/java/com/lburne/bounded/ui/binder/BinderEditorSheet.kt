@@ -76,16 +76,27 @@ fun BinderEditorSheet(
     var types by rememberSaveable { mutableStateOf(start.types) }
     var includeShowcase by rememberSaveable { mutableStateOf(start.includeShowcase) }
 
-    fun suggestedName(forSets: List<String>): String = when (forSets.size) {
-        0 -> "All sets"
-        1 -> "${RiftSet.nameOf(forSets.first())} master set"
-        else -> forSets.joinToString(" + ") { RiftSet.nameOf(it) }
+    /** Names the binder after what it covers, e.g. "Origins master set" or "Fury · Rare". */
+    fun suggestedName(): String {
+        if (sets.size == 1 && domains.isEmpty() && rarities.isEmpty() && types.isEmpty()) {
+            return "${RiftSet.nameOf(sets.first())} master set"
+        }
+        val parts = buildList {
+            if (sets.isNotEmpty()) add(sets.joinToString(" + ") { RiftSet.nameOf(it) })
+            domains.mapNotNull { d -> Domain.values().firstOrNull { it.name == d } }.forEach { add(it.label()) }
+            rarities.mapNotNull { r -> RiftRarity.values().firstOrNull { it.name == r } }.forEach { add(it.label()) }
+            types.mapNotNull { t -> FilterableTypes.firstOrNull { it.name == t } }.forEach { add(it.label()) }
+        }
+        return parts.joinToString(" · ").ifEmpty { "New binder" }
     }
 
     fun toggle(list: List<String>, value: String) = if (value in list) list - value else list + value
 
+    // With nothing chosen a binder is just All cards again, so don't allow it.
+    val sameAsAllCards = sets.isEmpty() && domains.isEmpty() && rarities.isEmpty() && types.isEmpty() && includeShowcase
+
     val draft = start.copy(
-        name = name.trim().ifEmpty { suggestedName(sets) },
+        name = name.trim().ifEmpty { suggestedName() },
         sets = sets,
         domains = domains,
         rarities = rarities,
@@ -103,11 +114,12 @@ fun BinderEditorSheet(
             action = {
                 GoldButton(
                     onClick = { onSave(draft) },
-                    enabled = count > 0,
+                    enabled = count > 0 && !sameAsAllCards,
                     modifier = Modifier.fillMaxWidth()
                 ) {
                     Text(
                         when {
+                            sameAsAllCards -> "Pick a set or filter"
                             count == 0 -> "No cards match"
                             initial == null -> "Create binder · $count cards"
                             else -> "Save · $count cards"
@@ -144,7 +156,7 @@ fun BinderEditorSheet(
             }
 
             OutlinedTextField(
-                value = if (nameEdited) name else suggestedName(sets),
+                value = if (nameEdited) name else suggestedName(),
                 onValueChange = {
                     name = it
                     nameEdited = true
@@ -155,7 +167,7 @@ fun BinderEditorSheet(
                 modifier = Modifier.fillMaxWidth().padding(top = 8.dp)
             )
 
-            SheetSection("Sets", "None selected means every set.")
+            SheetSection("Sets", "None selected means every set. All cards already covers everything, so pick at least one set or filter.")
             FlowRow(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                 RiftSet.values().forEach { set ->
                     ToggleChip(set.displayName, set.code in sets) { sets = toggle(sets, set.code) }

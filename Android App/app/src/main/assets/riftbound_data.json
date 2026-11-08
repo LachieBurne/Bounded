@@ -32476,7 +32476,7 @@
     "championTag": null,
     "isSignature": false,
     "text": "Return up to 2 units from trashes to their owners' hands.",
-    "effect": "1"
+    "effect": null
   },
   {
     "cardId": "VEN-104",
@@ -38627,7 +38627,9 @@
     "orientation": "portrait",
     "power": null,
     "mightBonus": 0,
-    "tags": [],
+    "tags": [
+      "Equipment"
+    ],
     "championTag": null,
     "isSignature": false,
     "text": "Equip [Energy 1] ([Energy 1]: Attach this to a unit you control.)",
@@ -40292,7 +40294,9 @@
     "orientation": "portrait",
     "power": 1,
     "mightBonus": 1,
-    "tags": [],
+    "tags": [
+      "Equipment"
+    ],
     "championTag": null,
     "isSignature": false,
     "text": "[Quick-Draw] (This has [Reaction]. When you play it, attach it to a unit you control.)\n[Equip] [Energy 1] ([Energy 1]: Attach this to a unit you control.)",
