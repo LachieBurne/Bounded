@@ -1,0 +1,18 @@
+{
+  "_comment": "Riot's ban lists. Each ban covers every printing of the named card; cardId is one printing, and name must match it. Formats: STANDARD (1v1 Constructed) and 2V2 (2v2 Constructed, which also bans everything banned in Standard). Sources: playriftbound.com announcements of 2026-03-31, 2026-07-17 (effective 2026-07-24) and 2026-09-15 (effective 2026-09-18). Full list: the Riftbound Rules Hub.",
+  "bans": [
+    {"cardId": "SFD-122", "name": "Called Shot", "formats": ["STANDARD", "2V2"], "since": "2026-03-31"},
+    {"cardId": "SFD-020", "name": "Draven, Vanquisher", "formats": ["STANDARD", "2V2"], "since": "2026-03-31"},
+    {"cardId": "OGN-168", "name": "Fight or Flight", "formats": ["STANDARD", "2V2"], "since": "2026-03-31"},
+    {"cardId": "OGN-182", "name": "Scrapheap", "formats": ["STANDARD", "2V2"], "since": "2026-03-31"},
+    {"cardId": "OGN-292", "name": "The Dreaming Tree", "formats": ["STANDARD", "2V2"], "since": "2026-03-31"},
+    {"cardId": "OGN-284", "name": "Obelisk of Power", "formats": ["STANDARD", "2V2"], "since": "2026-03-31"},
+    {"cardId": "OGN-285", "name": "Reaver's Row", "formats": ["STANDARD", "2V2"], "since": "2026-03-31"},
+    {"cardId": "OGN-177", "name": "Stealthy Pursuer", "formats": ["STANDARD", "2V2"], "since": "2026-07-24"},
+    {"cardId": "OGN-290", "name": "The Arena's Greatest", "formats": ["STANDARD", "2V2"], "since": "2026-07-24"},
+    {"cardId": "OGN-276", "name": "Aspirant's Climb", "formats": ["STANDARD", "2V2"], "since": "2026-07-24"},
+    {"cardId": "OGS-019", "name": "Master Yi - Wuju Bladesman", "formats": ["2V2"], "since": "2026-07-24"},
+    {"cardId": "OGN-110", "name": "Ekko, Recurrent", "formats": ["STANDARD", "2V2"], "since": "2026-09-18"},
+    {"cardId": "OGN-183", "name": "Stacked Deck", "formats": ["STANDARD", "2V2"], "since": "2026-09-18"}
+  ]
+}

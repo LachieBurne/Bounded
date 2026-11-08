@@ -32,6 +32,10 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Block
+import androidx.compose.material3.Icon
+import com.lburne.bounded.data.model.Card
 import com.lburne.bounded.data.model.Domain
 import com.lburne.bounded.data.model.RiftRarity
 import com.lburne.bounded.ui.theme.ChamferShape
@@ -43,6 +47,27 @@ import com.lburne.bounded.ui.theme.RiftNumber
 @Composable
 fun RiftLabelText(text: String, modifier: Modifier = Modifier, color: Color = Rift.Ivory, style: TextStyle = RiftLabel) {
     Text(text.uppercase(), style = style, color = color, modifier = modifier)
+}
+
+/**
+ * A red "BANNED" tag for cards banned in Standard, or an amber "2V2 BAN" for cards banned
+ * only in 2v2. Draws nothing for legal cards.
+ */
+@Composable
+fun BannedTag(card: Card, modifier: Modifier = Modifier, fontSize: Int = 11) {
+    val (label, colour) = when {
+        card.isBannedInStandard -> "Banned" to Rift.Banned
+        card.isBannedIn2v2 -> "2v2 ban" to Rift.Banned2v2
+        else -> return
+    }
+    Row(
+        modifier.background(colour).padding(horizontal = 6.dp, vertical = 2.dp),
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.spacedBy(3.dp)
+    ) {
+        Icon(Icons.Default.Block, contentDescription = null, tint = Color.White, modifier = Modifier.size((fontSize + 1).dp))
+        RiftLabelText(label, color = Color.White, style = RiftLabel.copy(fontSize = fontSize.sp))
+    }
 }
 
 /** Progress in gold, with a diamond marking where you are. */

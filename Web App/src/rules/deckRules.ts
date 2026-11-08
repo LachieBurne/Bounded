@@ -8,7 +8,7 @@
 import type { Card, CardType } from '../models/card';
 
 /** Only the fields the rules read, so tests can use small fixtures. */
-export type RulesCard = Pick<Card, 'cardId' | 'name' | 'type' | 'domain' | 'tags' | 'championTag' | 'isToken' | 'isSignature'>;
+export type RulesCard = Pick<Card, 'cardId' | 'name' | 'type' | 'domain' | 'tags' | 'championTag' | 'isToken' | 'isSignature' | 'bannedIn'>;
 export type CardLookup = ReadonlyMap<string, RulesCard>;
 
 /** The deck builder's steps, in order. */
@@ -71,6 +71,7 @@ export const ISSUE_MESSAGES = {
     NOT_PLAYABLE: 'A token is in the deck.',
     NOT_ALLOWED_IN_SIDEBOARD: 'Only units, spells and gear can go in the sideboard.',
     UNKNOWN_CARD: 'A card is no longer in the card list.',
+    BANNED: 'A card is banned in Standard.',
 } as const;
 export type IssueCode = keyof typeof ISSUE_MESSAGES;
 
@@ -244,6 +245,7 @@ export function validate(deck: DeckContents, cards: CardLookup): DeckIssue[] {
                 add('NOT_ALLOWED_IN_SIDEBOARD', id);
                 continue;
             }
+            if (card.bannedIn?.includes('STANDARD')) add('BANNED', id);
             if (card.type === 'LEGEND') continue;
             if (card.isToken || card.type === 'OTHER') {
                 add('NOT_PLAYABLE', id);

@@ -29,5 +29,18 @@ data class Card(
     val championTag: String? = null, // Legends only: the tag their champion units carry
     val isSignature: Boolean = false, // Carries a champion's tag without being that champion, e.g. Tibbers
     val text: String? = null,
-    val effect: String? = null
-)
+    val effect: String? = null,
+    /** Formats Riot bans this card in: "STANDARD" (1v1) and/or "2V2". From data/banned_cards.json. */
+    val bannedIn: List<String>? = null,
+    /** When the ban took effect, e.g. "2026-03-31". */
+    val bannedSince: String? = null
+) {
+    /** Banned in Standard, the format the deck builder checks against. */
+    val isBannedInStandard: Boolean get() = bannedIn?.contains(BAN_STANDARD) == true
+    val isBannedIn2v2: Boolean get() = bannedIn?.contains(BAN_2V2) == true
+
+    companion object {
+        const val BAN_STANDARD = "STANDARD"
+        const val BAN_2V2 = "2V2"
+    }
+}

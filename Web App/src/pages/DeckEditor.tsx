@@ -44,6 +44,7 @@ const timestamp = () => Date.now();
 const RULE_BREAK_CODES: ReadonlySet<IssueCode> = new Set<IssueCode>([
     'INVALID_CHAMPION', 'COPY_LIMIT', 'SIGNATURE_LIMIT', 'SIGNATURE_WRONG_CHAMPION', 'OUTSIDE_DOMAIN_IDENTITY',
     'DUPLICATE_BATTLEFIELD', 'NOT_PLAYABLE', 'NOT_ALLOWED_IN_SIDEBOARD', 'SIDEBOARD_TOO_LARGE', 'UNKNOWN_CARD',
+    'BANNED',
 ]);
 
 interface DeckStats {
