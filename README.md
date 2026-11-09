@@ -154,7 +154,7 @@ card_images/, domain_images/, rarity_images/, prices.json
    ```bash
    cd "Web App" && npm ci && npm run dev
    ```
-3. Deploy with `npm run build && firebase deploy --only hosting`.
+3. Merging to `main` deploys it to [bounded.web.app](https://bounded.web.app). The one-time setup, and deploying by hand, are in [docs/deploying.md](docs/deploying.md).
 
 ### Card data
 `scripts/generate_card_data.py` builds `riftbound_data.json` from the official [card gallery](https://playriftbound.com/en-us/card-gallery/) and writes the same file to `Android App/app/src/main/assets/` and `Web App/public/`. It also saves any missing card image to `card_images/<cardId>.webp`.
