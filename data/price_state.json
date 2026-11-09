@@ -1,5 +1,2333 @@
 {
   "cards": {
+    "OGN-001": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-blazing-scorcher-common": 0.01
+      },
+      "updated": "2026-11-09"
+    },
+    "OGN-002": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-brazen-buccaneer-common": 0.07
+      },
+      "updated": "2026-11-09"
+    },
+    "OGN-003": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-chemtech-enforcer-common": 0.04
+      },
+      "updated": "2026-11-09"
+    },
+    "OGN-004": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-cleave-common": 0.01
+      },
+      "updated": "2026-11-09"
+    },
+    "OGN-005": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-disintegrate-common": 0.01
+      },
+      "updated": "2026-11-09"
+    },
+    "OGN-006": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-flame-chompers-common": 0.06
+      },
+      "updated": "2026-11-09"
+    },
+    "OGN-007": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-fury-rune-common": 0.02
+      },
+      "updated": "2026-11-09"
+    },
+    "OGN-007a": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-fury-rune-alternate-art-showcase": 2.54
+      },
+      "updated": "2026-11-09"
+    },
+    "OGN-007b": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-riftbound-organized-play-promotional-cards-fury-rune-promo": 3.33
+      },
+      "updated": "2026-11-09"
+    },
+    "OGN-008": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-get-excited-exclamation-common": 0.05
+      },
+      "updated": "2026-11-09"
+    },
+    "OGN-009": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-hextech-ray-common": 0.01
+      },
+      "updated": "2026-11-09"
+    },
+    "OGN-010": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-legion-rearguard-common": 0.07
+      },
+      "updated": "2026-11-09"
+    },
+    "OGN-011": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-magma-wurm-common": 0.01
+      },
+      "updated": "2026-11-09"
+    },
+    "OGN-012": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-noxus-hopeful-common": 0.56
+      },
+      "updated": "2026-11-09"
+    },
+    "OGN-013": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-pouty-poro-common": 0.08
+      },
+      "updated": "2026-11-09"
+    },
+    "OGN-014": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-sky-splitter-common": 0.01
+      },
+      "updated": "2026-11-09"
+    },
+    "OGN-015": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-captain-farron-uncommon": 0.08
+      },
+      "updated": "2026-11-09"
+    },
+    "OGN-016": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-dangerous-duo-uncommon": 0.05
+      },
+      "updated": "2026-11-09"
+    },
+    "OGN-017": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-iron-ballista-uncommon": 0.01
+      },
+      "updated": "2026-11-09"
+    },
+    "OGN-018": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-noxus-saboteur-uncommon": 0.11
+      },
+      "updated": "2026-11-09"
+    },
+    "OGN-019": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-raging-soul-uncommon": 0.07
+      },
+      "updated": "2026-11-09"
+    },
+    "OGN-020": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-scrapyard-champion-uncommon": 0.1
+      },
+      "updated": "2026-11-09"
+    },
+    "OGN-021": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-sun-disc-uncommon": 0.14
+      },
+      "updated": "2026-11-09"
+    },
+    "OGN-022": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-thermo-beam-uncommon": 0.27
+      },
+      "updated": "2026-11-09"
+    },
+    "OGN-023": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-unlicensed-armory-uncommon": 0.05
+      },
+      "updated": "2026-11-09"
+    },
+    "OGN-024": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-void-seeker-uncommon": 0.09
+      },
+      "updated": "2026-11-09"
+    },
+    "OGN-025": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-blind-fury-rare": 0.18
+      },
+      "updated": "2026-11-09"
+    },
+    "OGN-026": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-brynhir-thundersong-rare": 0.1
+      },
+      "updated": "2026-11-09"
+    },
+    "OGN-027": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-darius-trifarian-rare": 0.79
+      },
+      "updated": "2026-11-09"
+    },
+    "OGN-027a": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-darius-trifarian-alternate-art-showcase": 1.5
+      },
+      "updated": "2026-11-09"
+    },
+    "OGN-028": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-draven-showboat-rare": 0.26
+      },
+      "updated": "2026-11-09"
+    },
+    "OGN-029": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-falling-star-rare": 4.99
+      },
+      "updated": "2026-11-09"
+    },
+    "OGN-030": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-jinx-demolitionist-rare": 0.15
+      },
+      "updated": "2026-11-09"
+    },
+    "OGN-030a": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-jinx-demolitionist-alternate-art-showcase": 2.54
+      },
+      "updated": "2026-11-09"
+    },
+    "OGN-031": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-raging-firebrand-rare": 0.17
+      },
+      "updated": "2026-11-09"
+    },
+    "OGN-032": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-ravenborn-tome-rare": 0.12
+      },
+      "updated": "2026-11-09"
+    },
+    "OGN-033": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-shakedown-rare": 0.15
+      },
+      "updated": "2026-11-09"
+    },
+    "OGN-034": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-tryndamere-barbarian-rare": 0.25
+      },
+      "updated": "2026-11-09"
+    },
+    "OGN-035": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-vayne-hunter-rare": 0.37
+      },
+      "updated": "2026-11-09"
+    },
+    "OGN-036": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-vi-destructive-rare": 0.3
+      },
+      "updated": "2026-11-09"
+    },
+    "OGN-037": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-immortal-phoenix-epic": 4.0
+      },
+      "updated": "2026-11-09"
+    },
+    "OGN-038": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-kadregrin-the-infernal-epic": 5.71
+      },
+      "updated": "2026-11-09"
+    },
+    "OGN-039": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-kai-sa-survivor-epic": 53.88
+      },
+      "updated": "2026-11-09"
+    },
+    "OGN-039a": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-kai-sa-survivor-alternate-art-showcase": 65.44
+      },
+      "updated": "2026-11-09"
+    },
+    "OGN-040": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-seal-of-rage-epic": 7.5
+      },
+      "updated": "2026-11-09"
+    },
+    "OGN-041": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-volibear-furious-epic": 0.55
+      },
+      "updated": "2026-11-09"
+    },
+    "OGN-041a": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-volibear-furious-alternate-art-showcase": 2.29
+      },
+      "updated": "2026-11-09"
+    },
+    "OGN-042": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-calm-rune-common": 0.05
+      },
+      "updated": "2026-11-09"
+    },
+    "OGN-042a": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-calm-rune-alternate-art-showcase": 5.0
+      },
+      "updated": "2026-11-09"
+    },
+    "OGN-042b": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-riftbound-organized-play-promotional-cards-calm-rune-promo": 3.0
+      },
+      "updated": "2026-11-09"
+    },
+    "OGN-043": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-charm-common": 0.23
+      },
+      "updated": "2026-11-09"
+    },
+    "OGN-044": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-clockwork-keeper-common": 0.02
+      },
+      "updated": "2026-11-09"
+    },
+    "OGN-045": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-defy-common": 1.0
+      },
+      "updated": "2026-11-09"
+    },
+    "OGN-046": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-en-garde-common": 0.08
+      },
+      "updated": "2026-11-09"
+    },
+    "OGN-047": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-find-your-center-common": 0.01
+      },
+      "updated": "2026-11-09"
+    },
+    "OGN-048": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-meditation-common": 0.1
+      },
+      "updated": "2026-11-09"
+    },
+    "OGN-049": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-playful-phantom-common": 0.04
+      },
+      "updated": "2026-11-09"
+    },
+    "OGN-050": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-rune-prison-common": 0.1
+      },
+      "updated": "2026-11-09"
+    },
+    "OGN-051": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-solari-shieldbearer-common": 0.07
+      },
+      "updated": "2026-11-09"
+    },
+    "OGN-052": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-stalwart-poro-common": 0.01
+      },
+      "updated": "2026-11-09"
+    },
+    "OGN-053": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-stand-united-common": 0.04
+      },
+      "updated": "2026-11-09"
+    },
+    "OGN-054": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-sunlit-guardian-common": 0.01
+      },
+      "updated": "2026-11-09"
+    },
+    "OGN-055": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-wielder-of-water-common": 0.04
+      },
+      "updated": "2026-11-09"
+    },
+    "OGN-056": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-adaptatron-uncommon": 0.14
+      },
+      "updated": "2026-11-09"
+    },
+    "OGN-057": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-block-uncommon": 0.09
+      },
+      "updated": "2026-11-09"
+    },
+    "OGN-058": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-discipline-uncommon": 0.2
+      },
+      "updated": "2026-11-09"
+    },
+    "OGN-059": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-eclipse-herald-uncommon": 0.09
+      },
+      "updated": "2026-11-09"
+    },
+    "OGN-060": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-mask-of-foresight-uncommon": 0.07
+      },
+      "updated": "2026-11-09"
+    },
+    "OGN-061": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-poro-herder-uncommon": 0.09
+      },
+      "updated": "2026-11-09"
+    },
+    "OGN-062": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-reinforce-uncommon": 0.05
+      },
+      "updated": "2026-11-09"
+    },
+    "OGN-063": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-spirit-s-refuge-uncommon": 0.11
+      },
+      "updated": "2026-11-09"
+    },
+    "OGN-064": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-wind-wall-uncommon": 0.28
+      },
+      "updated": "2026-11-09"
+    },
+    "OGN-065": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-wizened-elder-uncommon": 0.05
+      },
+      "updated": "2026-11-09"
+    },
+    "OGN-066": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-ahri-alluring-rare": 0.15
+      },
+      "updated": "2026-11-09"
+    },
+    "OGN-066a": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-ahri-alluring-alternate-art-showcase": 4.8
+      },
+      "updated": "2026-11-09"
+    },
+    "OGN-067": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-blitzcrank-impassive-rare": 2.29
+      },
+      "updated": "2026-11-09"
+    },
+    "OGN-068": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-caitlyn-patrolling-rare": 0.32
+      },
+      "updated": "2026-11-09"
+    },
+    "OGN-069": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-last-stand-rare": 0.22
+      },
+      "updated": "2026-11-09"
+    },
+    "OGN-070": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-mageseeker-warden-rare": 0.18
+      },
+      "updated": "2026-11-09"
+    },
+    "OGN-071": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-party-favors-rare": 0.25
+      },
+      "updated": "2026-11-09"
+    },
+    "OGN-072": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-solari-shrine-rare": 0.14
+      },
+      "updated": "2026-11-09"
+    },
+    "OGN-073": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-sona-harmonious-rare": 1.2
+      },
+      "updated": "2026-11-09"
+    },
+    "OGN-074": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-taric-protector-rare": 0.22
+      },
+      "updated": "2026-11-09"
+    },
+    "OGN-075": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-tasty-faefolk-rare": 0.39
+      },
+      "updated": "2026-11-09"
+    },
+    "OGN-076": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-yasuo-remorseful-rare": 0.32
+      },
+      "updated": "2026-11-09"
+    },
+    "OGN-076a": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-yasuo-remorseful-alternate-art-showcase": 0.99
+      },
+      "updated": "2026-11-09"
+    },
+    "OGN-077": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-zhonya-s-hourglass-rare": 9.99
+      },
+      "updated": "2026-11-09"
+    },
+    "OGN-078": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-lee-sin-ascetic-epic": 0.62
+      },
+      "updated": "2026-11-09"
+    },
+    "OGN-078a": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-lee-sin-ascetic-alternate-art-showcase": 4.2
+      },
+      "updated": "2026-11-09"
+    },
+    "OGN-079": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-leona-zealot-epic": 1.53
+      },
+      "updated": "2026-11-09"
+    },
+    "OGN-079a": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-leona-zealot-alternate-art-showcase": 4.16
+      },
+      "updated": "2026-11-09"
+    },
+    "OGN-080": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-mystic-reversal-epic": 0.77
+      },
+      "updated": "2026-11-09"
+    },
+    "OGN-081": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-seal-of-focus-epic": 13.97
+      },
+      "updated": "2026-11-09"
+    },
+    "OGN-082": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-whiteflame-protector-epic": 2.75
+      },
+      "updated": "2026-11-09"
+    },
+    "OGN-083": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-consult-the-past-common": 0.01
+      },
+      "updated": "2026-11-09"
+    },
+    "OGN-084": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-eager-apprentice-common": 0.01
+      },
+      "updated": "2026-11-09"
+    },
+    "OGN-085": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-falling-comet-common": 0.04
+      },
+      "updated": "2026-11-09"
+    },
+    "OGN-086": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-jeweled-colossus-common": 0.04
+      },
+      "updated": "2026-11-09"
+    },
+    "OGN-087": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-lecturing-yordle-common": 0.01
+      },
+      "updated": "2026-11-09"
+    },
+    "OGN-088": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-mega-mech-common": 0.06
+      },
+      "updated": "2026-11-09"
+    },
+    "OGN-089": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-mind-rune-common": 0.03
+      },
+      "updated": "2026-11-09"
+    },
+    "OGN-089a": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-mind-rune-alternate-art-showcase": 2.0
+      },
+      "updated": "2026-11-09"
+    },
+    "OGN-089b": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-riftbound-organized-play-promotional-cards-mind-rune-promo": 4.0
+      },
+      "updated": "2026-11-09"
+    },
+    "OGN-090": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-orb-of-regret-common": 0.01
+      },
+      "updated": "2026-11-09"
+    },
+    "OGN-091": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-pit-crew-common": 0.14
+      },
+      "updated": "2026-11-09"
+    },
+    "OGN-092": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-riptide-rex-common": 0.1
+      },
+      "updated": "2026-11-09"
+    },
+    "OGN-093": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-smoke-screen-common": 0.01
+      },
+      "updated": "2026-11-09"
+    },
+    "OGN-094": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-sprite-call-common": 0.01
+      },
+      "updated": "2026-11-09"
+    },
+    "OGN-095": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-stupefy-common": 0.13
+      },
+      "updated": "2026-11-09"
+    },
+    "OGN-096": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-watchful-sentry-common": 0.05
+      },
+      "updated": "2026-11-09"
+    },
+    "OGN-097": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-blastcone-fae-uncommon": 0.15
+      },
+      "updated": "2026-11-09"
+    },
+    "OGN-098": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-energy-conduit-uncommon": 0.04
+      },
+      "updated": "2026-11-09"
+    },
+    "OGN-099": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-garbage-grabber-uncommon": 0.01
+      },
+      "updated": "2026-11-09"
+    },
+    "OGN-100": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-gemcraft-seer-uncommon": 0.07
+      },
+      "updated": "2026-11-09"
+    },
+    "OGN-101": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-mushroom-pouch-uncommon": 0.09
+      },
+      "updated": "2026-11-09"
+    },
+    "OGN-102": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-portal-rescue-uncommon": 0.13
+      },
+      "updated": "2026-11-09"
+    },
+    "OGN-103": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-ravenbloom-student-uncommon": 0.25
+      },
+      "updated": "2026-11-09"
+    },
+    "OGN-104": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-retreat-uncommon": 0.45
+      },
+      "updated": "2026-11-09"
+    },
+    "OGN-105": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-singularity-uncommon": 0.67
+      },
+      "updated": "2026-11-09"
+    },
+    "OGN-106": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-sprite-mother-uncommon": 0.22
+      },
+      "updated": "2026-11-09"
+    },
+    "OGN-107": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-ava-achiever-rare": 0.04
+      },
+      "updated": "2026-11-09"
+    },
+    "OGN-108": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-convergent-mutation-rare": 0.12
+      },
+      "updated": "2026-11-09"
+    },
+    "OGN-109": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-dr-mundo-expert-rare": 0.33
+      },
+      "updated": "2026-11-09"
+    },
+    "OGN-110": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-ekko-recurrent-rare": 0.25
+      },
+      "updated": "2026-11-09"
+    },
+    "OGN-111": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-heimerdinger-inventor-rare": 0.28
+      },
+      "updated": "2026-11-09"
+    },
+    "OGN-112": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-kai-sa-evolutionary-rare": 0.28
+      },
+      "updated": "2026-11-09"
+    },
+    "OGN-112a": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-kai-sa-evolutionary-alternate-art-showcase": 3.0
+      },
+      "updated": "2026-11-09"
+    },
+    "OGN-113": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-malzahar-fanatic-rare": 0.23
+      },
+      "updated": "2026-11-09"
+    },
+    "OGN-114": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-progress-day-rare": 0.44
+      },
+      "updated": "2026-11-09"
+    },
+    "OGN-115": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-promising-future-rare": 0.32
+      },
+      "updated": "2026-11-09"
+    },
+    "OGN-116": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-thousand-tailed-watcher-rare": 15.0
+      },
+      "updated": "2026-11-09"
+    },
+    "OGN-117": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-viktor-innovator-rare": 0.17
+      },
+      "updated": "2026-11-09"
+    },
+    "OGN-117a": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-viktor-innovator-alternate-art-showcase": 1.03
+      },
+      "updated": "2026-11-09"
+    },
+    "OGN-118": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-wraith-of-echoes-rare": 0.01
+      },
+      "updated": "2026-11-09"
+    },
+    "OGN-119": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-ahri-inquisitive-epic": 3.28
+      },
+      "updated": "2026-11-09"
+    },
+    "OGN-119a": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-ahri-inquisitive-alternate-art-showcase": 7.0
+      },
+      "updated": "2026-11-09"
+    },
+    "OGN-120": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-seal-of-insight-epic": 6.25
+      },
+      "updated": "2026-11-09"
+    },
+    "OGN-121": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-teemo-strategist-epic": 2.29
+      },
+      "updated": "2026-11-09"
+    },
+    "OGN-121a": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-teemo-strategist-alternate-art-showcase": 3.62
+      },
+      "updated": "2026-11-09"
+    },
+    "OGN-122": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-time-warp-epic": 32.31
+      },
+      "updated": "2026-11-09"
+    },
+    "OGN-123": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-unchecked-power-epic": 13.5
+      },
+      "updated": "2026-11-09"
+    },
+    "OGN-124": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-arena-bar-common": 0.09
+      },
+      "updated": "2026-11-09"
+    },
+    "OGN-125": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-bilgewater-bully-common": 0.04
+      },
+      "updated": "2026-11-09"
+    },
+    "OGN-126": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-body-rune-common": 0.01
+      },
+      "updated": "2026-11-09"
+    },
+    "OGN-126a": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-body-rune-alternate-art-showcase": 2.0
+      },
+      "updated": "2026-11-09"
+    },
+    "OGN-126b": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-riftbound-organized-play-promotional-cards-body-rune-promo": 2.5
+      },
+      "updated": "2026-11-09"
+    },
+    "OGN-127": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-cannon-barrage-common": 0.01
+      },
+      "updated": "2026-11-09"
+    },
+    "OGN-128": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-challenge-common": 0.08
+      },
+      "updated": "2026-11-09"
+    },
+    "OGN-129": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-confront-common": 0.01
+      },
+      "updated": "2026-11-09"
+    },
+    "OGN-130": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-crackshot-corsair-common": 0.05
+      },
+      "updated": "2026-11-09"
+    },
+    "OGN-131": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-dune-drake-common": 0.09
+      },
+      "updated": "2026-11-09"
+    },
+    "OGN-132": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-first-mate-common": 0.06
+      },
+      "updated": "2026-11-09"
+    },
+    "OGN-133": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-flurry-of-blades-common": 0.07
+      },
+      "updated": "2026-11-09"
+    },
+    "OGN-134": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-mobilize-common": 0.01
+      },
+      "updated": "2026-11-09"
+    },
+    "OGN-135": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-pakaa-cub-common": 0.06
+      },
+      "updated": "2026-11-09"
+    },
+    "OGN-136": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-pit-rookie-common": 0.01
+      },
+      "updated": "2026-11-09"
+    },
+    "OGN-137": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-stormclaw-ursine-common": 0.01
+      },
+      "updated": "2026-11-09"
+    },
+    "OGN-138": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-catalyst-of-aeons-uncommon": 0.18
+      },
+      "updated": "2026-11-09"
+    },
+    "OGN-139": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-cithria-of-cloudfield-uncommon": 0.02
+      },
+      "updated": "2026-11-09"
+    },
+    "OGN-140": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-herald-of-scales-uncommon": 0.08
+      },
+      "updated": "2026-11-09"
+    },
+    "OGN-141": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-kinkou-monk-uncommon": 0.05
+      },
+      "updated": "2026-11-09"
+    },
+    "OGN-142": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-mountain-drake-uncommon": 0.08
+      },
+      "updated": "2026-11-09"
+    },
+    "OGN-143": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-pirate-s-haven-uncommon": 0.12
+      },
+      "updated": "2026-11-09"
+    },
+    "OGN-144": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-spoils-of-war-uncommon": 0.01
+      },
+      "updated": "2026-11-09"
+    },
+    "OGN-145": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-unyielding-spirit-uncommon": 0.2
+      },
+      "updated": "2026-11-09"
+    },
+    "OGN-146": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-wallop-uncommon": 0.02
+      },
+      "updated": "2026-11-09"
+    },
+    "OGN-147": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-wildclaw-shaman-uncommon": 0.05
+      },
+      "updated": "2026-11-09"
+    },
+    "OGN-148": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-anivia-primal-rare": 0.28
+      },
+      "updated": "2026-11-09"
+    },
+    "OGN-149": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-carnivorous-snapvine-rare": 0.19
+      },
+      "updated": "2026-11-09"
+    },
+    "OGN-150": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-kraken-hunter-rare": 0.18
+      },
+      "updated": "2026-11-09"
+    },
+    "OGN-151": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-lee-sin-centered-rare": 0.22
+      },
+      "updated": "2026-11-09"
+    },
+    "OGN-151a": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-lee-sin-centered-alternate-art-showcase": 0.95
+      },
+      "updated": "2026-11-09"
+    },
+    "OGN-151b": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-riftbound-organized-play-promotional-cards-lee-sin-centered-rare": 43.62
+      },
+      "updated": "2026-11-09"
+    },
+    "OGN-152": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-mistfall-rare": 0.14
+      },
+      "updated": "2026-11-09"
+    },
+    "OGN-153": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-overt-operation-rare": 0.21
+      },
+      "updated": "2026-11-09"
+    },
+    "OGN-154": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-primal-strength-rare": 0.27
+      },
+      "updated": "2026-11-09"
+    },
+    "OGN-155": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-qiyana-victorious-rare": 0.53
+      },
+      "updated": "2026-11-09"
+    },
+    "OGN-156": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-sabotage-rare": 7.66
+      },
+      "updated": "2026-11-09"
+    },
+    "OGN-157": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-udyr-wildman-rare": 0.15
+      },
+      "updated": "2026-11-09"
+    },
+    "OGN-158": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-volibear-imposing-rare": 0.27
+      },
+      "updated": "2026-11-09"
+    },
+    "OGN-158a": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-volibear-imposing-alternate-art-showcase": 0.52
+      },
+      "updated": "2026-11-09"
+    },
+    "OGN-159": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-warwick-hunter-rare": 0.32
+      },
+      "updated": "2026-11-09"
+    },
+    "OGN-160": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-dazzling-aurora-epic": 22.28
+      },
+      "updated": "2026-11-09"
+    },
+    "OGN-161": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-deadbloom-predator-epic": 1.25
+      },
+      "updated": "2026-11-09"
+    },
+    "OGN-162": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-miss-fortune-captain-epic": 3.07
+      },
+      "updated": "2026-11-09"
+    },
+    "OGN-162a": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-miss-fortune-captain-alternate-art-showcase": 9.64
+      },
+      "updated": "2026-11-09"
+    },
+    "OGN-163": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-seal-of-strength-epic": 6.99
+      },
+      "updated": "2026-11-09"
+    },
+    "OGN-164": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-sett-brawler-epic": 4.9
+      },
+      "updated": "2026-11-09"
+    },
+    "OGN-164a": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-sett-brawler-alternate-art-showcase": 4.87
+      },
+      "updated": "2026-11-09"
+    },
+    "OGN-165": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-cemetery-attendant-common": 0.07
+      },
+      "updated": "2026-11-09"
+    },
+    "OGN-166": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-chaos-rune-common": 0.02
+      },
+      "updated": "2026-11-09"
+    },
+    "OGN-166a": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-chaos-rune-alternate-art-showcase": 5.33
+      },
+      "updated": "2026-11-09"
+    },
+    "OGN-166b": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-riftbound-organized-play-promotional-cards-chaos-rune-promo": 5.0
+      },
+      "updated": "2026-11-09"
+    },
+    "OGN-167": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-ember-monk-common": 0.02
+      },
+      "updated": "2026-11-09"
+    },
+    "OGN-168": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-fight-or-flight-common": 0.03
+      },
+      "updated": "2026-11-09"
+    },
+    "OGN-169": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-gust-common": 0.06
+      },
+      "updated": "2026-11-09"
+    },
+    "OGN-170": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-morbid-return-common": 0.01
+      },
+      "updated": "2026-11-09"
+    },
+    "OGN-171": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-mystic-poro-common": 0.11
+      },
+      "updated": "2026-11-09"
+    },
+    "OGN-172": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-rebuke-common": 0.19
+      },
+      "updated": "2026-11-09"
+    },
+    "OGN-173": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-ride-the-wind-common": 0.2
+      },
+      "updated": "2026-11-09"
+    },
+    "OGN-174": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-sai-scout-common": 0.04
+      },
+      "updated": "2026-11-09"
+    },
+    "OGN-175": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-shipyard-skulker-common": 0.03
+      },
+      "updated": "2026-11-09"
+    },
+    "OGN-176": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-sneaky-deckhand-common": 0.02
+      },
+      "updated": "2026-11-09"
+    },
+    "OGN-177": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-stealthy-pursuer-common": 0.02
+      },
+      "updated": "2026-11-09"
+    },
+    "OGN-178": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-undercover-agent-common": 0.05
+      },
+      "updated": "2026-11-09"
+    },
+    "OGN-179": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-acceptable-losses-uncommon": 0.17
+      },
+      "updated": "2026-11-09"
+    },
+    "OGN-180": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-fading-memories-uncommon": 0.05
+      },
+      "updated": "2026-11-09"
+    },
+    "OGN-181": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-pack-of-wonders-uncommon": 0.2
+      },
+      "updated": "2026-11-09"
+    },
+    "OGN-182": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-scrapheap-uncommon": 0.04
+      },
+      "updated": "2026-11-09"
+    },
+    "OGN-183": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-stacked-deck-uncommon": 0.33
+      },
+      "updated": "2026-11-09"
+    },
+    "OGN-184": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-the-syren-uncommon": 0.18
+      },
+      "updated": "2026-11-09"
+    },
+    "OGN-185": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-traveling-merchant-uncommon": 0.15
+      },
+      "updated": "2026-11-09"
+    },
+    "OGN-186": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-treasure-trove-uncommon": 0.3
+      },
+      "updated": "2026-11-09"
+    },
+    "OGN-187": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-whirlwind-uncommon": 0.12
+      },
+      "updated": "2026-11-09"
+    },
+    "OGN-188": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-zaunite-bouncer-uncommon": 0.04
+      },
+      "updated": "2026-11-09"
+    },
+    "OGN-189": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-kayn-unleashed-rare": 0.3
+      },
+      "updated": "2026-11-09"
+    },
+    "OGN-190": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-kog-maw-caustic-rare": 0.27
+      },
+      "updated": "2026-11-09"
+    },
+    "OGN-191": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-maddened-marauder-rare": 0.13
+      },
+      "updated": "2026-11-09"
+    },
+    "OGN-192": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-mindsplitter-rare": 0.4
+      },
+      "updated": "2026-11-09"
+    },
+    "OGN-193": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-miss-fortune-buccaneer-rare": 0.27
+      },
+      "updated": "2026-11-09"
+    },
+    "OGN-193a": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-miss-fortune-buccaneer-alternate-art-showcase": 3.4
+      },
+      "updated": "2026-11-09"
+    },
+    "OGN-194": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-nocturne-horrifying-rare": 2.19
+      },
+      "updated": "2026-11-09"
+    },
+    "OGN-195": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-rhasa-the-sunderer-rare": 0.8
+      },
+      "updated": "2026-11-09"
+    },
+    "OGN-196": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-soulgorger-rare": 0.15
+      },
+      "updated": "2026-11-09"
+    },
+    "OGN-197": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-teemo-scout-rare": 0.25
+      },
+      "updated": "2026-11-09"
+    },
+    "OGN-197a": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-teemo-scout-alternate-art-showcase": 8.0
+      },
+      "updated": "2026-11-09"
+    },
+    "OGN-197b": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-riftbound-organized-play-promotional-cards-teemo-scout-gg-ez-promo": 728.73
+      },
+      "updated": "2026-11-09"
+    },
+    "OGN-198": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-the-harrowing-rare": 0.38
+      },
+      "updated": "2026-11-09"
+    },
+    "OGN-199": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-tideturner-rare": 1.47
+      },
+      "updated": "2026-11-09"
+    },
+    "OGN-200": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-twisted-fate-gambler-rare": 0.27
+      },
+      "updated": "2026-11-09"
+    },
+    "OGN-201": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-invert-timelines-epic": 4.98
+      },
+      "updated": "2026-11-09"
+    },
+    "OGN-202": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-jinx-rebel-epic": 2.0
+      },
+      "updated": "2026-11-09"
+    },
+    "OGN-202a": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-jinx-rebel-alternate-art-showcase": 2.7
+      },
+      "updated": "2026-11-09"
+    },
+    "OGN-203": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-possession-epic": 0.8
+      },
+      "updated": "2026-11-09"
+    },
+    "OGN-204": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-seal-of-discord-epic": 25.0
+      },
+      "updated": "2026-11-09"
+    },
+    "OGN-205": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-yasuo-windrider-epic": 0.85
+      },
+      "updated": "2026-11-09"
+    },
+    "OGN-205a": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-yasuo-windrider-alternate-art-showcase": 2.34
+      },
+      "updated": "2026-11-09"
+    },
+    "OGN-206": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-back-to-back-common": 0.05
+      },
+      "updated": "2026-11-09"
+    },
+    "OGN-207": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-call-to-glory-common": 0.02
+      },
+      "updated": "2026-11-09"
+    },
+    "OGN-208": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-cruel-patron-common": 0.08
+      },
+      "updated": "2026-11-09"
+    },
+    "OGN-209": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-cull-the-weak-common": 0.01
+      },
+      "updated": "2026-11-09"
+    },
+    "OGN-210": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-daring-poro-common": 0.08
+      },
+      "updated": "2026-11-09"
+    },
+    "OGN-211": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-faithful-manufactor-common": 0.02
+      },
+      "updated": "2026-11-09"
+    },
+    "OGN-212": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-forge-of-the-future-common": 0.11
+      },
+      "updated": "2026-11-09"
+    },
+    "OGN-213": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-hidden-blade-common": 0.82
+      },
+      "updated": "2026-11-09"
+    },
+    "OGN-214": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-order-rune-common": 0.03
+      },
+      "updated": "2026-11-09"
+    },
+    "OGN-214a": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-order-rune-alternate-art-showcase": 3.96
+      },
+      "updated": "2026-11-09"
+    },
+    "OGN-214b": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-riftbound-organized-play-promotional-cards-order-rune-promo": 0.48
+      },
+      "updated": "2026-11-09"
+    },
+    "OGN-215": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-petty-officer-common": 0.04
+      },
+      "updated": "2026-11-09"
+    },
+    "OGN-216": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-soaring-scout-common": 0.02
+      },
+      "updated": "2026-11-09"
+    },
+    "OGN-217": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-trifarian-gloryseeker-common": 0.05
+      },
+      "updated": "2026-11-09"
+    },
+    "OGN-218": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-vanguard-captain-common": 0.02
+      },
+      "updated": "2026-11-09"
+    },
+    "OGN-219": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-vanguard-sergeant-common": 0.02
+      },
+      "updated": "2026-11-09"
+    },
+    "OGN-220": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-facebreaker-uncommon": 0.07
+      },
+      "updated": "2026-11-09"
+    },
+    "OGN-221": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-imperial-decree-uncommon": 0.28
+      },
+      "updated": "2026-11-09"
+    },
+    "OGN-222": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-noxian-drummer-uncommon": 0.01
+      },
+      "updated": "2026-11-09"
+    },
+    "OGN-223": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-peak-guardian-uncommon": 0.09
+      },
+      "updated": "2026-11-09"
+    },
+    "OGN-224": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-salvage-uncommon": 1.0
+      },
+      "updated": "2026-11-09"
+    },
+    "OGN-225": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-solari-chief-uncommon": 0.1
+      },
+      "updated": "2026-11-09"
+    },
+    "OGN-226": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-spectral-matron-uncommon": 0.08
+      },
+      "updated": "2026-11-09"
+    },
+    "OGN-227": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-symbol-of-the-solari-uncommon": 0.03
+      },
+      "updated": "2026-11-09"
+    },
+    "OGN-228": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-vanguard-helm-uncommon": 0.02
+      },
+      "updated": "2026-11-09"
+    },
+    "OGN-229": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-vengeance-uncommon": 0.09
+      },
+      "updated": "2026-11-09"
+    },
+    "OGN-230": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-albus-ferros-rare": 0.09
+      },
+      "updated": "2026-11-09"
+    },
+    "OGN-231": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-commander-ledros-rare": 0.2
+      },
+      "updated": "2026-11-09"
+    },
+    "OGN-232": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-fiora-victorious-rare": 0.74
+      },
+      "updated": "2026-11-09"
+    },
+    "OGN-233": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-grand-strategem-rare": 0.34
+      },
+      "updated": "2026-11-09"
+    },
+    "OGN-234": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-harnessed-dragon-rare": 0.8
+      },
+      "updated": "2026-11-09"
+    },
+    "OGN-235": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-karma-channeler-rare": 0.23
+      },
+      "updated": "2026-11-09"
+    },
+    "OGN-236": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-karthus-eternal-rare": 1.12
+      },
+      "updated": "2026-11-09"
+    },
+    "OGN-237": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-king-s-edict-rare": 0.17
+      },
+      "updated": "2026-11-09"
+    },
+    "OGN-238": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-leona-determined-rare": 0.19
+      },
+      "updated": "2026-11-09"
+    },
+    "OGN-238a": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-leona-determined-alternate-art-showcase": 2.2
+      },
+      "updated": "2026-11-09"
+    },
+    "OGN-239": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-machine-evangel-rare": 0.23
+      },
+      "updated": "2026-11-09"
+    },
+    "OGN-240": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-sett-kingpin-rare": 0.28
+      },
+      "updated": "2026-11-09"
+    },
+    "OGN-240a": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-sett-kingpin-alternate-art-showcase": 1.07
+      },
+      "updated": "2026-11-09"
+    },
+    "OGN-241": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-shen-kinkou-rare": 0.35
+      },
+      "updated": "2026-11-09"
+    },
+    "OGN-242": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-baited-hook-epic": 46.24
+      },
+      "updated": "2026-11-09"
+    },
+    "OGN-243": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-darius-executioner-epic": 0.85
+      },
+      "updated": "2026-11-09"
+    },
+    "OGN-243a": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-darius-executioner-alternate-art-showcase": 1.44
+      },
+      "updated": "2026-11-09"
+    },
+    "OGN-244": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-divine-judgment-epic": 2.41
+      },
+      "updated": "2026-11-09"
+    },
+    "OGN-245": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-seal-of-unity-epic": 11.87
+      },
+      "updated": "2026-11-09"
+    },
+    "OGN-246": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-viktor-leader-epic": 2.52
+      },
+      "updated": "2026-11-09"
+    },
+    "OGN-246a": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-viktor-leader-alternate-art-showcase": 2.52
+      },
+      "updated": "2026-11-09"
+    },
+    "OGN-247": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-kai-sa-daughter-of-the-void-rare": 0.27
+      },
+      "updated": "2026-11-09"
+    },
+    "OGN-248": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-icathian-rain-epic": 1.41
+      },
+      "updated": "2026-11-09"
+    },
+    "OGN-249": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-volibear-relentless-storm-rare": 0.13
+      },
+      "updated": "2026-11-09"
+    },
+    "OGN-250": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-stormbringer-epic": 1.45
+      },
+      "updated": "2026-11-09"
+    },
+    "OGN-251": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-jinx-loose-cannon-rare": 0.01
+      },
+      "updated": "2026-11-09"
+    },
+    "OGN-252": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-super-mega-death-rocket-exclamation-epic": 2.52
+      },
+      "updated": "2026-11-09"
+    },
+    "OGN-253": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-darius-hand-of-noxus-rare": 0.21
+      },
+      "updated": "2026-11-09"
+    },
+    "OGN-254": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-noxian-guillotine-epic": 0.69
+      },
+      "updated": "2026-11-09"
+    },
+    "OGN-255": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-ahri-nine-tailed-fox-rare": 0.15
+      },
+      "updated": "2026-11-09"
+    },
+    "OGN-256": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-fox-fire-epic": 3.07
+      },
+      "updated": "2026-11-09"
+    },
+    "OGN-257": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-lee-sin-blind-monk-rare": 0.16
+      },
+      "updated": "2026-11-09"
+    },
+    "OGN-258": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-dragon-s-rage-epic": 0.82
+      },
+      "updated": "2026-11-09"
+    },
+    "OGN-259": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-yasuo-unforgiven-rare": 0.09
+      },
+      "updated": "2026-11-09"
+    },
+    "OGN-260": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-last-breath-epic": 1.24
+      },
+      "updated": "2026-11-09"
+    },
+    "OGN-261": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-leona-radiant-dawn-rare": 0.15
+      },
+      "updated": "2026-11-09"
+    },
+    "OGN-262": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-zenith-blade-epic": 5.47
+      },
+      "updated": "2026-11-09"
+    },
+    "OGN-263": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-teemo-swift-scout-rare": 0.17
+      },
+      "updated": "2026-11-09"
+    },
+    "OGN-264": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-guerilla-warfare-epic": 2.0
+      },
+      "updated": "2026-11-09"
+    },
+    "OGN-265": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-viktor-herald-of-the-arcane-rare": 0.23
+      },
+      "updated": "2026-11-09"
+    },
+    "OGN-266": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-siphon-power-epic": 0.99
+      },
+      "updated": "2026-11-09"
+    },
+    "OGN-267": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-miss-fortune-bounty-hunter-rare": 0.25
+      },
+      "updated": "2026-11-09"
+    },
+    "OGN-268": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-bullet-time-epic": 1.9
+      },
+      "updated": "2026-11-09"
+    },
+    "OGN-269": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-sett-the-boss-rare": 0.25
+      },
+      "updated": "2026-11-09"
+    },
+    "OGN-270": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-showstopper-epic": 7.37
+      },
+      "updated": "2026-11-09"
+    },
+    "OGN-271": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-recruit-271-buff-common": 0.11
+      },
+      "updated": "2026-11-09"
+    },
+    "OGN-272": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-recruit-272-buff-common": 0.09
+      },
+      "updated": "2026-11-09"
+    },
+    "OGN-273": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-recruit-273-buff-common": 0.01
+      },
+      "updated": "2026-11-09"
+    },
+    "OGN-274": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-sprite-274-buff-common": 0.16
+      },
+      "updated": "2026-11-09"
+    },
+    "OGN-275": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-altar-to-unity-uncommon": 0.11
+      },
+      "updated": "2026-11-09"
+    },
+    "OGN-276": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-aspirant-s-climb-uncommon": 0.09
+      },
+      "updated": "2026-11-09"
+    },
+    "OGN-277": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-back-alley-bar-uncommon": 0.01
+      },
+      "updated": "2026-11-09"
+    },
+    "OGN-278": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-bandle-tree-uncommon": 0.01
+      },
+      "updated": "2026-11-09"
+    },
+    "OGN-279": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-fortified-position-uncommon": 0.19
+      },
+      "updated": "2026-11-09"
+    },
+    "OGN-280": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-grove-of-the-god-willow-uncommon": 0.12
+      },
+      "updated": "2026-11-09"
+    },
+    "OGN-281": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-hallowed-tomb-uncommon": 0.04
+      },
+      "updated": "2026-11-09"
+    },
+    "OGN-282": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-monastery-of-hirana-uncommon": 0.07
+      },
+      "updated": "2026-11-09"
+    },
+    "OGN-283": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-navori-fighting-pit-uncommon": 0.04
+      },
+      "updated": "2026-11-09"
+    },
+    "OGN-284": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-obelisk-of-power-uncommon": 0.1
+      },
+      "updated": "2026-11-09"
+    },
+    "OGN-285": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-reaver-s-row-uncommon": 0.09
+      },
+      "updated": "2026-11-09"
+    },
+    "OGN-286": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-reckoner-s-arena-uncommon": 0.01
+      },
+      "updated": "2026-11-09"
+    },
+    "OGN-287": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-sigil-of-the-storm-uncommon": 0.07
+      },
+      "updated": "2026-11-09"
+    },
+    "OGN-288": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-startipped-peak-uncommon": 0.09
+      },
+      "updated": "2026-11-09"
+    },
+    "OGN-289": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-targon-s-peak-uncommon": 0.01
+      },
+      "updated": "2026-11-09"
+    },
+    "OGN-290": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-the-arena-s-greatest-uncommon": 0.21
+      },
+      "updated": "2026-11-09"
+    },
+    "OGN-291": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-the-candlelit-sanctum-uncommon": 0.1
+      },
+      "updated": "2026-11-09"
+    },
+    "OGN-292": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-the-dreaming-tree-uncommon": 0.12
+      },
+      "updated": "2026-11-09"
+    },
+    "OGN-293": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-the-grand-plaza-uncommon": 0.01
+      },
+      "updated": "2026-11-09"
+    },
+    "OGN-294": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-trifarian-war-camp-uncommon": 0.06
+      },
+      "updated": "2026-11-09"
+    },
+    "OGN-295": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-vilemaw-s-lair-uncommon": 0.14
+      },
+      "updated": "2026-11-09"
+    },
+    "OGN-296": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-void-gate-uncommon": 0.25
+      },
+      "updated": "2026-11-09"
+    },
+    "OGN-297": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-windswept-hillock-uncommon": 0.15
+      },
+      "updated": "2026-11-09"
+    },
+    "OGN-298": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-zaun-warrens-uncommon": 0.11
+      },
+      "updated": "2026-11-09"
+    },
+    "OGN-299": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-kai-sa-daughter-of-the-void-overnumbered-showcase": 119.95
+      },
+      "updated": "2026-11-09"
+    },
+    "OGN-299*": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-kai-sa-daughter-of-the-void-signature-showcase": 3114.31
+      },
+      "updated": "2026-11-09"
+    },
+    "OGN-300": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-volibear-relentless-storm-overnumbered-showcase": 40.0
+      },
+      "updated": "2026-11-09"
+    },
+    "OGN-300*": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-volibear-relentless-storm-signature-showcase": 475.0
+      },
+      "updated": "2026-11-09"
+    },
+    "OGN-301": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-jinx-loose-cannon-overnumbered-showcase": 95.0
+      },
+      "updated": "2026-11-09"
+    },
+    "OGN-301*": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-jinx-loose-cannon-signature-showcase": 1355.35
+      },
+      "updated": "2026-11-09"
+    },
+    "OGN-302": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-darius-hand-of-noxus-overnumbered-showcase": 36.99
+      },
+      "updated": "2026-11-09"
+    },
+    "OGN-302*": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-darius-hand-of-noxus-signature-showcase": 545.66
+      },
+      "updated": "2026-11-09"
+    },
+    "OGN-303": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-ahri-nine-tailed-fox-overnumbered-showcase": 327.31
+      },
+      "updated": "2026-11-09"
+    },
+    "OGN-303*": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-ahri-nine-tailed-fox-signature-showcase": 3711.35
+      },
+      "updated": "2026-11-09"
+    },
+    "OGN-304": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-lee-sin-blind-monk-overnumbered-showcase": 51.99
+      },
+      "updated": "2026-11-09"
+    },
+    "OGN-304*": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-lee-sin-blind-monk-signature-showcase": 1359.58
+      },
+      "updated": "2026-11-09"
+    },
+    "OGN-305": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-yasuo-unforgiven-overnumbered-showcase": 54.8
+      },
+      "updated": "2026-11-09"
+    },
+    "OGN-305*": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-yasuo-unforgiven-signature-showcase": 749.99
+      },
+      "updated": "2026-11-09"
+    },
+    "OGN-306": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-leona-radiant-dawn-overnumbered-showcase": 77.01
+      },
+      "updated": "2026-11-09"
+    },
+    "OGN-306*": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-leona-radiant-dawn-signature-showcase": 919.5
+      },
+      "updated": "2026-11-09"
+    },
+    "OGN-307": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-teemo-swift-scout-overnumbered-showcase": 95.4
+      },
+      "updated": "2026-11-09"
+    },
+    "OGN-307*": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-teemo-swift-scout-signature-showcase": 1055.43
+      },
+      "updated": "2026-11-09"
+    },
+    "OGN-308": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-viktor-herald-of-the-arcane-overnumbered-showcase": 80.0
+      },
+      "updated": "2026-11-09"
+    },
+    "OGN-308*": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-viktor-herald-of-the-arcane-signature-showcase": 300.0
+      },
+      "updated": "2026-11-09"
+    },
+    "OGN-309": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-miss-fortune-bounty-hunter-overnumbered-showcase": 50.0
+      },
+      "updated": "2026-11-09"
+    },
+    "OGN-309*": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-miss-fortune-bounty-hunter-signature-showcase": 1500.0
+      },
+      "updated": "2026-11-09"
+    },
+    "OGN-310": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-sett-the-boss-overnumbered-showcase": 62.51
+      },
+      "updated": "2026-11-09"
+    },
+    "OGN-310*": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-sett-the-boss-signature-showcase": 688.82
+      },
+      "updated": "2026-11-09"
+    },
+    "OGS-001": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-proving-grounds-annie-fiery-epic": 1.79
+      },
+      "updated": "2026-11-09"
+    },
+    "OGS-002": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-proving-grounds-firestorm-uncommon": 0.35
+      },
+      "updated": "2026-11-09"
+    },
+    "OGS-003": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-proving-grounds-incinerate-common": 0.38
+      },
+      "updated": "2026-11-09"
+    },
+    "OGS-004": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-proving-grounds-master-yi-meditative-rare": 0.44
+      },
+      "updated": "2026-11-09"
+    },
+    "OGS-005": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-proving-grounds-zephyr-sage-uncommon": 0.12
+      },
+      "updated": "2026-11-09"
+    },
+    "OGS-006": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-proving-grounds-lux-illuminated-rare": 0.53
+      },
+      "updated": "2026-11-09"
+    },
+    "OGS-007": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-proving-grounds-garen-rugged-rare": 0.71
+      },
+      "updated": "2026-11-09"
+    },
+    "OGS-008": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-proving-grounds-gentlemen-s-duel-common": 0.28
+      },
+      "updated": "2026-11-09"
+    },
+    "OGS-009": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-proving-grounds-master-yi-honed-epic": 0.69
+      },
+      "updated": "2026-11-09"
+    },
+    "OGS-010": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-proving-grounds-annie-stubborn-rare": 1.63
+      },
+      "updated": "2026-11-09"
+    },
+    "OGS-011": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-proving-grounds-flash-common": 2.39
+      },
+      "updated": "2026-11-09"
+    },
+    "OGS-012": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-proving-grounds-blast-of-power-common": 0.15
+      },
+      "updated": "2026-11-09"
+    },
+    "OGS-013": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-proving-grounds-garen-commander-epic": 0.52
+      },
+      "updated": "2026-11-09"
+    },
+    "OGS-014": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-proving-grounds-lux-crownguard-epic": 0.01
+      },
+      "updated": "2026-11-09"
+    },
+    "OGS-015": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-proving-grounds-recruit-the-vanguard-uncommon": 0.63
+      },
+      "updated": "2026-11-09"
+    },
+    "OGS-016": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-proving-grounds-vanguard-attendant-common": 0.18
+      },
+      "updated": "2026-11-09"
+    },
+    "OGS-017": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-proving-grounds-annie-dark-child-starter-rare": 2.67
+      },
+      "updated": "2026-11-09"
+    },
+    "OGS-018": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-proving-grounds-tibbers-epic": 0.39
+      },
+      "updated": "2026-11-09"
+    },
+    "OGS-019": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-proving-grounds-master-yi-wuju-bladesman-starter-rare": 12.1
+      },
+      "updated": "2026-11-09"
+    },
+    "OGS-020": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-proving-grounds-highlander-epic": 0.55
+      },
+      "updated": "2026-11-09"
+    },
+    "OGS-021": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-proving-grounds-lux-lady-of-luminosity-starter-rare": 6.61
+      },
+      "updated": "2026-11-09"
+    },
+    "OGS-022": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-proving-grounds-final-spark-epic": 0.01
+      },
+      "updated": "2026-11-09"
+    },
+    "OGS-023": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-proving-grounds-garen-might-of-demacia-starter-rare": 0.81
+      },
+      "updated": "2026-11-09"
+    },
+    "OGS-024": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-proving-grounds-decisive-strike-epic": 0.36
+      },
+      "updated": "2026-11-09"
+    },
+    "OGS-279": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-proving-grounds-fortified-position-oversized-uncommon": 0.56
+      },
+      "updated": "2026-11-09"
+    },
+    "OGS-288": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-proving-grounds-startipped-peak-oversized-uncommon": 2.77
+      },
+      "updated": "2026-11-09"
+    },
+    "OGS-294": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-proving-grounds-trifarian-war-camp-oversized-uncommon": 2.52
+      },
+      "updated": "2026-11-09"
+    },
+    "OGS-296": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-origins-proving-grounds-void-gate-oversized-uncommon": 0.99
+      },
+      "updated": "2026-11-09"
+    },
     "RAD-001": {
       "ids": {
         "riftbound-league-of-legends-trading-card-game-radiance-amateur-demolitionist-common": 0.07
@@ -3150,6 +5478,12 @@
       },
       "updated": "2026-11-08"
     },
+    "SFD-R01": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-spiritforged-fury-rune-common": 0.06
+      },
+      "updated": "2026-11-09"
+    },
     "SFD-R01a": {
       "ids": {
         "riftbound-league-of-legends-trading-card-game-spiritforged-fury-rune-r01a-showcase": 2.5
@@ -3158,9 +5492,10 @@
     },
     "SFD-R01b": {
       "ids": {
+        "riftbound-league-of-legends-trading-card-game-riftbound-organized-play-promotional-cards-fury-rune-vendetta-common": 8.88,
         "riftbound-league-of-legends-trading-card-game-spiritforged-fury-rune-r01b-promo": 5.99
       },
-      "updated": "2026-11-08"
+      "updated": "2026-11-09"
     },
     "SFD-R02": {
       "ids": {
@@ -3176,9 +5511,10 @@
     },
     "SFD-R02b": {
       "ids": {
+        "riftbound-league-of-legends-trading-card-game-riftbound-organized-play-promotional-cards-calm-rune-vendetta-promo": 7.3,
         "riftbound-league-of-legends-trading-card-game-spiritforged-calm-rune-r02b-promo": 8.0
       },
-      "updated": "2026-11-08"
+      "updated": "2026-11-09"
     },
     "SFD-R03": {
       "ids": {
@@ -3194,9 +5530,16 @@
     },
     "SFD-R03b": {
       "ids": {
+        "riftbound-league-of-legends-trading-card-game-riftbound-organized-play-promotional-cards-mind-rune-vendetta-common": 8.51,
         "riftbound-league-of-legends-trading-card-game-spiritforged-mind-rune-r03b-promo": 6.0
       },
-      "updated": "2026-11-08"
+      "updated": "2026-11-09"
+    },
+    "SFD-R04": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-spiritforged-body-rune-common": 0.06
+      },
+      "updated": "2026-11-09"
     },
     "SFD-R04a": {
       "ids": {
@@ -3206,9 +5549,10 @@
     },
     "SFD-R04b": {
       "ids": {
+        "riftbound-league-of-legends-trading-card-game-riftbound-organized-play-promotional-cards-body-rune-vendetta-common": 2.63,
         "riftbound-league-of-legends-trading-card-game-spiritforged-body-rune-r04b-promo": 5.95
       },
-      "updated": "2026-11-08"
+      "updated": "2026-11-09"
     },
     "SFD-R05": {
       "ids": {
@@ -3224,9 +5568,10 @@
     },
     "SFD-R05b": {
       "ids": {
+        "riftbound-league-of-legends-trading-card-game-riftbound-organized-play-promotional-cards-chaos-rune-vendetta-common": 16.3,
         "riftbound-league-of-legends-trading-card-game-spiritforged-chaos-rune-r05b-promo": 14.73
       },
-      "updated": "2026-11-08"
+      "updated": "2026-11-09"
     },
     "SFD-R06": {
       "ids": {
@@ -3242,15 +5587,17 @@
     },
     "SFD-R06b": {
       "ids": {
+        "riftbound-league-of-legends-trading-card-game-riftbound-organized-play-promotional-cards-order-rune-vendetta-common": 5.16,
         "riftbound-league-of-legends-trading-card-game-spiritforged-order-rune-r06b-promo": 6.48
       },
-      "updated": "2026-11-08"
+      "updated": "2026-11-09"
     },
     "SFD-T01": {
       "ids": {
+        "riftbound-league-of-legends-trading-card-game-spiritforged-mech-buff-common": 0.08,
         "riftbound-league-of-legends-trading-card-game-spiritforged-mech-gold-common": 0.1
       },
-      "updated": "2026-11-08"
+      "updated": "2026-11-09"
     },
     "SFD-T02": {
       "ids": {
@@ -5560,6 +7907,12 @@
       },
       "updated": "2026-11-07"
     },
+    "VEN-069b": {
+      "ids": {
+        "riftbound-league-of-legends-trading-card-game-riftbound-organized-play-promotional-cards-mel-newly-awakened-epic": 95.0
+      },
+      "updated": "2026-11-09"
+    },
     "VEN-070": {
       "ids": {
         "riftbound-league-of-legends-trading-card-game-vendetta-brutal-hunter-common": 0.04
@@ -6571,13 +8924,25 @@
     }
   },
   "sets": {
+    "OGN": {
+      "lastCrawl": "2026-11-09",
+      "resumeOffset": 0
+    },
+    "OGS": {
+      "lastCrawl": "2026-11-09",
+      "resumeOffset": 0
+    },
+    "PRM": {
+      "resumeOffset": 160
+    },
     "RAD": {
       "apiId": "radiance-riftbound-league-of-legends-trading-card-game",
       "lastCrawl": "2026-11-07",
       "resumeOffset": 0
     },
     "SFD": {
-      "resumeOffset": 320
+      "lastCrawl": "2026-11-09",
+      "resumeOffset": 0
     },
     "UNL": {
       "apiId": "unleashed-riftbound-league-of-legends-trading-card-game",
