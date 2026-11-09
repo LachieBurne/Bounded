@@ -1,32 +1,56 @@
 @import "tailwindcss";
 
+/*
+ * Gilded Rift for the web: the Android app's palette (ui/theme/Rift.kt) as Tailwind tokens.
+ * Gold means "yours" and "act"; domain colour means identity; red is kept for bans.
+ * The design is the "Bounded web redesign" Claude Design canvas.
+ */
 @theme {
-  --color-riftbound-darkest: #0A0E17;
-  --color-riftbound-darker: #131A26;
-  --color-riftbound-dark: #1C2638;
-  --color-riftbound-accent: #4C6EF5;
-  --color-riftbound-accentBright: #748FFC;
-  --color-riftbound-textPrimary: #F1F3F5;
-  --color-riftbound-textDim: #ADB5BD;
+  --color-ink: #0C0A09;
+  --color-bar: #120E0B;
+  --color-surface: #16120F;
+  --color-raised: #211A14;
+  --color-track: #2A221A;
+  --color-line: #3B3024;
+  --color-line-strong: #5A4A36;
+  --color-gold: #D3AC49;
+  --color-gold-bright: #E9C870;
+  --color-gold-deep: #8A6A22;
+  --color-gold-wash: #3A2E14;
+  --color-on-gold: #1A1206;
+  --color-ivory: #F4EEE3;
+  --color-parchment: #D9D1C4;
+  --color-muted: #A69A88;
+  --color-ink-text: #1F1A14;
+  --color-ink-muted: #5E5A55;
+  --color-banned: #C62828;
+  --color-banned-2v2: #B45309;
+  --color-warn: #FF9800;
 
-  --font-family-sans: ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  --font-sans: Barlow, ui-sans-serif, system-ui, sans-serif;
+  --font-cond: "Barlow Condensed", "Arial Narrow", ui-sans-serif, sans-serif;
 }
 
 @layer base {
+  html {
+    color-scheme: dark;
+  }
+
   body {
-    background-color: var(--color-riftbound-darkest);
-    color: var(--color-riftbound-textPrimary);
-    font-family: var(--font-family-sans);
+    background-color: var(--color-ink);
+    color: var(--color-ivory);
+    font-family: var(--font-sans);
     -webkit-font-smoothing: antialiased;
   }
-}
 
-@layer components {
+  :focus-visible {
+    outline: 2px solid var(--color-gold);
+    outline-offset: 2px;
+  }
 
-  /* Scrollbar Customization */
   ::-webkit-scrollbar {
-    width: 8px;
-    height: 8px;
+    width: 10px;
+    height: 10px;
   }
 
   ::-webkit-scrollbar-track {
@@ -34,78 +58,88 @@
   }
 
   ::-webkit-scrollbar-thumb {
-    @apply bg-riftbound-dark rounded-full border-2 border-riftbound-darkest;
+    background: var(--color-line);
+    border: 2px solid var(--color-ink);
   }
 
   ::-webkit-scrollbar-thumb:hover {
-    @apply bg-riftbound-textDim;
+    background: var(--color-line-strong);
+  }
+}
+
+/* Condensed italic caps, the way the cards print "SIGNATURE GEAR · RIVEN". */
+@utility rift-label {
+  font-family: var(--font-cond);
+  font-style: italic;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+@utility rift-number {
+  font-family: var(--font-cond);
+  font-weight: 700;
+  line-height: 1;
+}
+
+/* The cut corners of the card frame. */
+@utility chamfer {
+  clip-path: polygon(12px 0, 100% 0, 100% calc(100% - 12px), calc(100% - 12px) 100%, 0 100%, 0 12px);
+}
+
+@utility chamfer-sm {
+  clip-path: polygon(8px 0, 100% 0, 100% calc(100% - 8px), calc(100% - 8px) 100%, 0 100%, 0 8px);
+}
+
+/* A name band: only the top-left corner is cut. */
+@utility band-cut {
+  clip-path: polygon(12px 0, 100% 0, 100% 100%, 0 100%, 0 12px);
+}
+
+@layer components {
+  .btn-gold {
+    @apply chamfer inline-flex items-center justify-center gap-2 min-h-11 px-6 bg-gold text-on-gold rift-number text-lg tracking-[0.08em] uppercase cursor-pointer hover:bg-gold-bright disabled:bg-raised disabled:text-muted disabled:cursor-not-allowed;
   }
 
-  /* Glassmorphism Classes */
-  .glass-panel {
-    @apply bg-riftbound-darker/60 backdrop-blur-md border border-white/5 shadow-xl;
+  .btn-outline {
+    @apply inline-flex items-center justify-center gap-2 min-h-11 px-5 border border-gold-deep text-gold rift-number text-base tracking-[0.08em] uppercase cursor-pointer hover:bg-gold-wash disabled:opacity-40 disabled:cursor-not-allowed;
   }
 
-  .glass-card {
-    @apply bg-riftbound-dark/40 backdrop-blur-sm border border-white/10 hover:border-white/20 transition-all duration-300;
+  .btn-quiet {
+    @apply inline-flex items-center justify-center gap-2 min-h-10 px-3 border border-line text-parchment text-sm cursor-pointer hover:border-line-strong hover:text-ivory;
   }
 
-  .nav-btn {
-    @apply flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-colors hover:bg-white/5 active:bg-white/10;
+  .field {
+    @apply bg-ink border border-line text-ivory placeholder:text-muted px-3 outline-none focus:border-gold-deep;
   }
 
-  .nav-btn-active {
-    @apply bg-riftbound-accent/10 text-riftbound-accentBright;
+  /* A selectable chip: gold wash when on. */
+  .chip {
+    @apply inline-flex items-center gap-1.5 min-h-8 px-2.5 border border-line text-sm text-parchment cursor-pointer hover:border-line-strong;
   }
 
-  .primary-btn {
-    @apply bg-riftbound-accent hover:bg-riftbound-accentBright text-white px-4 py-2 rounded-lg font-semibold shadow-lg shadow-riftbound-accent/20 transition-all active:scale-95;
+  .chip[aria-pressed="true"] {
+    @apply bg-gold-wash border-gold-deep text-ivory;
   }
 
-  /* Shimmer Loading Animation */
-  .shimmer {
-    position: relative;
-    overflow: hidden;
+  .panel {
+    @apply bg-surface border border-line;
   }
 
-  .shimmer::after {
-    content: '';
-    position: absolute;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
-    transform: translateX(-100%);
-    background-image: linear-gradient(90deg,
-        rgba(255, 255, 255, 0) 0,
-        rgba(255, 255, 255, 0.05) 20%,
-        rgba(255, 255, 255, 0.1) 60%,
-        rgba(255, 255, 255, 0));
-    animation: shimmer 2s infinite;
+  /* Card tiles show their stepper on hover or keyboard focus. */
+  .tile .tile-actions {
+    opacity: 0;
+    transition: opacity 0.12s;
   }
 
-  @keyframes shimmer {
-    100% {
-      transform: translateX(100%);
+  .tile:hover .tile-actions,
+  .tile:focus-within .tile-actions {
+    opacity: 1;
+  }
+
+  @media (hover: none) {
+    .tile .tile-actions {
+      opacity: 1;
     }
-  }
-
-  @keyframes gradient-border {
-    0% {
-      background-position: 0% 50%;
-    }
-
-    50% {
-      background-position: 100% 50%;
-    }
-
-    100% {
-      background-position: 0% 50%;
-    }
-  }
-
-  .animate-gradient-border {
-    animation: gradient-border 3s ease infinite;
-    background-size: 200% 200% !important;
   }
 }

@@ -1,171 +1,252 @@
-import React, { useState } from 'react';
+import { useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { Trash2 } from 'lucide-react';
 import { useDecks } from '../context/DeckContext';
 import { useCards } from '../context/CardContext';
-import { Plus, Trash2, Edit2 } from 'lucide-react';
+import type { Deck } from '../models/deck';
+import type { Card } from '../models/card';
+import { contentsOf, parseDecklist } from '../lib/decklist';
+import { ISSUE_MESSAGES, RULE_BREAK_CODES, counts, validate } from '../rules/deckRules';
+import { shownDomains } from '../lib/style';
+import { DomainBand } from '../components/rift/DomainBand';
+import { Dialog } from '../components/rift/Dialog';
+import { DomainIcon, Loading, RiftLabel } from '../components/rift/Rift';
 
-const DeckList: React.FC = () => {
-    const { decks, loadingDecks, createDeck, deleteDeck } = useDecks();
+const newDeck = (name: string, fields: Partial<Deck> = {}): Deck => ({
+    deckId: crypto.randomUUID(),
+    name,
+    format: 'CONSTRUCTED',
+    legendCardId: null,
+    championCardId: null,
+    coverCardUrl: null,
+    mainCount: 0,
+    sideCount: 0,
+    lastModified: Date.now(),
+    ...fields,
+});
+
+function edited(at: number, now: number): string {
+    const days = Math.floor((now - at) / 86_400_000);
+    if (days <= 0) return 'Edited today';
+    if (days === 1) return 'Edited yesterday';
+    if (days < 7) return `Edited ${days} days ago`;
+    if (days < 30) return `Edited ${Math.floor(days / 7)} wk ago`;
+    return `Edited ${new Date(at).toLocaleDateString('en-AU', { day: 'numeric', month: 'short', year: 'numeric' })}`;
+}
+
+/** Your decks as tiles, with a panel to paste in a decklist from elsewhere. */
+const DeckList = () => {
+    const { decks, loadingDecks, createDeck, createDeckWithEntries, deleteDeck } = useDecks();
     const { masterCards } = useCards();
     const navigate = useNavigate();
+    const cardsById = useMemo(() => new Map(masterCards.map(c => [c.cardId, c])), [masterCards]);
+    const [creating, setCreating] = useState(false);
+    const [newName, setNewName] = useState('');
+    const [deleting, setDeleting] = useState<Deck | null>(null);
+    const [now] = useState(() => Date.now());
 
-    const [isCreating, setIsCreating] = useState(false);
-    const [newDeckName, setNewDeckName] = useState('');
-
-    const handleCreateDeck = async (e: React.FormEvent) => {
-        e.preventDefault();
-        if (!newDeckName.trim()) return;
-
-        const newDeck = {
-            deckId: crypto.randomUUID(),
-            name: newDeckName.trim(),
-            format: 'CONSTRUCTED' as const,
-            legendCardId: null,
-            championCardId: null,
-            coverCardUrl: null,
-            mainCount: 0,
-            sideCount: 0,
-            lastModified: Date.now()
-        };
-
-        await createDeck(newDeck);
-        setIsCreating(false);
-        setNewDeckName('');
-        navigate(`/decks/${newDeck.deckId}`);
+    const create = async () => {
+        if (!newName.trim()) return;
+        const deck = newDeck(newName.trim());
+        await createDeck(deck);
+        setCreating(false);
+        navigate(`/decks/${deck.deckId}`);
     };
 
-    if (loadingDecks) {
-        return (
-            <div className="flex-1 flex items-center justify-center p-8">
-                <div className="w-12 h-12 border-4 border-white/10 border-t-riftbound-accent rounded-full animate-spin"></div>
-            </div>
-        );
-    }
+    if (loadingDecks) return <Loading label="Loading decks" />;
 
     return (
-        <div className="flex-1 overflow-y-auto p-4 md:p-8 custom-scrollbar">
-            <div className="max-w-7xl mx-auto">
-                <div className="flex justify-between items-center mb-8">
-                    <h1 className="text-3xl md:text-5xl font-black text-white uppercase tracking-tight">Your Decks</h1>
-                    <button
-                        onClick={() => setIsCreating(true)}
-                        className="flex items-center gap-2 bg-riftbound-accent text-white px-4 md:px-6 py-2 md:py-3 rounded-xl font-bold hover:bg-riftbound-accentBright transition-colors shadow-lg shadow-riftbound-accent/20"
-                    >
-                        <Plus className="w-5 h-5" />
-                        <span className="hidden sm:inline">New Deck</span>
-                    </button>
+        <div className="w-full max-w-[1600px] mx-auto px-4 sm:px-8 pt-7 pb-16 flex flex-wrap items-start gap-7">
+            <div className="flex-[999_1_560px] min-w-0 flex flex-col gap-5">
+                <div className="flex flex-wrap items-center gap-3">
+                    <h1 className="flex-1 rift-label text-[40px] leading-none tracking-[0.05em]">Decks</h1>
+                    <button type="button" className="btn-gold" onClick={() => { setNewName(''); setCreating(true); }}>+ New deck</button>
                 </div>
 
-                {/* Create Deck Form */}
-                {isCreating && (
-                    <div className="bg-white/5 border border-white/10 p-6 rounded-2xl mb-8 glass-panel animate-in fade-in slide-in-from-top-4">
-                        <form onSubmit={handleCreateDeck} className="flex flex-col sm:flex-row gap-4">
-                            <input
-                                autoFocus
-                                type="text"
-                                value={newDeckName}
-                                onChange={e => setNewDeckName(e.target.value)}
-                                placeholder="Enter deck name..."
-                                className="flex-1 bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-riftbound-accent"
-                            />
-                            <div className="flex gap-2">
-                                <button
-                                    type="button"
-                                    onClick={() => { setIsCreating(false); setNewDeckName(''); }}
-                                    className="px-6 py-3 rounded-xl font-bold text-white bg-white/10 hover:bg-white/20 transition-colors"
-                                >
-                                    Cancel
-                                </button>
-                                <button
-                                    type="submit"
-                                    disabled={!newDeckName.trim()}
-                                    className="px-6 py-3 rounded-xl font-bold text-white bg-riftbound-accent hover:bg-riftbound-accentBright transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-                                >
-                                    Create
-                                </button>
-                            </div>
-                        </form>
-                    </div>
-                )}
-
-                {/* Decks Grid */}
-                {decks.length === 0 && !isCreating ? (
-                    <div className="text-center py-20 bg-white/5 rounded-2xl border border-white/10 glass-panel">
-                        <div className="w-20 h-20 mx-auto bg-white/5 rounded-full flex items-center justify-center mb-6">
-                            <Plus className="w-10 h-10 text-riftbound-textDim" />
-                        </div>
-                        <h3 className="text-2xl font-bold text-white mb-2">No Decks Yet</h3>
-                        <p className="text-riftbound-textDim max-w-md mx-auto">
-                            You haven't constructed any decks. Create one to begin assembling your forces for the Rift!
-                        </p>
+                {decks.length === 0 ? (
+                    <div className="panel p-10 flex flex-col gap-2 items-center text-center">
+                        <span className="rift-label text-lg">No decks yet</span>
+                        <span className="text-muted max-w-md">Start one from scratch with New deck, or paste a list from elsewhere into the import panel.</span>
                     </div>
                 ) : (
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                    <div className="grid grid-cols-[repeat(auto-fill,minmax(290px,1fr))] gap-[18px]">
                         {decks.map(deck => {
-                            // Find champion/legend logic (placeholder for actual URLs)
-                            let bgImage = deck.coverCardUrl;
-                            if (!bgImage && deck.championCardId) {
-                                const champ = masterCards.find(c => c.cardId === deck.championCardId);
-                                if (champ) bgImage = champ.imageUrl;
-                            }
-                            if (!bgImage && deck.legendCardId) {
-                                const leg = masterCards.find(c => c.cardId === deck.legendCardId);
-                                if (leg) bgImage = leg.imageUrl;
-                            }
-
-                            // Placeholder default bg
-                            bgImage = bgImage || 'https://lachieburne.github.io/Bounded/card_images/OGN-001.webp';
-
+                            const legend = deck.legendCardId ? cardsById.get(deck.legendCardId) : undefined;
+                            const champion = deck.championCardId ? cardsById.get(deck.championCardId) : undefined;
+                            const art = legend?.imageUrl ?? champion?.imageUrl ?? deck.coverCardUrl;
+                            const complete = (deck.mainCount ?? 0) >= 40;
                             return (
-                                <div key={deck.deckId} onClick={() => navigate(`/decks/${deck.deckId}`)} className="group relative rounded-2xl overflow-hidden border border-white/10 aspect-[3/2] flex flex-col justify-end cursor-pointer transition-all duration-300 hover:scale-[1.02] hover:border-riftbound-accent shadow-xl">
-                                    {/* Cover Image */}
-                                    <div className="absolute inset-0 z-0">
-                                        <img src={bgImage} alt="Cover" className="w-full h-full object-cover object-top opacity-50 group-hover:opacity-70 transition-opacity" />
-                                        <div className="absolute inset-0 bg-gradient-to-t from-riftbound-darkest via-riftbound-darkest/80 to-transparent"></div>
-                                    </div>
-
-                                    {/* Content */}
-                                    <div className="relative z-10 p-5 flex flex-col gap-2">
-                                        <div className="flex flex-col gap-1">
-                                            <h3 className="text-xl font-bold text-white line-clamp-2 drop-shadow-md leading-tight">{deck.name}</h3>
-                                            <div className="flex items-center justify-between mt-1">
-                                                <div className="text-sm text-riftbound-textDim font-medium">
-                                                    {deck.format}
-                                                </div>
-                                                <div className="flex items-center">
-                                                    <span className="text-[10px] md:text-xs font-bold bg-white/10 px-2 py-1 rounded text-riftbound-textPrimary border border-white/5 shadow-inner backdrop-blur-sm">
-                                                        Main: <span className="text-riftbound-accentBright">{deck.mainCount ?? 0}/40</span><span className="mx-1 text-white/30">|</span>Side: <span className="text-riftbound-accentBright">{deck.sideCount ?? 0}/8</span>
-                                                    </span>
-                                                </div>
-                                            </div>
+                                <div key={deck.deckId} className="relative group panel flex flex-col hover:border-gold-deep">
+                                    <button type="button" onClick={() => navigate(`/decks/${deck.deckId}`)} className="flex flex-col text-left cursor-pointer">
+                                        <div className="relative h-44 overflow-hidden bg-raised">
+                                            {art && <img src={art} alt="" loading="lazy" className="w-full h-full object-cover object-[50%_22%]" />}
+                                            <div aria-hidden="true" className="absolute inset-0 bg-gradient-to-b from-transparent from-30% to-ink/85" />
+                                            {legend && (
+                                                <span className="absolute right-2.5 top-2.5 flex gap-0.5">
+                                                    {shownDomains(legend.domain).filter(d => d !== 'COLORLESS').map(d => <DomainIcon key={d} domain={d} decorative className="w-[26px] h-[26px]" />)}
+                                                </span>
+                                            )}
                                         </div>
-                                    </div>
-
-                                    {/* Hover Actions Float */}
-                                    <div className="absolute inset-0 z-20 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-4 backdrop-blur-sm">
-                                        <button
-                                            onClick={(e) => { e.stopPropagation(); navigate(`/decks/${deck.deckId}`); }}
-                                            className="w-12 h-12 bg-riftbound-accent rounded-full flex items-center justify-center text-white hover:scale-110 transition-transform shadow-lg shadow-riftbound-accent/40"
-                                            title="Edit Deck"
-                                        >
-                                            <Edit2 className="w-5 h-5" />
-                                        </button>
-                                        <button
-                                            onClick={(e) => { e.stopPropagation(); if (window.confirm('Delete deck entirely?')) deleteDeck(deck.deckId); }}
-                                            className="w-12 h-12 bg-red-600 rounded-full flex items-center justify-center text-white hover:scale-110 transition-transform shadow-lg shadow-red-600/40"
-                                            title="Delete Deck"
-                                        >
-                                            <Trash2 className="w-5 h-5" />
-                                        </button>
-                                    </div>
+                                        {legend ? (
+                                            <DomainBand domains={legend.domain} className="px-3.5 py-2.5">
+                                                <DeckTitle deck={deck} />
+                                            </DomainBand>
+                                        ) : (
+                                            <div className="band-cut bg-raised px-3.5 py-2.5"><DeckTitle deck={deck} /></div>
+                                        )}
+                                        <div className="flex flex-wrap items-center gap-2 px-3.5 py-3">
+                                            <span className={`h-6 inline-flex items-center px-2 rift-label text-[13px] tracking-[0.1em] text-white ${complete ? 'bg-[#285F24]' : 'bg-ink-muted'}`}>
+                                                {complete ? 'Complete' : 'In progress'}
+                                            </span>
+                                            <span className="flex-1 text-sm text-muted">{legend ? legend.name : 'No legend yet'}</span>
+                                            <span className="text-[13px] text-muted">{edited(deck.lastModified, now)}</span>
+                                        </div>
+                                    </button>
+                                    <button
+                                        type="button"
+                                        aria-label={`Delete ${deck.name}`}
+                                        onClick={() => setDeleting(deck)}
+                                        className="absolute left-2.5 top-2.5 w-9 h-9 flex items-center justify-center bg-ink/80 border border-line text-parchment hover:text-white hover:bg-banned opacity-0 group-hover:opacity-100 focus:opacity-100 cursor-pointer"
+                                    >
+                                        <Trash2 aria-hidden="true" className="w-4 h-4" />
+                                    </button>
                                 </div>
                             );
                         })}
                     </div>
                 )}
             </div>
+
+            <ImportPanel
+                cards={masterCards}
+                cardsById={cardsById}
+                onImport={async (deck, main, side) => {
+                    await createDeckWithEntries(deck, main, side);
+                    navigate(`/decks/${deck.deckId}`);
+                }}
+            />
+
+            {creating && (
+                <Dialog
+                    title="New deck"
+                    onClose={() => setCreating(false)}
+                    footer={<button type="button" className="btn-gold w-full" disabled={!newName.trim()} onClick={create}>Create deck</button>}
+                >
+                    <form onSubmit={e => { e.preventDefault(); create(); }}>
+                        <label className="flex flex-col gap-1.5 text-sm text-muted">
+                            Deck name
+                            <input type="text" value={newName} onChange={e => setNewName(e.target.value)} className="field h-11 text-base" />
+                        </label>
+                    </form>
+                </Dialog>
+            )}
+            {deleting && (
+                <Dialog
+                    title={`Delete "${deleting.name}"?`}
+                    onClose={() => setDeleting(null)}
+                    footer={
+                        <div className="flex justify-end gap-2">
+                            <button type="button" className="btn-quiet" onClick={() => setDeleting(null)}>Cancel</button>
+                            <button type="button" className="btn-quiet border-banned bg-banned text-white hover:bg-banned/80" onClick={() => { deleteDeck(deleting.deckId); setDeleting(null); }}>
+                                Delete deck
+                            </button>
+                        </div>
+                    }
+                >
+                    <p className="text-parchment">The deck and its list are deleted. Your collection isn't affected.</p>
+                </Dialog>
+            )}
         </div>
     );
 };
+
+function DeckTitle({ deck }: { deck: Deck }) {
+    return (
+        <span className="flex items-center gap-2.5">
+            <span className="flex-1 font-bold text-[19px] text-white truncate">{deck.name}</span>
+            <span className="rift-number text-base text-white">{deck.mainCount ?? 0} / 40</span>
+        </span>
+    );
+}
+
+/** Paste a decklist; each line is matched to a card as you type. Same parser as the Android app. */
+function ImportPanel({ cards, cardsById, onImport }: {
+    cards: Card[];
+    cardsById: Map<string, Card>;
+    onImport: (deck: Deck, main: Record<string, number>, side: Record<string, number>) => Promise<void>;
+}) {
+    const [text, setText] = useState('');
+    const [name, setName] = useState('');
+    const [busy, setBusy] = useState(false);
+    const parsed = useMemo(() => (text.trim() ? parseDecklist(text, cards) : null), [text, cards]);
+    const legend = parsed?.legendId ? cardsById.get(parsed.legendId) : undefined;
+    const matched = parsed ? Object.values(parsed.main).reduce((a, n) => a + n, 0) + Object.values(parsed.side).reduce((a, n) => a + n, 0) : 0;
+    const issues = parsed ? validate(contentsOf(parsed), cardsById).filter(i => RULE_BREAK_CODES.has(i.code)) : [];
+    const suggestedName = legend ? `${legend.championTag ?? legend.name} deck` : 'Imported deck';
+
+    const run = async () => {
+        if (!parsed || matched === 0) return;
+        setBusy(true);
+        const c = counts(contentsOf(parsed), cardsById);
+        const deck = newDeck(name.trim() || suggestedName, {
+            legendCardId: parsed.legendId,
+            championCardId: parsed.championId,
+            coverCardUrl: legend?.imageUrl ?? null,
+            mainCount: c.mainDeck,
+            sideCount: c.sideboard,
+        });
+        try {
+            await onImport(deck, parsed.main, parsed.side);
+        } finally {
+            setBusy(false);
+        }
+    };
+
+    return (
+        <aside aria-label="Import a decklist" className="flex-[1_1_300px] lg:max-w-[380px] panel p-5 flex flex-col gap-3.5">
+            <RiftLabel className="text-lg">Import a decklist</RiftLabel>
+            <p className="text-sm text-muted">Paste a list from a deck site, a tournament page or a friend. Bounded matches each line to a card as you paste.</p>
+            <label className="flex flex-col gap-1.5 text-[13px] text-muted">
+                Decklist
+                <textarea
+                    rows={11}
+                    value={text}
+                    onChange={e => setText(e.target.value)}
+                    placeholder={'Legend:\n1 Master Yi - Wuju Master\n\nMainDeck:\n3 Defy\n…'}
+                    className="field py-2.5 resize-y font-mono text-[13px] leading-normal"
+                />
+            </label>
+            {parsed && (
+                <div className="flex flex-col gap-1.5 p-3 bg-ink border border-line text-sm" aria-live="polite">
+                    <span className="flex justify-between"><span className="text-parchment">Legend</span><span className={legend ? 'text-ivory' : 'text-warn'}>{legend?.name ?? 'Not found'}</span></span>
+                    <span className="flex justify-between"><span className="text-parchment">Matched</span><span className="text-gold font-semibold">{matched} cards</span></span>
+                    {parsed.unmatched.length > 0 && (
+                        <>
+                            <span className="flex justify-between"><span className="text-parchment">Not recognised</span><span className="text-warn font-semibold">{parsed.unmatched.length} {parsed.unmatched.length === 1 ? 'line' : 'lines'}</span></span>
+                            <ul className="text-[13px] text-muted list-disc pl-5">
+                                {parsed.unmatched.slice(0, 5).map((l, i) => <li key={i} className="truncate">{l}</li>)}
+                                {parsed.unmatched.length > 5 && <li>and {parsed.unmatched.length - 5} more</li>}
+                            </ul>
+                        </>
+                    )}
+                    {issues.length > 0 && (
+                        <ul className="text-[13px] text-banned-2v2 list-disc pl-5">
+                            {issues.slice(0, 4).map(i => (
+                                <li key={`${i.code}:${i.subject ?? ''}`}>{ISSUE_MESSAGES[i.code]}{i.subject ? ` (${cardsById.get(i.subject)?.name ?? i.subject})` : ''}</li>
+                            ))}
+                        </ul>
+                    )}
+                </div>
+            )}
+            <label className="flex flex-col gap-1.5 text-[13px] text-muted">
+                Deck name
+                <input type="text" value={name} placeholder={suggestedName} onChange={e => setName(e.target.value)} className="field h-10 text-[15px]" />
+            </label>
+            <button type="button" className="btn-gold" disabled={!parsed || matched === 0 || busy} onClick={run}>
+                {matched ? `Import ${matched} cards` : 'Import'}
+            </button>
+        </aside>
+    );
+}
 
 export default DeckList;

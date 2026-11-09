@@ -75,6 +75,13 @@ export const ISSUE_MESSAGES = {
 } as const;
 export type IssueCode = keyof typeof ISSUE_MESSAGES;
 
+/** Issues that mean the deck breaks a rule, as opposed to simply being unfinished. */
+export const RULE_BREAK_CODES: ReadonlySet<IssueCode> = new Set<IssueCode>([
+    'INVALID_CHAMPION', 'COPY_LIMIT', 'SIGNATURE_LIMIT', 'SIGNATURE_WRONG_CHAMPION', 'OUTSIDE_DOMAIN_IDENTITY',
+    'DUPLICATE_BATTLEFIELD', 'NOT_PLAYABLE', 'NOT_ALLOWED_IN_SIDEBOARD', 'SIDEBOARD_TOO_LARGE', 'UNKNOWN_CARD',
+    'BANNED',
+]);
+
 /** A rule the deck breaks. `subject` is the card ID or, for name-wide rules, the card name. */
 export interface DeckIssue {
     code: IssueCode;

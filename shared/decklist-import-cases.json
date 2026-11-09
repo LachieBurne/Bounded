@@ -1,5 +1,5 @@
 {
-  "_comment": "Decklist import cases, run by the Android app's DecklistParserTest (and the web app once it can import). Cards come from deck-rules-test-cases.json.",
+  "_comment": "Decklist import cases, run by the Android app's DecklistParserTest and the web app's decklist.test.ts. Cards come from deck-rules-test-cases.json.",
   "cases": [
     {
       "name": "Reads the apps' own export",

@@ -49,10 +49,9 @@ A running list. Add to it when you leave something unfinished, and delete an ite
 
 | Item | Why it matters | Next step |
 |---|---|---|
-| 8 existing ESLint errors outside the deck editor; CI doesn't run lint | Lint can't be added to CI until they're fixed | Fix them, then add `npm run lint` to `checks.yml`. |
-| No sub-binders or deck import yet | The Android app has them; the web app ignores binder documents and can't import a decklist | Add both in the web redesign. The binder document format is in [binders.md](binders.md). |
-| Banned cards aren't marked | The web deck editor flags them as a rule break (shared deck rules), but card details and the card picker don't show a banned tag | Add the tag and notice in the web redesign, using `bannedIn` and `bannedSince` from the card data. |
-| The redesign hasn't started | | Next after the Android UX work. Bring Gilded Rift across: palette, domain bands and stripes, All cards with binder tabs. |
+| Deck tiles don't show whether a deck is legal | The deck list only has each deck's counts, not its cards, so a banned card only shows inside the deck | Store a legality flag on the deck document when it's saved (both apps), or load entries for the list. |
+| The bundle is one 770 kB chunk (mostly Firebase) | Slower first load | Split routes with `React.lazy`, or load Firestore after sign-in. |
+| Collection stats charts were dropped in the redesign | The old Stats tab (cards by type and rarity) is gone; progress by binder and domain replaced it | Bring back a stats view if it's missed. |
 
 ## Prices
 

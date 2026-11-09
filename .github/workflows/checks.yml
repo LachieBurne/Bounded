@@ -35,7 +35,8 @@ jobs:
       - run: npm ci
       # Firebase config is only checked at runtime, so the build works without .env.local.
       - run: npm run build
-      # Deck rules, against the cases shared with the Android tests.
+      - run: npm run lint
+      # Deck rules and decklist import, against the cases shared with the Android tests.
       - run: npm test
 
   android:

@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
-import { collection, onSnapshot, doc, setDoc, deleteDoc, updateDoc, query, orderBy } from 'firebase/firestore';
+import { collection, onSnapshot, doc, setDoc, deleteDoc, updateDoc, query, orderBy, writeBatch } from 'firebase/firestore';
 import { db, auth } from '../config/firebase';
 import type { Deck } from '../models/deck';
 import type { User } from 'firebase/auth';
@@ -9,12 +9,15 @@ interface DeckContextType {
     decks: Deck[];
     loadingDecks: boolean;
     createDeck: (deck: Deck) => Promise<void>;
+    /** Creates a deck and all its cards in one batch, for imports. */
+    createDeckWithEntries: (deck: Deck, main: Record<string, number>, side: Record<string, number>) => Promise<void>;
     deleteDeck: (deckId: string) => Promise<void>;
     renameDeck: (deckId: string, newName: string) => Promise<void>;
 }
 
 const DeckContext = createContext<DeckContextType>({} as DeckContextType);
 
+// eslint-disable-next-line react-refresh/only-export-components
 export const useDecks = () => useContext(DeckContext);
 
 export const DeckProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
@@ -61,6 +64,24 @@ export const DeckProvider: React.FC<{ children: React.ReactNode }> = ({ children
         await setDoc(deckRef, deck);
     };
 
+    const createDeckWithEntries = async (deck: Deck, main: Record<string, number>, side: Record<string, number>) => {
+        const user = auth.currentUser;
+        if (!user) return;
+        const deckRef = doc(db, 'users', user.uid, 'decks', deck.deckId);
+        const batch = writeBatch(db);
+        batch.set(deckRef, deck);
+        const add = (entries: Record<string, number>, isSideboard: boolean) => {
+            Object.entries(entries).filter(([, qty]) => qty > 0).forEach(([cardId, quantity]) => {
+                // "sideboard" is what Android builds before 1.1 read.
+                batch.set(doc(deckRef, 'entries', `${cardId}_${isSideboard}`),
+                    { deckId: deck.deckId, cardId, quantity, isSideboard, sideboard: isSideboard });
+            });
+        };
+        add(main, false);
+        add(side, true);
+        await batch.commit();
+    };
+
     const deleteDeck = async (deckId: string) => {
         const user = auth.currentUser;
         if (!user) return;
@@ -101,6 +122,7 @@ export const DeckProvider: React.FC<{ children: React.ReactNode }> = ({ children
         decks,
         loadingDecks,
         createDeck,
+        createDeckWithEntries,
         deleteDeck,
         renameDeck
     };
