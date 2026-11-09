@@ -47,3 +47,14 @@ From `Web App/`, with `.env.local` filled in and the Firebase CLI logged in:
 ```bash
 npm run build && npx firebase-tools deploy --only hosting
 ```
+
+# Card images and prices (GitHub Pages)
+
+Both apps load card images, domain and rarity icons and `prices.json` from [lachieburne.github.io/Bounded](https://lachieburne.github.io/Bounded/). `.github/workflows/deploy_pages.yml` publishes just those files, so not the whole repository. It runs when one of them changes on `main`, or by hand from the Actions tab.
+
+- **Card data updates** are merged pull requests, so their new images publish when you merge.
+- **The daily price job** pushes with `GITHUB_TOKEN`, which doesn't trigger push workflows, so it starts the Pages workflow itself, and only when prices changed.
+
+The repository's Pages source must be **GitHub Actions** (Settings › Pages › Build and deployment). With "Deploy from a branch", GitHub would go back to publishing the whole repository on every push.
+
+The site is about 750 MB, and 599 MB of that is 677 old PNG card images. The apps now use WebP, but the APK linked from the README (built in April 2026) still loads every card image as a PNG. Once that download is replaced with a current build, stop publishing the PNGs and the site drops to about 150 MB.
