@@ -1,30 +1,22 @@
 import { useState, useEffect, useMemo, useRef, useCallback } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
-import { ArrowLeft, Plus, Minus, Save, Edit2, Copy, Download } from 'lucide-react';
+import { useParams, useNavigate, useLocation } from 'react-router-dom';
+import { AlertTriangle, ArrowLeft, Copy, LibraryBig, Minus, Plus, Search } from 'lucide-react';
 import { collection, onSnapshot, doc, updateDoc, writeBatch } from 'firebase/firestore';
 import { db, auth } from '../config/firebase';
 import { useCards } from '../context/CardContext';
 import { useDecks } from '../context/DeckContext';
 import { usePrices } from '../context/PriceContext';
-import { CardDetailModal } from '../components/ui/CardDetailModal';
-import type { Card } from '../models/card';
+import type { Card, Domain } from '../models/card';
 import type { Deck, DeckEntry } from '../models/deck';
-import { SleekSearchBar } from '../components/ui/SleekSearchBar';
 import {
-    ADD_RESULT_MESSAGES, BATTLEFIELD_COUNT, DECK_STEPS, ISSUE_MESSAGES, MAIN_DECK_MIN, RUNE_DECK_SIZE, SIDEBOARD_MAX,
+    ADD_RESULT_MESSAGES, BATTLEFIELD_COUNT, ISSUE_MESSAGES, MAIN_DECK_MIN, RULE_BREAK_CODES, RUNE_DECK_SIZE, SIDEBOARD_MAX,
     canBeChampion, checkAdd, counts as deckCounts, currentStep as rulesStep, deckContents, isCandidate, isPlayable, validate,
-    type DeckSection, type DeckStep, type IssueCode,
+    type DeckSection, type DeckStep,
 } from '../rules/deckRules';
-
-const DOMAIN_COLORS: Record<string, string> = {
-    'FURY': '#ef4444',
-    'BODY': '#f97316',
-    'ORDER': '#eab308',
-    'MIND': '#3b82f6',
-    'CALM': '#22c55e',
-    'CHAOS': '#a855f7',
-    'COLORLESS': '#9ca3af'
-};
+import { DOMAIN_LABEL, DOMAIN_SIGIL, domainStripe, isBaseRune, shownDomains } from '../lib/style';
+import { DomainBand } from '../components/rift/DomainBand';
+import { Dialog } from '../components/rift/Dialog';
+import { BannedTag, DomainIcon, EnergyToken, Loading, RiftLabel } from '../components/rift/Rift';
 
 const STEP_LABELS: Record<DeckStep, { title: string; instruction: string }> = {
     LEGEND: { title: "Select Legend", instruction: "Choose 1 Legend card to lead your deck." },
@@ -39,13 +31,6 @@ const STEP_LABELS: Record<DeckStep, { title: string; instruction: string }> = {
 // Edits happen in event handlers, not during render; the indirection keeps the React
 // compiler's purity check from flagging Date.now().
 const timestamp = () => Date.now();
-
-/** Issues that mean the deck breaks a rule, as opposed to simply being unfinished. */
-const RULE_BREAK_CODES: ReadonlySet<IssueCode> = new Set<IssueCode>([
-    'INVALID_CHAMPION', 'COPY_LIMIT', 'SIGNATURE_LIMIT', 'SIGNATURE_WRONG_CHAMPION', 'OUTSIDE_DOMAIN_IDENTITY',
-    'DUPLICATE_BATTLEFIELD', 'NOT_PLAYABLE', 'NOT_ALLOWED_IN_SIDEBOARD', 'SIDEBOARD_TOO_LARGE', 'UNKNOWN_CARD',
-    'BANNED',
-]);
 
 interface DeckStats {
     totalMainDeck: number;
@@ -63,6 +48,7 @@ interface DeckStats {
 export default function DeckEditor() {
     const { deckId } = useParams<{ deckId: string }>();
     const navigate = useNavigate();
+    const location = useLocation();
     const { decks, loadingDecks, renameDeck } = useDecks();
     const { binderCards, masterCards, updateCardQuantity } = useCards();
 
@@ -71,9 +57,10 @@ export default function DeckEditor() {
     const [searchQuery, setSearchQuery] = useState('');
     const [isEditingName, setIsEditingName] = useState(false);
     const [newName, setNewName] = useState('');
-    const [selectedCard, setSelectedCard] = useState<Card | null>(null);
     const [showUnowned, setShowUnowned] = useState(true);
-    const [activeTab, setActiveTab] = useState<'CARDS' | 'STATS'>('CARDS');
+    /** A step chosen from the step bar, to change runes, battlefields or the sideboard later. */
+    const [viewStep, setViewStep] = useState<DeckStep | null>(null);
+    const [confirmAddAll, setConfirmAddAll] = useState(false);
     const [notice, setNotice] = useState<string | null>(null);
 
     // The latest deck and entries, updated straight away on every edit. Edits read these
@@ -82,7 +69,7 @@ export default function DeckEditor() {
     const deckRef = useRef<Deck | null>(null);
     const entriesRef = useRef<DeckEntry[]>([]);
 
-    const { prices, convertPrice, getCurrencySymbol } = usePrices();
+    const { prices, formatPrice } = usePrices();
 
     const cardsById = useMemo(() => new Map(masterCards.map(c => [c.cardId, c])), [masterCards]);
 
@@ -146,6 +133,21 @@ export default function DeckEditor() {
         [contents, cardsById, masterCards.length],
     );
 
+    // Once the legend and champion are chosen, any later step can be opened to make changes.
+    const canChooseStep = Boolean(deck?.legendCardId && deck?.championCardId);
+    const pickerStep: DeckStep = viewStep && canChooseStep ? viewStep : (currentStep === 'COMPLETE' ? 'MAIN' : currentStep);
+    const addTarget = pickerStep === 'LEGEND' || pickerStep === 'CHAMPION' ? undefined : pickerStep === 'SIDEBOARD';
+    const stepCount = (step: DeckStep): string | null => {
+        switch (step) {
+            case 'RUNES': return `${counts.runes} / ${RUNE_DECK_SIZE}`;
+            case 'BATTLEFIELDS': return `${counts.battlefields} / ${BATTLEFIELD_COUNT}`;
+            case 'MAIN': return `${counts.mainDeck} / ${MAIN_DECK_MIN}`;
+            case 'SIDEBOARD': return `${counts.sideboard} / ${SIDEBOARD_MAX}`;
+            default: return null;
+        }
+    };
+    const sideQty = (id: string) => entries.find(e => e.cardId === id && e.isSideboard)?.quantity ?? 0;
+
     // Decks saved before mainCount/sideCount existed, or by older Android builds, show the
     // wrong count in the deck list. Correct it once when the deck is opened.
     const countsChecked = useRef(false);
@@ -202,8 +204,8 @@ export default function DeckEditor() {
 
         // Price Logic (all slots including Sideboard/Runes/Battlefields)
         entries.forEach(entry => {
-            const rawPrice = prices[entry.cardId] || 0;
-            const price = convertPrice(rawPrice);
+            // US dollars; formatPrice converts when shown.
+            const price = prices[entry.cardId] || 0;
             const needed = entry.quantity;
             const owned = (binderCards.find(b => b.card.cardId === entry.cardId)?.quantity || 0);
 
@@ -216,7 +218,7 @@ export default function DeckEditor() {
         stats.ownedValue = Math.max(0, stats.totalValue - stats.missingValue);
 
         return stats;
-    }, [entries, masterCards, cardsById, binderCards, prices, convertPrice]);
+    }, [entries, masterCards, cardsById, binderCards, prices]);
 
     const handleSaveName = async () => {
         if (!deckId || !newName.trim() || newName === deck?.name) {
@@ -336,7 +338,7 @@ export default function DeckEditor() {
     const displayCards = useMemo(() => {
         const legendCard = deck?.legendCardId ? cardsById.get(deck.legendCardId) : undefined;
 
-        let results = binderCards.filter(bc => isCandidate(bc.card, currentStep, legendCard));
+        let results = binderCards.filter(bc => isCandidate(bc.card, pickerStep, legendCard));
 
         if (searchQuery.trim()) {
             const lowerQuery = searchQuery.toLowerCase();
@@ -348,20 +350,19 @@ export default function DeckEditor() {
 
         // Handle 'Show Unowned' toggle and Sort
         const unownedFiltered = showUnowned ? results : results.filter(bc => {
-            const isBaseRune = bc.card.type === 'RUNE' && !/[a-z]/.test(bc.card.cardId.split('-')[1] || '');
-            return bc.quantity > 0 || isBaseRune;
+            return bc.quantity > 0 || isBaseRune(bc.card);
         });
 
         return unownedFiltered.sort((a, b) => {
-            const isBaseRuneA = a.card.type === 'RUNE' && !/[a-z]/.test(a.card.cardId.split('-')[1] || '');
-            const isBaseRuneB = b.card.type === 'RUNE' && !/[a-z]/.test(b.card.cardId.split('-')[1] || '');
+            const isBaseRuneA = isBaseRune(a.card);
+            const isBaseRuneB = isBaseRune(b.card);
             const aOwned = a.quantity > 0 || isBaseRuneA;
             const bOwned = b.quantity > 0 || isBaseRuneB;
             if (aOwned && !bOwned) return -1;
             if (!aOwned && bOwned) return 1;
             return a.card.cardId.localeCompare(b.card.cardId);
         });
-    }, [binderCards, searchQuery, currentStep, deck, cardsById, showUnowned]);
+    }, [binderCards, searchQuery, pickerStep, deck, cardsById, showUnowned]);
 
     // Group deck entries by structural step for the right pane
     const deckListGroups = useMemo(() => {
@@ -450,7 +451,7 @@ export default function DeckEditor() {
 
         try {
             await navigator.clipboard.writeText(exportStr.trimEnd());
-            alert('Decklist copied to clipboard!');
+            setNotice('Decklist copied to your clipboard.');
         } catch (err) {
             console.error('Failed to copy text: ', err);
             prompt("Copy to clipboard: Ctrl+C, Enter", exportStr.trimEnd());
@@ -468,8 +469,7 @@ export default function DeckEditor() {
         entries.forEach(entry => {
             const card = masterCards.find(c => c.cardId === entry.cardId);
             if (!card) return;
-            const isBaseRune = card.type === 'RUNE' && !/[a-z]/.test(card.cardId.split('-')[1] || '');
-            if (isBaseRune) return;
+            if (isBaseRune(card)) return;
 
             const totalInDeck = entries.filter(e => e.cardId === entry.cardId).reduce((ac, cv) => ac + cv.quantity, 0);
             const owned = binderCards.find(bc => bc.card.cardId === entry.cardId)?.quantity || 0;
@@ -489,491 +489,299 @@ export default function DeckEditor() {
         }));
     };
 
-    const stepProgress = (step: DeckStep) => {
-        switch (step) {
-            case 'RUNES': return ` (${counts.runes}/${RUNE_DECK_SIZE})`;
-            case 'BATTLEFIELDS': return ` (${counts.battlefields}/${BATTLEFIELD_COUNT})`;
-            case 'MAIN': return ` (${counts.mainDeck}/${MAIN_DECK_MIN})`;
-            case 'SIDEBOARD': return ` (${counts.sideboard}/${SIDEBOARD_MAX})`;
-            default: return '';
-        }
-    };
+    const ownedById = useMemo(() => new Map(binderCards.map(bc => [bc.card.cardId, bc.quantity])), [binderCards]);
+    const inDeckById = useMemo(() => {
+        const m = new Map<string, number>();
+        entries.forEach(e => m.set(e.cardId, (m.get(e.cardId) ?? 0) + e.quantity));
+        return m;
+    }, [entries]);
+    const missingById = useMemo(() => {
+        const m = new Map<string, number>();
+        inDeckById.forEach((qty, id) => {
+            const card = cardsById.get(id);
+            if (!card || isBaseRune(card)) return;
+            const short = qty - (ownedById.get(id) ?? 0);
+            if (short > 0) m.set(id, short);
+        });
+        return m;
+    }, [inDeckById, ownedById, cardsById]);
+    const missingTotal = [...missingById.values()].reduce((a, n) => a + n, 0);
+    const missingValue = [...missingById].reduce((a, [id, n]) => a + (prices[id] ?? 0) * n, 0);
 
-    if (!deck) {
-        return <div className="p-8 text-center text-white">Loading...</div>;
-    }
+    const openCard = (cardId: string, ids: string[]) => navigate(`/cards/${cardId}`, { state: { background: location, ids } });
+
+    if (!deck) return <Loading label="Loading deck" />;
+
+    const legend = deck.legendCardId ? cardsById.get(deck.legendCardId) : undefined;
+    const champion = deck.championCardId ? cardsById.get(deck.championCardId) : undefined;
+    const pickerLabel = currentStep === 'COMPLETE' && !viewStep ? STEP_LABELS.COMPLETE : STEP_LABELS[pickerStep];
+    const steps: { step: DeckStep; label: string; count: string; done: boolean; open: boolean }[] = [
+        { step: 'LEGEND', label: 'Legend', count: legend ? '1' : '0', done: Boolean(legend), open: false },
+        { step: 'CHAMPION', label: 'Champion', count: champion ? '1' : '0', done: Boolean(champion), open: false },
+        { step: 'RUNES', label: 'Runes', count: `${counts.runes}/${RUNE_DECK_SIZE}`, done: counts.runes === RUNE_DECK_SIZE, open: canChooseStep },
+        { step: 'BATTLEFIELDS', label: 'Battlefields', count: `${counts.battlefields}/${BATTLEFIELD_COUNT}`, done: counts.battlefields === BATTLEFIELD_COUNT, open: canChooseStep },
+        { step: 'MAIN', label: 'Main deck', count: `${counts.mainDeck}/${MAIN_DECK_MIN}`, done: counts.mainDeck >= MAIN_DECK_MIN, open: canChooseStep },
+        { step: 'SIDEBOARD', label: 'Sideboard', count: `${counts.sideboard}/${SIDEBOARD_MAX}`, done: false, open: canChooseStep },
+    ];
+    const curve = (() => {
+        const keys = ['0', '1', '2', '3', '4', '5', '6', '7+'];
+        const n = (k: string) => k === '7+'
+            ? Object.entries(deckStats.energyCurve).filter(([c]) => Number(c) >= 7).reduce((a, [, v]) => a + v, 0)
+            : deckStats.energyCurve[Number(k)] ?? 0;
+        const peak = Math.max(1, ...keys.map(n));
+        return keys.map(k => ({ cost: k, n: n(k), pct: (n(k) / peak) * 100 }));
+    })();
+    const domainTotal = Object.values(deckStats.domainBreakdown).reduce((a, n) => a + n, 0);
 
     return (
-        <div className="flex flex-col lg:flex-row h-[calc(100vh-64px)] overflow-hidden">
-            {/* LEFT PANE: Collection/Binder Search */}
-            <div className="w-full lg:w-1/2 h-1/2 lg:h-full flex flex-col border-b lg:border-b-0 lg:border-r border-white/10 p-4 md:p-6 bg-black/20 relative">
-
-                {/* Wizard Header Ribbon */}
-                <div className="absolute top-0 left-0 right-0 h-1 bg-white/10">
-                    <div
-                        className="h-full bg-riftbound-accent transition-all duration-500 ease-in-out"
-                        style={{ width: `${(DECK_STEPS.indexOf(currentStep) / (DECK_STEPS.length - 1)) * 100}%` }}
-                    />
-                </div>
-
-                <div className="mb-6 mt-2">
-                    <button
-                        onClick={() => navigate('/decks')}
-                        className="flex items-center gap-2 text-riftbound-textDim hover:text-white transition-colors mb-4"
-                    >
-                        <ArrowLeft className="w-4 h-4" /> Back to Decks
+        <div className="w-full max-w-[1600px] mx-auto flex flex-col">
+            <div className="px-4 sm:px-8 pt-5 flex flex-col gap-3.5">
+                <div className="flex flex-wrap items-stretch gap-3.5">
+                    <button type="button" onClick={() => navigate('/decks')} aria-label="Back to decks" className="w-11 flex items-center justify-center border border-line text-parchment hover:text-ivory cursor-pointer">
+                        <ArrowLeft aria-hidden="true" className="w-5 h-5" />
                     </button>
-
-                    <div className="mb-4">
-                        <h3 className="text-xl font-black text-white">{STEP_LABELS[currentStep].title}{stepProgress(currentStep)}</h3>
-                        <p className="text-sm text-riftbound-accentBright font-bold">{STEP_LABELS[currentStep].instruction}</p>
-                        {notice && (
-                            <p role="status" className="mt-2 text-sm text-amber-300">{notice}</p>
-                        )}
-                        {ruleBreaks.length > 0 && (
-                            <ul className="mt-2 text-xs text-red-300 space-y-0.5">
-                                {ruleBreaks.map(issue => (
-                                    <li key={`${issue.code}:${issue.subject ?? ''}`}>
-                                        {ISSUE_MESSAGES[issue.code]}{issue.subject ? ` (${cardsById.get(issue.subject)?.name ?? issue.subject})` : ''}
-                                    </li>
-                                ))}
-                            </ul>
-                        )}
+                    {legend && <img src={legend.imageUrl} alt="" className="hidden sm:block w-16 h-16 object-cover object-[50%_20%] border border-gold-deep" />}
+                    <div className="flex-[1_1_320px] min-w-0">
+                        {(() => {
+                            const inner = (
+                                <div className="flex items-center gap-3 min-h-16 px-[18px]">
+                                    {isEditingName ? (
+                                        <form onSubmit={e => { e.preventDefault(); handleSaveName(); }} className="flex-1 flex flex-col">
+                                            <label className="rift-label text-[13px] text-white/75" htmlFor="deck-name">Deck name</label>
+                                            <input id="deck-name" autoFocus type="text" value={newName} onChange={e => setNewName(e.target.value)} onBlur={handleSaveName} className="bg-transparent outline-none text-white font-bold text-2xl" />
+                                        </form>
+                                    ) : (
+                                        <button type="button" onClick={() => { setNewName(deck.name); setIsEditingName(true); }} className="flex-1 min-w-0 flex flex-col items-start text-left cursor-text" title="Rename deck">
+                                            <span className="rift-label text-[13px] text-white/75">Deck name</span>
+                                            <span className="font-bold text-2xl text-white truncate max-w-full">{deck.name}</span>
+                                        </button>
+                                    )}
+                                    {legend && shownDomains(legend.domain).filter(d => d !== 'COLORLESS').map(d => <DomainIcon key={d} domain={d} className="w-[30px] h-[30px]" />)}
+                                </div>
+                            );
+                            return legend ? <DomainBand domains={legend.domain}>{inner}</DomainBand> : <div className="band-cut bg-raised">{inner}</div>;
+                        })()}
                     </div>
-
-                    <div className="flex gap-2 mb-2 items-center">
-                        <SleekSearchBar query={searchQuery} setQuery={setSearchQuery} placeholder="Search valid cards..." />
-                        <button
-                            onClick={() => setShowUnowned(!showUnowned)}
-                            className={`shrink-0 px-3 py-2 rounded font-bold text-xs border transition-colors ${showUnowned ? 'bg-riftbound-accent text-white border-white/20' : 'bg-transparent text-riftbound-textDim border-white/10 hover:text-white'}`}
-                        >
-                            {showUnowned ? 'Hide Unowned' : 'Show Unowned'}
-                        </button>
-                    </div>
+                    <button type="button" onClick={handleExportDeck} className="btn-outline"><Copy aria-hidden="true" className="w-4 h-4" />Copy list</button>
                 </div>
 
-                <div className="flex-1 overflow-y-auto custom-scrollbar grid grid-cols-2 sm:grid-cols-3 xl:grid-cols-4 gap-4 pb-[20vh]">
-                    {displayCards.map(bc => {
-                        const inDeck = entries.filter(e => e.cardId === bc.card.cardId).reduce((ac, cv) => ac + cv.quantity, 0);
-                        const mainCopies = entries.find(e => e.cardId === bc.card.cardId && !e.isSideboard)?.quantity || 0;
-                        const sideCopies = entries.find(e => e.cardId === bc.card.cardId && e.isSideboard)?.quantity || 0;
-
-                        const isBaseRune = bc.card.type === 'RUNE' && !/[a-z]/.test(bc.card.cardId.split('-')[1] || '');
-                        // Logic: if it's a base rune, we say we effectively have infinite / don't cap visually or lock us out
-                        const isAvailable = isBaseRune || (bc.quantity > 0);
-                        const isMissing = !isBaseRune && (inDeck > bc.quantity);
-
-                        const canUndo = mainCopies > 0 || sideCopies > 0;
-
-                        return (
-                            <div
-                                key={bc.card.cardId}
-                                className={`relative transition-transform hover:scale-105 self-start ${!isAvailable ? 'opacity-50 grayscale' : ''}`}
-                            >
-                                <img
-                                    src={bc.card.imageUrl}
-                                    alt={bc.card.name}
-                                    className="w-full rounded-xl shadow-lg cursor-pointer"
-                                    loading="lazy"
-                                    onClick={() => handleAddCard(bc.card)}
-                                />
-
-                                <div className={`absolute top-2 right-2 backdrop-blur-md px-2 py-1 rounded text-xs font-bold border border-white/10 ${isMissing ? 'bg-red-900/90 text-red-200' : 'bg-black/80'}`}>
-                                    <span className={isMissing ? "text-red-300" : "text-riftbound-accentBright"}>
-                                        {inDeck > 0 ? inDeck : ''}
-                                    </span>
-                                    {!isBaseRune && (
-                                        <span className={isMissing ? "text-red-200" : "text-riftbound-textDim"}>{inDeck > 0 ? ' / ' : ''}{bc.quantity}</span>
-                                    )}
-                                </div>
-                                {inDeck > 0 && bc.card.type === 'LEGEND' && (
-                                    <div className="absolute bottom-2 left-2 bg-riftbound-accent text-white px-2 py-1 rounded-full text-xs font-bold border border-white/20 shadow-lg shadow-riftbound-accent/50">
-                                        In Deck: {inDeck}
-                                    </div>
-                                )}
-                                {inDeck > 0 && bc.card.type !== 'LEGEND' && (
-                                    <div className="absolute bottom-2 left-2 flex items-center bg-riftbound-accent text-white rounded-full text-xs font-bold border border-white/20 shadow-lg shadow-riftbound-accent/50 overflow-hidden">
-                                        <button
-                                            onClick={(e) => {
-                                                if (!canUndo) return;
-                                                e.stopPropagation();
-                                                handleRemoveCard(bc.card.cardId);
-                                            }}
-                                            className={`px-2 py-1 transition-colors ${canUndo ? 'hover:bg-white/20 cursor-pointer' : 'opacity-30 cursor-not-allowed'}`}
-                                            disabled={!canUndo}
-                                        >
-                                            <Minus className="w-3 h-3" />
-                                        </button>
-                                        <span className="px-1 border-x border-white/20">In Deck: {inDeck}</span>
-                                        <button
-                                            onClick={(e) => { e.stopPropagation(); handleAddCard(bc.card); }}
-                                            className="px-2 py-1 hover:bg-white/20 transition-colors cursor-pointer"
-                                        >
-                                            <Plus className="w-3 h-3" />
-                                        </button>
-                                    </div>
-                                )}
-                            </div>
+                <nav aria-label="Build steps" className="flex flex-wrap gap-1.5">
+                    {steps.map(s => {
+                        const current = s.step === pickerStep;
+                        const content = (
+                            <>
+                                <span aria-hidden="true" className={`w-2 h-2 rotate-45 ${s.done ? 'bg-[#508C33]' : current ? 'bg-gold' : 'bg-line-strong'}`} />
+                                {s.label}
+                                <span className={`rift-number text-[15px] ${s.done ? 'text-muted' : 'text-gold'}`}>{s.count}</span>
+                            </>
+                        );
+                        const cls = `min-h-[38px] flex items-center gap-2 px-3.5 border text-sm font-semibold ${current ? 'bg-gold-wash border-gold-deep text-gold' : 'bg-surface border-line text-parchment'}`;
+                        return s.open ? (
+                            <button key={s.step} type="button" aria-current={current ? 'step' : undefined} onClick={() => setViewStep(s.step)} className={`${cls} cursor-pointer hover:border-line-strong`}>{content}</button>
+                        ) : (
+                            <span key={s.step} aria-current={current ? 'step' : undefined} className={cls}>{content}</span>
                         );
                     })}
-                    {displayCards.length === 0 && (
-                        <div className="col-span-full py-20 text-center text-riftbound-textDim">
-                            No owned cards found matching your search.
-                        </div>
-                    )}
-                </div>
+                </nav>
+
+                {ruleBreaks.length > 0 && (
+                    <div role="alert" className="flex flex-wrap items-start gap-3 px-3.5 py-2.5 border border-banned bg-banned/15">
+                        <span className="h-6 inline-flex items-center px-2 bg-banned rift-label text-[13px] tracking-[0.1em] text-white">Not legal</span>
+                        <ul className="flex-1 text-[15px] text-parchment">
+                            {ruleBreaks.map(issue => (
+                                <li key={`${issue.code}:${issue.subject ?? ''}`}>
+                                    {ISSUE_MESSAGES[issue.code]}{issue.subject ? ` (${cardsById.get(issue.subject)?.name ?? issue.subject})` : ''}
+                                </li>
+                            ))}
+                        </ul>
+                    </div>
+                )}
+                {notice && <p role="status" className="text-sm text-warn">{notice}</p>}
             </div>
 
-            {/* RIGHT PANE: Deck Composition */}
-            <div className="w-full lg:w-1/2 h-1/2 lg:h-full flex flex-col p-4 md:p-6 bg-riftbound-darkest relative z-10">
-                <div className="flex justify-between items-start mb-6 pb-6 border-b border-white/10">
-                    <div>
-                        {isEditingName ? (
-                            <form onSubmit={(e) => { e.preventDefault(); handleSaveName(); }} className="flex items-center gap-2">
-                                <input
-                                    autoFocus
-                                    type="text"
-                                    value={newName}
-                                    onChange={e => setNewName(e.target.value)}
-                                    className="bg-white/10 border border-white/20 text-white text-2xl font-black rounded px-3 py-1 outline-none focus:border-riftbound-accent w-full max-w-sm"
-                                />
-                                <button type="submit" className="p-2 bg-riftbound-accent text-white rounded hover:bg-riftbound-accentBright transition-colors">
-                                    <Save className="w-5 h-5" />
-                                </button>
-                            </form>
-                        ) : (
-                            <div className="flex items-center gap-3 group">
-                                <h2 className="text-2xl md:text-3xl font-black text-white">{deck.name}</h2>
-                                <button
-                                    onClick={() => { setNewName(deck.name); setIsEditingName(true); }}
-                                    className="opacity-0 group-hover:opacity-100 p-1 text-riftbound-textDim hover:text-white transition-all transform hover:scale-110"
-                                >
-                                    <Edit2 className="w-4 h-4" />
-                                </button>
-                            </div>
-                        )}
-                        {/* Display Total Gameplay Cards */}
-                        <p className="text-riftbound-textDim text-sm font-medium mt-1">
-                            {deck.format} • Main: {counts.mainDeck} / {MAIN_DECK_MIN} | Side: {counts.sideboard} / {SIDEBOARD_MAX}
-                        </p>
+            <div className="px-4 sm:px-8 pt-4 pb-16 flex flex-wrap items-start gap-6">
+                <section aria-label="Add cards" className="flex-[999_1_520px] min-w-0 flex flex-col gap-3">
+                    <div className="flex flex-wrap items-baseline gap-x-2.5 gap-y-1">
+                        <h1 className="rift-label text-[28px] tracking-[0.06em]">{pickerLabel.title}</h1>
+                        {stepCount(pickerStep) && <span className="rift-number text-[22px] text-gold">{stepCount(pickerStep)}</span>}
+                        <span className="text-sm text-muted">{pickerLabel.instruction} Click a card to add a copy.</span>
                     </div>
-
-                    <div className="flex items-center gap-2 bg-black/40 p-1 rounded-lg">
-                        <button
-                            onClick={handleExportDeck}
-                            className={`px-3 py-1.5 rounded-md text-sm font-bold transition-all text-riftbound-textDim hover:text-white flex items-center gap-1.5 border border-white/5 hover:border-white/20`}
-                            title="Export to Text"
-                        >
-                            <Copy className="w-3.5 h-3.5" /> Export
-                        </button>
-                        <div className="w-px h-6 bg-white/10 mx-1"></div>
-                        <button
-                            onClick={handleAddAllMissingToBinder}
-                            className={`px-3 py-1.5 rounded-md text-sm font-bold transition-all text-riftbound-textDim hover:text-white flex items-center gap-1.5 border border-white/5 hover:border-white/20`}
-                            title="Add All Missing to Binder"
-                        >
-                            <Download className="w-3.5 h-3.5" /> Add Missing
-                        </button>
-                        <div className="w-px h-6 bg-white/10 mx-1"></div>
-                        <button
-                            onClick={() => setActiveTab('CARDS')}
-                            className={`px-4 py-1.5 rounded-md text-sm font-bold transition-all ${activeTab === 'CARDS' ? 'bg-riftbound-accent text-white shadow-md' : 'text-riftbound-textDim hover:text-white'}`}
-                        >
-                            Cards
-                        </button>
-                        <button
-                            onClick={() => setActiveTab('STATS')}
-                            className={`px-4 py-1.5 rounded-md text-sm font-bold transition-all ${activeTab === 'STATS' ? 'bg-riftbound-accent text-white shadow-md' : 'text-riftbound-textDim hover:text-white'}`}
-                        >
-                            Stats
-                        </button>
+                    <div className="flex flex-wrap gap-2">
+                        <label className="flex-[1_1_240px] flex items-center gap-2.5 h-10 px-3 bg-surface border border-line text-muted focus-within:border-gold-deep">
+                            <Search aria-hidden="true" className="w-[18px] h-[18px]" />
+                            <span className="sr-only">Search cards</span>
+                            <input type="search" value={searchQuery} onChange={e => setSearchQuery(e.target.value)} placeholder="Search cards you can add" className="flex-1 min-w-0 bg-transparent outline-none text-ivory placeholder:text-muted text-[15px]" />
+                        </label>
+                        <button type="button" aria-pressed={!showUnowned} onClick={() => setShowUnowned(!showUnowned)} className="chip min-h-10">Owned only</button>
                     </div>
-                </div>
-
-                <div className="flex-1 overflow-y-auto custom-scrollbar pr-2 pb-[20vh]">
-                    {activeTab === 'CARDS' ? (
-                        Object.keys(deckListGroups).length === 0 ? (
-                            <div className="flex flex-col items-center justify-center h-full text-riftbound-textDim">
-                                <Plus className="w-12 h-12 mb-4 opacity-20" />
-                                <p className="text-center max-w-xs">Click on cards in your collection to add them to this deck.</p>
-                            </div>
-                        ) : (
-                            <div className="flex flex-col gap-6">
-                                {deckListGroups.map((group) => (
-                                    <div key={group.id}>
-                                        <h3 className="text-xs font-bold uppercase tracking-widest text-riftbound-textDim mb-3 border-b border-white/5 pb-2">
-                                            {group.title} ({group.items.reduce((acc, curr) => acc + curr.quantity, 0)})
-                                        </h3>
-                                        <div className="flex flex-col gap-1">
-                                            {group.items.map(({ card, quantity, isSideboard }) => {
-                                                const owned = binderCards.find(bc => bc.card.cardId === card.cardId)?.quantity || 0;
-                                                const totalInDeck = entries.filter(e => e.cardId === card.cardId).reduce((ac, cv) => ac + cv.quantity, 0);
-                                                const isBaseRune = card.type === 'RUNE' && !/[a-z]/.test(card.cardId.split('-')[1] || '');
-                                                const isMissing = !isBaseRune && (totalInDeck > owned);
-                                                const missingCount = isMissing ? (totalInDeck - owned) : 0;
-                                                const missingPriceRaw = missingCount * (prices[card.cardId] || 0);
-                                                const missingPrice = convertPrice(missingPriceRaw);
-
-                                                const domainColorsMapped = card.domain.map(d => DOMAIN_COLORS[d.toUpperCase()] || DOMAIN_COLORS['COLORLESS']);
-                                                const borderGradient = domainColorsMapped.length > 1
-                                                    ? `linear-gradient(to right, ${domainColorsMapped.join(', ')})`
-                                                    : `linear-gradient(to right, ${domainColorsMapped[0] || DOMAIN_COLORS['COLORLESS']}, ${domainColorsMapped[0] || DOMAIN_COLORS['COLORLESS']})`;
-
-                                                return (
-                                                    <div
-                                                        key={card.cardId}
-                                                        onClick={() => setSelectedCard(card)}
-                                                        className="flex items-center cursor-pointer rounded-lg p-2 transition-all relative group shadow-sm hover:shadow-md hover:-translate-y-0.5"
-                                                    >
-                                                        <div
-                                                            className="absolute inset-0 rounded-lg pointer-events-none transition-opacity opacity-50 group-hover:opacity-100"
-                                                            style={{
-                                                                background: `linear-gradient(#14141d, #14141d) padding-box, ${borderGradient} border-box`,
-                                                                border: '1.5px solid transparent'
-                                                            }}
-                                                        />
-                                                        <div className="absolute inset-x-0 inset-y-0 rounded-lg pointer-events-none bg-white/0 group-hover:bg-white/5 transition-colors" />
-
-                                                        <div className="w-8 h-8 rounded-full bg-black/60 shadow-inner flex items-center justify-center text-xs font-bold text-riftbound-accentBright border border-white/5 mr-3 shrink-0 relative z-10">
-                                                            {card.cost}
-                                                        </div>
-                                                        <div className="flex-1 min-w-0 relative z-10">
-                                                            <h4 className="text-white font-bold truncate flex items-center gap-2">
-                                                                {card.name}
-                                                                {isMissing && (
-                                                                    <span className="text-[10px] bg-red-900/80 text-red-200 px-1.5 py-0.5 rounded border border-red-500/30 whitespace-nowrap hidden sm:inline-block">
-                                                                        Missing {missingCount}
-                                                                    </span>
-                                                                )}
-                                                            </h4>
-                                                            <div className="flex items-center gap-2 mt-0.5">
-                                                                {card.domain.map(d => (
-                                                                    <img key={d} src={`https://lachieburne.github.io/Bounded/domain_images/${d.toLowerCase()}.png`} alt={d} className="w-3 h-3" />
-                                                                ))}
-                                                                {isMissing && (
-                                                                    <span className="text-[10px] text-red-400 font-bold whitespace-nowrap sm:hidden">
-                                                                        Missing {missingCount}
-                                                                    </span>
-                                                                )}
-                                                                {isMissing && missingPrice > 0 && (
-                                                                    <span className="text-[10px] text-green-400 font-bold">
-                                                                        • {getCurrencySymbol()}{missingPrice.toFixed(2)}
-                                                                    </span>
-                                                                )}
-                                                            </div>
-                                                        </div>
-
-                                                        <div className="flex items-center gap-3 relative z-10 shrink-0">
-                                                            {isMissing && (
-                                                                <button
-                                                                    onClick={(e) => { e.stopPropagation(); handleAddMissingToBinder(card.cardId, 1); }}
-                                                                    className="w-8 h-8 rounded-full bg-black/40 text-riftbound-accentBright hover:text-white hover:bg-riftbound-accent/20 flex items-center justify-center transition-colors border border-white/10"
-                                                                    title="Add to Binder"
-                                                                >
-                                                                    <Download className="w-4 h-4" />
-                                                                </button>
-                                                            )}
-
-                                                            {card.type !== 'LEGEND' ? (
-                                                                <button
-                                                                    onClick={(e) => { e.stopPropagation(); handleRemoveCard(card.cardId, isSideboard); }}
-                                                                    className="w-8 h-8 rounded-full bg-black/40 text-riftbound-textDim hover:text-white hover:bg-red-500/20 flex items-center justify-center transition-colors border border-white/10"
-                                                                >
-                                                                    <Minus className="w-4 h-4" />
-                                                                </button>
-                                                            ) : (
-                                                                <div className="w-8 h-8 rounded-full bg-transparent"></div>
-                                                            )}
-
-                                                            <div className="flex flex-col items-center justify-center w-8">
-                                                                <span className={`text-center font-black ${isMissing ? 'text-red-400' : 'text-white'}`}>
-                                                                    {quantity}
-                                                                </span>
-                                                            </div>
-
-                                                            {card.type !== 'LEGEND' && group.id !== 'Champion' ? (
-                                                                <button
-                                                                    onClick={(e) => { e.stopPropagation(); handleAddCard(card, isSideboard); }}
-                                                                    className="w-8 h-8 rounded-full bg-black/40 text-riftbound-textDim hover:text-white hover:bg-green-500/20 flex items-center justify-center transition-colors border border-white/10"
-                                                                >
-                                                                    <Plus className="w-4 h-4" />
-                                                                </button>
-                                                            ) : (
-                                                                <div className="w-8 h-8 rounded-full bg-transparent"></div>
-                                                            )}
-                                                        </div>
-                                                    </div>
-                                                );
-                                            })}
-                                        </div>
+                    {displayCards.length === 0 ? (
+                        <div className="panel p-10 text-center text-muted">{currentStep === 'COMPLETE' && !viewStep ? 'Your deck is complete. Pick a step above to make changes.' : 'No cards match.'}</div>
+                    ) : (
+                        <div className="grid grid-cols-[repeat(auto-fill,minmax(124px,1fr))] gap-x-3 gap-y-3.5">
+                            {displayCards.map(bc => {
+                                const card = bc.card;
+                                const inDeck = inDeckById.get(card.cardId) ?? 0;
+                                const owned = bc.quantity;
+                                const plentiful = isBaseRune(card);
+                                const short = !plentiful && inDeck > owned;
+                                const banned = card.bannedIn?.includes('STANDARD');
+                                return (
+                                    <div key={card.cardId} className="tile relative flex flex-col gap-1.5 min-w-0">
+                                        <button
+                                            type="button"
+                                            onClick={() => handleAddCard(card, addTarget)}
+                                            aria-label={`Add ${card.name}${inDeck ? `, ${inDeck} in deck` : ''}`}
+                                            className="relative block w-full aspect-[744/1039] bg-surface overflow-hidden cursor-pointer hover:outline-2 hover:outline-gold hover:outline-offset-2"
+                                        >
+                                            {card.orientation === 'landscape' ? (
+                                                <span className="absolute inset-0 flex items-center justify-center">
+                                                    <img src={card.imageUrl} alt="" loading="lazy" className={`-rotate-90 w-[139.7%] max-w-none ${owned || plentiful ? '' : 'opacity-45'}`} />
+                                                </span>
+                                            ) : (
+                                                <img src={card.imageUrl} alt="" loading="lazy" className={`w-full h-full object-cover ${owned || plentiful ? '' : 'opacity-45'}`} />
+                                            )}
+                                            {banned && (
+                                                <span className="absolute inset-x-0 top-0 h-5 flex items-center justify-center bg-banned/95 rift-label text-xs tracking-[0.1em] text-white">Banned</span>
+                                            )}
+                                            {inDeck > 0 && (
+                                                <span className="absolute left-1.5 bottom-1.5 h-6 px-1.5 flex items-center bg-gold text-on-gold rift-number text-[15px]">{inDeck} in deck</span>
+                                            )}
+                                        </button>
+                                        <span className="text-[13px] font-semibold truncate">{card.name}</span>
+                                        <span className={`text-xs ${short ? 'text-warn' : 'text-muted'}`}>{plentiful ? 'Basic rune' : `You own ${owned}`}</span>
+                                        {inDeck > 0 && card.type !== 'LEGEND' && (
+                                            <button
+                                                type="button"
+                                                aria-label={`Remove a copy of ${card.name}`}
+                                                onClick={() => handleRemoveCard(card.cardId, pickerStep === 'SIDEBOARD' ? (sideQty(card.cardId) > 0) : undefined)}
+                                                className="tile-actions absolute right-1.5 top-1.5 w-8 h-8 flex items-center justify-center bg-ink/90 border border-line-strong text-ivory hover:bg-banned cursor-pointer"
+                                            >
+                                                <Minus aria-hidden="true" className="w-4 h-4" />
+                                            </button>
+                                        )}
                                     </div>
+                                );
+                            })}
+                        </div>
+                    )}
+                </section>
+
+                <aside aria-label="Deck list" className="flex-[1_1_340px] lg:max-w-[400px] flex flex-col gap-2.5 lg:sticky lg:top-20 lg:max-h-[calc(100vh-6rem)] lg:overflow-y-auto">
+                    {missingTotal > 0 && (
+                        <section className="flex flex-col gap-2.5 p-3 bg-surface border border-gold-deep">
+                            <div className="flex items-center gap-2.5">
+                                <AlertTriangle aria-hidden="true" className="w-5 h-5 text-warn shrink-0" />
+                                <div className="flex flex-col">
+                                    <span className="font-bold text-[15px]">{missingTotal} {missingTotal === 1 ? 'card' : 'cards'} missing from your collection</span>
+                                    <span className="text-[13px] text-muted">{missingValue > 0 ? `About ${formatPrice(missingValue)} to buy.` : "Cards this deck uses that you don't own."}</span>
+                                </div>
+                            </div>
+                            <button type="button" className="btn-gold min-h-11 text-base" onClick={() => setConfirmAddAll(true)}>
+                                <LibraryBig aria-hidden="true" className="w-[18px] h-[18px]" />Add all {missingTotal} to collection
+                            </button>
+                        </section>
+                    )}
+
+                    {deckListGroups.length === 0 ? (
+                        <div className="panel p-6 text-center text-muted">Click cards on the left to add them to this deck.</div>
+                    ) : deckListGroups.map(group => (
+                        <section key={group.id} className="flex flex-col gap-1.5">
+                            <div className="flex items-center justify-between pt-1.5 px-0.5">
+                                <RiftLabel className="text-[15px]">{group.title} · {group.items.reduce((a, i) => a + i.quantity, 0)}</RiftLabel>
+                            </div>
+                            {group.items.map(({ card, quantity, isSideboard }) => {
+                                const missing = missingById.get(card.cardId) ?? 0;
+                                const banned = card.bannedIn?.includes('STANDARD');
+                                const fixed = card.type === 'LEGEND' || group.id === 'Champion';
+                                return (
+                                    <div key={`${card.cardId}-${isSideboard}-${group.id}`} className={`flex flex-col gap-1.5 px-2 py-1.5 bg-surface border ${banned ? 'border-banned' : 'border-line'}`}>
+                                        <div className="flex items-center gap-2.5">
+                                            {['UNIT', 'SPELL', 'GEAR'].includes(card.type)
+                                                ? <EnergyToken value={card.cost} className="w-6 h-6 text-sm border-0" />
+                                                : <span className="w-6" />}
+                                            <span aria-hidden="true" className="w-1 self-stretch" style={{ background: domainStripe(card.domain) }} />
+                                            <button type="button" onClick={() => openCard(card.cardId, group.items.map(i => i.card.cardId))} className="flex-1 min-w-0 flex flex-col items-start text-left cursor-pointer hover:text-gold">
+                                                <BannedTag card={card} />
+                                                <span className="text-sm font-semibold truncate max-w-full">{card.name}</span>
+                                            </button>
+                                            {fixed ? (
+                                                <span className="w-[22px] text-center rift-number text-lg">{quantity}</span>
+                                            ) : (
+                                                <>
+                                                    <button type="button" aria-label={`Remove a copy of ${card.name}`} onClick={() => handleRemoveCard(card.cardId, isSideboard)} className="w-8 h-8 flex items-center justify-center bg-raised text-ivory hover:bg-line cursor-pointer"><Minus aria-hidden="true" className="w-4 h-4" /></button>
+                                                    <span className="w-[22px] text-center rift-number text-lg">{quantity}</span>
+                                                    <button type="button" aria-label={`Add a copy of ${card.name}`} onClick={() => handleAddCard(card, isSideboard)} className="w-8 h-8 flex items-center justify-center bg-raised text-ivory hover:bg-line cursor-pointer"><Plus aria-hidden="true" className="w-4 h-4" /></button>
+                                                </>
+                                            )}
+                                        </div>
+                                        {missing > 0 && (
+                                            <div className="flex flex-wrap items-center gap-2.5 pl-[38px]">
+                                                <span className="text-[13px] text-warn">Missing {missing}</span>
+                                                <button type="button" onClick={() => handleAddMissingToBinder(card.cardId, 1)} className="min-h-7 flex items-center gap-1.5 px-2 border border-gold-deep bg-gold-wash text-[13px] text-ivory hover:border-gold cursor-pointer">
+                                                    <Plus aria-hidden="true" className="w-3.5 h-3.5 text-gold" />Add 1 to collection
+                                                </button>
+                                            </div>
+                                        )}
+                                    </div>
+                                );
+                            })}
+                        </section>
+                    ))}
+                </aside>
+
+                <aside aria-label="Deck stats" className="flex-[1_1_240px] lg:max-w-[300px] panel p-4 flex flex-col gap-[18px] lg:sticky lg:top-20">
+                    <RiftLabel className="text-base">Energy curve</RiftLabel>
+                    <div className="h-32 flex items-end gap-1.5">
+                        {curve.map(b => (
+                            <div key={b.cost} className="flex-1 h-full flex flex-col items-center justify-end gap-1">
+                                <span className="text-xs text-parchment">{b.n || ''}</span>
+                                <span className="w-full bg-gold" style={{ height: `${b.pct * 0.8}%` }} />
+                                <span className="rift-number text-[13px] text-muted">{b.cost}</span>
+                            </div>
+                        ))}
+                    </div>
+                    {domainTotal > 0 && (
+                        <div className="flex flex-col gap-2">
+                            <RiftLabel className="text-base">Domains</RiftLabel>
+                            <div className="flex h-2.5">
+                                {Object.entries(deckStats.domainBreakdown).map(([d, n]) => (
+                                    <span key={d} style={{ width: `${(n / domainTotal) * 100}%`, background: DOMAIN_SIGIL[d as Domain] }} />
                                 ))}
                             </div>
-                        )) : (
-                        <div className="flex flex-col gap-6 pt-2 pb-6">
-                            {/* Estimated Value */}
-                            <div className="bg-white/5 rounded-xl p-4 border border-white/10 shadow-lg">
-                                <h3 className="text-lg font-bold text-white mb-3">Estimated Value</h3>
-                                <div className="text-3xl font-black text-green-400 mb-4 drop-shadow-sm">
-                                    {getCurrencySymbol()}{deckStats.totalValue.toFixed(2)}
-                                </div>
-                                <div className="h-px w-full bg-white/10 mb-4"></div>
-                                <div className="flex justify-between items-center text-sm">
-                                    <div className="flex flex-col">
-                                        <span className="text-riftbound-textDim font-medium">Owned Value</span>
-                                        <span className="text-white font-bold">{getCurrencySymbol()}{deckStats.ownedValue.toFixed(2)}</span>
-                                    </div>
-                                    {deckStats.missingValue > 0 ? (
-                                        <div className="flex flex-col items-end">
-                                            <span className="text-red-400/80 font-medium">Cost to Finish</span>
-                                            <span className="text-red-400 font-bold drop-shadow-sm">{getCurrencySymbol()}{deckStats.missingValue.toFixed(2)}</span>
-                                        </div>
-                                    ) : (
-                                        <div className="flex flex-col items-end">
-                                            <span className="text-riftbound-textDim font-medium">Status</span>
-                                            <span className="text-green-400 font-bold drop-shadow-sm">Complete</span>
-                                        </div>
-                                    )}
-                                </div>
+                            <div className="flex flex-wrap justify-between gap-x-3 text-[13px] text-parchment">
+                                {Object.entries(deckStats.domainBreakdown).map(([d, n]) => <span key={d}>{DOMAIN_LABEL[d as Domain]} {n}</span>)}
                             </div>
-
-                            {/* Deck Composition - SVG Donut Chart */}
-                            <div className="bg-black/40 rounded-xl p-6 border border-white/5 flex items-center justify-between">
-                                <div className="flex flex-col">
-                                    <h3 className="text-sm uppercase tracking-widest font-bold text-riftbound-textDim mb-1">Composition</h3>
-                                    <div className="text-2xl font-black text-white">{deckStats.totalMainDeck} Cards</div>
-                                    <div className="flex flex-col gap-2 mt-4 text-sm font-bold">
-                                        <div className="flex items-center gap-2"><div className="w-3 h-3 rounded-full bg-blue-500"></div>Units: {deckStats.unitCount}</div>
-                                        <div className="flex items-center gap-2"><div className="w-3 h-3 rounded-full bg-purple-500"></div>Spells: {deckStats.spellCount}</div>
-                                        <div className="flex items-center gap-2"><div className="w-3 h-3 rounded-full bg-amber-500"></div>Gear: {deckStats.gearCount}</div>
-                                    </div>
-                                </div>
-                                <div className="relative w-32 h-32 mr-4 hidden sm:block">
-                                    {deckStats.totalMainDeck > 0 ? (() => {
-                                        const total = deckStats.totalMainDeck;
-                                        const uPct = (deckStats.unitCount / total) * 100;
-                                        const sPct = (deckStats.spellCount / total) * 100;
-                                        const gPct = (deckStats.gearCount / total) * 100;
-                                        return (
-                                            <svg viewBox="0 0 36 36" className="w-full h-full -rotate-90 drop-shadow-lg">
-                                                {/* Background ring */}
-                                                <circle cx="18" cy="18" r="15.9155" fill="transparent" stroke="rgba(255,255,255,0.05)" strokeWidth="4" />
-                                                {/* Units */}
-                                                {uPct > 0 && <circle cx="18" cy="18" r="15.9155" fill="transparent" stroke="#3b82f6" strokeWidth="4" strokeDasharray={`${uPct} ${100 - uPct}`} strokeDashoffset="0" />}
-                                                {/* Spells */}
-                                                {sPct > 0 && <circle cx="18" cy="18" r="15.9155" fill="transparent" stroke="#a855f7" strokeWidth="4" strokeDasharray={`${sPct} ${100 - sPct}`} strokeDashoffset={`-${uPct}`} />}
-                                                {/* Gear */}
-                                                {gPct > 0 && <circle cx="18" cy="18" r="15.9155" fill="transparent" stroke="#f59e0b" strokeWidth="4" strokeDasharray={`${gPct} ${100 - gPct}`} strokeDashoffset={`-${uPct + sPct}`} />}
-                                            </svg>
-                                        );
-                                    })() : (
-                                        <div className="w-full h-full rounded-full border-4 border-white/10 flex items-center justify-center text-white/50 text-xs">Empty</div>
-                                    )}
-                                    <div className="absolute inset-0 flex items-center justify-center text-lg font-black text-white">{deckStats.totalMainDeck}</div>
-                                </div>
-                            </div>
-
-                            {/* Energy Curve */}
-                            <div className="pt-2">
-                                <h3 className="text-sm uppercase tracking-widest font-bold text-riftbound-textDim mb-4">Energy Curve</h3>
-                                <div className="flex items-end justify-between h-48 gap-1 lg:gap-2 px-1 pb-4">
-                                    {(() => {
-                                        const keys = Object.keys(deckStats.energyCurve).map(Number);
-                                        const maxDynamic = keys.length > 0 ? Math.max(7, ...keys) : 7;
-                                        return Array.from({ length: maxDynamic + 1 }, (_, i) => i).map(i => {
-                                            const count = deckStats.energyCurve[i] || 0;
-                                            const max = Math.max(5, ...Object.values(deckStats.energyCurve));
-                                            const heightPct = count > 0 ? Math.max((count / max) * 100, 5) : 0;
-                                            return (
-                                                <div key={i} className="flex flex-col items-center flex-1 h-full">
-                                                    <span className="text-[10px] font-bold text-white mb-2 h-4">{count > 0 ? count : ''}</span>
-                                                    <div className="w-full flex-1 rounded-t bg-white/5 relative mt-auto">
-                                                        <div
-                                                            className="absolute bottom-0 inset-x-0 rounded-t transition-all duration-500 bg-blue-500"
-                                                            style={{ height: `${heightPct}%` }}
-                                                        ></div>
-                                                    </div>
-                                                    <span className="text-xs font-bold text-riftbound-textDim mt-2 h-4">{i}</span>
-                                                </div>
-                                            );
-                                        });
-                                    })()}
-                                </div>
-                            </div>
-
-                            {/* Might Curve */}
-                            <div className="pt-4">
-                                <h3 className="text-sm uppercase tracking-widest font-bold text-riftbound-textDim mb-4">Might Curve</h3>
-                                <div className="flex items-end justify-between h-48 gap-1 lg:gap-2 px-1 pb-4">
-                                    {(() => {
-                                        const keys = Object.keys(deckStats.mightCurve).map(Number);
-                                        const maxDynamic = keys.length > 0 ? Math.max(7, ...keys) : 7;
-                                        return Array.from({ length: maxDynamic + 1 }, (_, i) => i).map(i => {
-                                            const count = deckStats.mightCurve[i] || 0;
-                                            const max = Math.max(5, ...Object.values(deckStats.mightCurve));
-                                            const heightPct = count > 0 ? Math.max((count / max) * 100, 5) : 0;
-                                            return (
-                                                <div key={i} className="flex flex-col items-center flex-1 h-full">
-                                                    <span className="text-[10px] font-bold text-white mb-2 h-4">{count > 0 ? count : ''}</span>
-                                                    <div className="w-full flex-1 rounded-t bg-white/5 relative mt-auto">
-                                                        <div
-                                                            className="absolute bottom-0 inset-x-0 rounded-t transition-all duration-500 bg-red-600"
-                                                            style={{ height: `${heightPct}%` }}
-                                                        ></div>
-                                                    </div>
-                                                    <span className="text-xs font-bold text-riftbound-textDim mt-2 h-4">{i}</span>
-                                                </div>
-                                            );
-                                        });
-                                    })()}
-                                </div>
-                            </div>
-
-                            {/* Domain Breakdown */}
-                            <div className="pt-4">
-                                <h3 className="text-sm uppercase tracking-widest font-bold text-riftbound-textDim mb-4">Domain Breakdown</h3>
-                                <div className="flex items-end justify-between h-48 gap-2 lg:gap-4 px-1 pb-4">
-                                    {Object.keys(DOMAIN_COLORS).filter(d => (deckStats.domainBreakdown[d] || 0) > 0).map(domain => {
-                                        const count = deckStats.domainBreakdown[domain] || 0;
-                                        const max = Math.max(5, ...Object.values(deckStats.domainBreakdown));
-                                        const heightPct = count > 0 ? Math.max((count / max) * 100, 5) : 0;
-                                        return (
-                                            <div key={domain} className="flex flex-col items-center flex-1 h-full">
-                                                <span className="text-[10px] font-bold text-white mb-2 h-4">{count > 0 ? count : ''}</span>
-                                                <div className="w-full flex-1 rounded-t bg-white/5 relative mt-auto">
-                                                    <div
-                                                        className="absolute bottom-0 inset-x-0 rounded-t transition-all duration-500 shadow-lg"
-                                                        style={{ height: `${heightPct}%`, backgroundColor: DOMAIN_COLORS[domain.toUpperCase()] || DOMAIN_COLORS['COLORLESS'] }}
-                                                    ></div>
-                                                </div>
-                                                <div className="mt-3 w-6 h-6 shrink-0 flex items-center justify-center">
-                                                    <img src={`https://lachieburne.github.io/Bounded/domain_images/${domain.toLowerCase()}.png`} alt={domain} className="w-full h-full object-contain drop-shadow" />
-                                                </div>
-                                            </div>
-                                        );
-                                    })}
-                                    {Object.keys(deckStats.domainBreakdown).length === 0 && (
-                                        <div className="w-full h-full flex items-center justify-center text-sm font-bold text-riftbound-textDim/50 pb-10">
-                                            No Domains Active
-                                        </div>
-                                    )}
-                                </div>
-                            </div>
-
                         </div>
                     )}
-                </div>
+                    <div className="flex flex-col gap-1.5 text-sm">
+                        <RiftLabel className="text-base">Types</RiftLabel>
+                        <span className="flex justify-between text-parchment"><span>Units</span><span>{deckStats.unitCount}</span></span>
+                        <span className="flex justify-between text-parchment"><span>Spells</span><span>{deckStats.spellCount}</span></span>
+                        <span className="flex justify-between text-parchment"><span>Gear</span><span>{deckStats.gearCount}</span></span>
+                    </div>
+                    <div className="flex flex-col gap-1 pt-3 border-t border-line">
+                        <span className="text-[13px] text-muted">Deck value</span>
+                        <span className="rift-number text-[28px] text-gold">{formatPrice(deckStats.totalValue)}</span>
+                        <span className="text-[13px] text-muted">
+                            {deckStats.missingValue > 0 ? `You own ${formatPrice(deckStats.ownedValue)} of it.` : 'You own every card.'} TCGplayer market prices.
+                        </span>
+                    </div>
+                </aside>
             </div>
 
-            {/* Modals */}
-            {selectedCard && (
-                <CardDetailModal
-                    item={{
-                        card: selectedCard,
-                        quantity: binderCards.find(bc => bc.card.cardId === selectedCard.cardId)?.quantity || 0
-                    }}
-                    onClose={() => setSelectedCard(null)}
-                />
+            {confirmAddAll && (
+                <Dialog
+                    title={`Add ${missingTotal} ${missingTotal === 1 ? 'card' : 'cards'} to your collection?`}
+                    onClose={() => setConfirmAddAll(false)}
+                    footer={
+                        <div className="flex justify-end gap-2">
+                            <button type="button" className="btn-quiet" onClick={() => setConfirmAddAll(false)}>Cancel</button>
+                            <button type="button" className="btn-gold min-h-10 text-base" onClick={() => { setConfirmAddAll(false); handleAddAllMissingToBinder(); }}>Add {missingTotal}</button>
+                        </div>
+                    }
+                >
+                    <p className="text-parchment">This marks every copy this deck needs as owned. Use it once you have the cards.</p>
+                </Dialog>
             )}
         </div>
     );

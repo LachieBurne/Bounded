@@ -30,4 +30,4 @@ Within one field a card matches any of the values; across fields it must match a
 
 A binder's progress is the number of its cards with at least one copy owned, out of all its cards.
 
-The Android app implements this in `data/model/Binder.kt` and `data/filter/CardFilter.kt`. The web app doesn't read binders yet; see [tech-debt.md](tech-debt.md).
+The Android app implements this in `data/model/Binder.kt` and `data/filter/CardFilter.kt`. The web app implements it in `Web App/src/lib/binder.ts` and `Web App/src/lib/cardFilter.ts`.

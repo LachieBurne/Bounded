@@ -8,10 +8,24 @@ interface PriceContextType {
     setCurrency: (code: string) => void;
     convertPrice: (usdPrice: number) => number;
     getCurrencySymbol: () => string;
+    /** A US dollar price in the chosen currency, e.g. "$12.40". */
+    formatPrice: (usdPrice: number) => string;
 }
+
+// eslint-disable-next-line react-refresh/only-export-components
+export const CURRENCIES: { code: string; name: string }[] = [
+    { code: 'USD', name: 'US dollar' },
+    { code: 'AUD', name: 'Australian dollar' },
+    { code: 'EUR', name: 'Euro' },
+    { code: 'GBP', name: 'British pound' },
+    { code: 'CAD', name: 'Canadian dollar' },
+    { code: 'NZD', name: 'New Zealand dollar' },
+    { code: 'JPY', name: 'Japanese yen' },
+];
 
 const PriceContext = createContext<PriceContextType>({} as PriceContextType);
 
+// eslint-disable-next-line react-refresh/only-export-components
 export const usePrices = () => useContext(PriceContext);
 
 export const PriceProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
@@ -35,7 +49,7 @@ export const PriceProvider: React.FC<{ children: React.ReactNode }> = ({ childre
 
         const fetchRates = async () => {
             try {
-                const res = await fetch('https://api.frankfurter.app/latest?from=USD');
+                const res = await fetch('https://api.frankfurter.dev/v1/latest?base=USD');
                 const data = await res.json();
                 setExchangeRates({ USD: 1.0, ...data.rates });
             } catch (e) {
@@ -77,6 +91,11 @@ export const PriceProvider: React.FC<{ children: React.ReactNode }> = ({ childre
         }
     };
 
+    const formatPrice = (usdPrice: number): string => {
+        const digits = currency === 'JPY' ? 0 : 2;
+        return getCurrencySymbol() + convertPrice(usdPrice).toLocaleString('en-US', { minimumFractionDigits: digits, maximumFractionDigits: digits });
+    };
+
     const value = {
         prices,
         currency,
@@ -84,7 +103,8 @@ export const PriceProvider: React.FC<{ children: React.ReactNode }> = ({ childre
         loading,
         setCurrency,
         convertPrice,
-        getCurrencySymbol
+        getCurrencySymbol,
+        formatPrice
     };
 
     return (

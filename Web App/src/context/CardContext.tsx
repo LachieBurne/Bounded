@@ -15,6 +15,7 @@ interface CardContextType {
 
 const CardContext = createContext<CardContextType>({} as CardContextType);
 
+// eslint-disable-next-line react-refresh/only-export-components
 export const useCards = () => useContext(CardContext);
 
 export const CardProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
