@@ -1,0 +1,77 @@
+name: Deploy Web App
+
+# Deploys "Web App/" to Firebase Hosting (bounded.web.app) when a change to it reaches main,
+# including the weekly card data updates. Pull requests are checked by checks.yml instead:
+# Google sign-in only works on authorised domains, so a preview channel couldn't sign in.
+# Setup: docs/deploying.md.
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'Web App/**'
+      - '.github/workflows/deploy_web.yml'
+  workflow_dispatch:
+
+concurrency:
+  # One deploy at a time; a newer push waits rather than cancelling a half-done deploy.
+  group: deploy-web
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    name: Build and deploy
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    environment:
+      name: production
+      url: https://bounded.web.app
+    permissions:
+      contents: read
+    defaults:
+      run:
+        working-directory: Web App
+    env:
+      # The Firebase web config, which Vite builds into the app. The values that aren't in
+      # .env.example are repository secrets, so they stay out of git like .env.local.
+      VITE_FIREBASE_API_KEY: ${{ secrets.VITE_FIREBASE_API_KEY }}
+      VITE_FIREBASE_AUTH_DOMAIN: bounded.web.app
+      VITE_FIREBASE_PROJECT_ID: riftbounded-d8951
+      VITE_FIREBASE_STORAGE_BUCKET: riftbounded-d8951.firebasestorage.app
+      VITE_FIREBASE_MESSAGING_SENDER_ID: ${{ secrets.VITE_FIREBASE_MESSAGING_SENDER_ID }}
+      VITE_FIREBASE_APP_ID: ${{ secrets.VITE_FIREBASE_APP_ID }}
+    steps:
+      - uses: actions/checkout@v7
+
+      - name: Check the deploy secrets are set
+        env:
+          SERVICE_ACCOUNT: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_RIFTBOUNDED_D8951 }}
+        run: |
+          missing=()
+          [ -n "$SERVICE_ACCOUNT" ] || missing+=(FIREBASE_SERVICE_ACCOUNT_RIFTBOUNDED_D8951)
+          [ -n "$VITE_FIREBASE_API_KEY" ] || missing+=(VITE_FIREBASE_API_KEY)
+          [ -n "$VITE_FIREBASE_MESSAGING_SENDER_ID" ] || missing+=(VITE_FIREBASE_MESSAGING_SENDER_ID)
+          [ -n "$VITE_FIREBASE_APP_ID" ] || missing+=(VITE_FIREBASE_APP_ID)
+          if [ ${#missing[@]} -gt 0 ]; then
+            echo "::error::Missing repository secrets: ${missing[*]}. See docs/deploying.md."
+            exit 1
+          fi
+
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 24
+          cache: npm
+          cache-dependency-path: Web App/package-lock.json
+
+      - run: npm ci
+      - run: npm test
+      - run: npm run build
+
+      - name: Deploy to Firebase Hosting
+        uses: FirebaseExtended/action-hosting-deploy@v0
+        with:
+          repoToken: ${{ secrets.GITHUB_TOKEN }}
+          firebaseServiceAccount: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_RIFTBOUNDED_D8951 }}
+          projectId: riftbounded-d8951
+          entryPoint: Web App
+          channelId: live
