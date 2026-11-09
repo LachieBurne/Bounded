@@ -1,190 +1,138 @@
-<div align="center">
-<img src="Android App/app/src/main/ic_launcher-playstore.png" alt="Bounded App Icon" width="120">
- 
+<img src="Android App/app/src/main/ic_launcher-playstore.png" alt="Bounded icon" width="96" align="right">
+
 # Bounded
 
-**The Ultimate Digital Binder & Interactive Deckbuilder for Riftbound.**
+Bounded is a collection tracker and deck builder for the Riftbound trading card game, with an Android app and a web app. Both use the same Google account, so your collection and decks stay in sync between them.
 
-[![Kotlin](https://img.shields.io/badge/Kotlin-B125EA?style=for-the-badge&logo=kotlin&logoColor=white)](#)
-[![React](https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)](#)
-[![Vite](https://img.shields.io/badge/Vite-646CFF?style=for-the-badge&logo=vite&logoColor=white)](#)
-[![TypeScript](https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white)](#)
-[![Firebase](https://img.shields.io/badge/Firebase-FFCA28?style=for-the-badge&logo=firebase&logoColor=black)](#)
-[![GitHub Actions](https://img.shields.io/badge/GitHub_Actions-2088FF?style=for-the-badge&logo=github-actions&logoColor=white)](#)
+- Web app: [bounded.web.app](https://bounded.web.app)
+- Android app: [riftbound-app.apk](https://github.com/LachieBurne/Bounded/blob/main/Android%20App/riftbound-app.apk) (an older build from April 2026)
+- Bugs and requests: [Issues](https://github.com/LachieBurne/Bounded/issues)
 
-[Live Web App](https://bounded.web.app) • [Download Android App](https://github.com/LachieBurne/Bounded/blob/main/Android%20App/riftbound-app.apk) • [Report Bug](https://github.com/LachieBurne/Bounded/issues)
+## Features
 
-</div>
+| | Android | Web |
+|---|:---:|:---:|
+| Card collection with quantities, search and filters (set, domain, type, rarity, cost, might) | Yes | Yes |
+| Binders: track completion of a set or any filtered group of cards | Yes | Yes |
+| Card prices from JustTCG, shown in your local currency | Yes | Yes |
+| Guided deck builder: Legend, Champion, Battlefields, Runes, main deck, sideboard | Yes | Yes |
+| Deck rule checks, including banned cards | Yes | Yes |
+| Deck stats: energy and might curves, deck value, cost of missing cards | Yes | Yes |
+| Import and export decklists as text | Yes | Yes |
+| Add cards by scanning them with the camera | Yes | No |
 
----
+The deck rules the apps enforce are listed in [docs/deck-rules.md](docs/deck-rules.md). Binders are views of one collection, so a card is never counted twice; see [docs/binders.md](docs/binders.md).
 
-## 📖 Overview
+## Installing
 
-Bounded is a comprehensive cross-platform companion application for the Riftbound TCG. Available as a native Android app and a responsive web application, it provides players with a seamless, real-time ecosystem to manage their collection, track market prices, and craft competitive decks. 
+**Web:** open [bounded.web.app](https://bounded.web.app) and sign in with Google.
 
-Designed with scalability and cost-efficiency in mind, Bounded leverages a serverless architecture to deliver a premium user experience without overhead.
+**Android:** download the APK above on your phone and open it. Android asks you to allow installing apps from your browser or file manager the first time.
 
-## ✨ Key Features
+## Architecture
 
-### 📁 Smart Digital Binder
-* **Visual Grid & Dynamic UI:** Browse all released cards in a sleek grid format. Cards you own are dynamically highlighted using their specific Domain colors (including gradient highlights for multi-domain cards).
-* **Live Market Pricing:** Card prices are kept up-to-date via an automated JustTCG API integration. View values in your local currency with real-time conversion rates.
-* **Binders (Android):** Make a binder for each set you're completing, or for any group of cards, and track how much of it you own. Binders are views of one collection, so a card is never counted twice ([docs/binders.md](docs/binders.md)).
-* **Deep Filtering:** Instantly search and filter your collection by Set, Energy Cost, Card Might, Domain Colors, and Card Type.
-* **Granular Details:** Click any card to access an expanded view featuring high-resolution artwork, detailed rulings, and pricing trends.
+| Part | Technology |
+|---|---|
+| Android app | Kotlin, Jetpack Compose, Room (card cache), CameraX and ML Kit text recognition (scanner) |
+| Web app | React, TypeScript, Vite, Tailwind CSS, hosted on Firebase Hosting |
+| Accounts and user data | Firebase Authentication (Google sign-in) and Cloud Firestore |
+| Card images, icons and prices | Static files served from GitHub Pages |
+| Card data | `riftbound_data.json`, generated from the official card gallery and bundled with both apps |
+| Price updates | Python script run daily by GitHub Actions against the JustTCG API |
 
-### 📸 OCR Card Scanning (Android Exclusive)
-* **Instant Import:** Ditch the manual data entry. Use your phone's camera to live-scan physical cards.
-* **Smart Set Detection:** Utilizes on-device language detection libraries to read unique set codes, pinpointing the exact edition, version, and foil status of your scanned card for automatic import into your digital binder.
-
-### ⚔️ Interactive, Guided Deckbuilder
-* **Multi-Stage Crafting:** A wizard-like interface guides you through the complex Riftbound deck-building ruleset: *Legend → Champion → 3 Battlefields → 12 Runes → Main Deck → Side Deck*.
-* **Import & Export:** Paste a decklist from another site to import it (Android), or share and copy yours as text.
-* **Advanced Analytics:** Once your deck is built, analyze its viability on the Stats Page:
-  * **Financials:** Calculate the total market cost of the deck and the specific cost of the cards you are missing.
-  * **Curves:** Visualize your Might and Energy curves via responsive bar graphs.
-  * **Composition:** Break down your deck's Domains and Card Types using dynamic donut charts.
-
----
-
-## 🏗️ Architecture & Tech Stack
-
-Bounded is built as a distributed, cross-platform system synced perfectly via Google's ecosystem. 
-
-### Frontend
-* **Mobile App:** Built natively with **Kotlin** for optimal performance and camera hardware access.
-* **Web Companion:** Built with **React**, **Vite** and **TypeScript**, styled with Tailwind CSS.
-
-### Backend & Data
-* **Database:** **Google Firestore (NoSQL)**. Selected for its generous free tier and exceptional real-time synchronization capabilities. 
-* **Authentication:** **Google Auth** integrated directly with Firestore, allowing users to sign in once and instantly sync their collection data between their phone and browser.
-* **Asset Hosting:** Card images, Domain icons, and Rarity icons are served efficiently via **GitHub Pages** to minimize database bandwidth and storage costs.
-
-### Automation & CI/CD
-* **Market Price Pipeline:** A custom **Python** script runs daily via **GitHub Actions**, refreshing valuable cards more often than commons to stay within the JustTCG free tier. It fetches the latest pricing data from the JustTCG API, processes it, and commits a streamlined JSON file directly back to the repository for the frontend clients to consume.
-
-```mermaid
-graph TD
-    subgraph Frontend [📱 Client Applications]
-        A["Android App <br/> Kotlin"]
-        W["Web App <br/> React / Vite / TypeScript"]
-    end
-
-    subgraph Backend [☁️ Google Firebase]
-        F[("Firestore <br/> NoSQL DB & Auth")]
-    end
-
-    subgraph Assets [📦 Static Hosting]
-        GH_Pages["GitHub Pages <br/> Images & Icons"]
-    end
-
-    subgraph Pipeline [⚙️ Automated Pricing Pipeline]
-        J_API(("JustTCG API"))
-        GH_Act["GitHub Actions <br/> Cron Job"]
-        PyScript["Python Script"]
-        JSONFile[("prices.json <br/> inside Repo")]
-    end
-
-    %% Data Sync flows
-    A <-->|Real-time User Data Sync| F
-    W <-->|Real-time User Data Sync| F
-
-    %% Asset flows
-    GH_Pages -->|Fetch Card Images| A
-    GH_Pages -->|Fetch Card Images| W
-
-    %% Automation flows
-    GH_Act -->|Triggers Every Few Days| PyScript
-    J_API -->|Fetch Latest Prices| PyScript
-    PyScript -->|Commits Updates| JSONFile
-    JSONFile -->|Read Latest Prices| A
-    JSONFile -->|Read Latest Prices| W
-    
-    %% Styling
-    classDef primary fill:#2088FF,stroke:#fff,stroke-width:2px,color:#fff;
-    classDef secondary fill:#FFCA28,stroke:#000,stroke-width:2px,color:#000;
-    classDef dark fill:#333,stroke:#fff,stroke-width:2px,color:#fff;
-    
-    class A,W primary;
-    class F secondary;
-    class PyScript,GH_Act,JSONFile,GH_Pages dark;
-```
-
----
-
-## 🚀 Getting Started
-
-Bounded is designed to be accessible immediately, with no complex setup required for general use.
-
-### 🌐 Web Application
-The web companion is fully hosted and ready to use. 
-Simply visit: **[bounded.web.app](https://bounded.web.app)**
-
-### 📱 Android Application
-You do not need to build the app from source to use it on your device. 
-
-1. Download the latest `.apk` file directly from this repository (located in the `Android App` folder or the Releases tab).
-2. Transfer the `.apk` file to your Android device (or download it directly on your phone).
-3. Open the file to install the app. *(Note: You may need to enable "Install unknown apps" in your Android security settings).*
-
----
-
-## 🛠️ Building from Source
-
-The repo holds everything needed to build both apps. The only files kept out of git are the Firebase configs, which you download from the Firebase console (project `riftbounded-d8951`).
+## Repository layout
 
 ```
-Android App/   Kotlin + Jetpack Compose app (open this folder in Android Studio)
-Web App/       React + Vite web app, deployed to Firebase Hosting
-scripts/       Price pipeline (run by GitHub Actions)
+Android App/    Android app (open this folder in Android Studio)
+Web App/        Web app
+scripts/        Card data and price scripts
+data/           Hand-maintained card data: extra cards, overrides, bans, price state
+shared/         Test cases run by both apps (deck rules, decklist import)
+docs/           Project documentation
 card_images/, domain_images/, rarity_images/, prices.json
-               Served by GitHub Pages and read by both apps. Keep these paths stable.
+                Published to GitHub Pages and loaded by both apps. Keep these paths stable.
 ```
+
+## Building from source
+
+The Firebase config files are not in the repository. Download them from the Firebase console (project `riftbounded-d8951`).
 
 ### Android
+
 1. Put `google-services.json` in `Android App/app/`.
 2. Open `Android App/` in Android Studio, or build from the command line:
-   ```bash
-   cd "Android App" && ./gradlew assembleDebug
-   ```
+
+```bash
+cd "Android App" && ./gradlew assembleDebug
+```
+
+Unit tests: `./gradlew testDebugUnitTest`.
 
 ### Web
-1. Copy `Web App/.env.example` to `Web App/.env.local` and fill in the Firebase web config.
-2. Run it:
-   ```bash
-   cd "Web App" && npm ci && npm run dev
-   ```
-3. Merging to `main` deploys it to [bounded.web.app](https://bounded.web.app). The one-time setup, and deploying by hand, are in [docs/deploying.md](docs/deploying.md).
 
-### Card data
-`scripts/generate_card_data.py` builds `riftbound_data.json` from the official [card gallery](https://playriftbound.com/en-us/card-gallery/) and writes the same file to `Android App/app/src/main/assets/` and `Web App/public/`. It also saves any missing card image to `card_images/<cardId>.webp`.
+1. Copy `Web App/.env.example` to `Web App/.env.local` and fill in the Firebase web config.
+2. Install and run:
+
+```bash
+cd "Web App" && npm ci && npm run dev
+```
+
+Other scripts: `npm test`, `npm run lint`, `npm run build`.
+
+## Card data
+
+`scripts/generate_card_data.py` builds `riftbound_data.json` from the official [card gallery](https://playriftbound.com/en-us/card-gallery/), writes it to `Android App/app/src/main/assets/` and `Web App/public/`, and saves any missing card images to `card_images/<cardId>.webp`.
+
 ```bash
 pip install -r scripts/requirements.txt
-python scripts/generate_card_data.py          # fetch the gallery, update data + images
+python scripts/generate_card_data.py          # fetch the gallery, update data and images
 python scripts/generate_card_data.py --check  # validate the committed data (CI runs this)
 ```
-- Cards the gallery doesn't list (promos, reprint variants) go in `data/extra_cards.json`.
-- Fixes for gallery data (e.g. a missing domain) go in `data/card_overrides.json`.
-- The **Update Card Data** workflow runs this weekly and opens a PR when anything changes.
-- Known missing cards (promos, signatures, alt-art runes) and what blocks them: [docs/card-backlog.md](docs/card-backlog.md).
-- Tech debt and things to revisit across the project: [docs/tech-debt.md](docs/tech-debt.md).
 
-### Prices
-`scripts/update_prices.py` runs daily in GitHub Actions and commits `prices.json` and `data/price_state.json`. It needs the `JUSTTCG_API_KEY` repository secret.
+| File | Purpose |
+|---|---|
+| `data/extra_cards.json` | Cards the gallery doesn't list (promos, reprint variants) |
+| `data/card_overrides.json` | Corrections to gallery data, such as a missing domain |
+| `data/banned_cards.json` | Banned cards, by format |
 
-The JustTCG free tier allows 1,000 requests a month, so each run spends at most 30 and only on the cards that are due:
+Known missing cards are tracked in [docs/card-backlog.md](docs/card-backlog.md).
+
+## Prices
+
+`scripts/update_prices.py` runs daily and commits `prices.json` and `data/price_state.json`. It needs the `JUSTTCG_API_KEY` repository secret.
+
+The JustTCG free tier allows 1,000 requests a month. Each run makes at most 30, spent on the cards that are due:
 
 | Cards | Refreshed every |
 |---|---|
-| Showcase, or any card worth $20+ | 2 days |
+| Showcase, or any card worth $20 or more | 2 days |
 | Epic | 4 days |
 | Rare | 7 days |
 | Uncommon, Common | 14 days |
 
-Each set is also crawled every 30 days (straight away for a new set) to find cards JustTCG has added. That comes to roughly 500 requests a month. Tune the intervals with `REFRESH_DAYS` at the top of the script.
+Each set is also re-crawled every 30 days, or straight away when it's new, to pick up cards JustTCG has added. This comes to about 500 requests a month. The intervals are set by `REFRESH_DAYS` at the top of the script.
 
 ```bash
-pip install -r scripts/requirements.txt
-python scripts/update_prices.py --plan               # what's due and the monthly cost; no API calls
+python scripts/update_prices.py --plan                # show what's due and the monthly cost, without calling the API
 JUSTTCG_API_KEY=... python scripts/update_prices.py --budget 30
 ```
+
+## Automation
+
+| Workflow | Runs | Does |
+|---|---|---|
+| Checks | Pull requests and merges to `main` | Builds and tests both apps, validates card data |
+| Deploy Web App | Merges to `main` that touch `Web App/` | Deploys the web app to Firebase Hosting |
+| Deploy Pages | Changes to images or `prices.json` | Publishes the static files to GitHub Pages |
+| Update Card Prices | Daily at 00:30 UTC | Refreshes prices, then starts Deploy Pages if they changed |
+| Update Card Data | Weekly, Sunday 06:00 UTC | Regenerates card data and opens a pull request if it changed |
+
+Setup for the deploy workflows is in [docs/deploying.md](docs/deploying.md).
+
+## Documentation
+
+- [docs/deck-rules.md](docs/deck-rules.md): deck construction rules
+- [docs/binders.md](docs/binders.md): how binders work
+- [docs/deploying.md](docs/deploying.md): deploying the web app and GitHub Pages
+- [docs/card-backlog.md](docs/card-backlog.md): cards not yet in the data
+- [docs/tech-debt.md](docs/tech-debt.md): known issues and deferred work
