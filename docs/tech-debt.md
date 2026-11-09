@@ -50,6 +50,7 @@ A running list. Add to it when you leave something unfinished, and delete an ite
 | Item | Why it matters | Next step |
 |---|---|---|
 | Deck tiles don't show whether a deck is legal | The deck list only has each deck's counts, not its cards, so a banned card only shows inside the deck | Store a legality flag on the deck document when it's saved (both apps), or load entries for the list. |
+| GitHub Pages still publishes 599 MB of old PNG card images | The APK linked from the README loads them, but they make the Pages site about 750 MB, near GitHub's 1 GB limit and slow to deploy | Replace the README's APK with a current build, then drop the PNGs from `deploy_pages.yml` (or the repository). |
 | The bundle is one 770 kB chunk (mostly Firebase) | Slower first load | Split routes with `React.lazy`, or load Firestore after sign-in. |
 | Collection stats charts were dropped in the redesign | The old Stats tab (cards by type and rarity) is gone; progress by binder and domain replaced it | Bring back a stats view if it's missed. |
 

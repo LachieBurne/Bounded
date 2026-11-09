@@ -1,0 +1,82 @@
+name: Deploy Pages
+
+# Publishes the files the apps load from https://lachieburne.github.io/Bounded/: card images,
+# domain and rarity icons, and prices.json. Only those, not the whole repository, and only
+# when one of them changes, so code merges don't redeploy ~750 MB of images.
+#
+# The daily price job pushes with GITHUB_TOKEN, which doesn't trigger push workflows, so it
+# starts this one itself (workflow_dispatch) when prices change. Setup: docs/deploying.md.
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'card_images/**'
+      - 'domain_images/**'
+      - 'rarity_images/**'
+      - 'prices.json'
+      - '.github/workflows/deploy_pages.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  # One deploy at a time; a newer run waits rather than cancelling one that's syncing.
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    name: Collect the published files
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          ref: main
+          sparse-checkout: |
+            card_images
+            domain_images
+            rarity_images
+            prices.json
+          sparse-checkout-cone-mode: false
+
+      - name: Assemble the site
+        run: |
+          mkdir _site
+          cp -r card_images domain_images rarity_images prices.json _site/
+          # The bare address points people at the app.
+          cat > _site/index.html <<'HTML'
+          <!doctype html>
+          <meta charset="utf-8">
+          <title>Bounded</title>
+          <meta http-equiv="refresh" content="0; url=https://bounded.web.app">
+          <p>Bounded's card images and prices live here. The app is at <a href="https://bounded.web.app">bounded.web.app</a>.</p>
+          HTML
+          # Plain files: no Jekyll processing.
+          touch _site/.nojekyll
+          du -sh _site
+
+      - uses: actions/configure-pages@v5
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: _site
+
+  deploy:
+    name: Deploy
+    needs: build
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4
+        with:
+          # A site this size can take a while to sync on GitHub's side; the default is 10 minutes.
+          timeout: 1800000

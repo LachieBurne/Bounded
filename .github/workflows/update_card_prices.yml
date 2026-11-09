@@ -14,6 +14,8 @@ on:
 
 permissions:
   contents: write
+  # To start the Pages deploy: pushes made with GITHUB_TOKEN don't trigger workflows.
+  actions: write
 
 # Never let two price runs push at the same time.
 concurrency:
@@ -57,6 +59,7 @@ jobs:
 
       # Runs after a partial failure too: the script only writes progress it made.
       - name: Commit and push
+        id: push
         if: ${{ !cancelled() }}
         run: |
           git config user.name "PriceBot"
@@ -70,3 +73,10 @@ jobs:
           # Rebase in case someone pushed while the job was running.
           git pull --rebase origin "${GITHUB_REF_NAME}"
           git push origin "HEAD:${GITHUB_REF_NAME}"
+          echo "pushed=true" >> "$GITHUB_OUTPUT"
+
+      - name: Publish the new prices
+        if: steps.push.outputs.pushed == 'true' && github.ref_name == 'main'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh workflow run deploy_pages.yml --ref main
