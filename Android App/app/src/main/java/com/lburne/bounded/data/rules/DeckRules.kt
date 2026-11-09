@@ -51,7 +51,7 @@ enum class AddResult(val message: String) {
     SIGNATURE_WRONG_CHAMPION("Signature cards must match your legend's champion."),
     COPY_LIMIT("A deck can have at most 3 copies of a card name."),
     SIGNATURE_LIMIT("A deck can have at most 3 signature cards."),
-    SIDEBOARD_FULL("Your sideboard already has 8 cards.")
+    SIDEBOARD_FULL("Your sideboard already has 10 cards.")
 }
 
 enum class IssueCode(val message: String) {
@@ -61,7 +61,8 @@ enum class IssueCode(val message: String) {
     RUNE_COUNT("The rune deck needs exactly 12 runes."),
     BATTLEFIELD_COUNT("The deck needs exactly 3 battlefields."),
     MAIN_DECK_TOO_SMALL("The main deck needs at least 40 cards, including the champion."),
-    SIDEBOARD_TOO_LARGE("The sideboard can have at most 8 cards."),
+    MAIN_DECK_TOO_LARGE("The main deck has more than 40 cards. Tournaments need exactly 40."),
+    SIDEBOARD_TOO_LARGE("The sideboard can have at most 10 cards."),
     COPY_LIMIT("More than 3 copies of a card name."),
     SIGNATURE_LIMIT("More than 3 signature cards."),
     SIGNATURE_WRONG_CHAMPION("A signature card doesn't match the legend's champion."),
@@ -80,9 +81,12 @@ data class DeckIssue(val code: IssueCode, val subject: String? = null) {
 
 object DeckRules {
     const val MAIN_DECK_MIN = 40
+    /** Tournament rules need exactly 40. More is allowed while building, but flagged. */
+    const val MAIN_DECK_MAX = 40
     const val RUNE_DECK_SIZE = 12
     const val BATTLEFIELD_COUNT = 3
-    const val SIDEBOARD_MAX = 8
+    /** Raised from 8 in the July 2026 tournament rules. */
+    const val SIDEBOARD_MAX = 10
     const val COPY_LIMIT = 3
     const val SIGNATURE_LIMIT = 3
 
@@ -214,6 +218,7 @@ object DeckRules {
         if (c.runes != RUNE_DECK_SIZE) issues += DeckIssue(IssueCode.RUNE_COUNT)
         if (c.battlefields != BATTLEFIELD_COUNT) issues += DeckIssue(IssueCode.BATTLEFIELD_COUNT)
         if (c.mainDeck < MAIN_DECK_MIN) issues += DeckIssue(IssueCode.MAIN_DECK_TOO_SMALL)
+        if (c.mainDeck > MAIN_DECK_MAX) issues += DeckIssue(IssueCode.MAIN_DECK_TOO_LARGE)
         if (c.sideboard > SIDEBOARD_MAX) issues += DeckIssue(IssueCode.SIDEBOARD_TOO_LARGE)
 
         val copiesByName = mutableMapOf<String, Int>()

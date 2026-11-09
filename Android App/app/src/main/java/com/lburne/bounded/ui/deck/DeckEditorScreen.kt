@@ -102,6 +102,13 @@ import com.lburne.bounded.ui.common.BannedTag
 import com.lburne.bounded.ui.common.GoldButton
 import com.lburne.bounded.ui.theme.Rift
 import com.lburne.bounded.ui.theme.RiftNumber
+import androidx.compose.material.icons.filled.MoreVert
+import androidx.compose.ui.platform.LocalClipboardManager
+import androidx.compose.ui.text.AnnotatedString
+import androidx.compose.foundation.selection.selectable
+import androidx.compose.ui.semantics.Role
+import com.lburne.bounded.data.rules.DeckStep
+import com.lburne.bounded.ui.theme.RiftLabel
 
 private const val GITHUB_ASSETS_URL = "https://lachieburne.github.io/Bounded"
 
@@ -126,6 +133,12 @@ fun DeckEditorScreen(
     val currencySymbol = viewModel.getCurrencySymbol()
     val deckCounts by viewModel.deckCounts.collectAsState()
     val deckIssues by viewModel.deckIssues.collectAsState()
+    val pickerStep by viewModel.pickerStep.collectAsState()
+    val canChoosePickerTarget by viewModel.canChoosePickerTarget.collectAsState()
+    var showOptions by remember { mutableStateOf(false) }
+    var showRename by remember { mutableStateOf(false) }
+    var showDelete by remember { mutableStateOf(false) }
+    val clipboard = LocalClipboardManager.current
 
     val context = LocalContext.current
 
@@ -157,8 +170,8 @@ fun DeckEditorScreen(
         map
     }
 
-    val activeZoneCounts = remember(currentStep, mainSlots, sideSlots) {
-        val targetSlots = if (currentStep == DeckBuildStep.SELECT_SIDEBOARD) sideSlots else mainSlots
+    val activeZoneCounts = remember(pickerStep, mainSlots, sideSlots) {
+        val targetSlots = if (pickerStep == DeckBuildStep.SELECT_SIDEBOARD) sideSlots else mainSlots
         val map = mutableMapOf<String, Int>()
         targetSlots.forEach { map[it.card.cardId] = it.deckQuantity }
         map
@@ -185,6 +198,38 @@ fun DeckEditorScreen(
     }
 
     var selectedTabIndex by remember { mutableIntStateOf(0) }
+
+    if (showOptions) {
+        DeckOptionsSheet(
+            deckName = deck?.name ?: "Deck",
+            onDismiss = { showOptions = false },
+            onShare = { shareDeckText(context, viewModel.getExportText(), "${deck?.name ?: "Deck"} Decklist") },
+            onCopy = {
+                clipboard.setText(AnnotatedString(viewModel.getExportText()))
+                android.widget.Toast.makeText(context, "Decklist copied", android.widget.Toast.LENGTH_SHORT).show()
+            },
+            onRename = { showRename = true },
+            onDelete = { showDelete = true }
+        )
+    }
+    if (showRename) {
+        RenameDeckDialog(
+            currentName = deck?.name ?: "",
+            onRename = { viewModel.renameDeck(it); showRename = false },
+            onDismiss = { showRename = false }
+        )
+    }
+    if (showDelete) {
+        DeleteDeckDialog(
+            deckName = deck?.name ?: "this deck",
+            onConfirm = {
+                showDelete = false
+                viewModel.deleteDeck()
+                onBack()
+            },
+            onDismiss = { showDelete = false }
+        )
+    }
 
     BoxWithConstraints(Modifier.fillMaxSize()) {
     // Wide screens (tablets, unfolded foldables, landscape) show the picker and the deck side
@@ -218,7 +263,9 @@ fun DeckEditorScreen(
                         }) {
                             Icon(Icons.Default.Share, contentDescription = "Share decklist")
                         }
-
+                        IconButton(onClick = { showOptions = true }) {
+                            Icon(Icons.Default.MoreVert, contentDescription = "Deck options")
+                        }
                     }
                 )
                 TabRow(selectedTabIndex = selectedTabIndex) {
@@ -247,12 +294,13 @@ fun DeckEditorScreen(
                     onAddMissing = { id -> viewModel.onAddMissingToBinder(id) },
                     onCardClick = onCardClick,
                     missingById = missingById,
-                    onAddAllMissing = { confirmAddAll = true }
+                    onAddAllMissing = { confirmAddAll = true },
+                    issues = deckIssues
                 )
             }
         }
         val browse: @Composable (Modifier) -> Unit = { modifier ->
-            val dynamicTitle = when (currentStep) {
+            val dynamicTitle = when (pickerStep) {
                 DeckBuildStep.SELECT_RUNES -> "Select Runes (${deckCounts.runes}/${DeckRules.RUNE_DECK_SIZE})"
                 DeckBuildStep.SELECT_BATTLEFIELDS -> "Select Battlefields (${deckCounts.battlefields}/${DeckRules.BATTLEFIELD_COUNT})"
                 DeckBuildStep.SELECT_MAIN -> "Main Deck (${deckCounts.mainDeck}/${DeckRules.MAIN_DECK_MIN})"
@@ -274,9 +322,11 @@ fun DeckEditorScreen(
             Box(modifier) {
                 DeckBrowseTab(
                     issues = deckIssues,
-                    step = currentStep,
+                    step = pickerStep,
                     title = dynamicTitle,
-                    instruction = currentStep.instruction,
+                    instruction = pickerStep.instruction,
+                    target = if (canChoosePickerTarget) pickerStep.step else null,
+                    onChooseTarget = viewModel::choosePickerTarget,
                     cards = availableCards,
                     totalCountsById = totalCountsById,
                     totalCountsByName = totalCountsByName,
@@ -564,7 +614,8 @@ fun DeckViewTab(
     onAddMissing: (String) -> Unit,
     onCardClick: (String) -> Unit,
     missingById: Map<String, Int> = emptyMap(),
-    onAddAllMissing: () -> Unit = {}
+    onAddAllMissing: () -> Unit = {},
+    issues: List<DeckIssue> = emptyList()
 ) {
     if (mainSlots.isEmpty() && sideSlots.isEmpty()) {
         Box(
@@ -647,6 +698,12 @@ fun DeckViewTab(
             }
         }
 
+        val ruleBreaks = issues.filter { it.code in RULE_BREAK_CODES }
+        if (ruleBreaks.isNotEmpty()) item {
+            val names = (mainSlots + sideSlots).associate { it.card.cardId to it.card.name }
+            NotLegalBanner(ruleBreaks.map { issue -> issue.code.message + (issue.subject?.let { " (${names[it] ?: it})" } ?: "") })
+        }
+
         if (missingById.isNotEmpty()) item {
             val missingValue = missingById.entries.sumOf { (id, n) -> (prices[id] ?: 0.0) * n }
             MissingCardsPanel(missingById.values.sum(), missingValue, currencySymbol, onAddAllMissing)
@@ -696,7 +753,7 @@ fun DeckViewTab(
                 ) { slot ->
                     val price = prices[slot.card.cardId]
                     val totalCopiesByName = totalCountsByName[slot.card.name] ?: 0
-                    val canAdd = totalCopiesByName < 3 && currentMainCount < 39
+                    val canAdd = totalCopiesByName < DeckRules.COPY_LIMIT
                     DeckSlotItem(slot, price, currencySymbol, false, canAdd, onIncrement, onDecrement, onAddMissing, onCardClick)
                 }
             }
@@ -707,7 +764,7 @@ fun DeckViewTab(
                 val price = prices[slot.card.cardId]
                 val totalCopiesByName = totalCountsByName[slot.card.name] ?: 0
                 val sbTotal = sideSlots.sumOf { it.deckQuantity }
-                val canAdd = totalCopiesByName < 3 && sbTotal < 8
+                val canAdd = totalCopiesByName < DeckRules.COPY_LIMIT && sbTotal < DeckRules.SIDEBOARD_MAX
                 DeckSlotItem(slot, price, currencySymbol, true, canAdd, onIncrement, onDecrement, onAddMissing, onCardClick)
             }
         }
@@ -866,7 +923,10 @@ fun DeckBrowseTab(
     viewModel: DeckEditorViewModel,
     allowedDomains: List<Domain>?,
     onAdd: (com.lburne.bounded.data.model.Card) -> Unit,
-    onRemove: (String) -> Unit
+    onRemove: (String) -> Unit,
+    /** Where taps go once the main deck is built (MAIN or SIDEBOARD), or null when there's no choice. */
+    target: DeckStep? = null,
+    onChooseTarget: (DeckStep) -> Unit = {}
 ) {
     var showFilterSheet by remember { mutableStateOf(false) }
     val filter by viewModel.filter.collectAsState()
@@ -913,6 +973,24 @@ fun DeckBrowseTab(
                         color = MaterialTheme.colorScheme.error,
                         modifier = Modifier.padding(top = 4.dp)
                     )
+                }
+            }
+            if (target != null) {
+                Row(Modifier.border(1.dp, Rift.Line)) {
+                    listOf(DeckStep.MAIN to "Main deck", DeckStep.SIDEBOARD to "Sideboard").forEachIndexed { i, (step, label) ->
+                        val on = step == target
+                        if (i > 0) Box(Modifier.width(1.dp).height(40.dp).background(Rift.Line))
+                        Box(
+                            Modifier
+                                .weight(1f)
+                                .height(40.dp)
+                                .background(if (on) Rift.GoldWash else Color.Transparent)
+                                .selectable(selected = on, role = Role.Tab) { onChooseTarget(step) },
+                            contentAlignment = Alignment.Center
+                        ) {
+                            Text(label, color = if (on) Rift.Gold else Rift.Parchment, fontWeight = FontWeight.SemiBold, fontSize = 14.sp)
+                        }
+                    }
                 }
             }
             Row(verticalAlignment = Alignment.CenterVertically) {
@@ -1089,6 +1167,7 @@ private val RULE_BREAK_CODES = setOf(
     IssueCode.NOT_PLAYABLE,
     IssueCode.NOT_ALLOWED_IN_SIDEBOARD,
     IssueCode.SIDEBOARD_TOO_LARGE,
+    IssueCode.MAIN_DECK_TOO_LARGE,
     IssueCode.UNKNOWN_CARD,
     IssueCode.BANNED
 )
@@ -1145,5 +1224,26 @@ private fun AddToCollectionChip(onClick: () -> Unit, modifier: Modifier = Modifi
     ) {
         Icon(Icons.Default.LibraryAdd, null, tint = Rift.Gold, modifier = Modifier.size(14.dp))
         Text("Add 1 to collection", style = MaterialTheme.typography.labelMedium, color = Rift.Ivory)
+    }
+}
+
+/** Says the deck isn't tournament legal, and why, at the top of the deck list. */
+@Composable
+private fun NotLegalBanner(reasons: List<String>) {
+    Row(
+        Modifier
+            .fillMaxWidth()
+            .background(Rift.Banned.copy(alpha = 0.15f))
+            .border(1.dp, Rift.Banned)
+            .padding(12.dp),
+        horizontalArrangement = Arrangement.spacedBy(12.dp)
+    ) {
+        Text(
+            "NOT LEGAL",
+            style = RiftLabel.copy(fontSize = 12.sp),
+            color = Color.White,
+            modifier = Modifier.background(Rift.Banned).padding(horizontal = 6.dp, vertical = 2.dp)
+        )
+        Text(reasons.joinToString("\n"), color = Rift.Parchment, fontSize = 14.sp, modifier = Modifier.weight(1f))
     }
 }

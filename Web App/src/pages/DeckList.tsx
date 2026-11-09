@@ -74,7 +74,10 @@ const DeckList = () => {
                             const legend = deck.legendCardId ? cardsById.get(deck.legendCardId) : undefined;
                             const champion = deck.championCardId ? cardsById.get(deck.championCardId) : undefined;
                             const art = legend?.imageUrl ?? champion?.imageUrl ?? deck.coverCardUrl;
-                            const complete = (deck.mainCount ?? 0) >= 40;
+                            const main = deck.mainCount ?? 0;
+                            const status = main > 40 ? { label: 'Over 40', cls: 'bg-banned' }
+                                : main === 40 ? { label: 'Complete', cls: 'bg-[#285F24]' }
+                                    : { label: 'In progress', cls: 'bg-ink-muted' };
                             return (
                                 <div key={deck.deckId} className="relative group panel flex flex-col hover:border-gold-deep">
                                     <button type="button" onClick={() => navigate(`/decks/${deck.deckId}`)} className="flex flex-col text-left cursor-pointer">
@@ -95,8 +98,8 @@ const DeckList = () => {
                                             <div className="band-cut bg-raised px-3.5 py-2.5"><DeckTitle deck={deck} /></div>
                                         )}
                                         <div className="flex flex-wrap items-center gap-2 px-3.5 py-3">
-                                            <span className={`h-6 inline-flex items-center px-2 rift-label text-[13px] tracking-[0.1em] text-white ${complete ? 'bg-[#285F24]' : 'bg-ink-muted'}`}>
-                                                {complete ? 'Complete' : 'In progress'}
+                                            <span className={`h-6 inline-flex items-center px-2 rift-label text-[13px] tracking-[0.1em] text-white ${status.cls}`}>
+                                                {status.label}
                                             </span>
                                             <span className="flex-1 min-w-0 truncate text-sm text-muted">{legend ? legend.name : 'No legend yet'}</span>
                                             <span className="text-[13px] text-muted">{edited(deck.lastModified, now)}</span>

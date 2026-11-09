@@ -1,6 +1,6 @@
 import { useState, useEffect, useMemo, useRef, useCallback } from 'react';
 import { useParams, useNavigate, useLocation } from 'react-router-dom';
-import { AlertTriangle, ArrowLeft, Copy, LibraryBig, Minus, Plus, Search } from 'lucide-react';
+import { AlertTriangle, ArrowLeft, Copy, LibraryBig, Minus, MoreHorizontal, Pencil, Plus, Search, Trash2 } from 'lucide-react';
 import { collection, onSnapshot, doc, updateDoc, writeBatch } from 'firebase/firestore';
 import { db, auth } from '../config/firebase';
 import { useCards } from '../context/CardContext';
@@ -9,7 +9,7 @@ import { usePrices } from '../context/PriceContext';
 import type { Card, Domain } from '../models/card';
 import type { Deck, DeckEntry } from '../models/deck';
 import {
-    ADD_RESULT_MESSAGES, BATTLEFIELD_COUNT, ISSUE_MESSAGES, MAIN_DECK_MIN, RULE_BREAK_CODES, RUNE_DECK_SIZE, SIDEBOARD_MAX,
+    ADD_RESULT_MESSAGES, BATTLEFIELD_COUNT, ISSUE_MESSAGES, MAIN_DECK_MAX, MAIN_DECK_MIN, RULE_BREAK_CODES, RUNE_DECK_SIZE, SIDEBOARD_MAX,
     canBeChampion, checkAdd, counts as deckCounts, currentStep as rulesStep, deckContents, isCandidate, isPlayable, validate,
     type DeckSection, type DeckStep,
 } from '../rules/deckRules';
@@ -23,7 +23,7 @@ const STEP_LABELS: Record<DeckStep, { title: string; instruction: string }> = {
     CHAMPION: { title: "Select Champion", instruction: "Choose the Champion unit that matches your Legend." },
     RUNES: { title: "Select Runes", instruction: `Choose ${RUNE_DECK_SIZE} Runes from your Legend's domains.` },
     BATTLEFIELDS: { title: "Select Battlefields", instruction: `Choose ${BATTLEFIELD_COUNT} Battlefields with different names.` },
-    MAIN: { title: "Build Main Deck", instruction: `Add Units, Spells and Gear: at least ${MAIN_DECK_MIN} cards, including your Champion.` },
+    MAIN: { title: "Build Main Deck", instruction: `Add Units, Spells and Gear: ${MAIN_DECK_MIN} cards, including your Champion.` },
     SIDEBOARD: { title: "Sideboard", instruction: `Add up to ${SIDEBOARD_MAX} cards (optional).` },
     COMPLETE: { title: "Deck Complete", instruction: "Your deck is ready!" },
 };
@@ -49,7 +49,7 @@ export default function DeckEditor() {
     const { deckId } = useParams<{ deckId: string }>();
     const navigate = useNavigate();
     const location = useLocation();
-    const { decks, loadingDecks, renameDeck } = useDecks();
+    const { decks, loadingDecks, renameDeck, deleteDeck } = useDecks();
     const { binderCards, masterCards, updateCardQuantity } = useCards();
 
     const [entries, setEntries] = useState<DeckEntry[]>([]);
@@ -61,6 +61,8 @@ export default function DeckEditor() {
     /** A step chosen from the step bar, to change runes, battlefields or the sideboard later. */
     const [viewStep, setViewStep] = useState<DeckStep | null>(null);
     const [confirmAddAll, setConfirmAddAll] = useState(false);
+    const [menuOpen, setMenuOpen] = useState(false);
+    const [confirmDelete, setConfirmDelete] = useState(false);
     const [notice, setNotice] = useState<string | null>(null);
 
     // The latest deck and entries, updated straight away on every edit. Edits read these
@@ -515,12 +517,12 @@ export default function DeckEditor() {
     const legend = deck.legendCardId ? cardsById.get(deck.legendCardId) : undefined;
     const champion = deck.championCardId ? cardsById.get(deck.championCardId) : undefined;
     const pickerLabel = currentStep === 'COMPLETE' && !viewStep ? STEP_LABELS.COMPLETE : STEP_LABELS[pickerStep];
-    const steps: { step: DeckStep; label: string; count: string; done: boolean; open: boolean }[] = [
+    const steps: { step: DeckStep; label: string; count: string; done: boolean; open: boolean; over?: boolean }[] = [
         { step: 'LEGEND', label: 'Legend', count: legend ? '1' : '0', done: Boolean(legend), open: false },
         { step: 'CHAMPION', label: 'Champion', count: champion ? '1' : '0', done: Boolean(champion), open: false },
         { step: 'RUNES', label: 'Runes', count: `${counts.runes}/${RUNE_DECK_SIZE}`, done: counts.runes === RUNE_DECK_SIZE, open: canChooseStep },
         { step: 'BATTLEFIELDS', label: 'Battlefields', count: `${counts.battlefields}/${BATTLEFIELD_COUNT}`, done: counts.battlefields === BATTLEFIELD_COUNT, open: canChooseStep },
-        { step: 'MAIN', label: 'Main deck', count: `${counts.mainDeck}/${MAIN_DECK_MIN}`, done: counts.mainDeck >= MAIN_DECK_MIN, open: canChooseStep },
+        { step: 'MAIN', label: 'Main deck', count: `${counts.mainDeck}/${MAIN_DECK_MIN}`, done: counts.mainDeck === MAIN_DECK_MIN, open: canChooseStep, over: counts.mainDeck > MAIN_DECK_MAX },
         { step: 'SIDEBOARD', label: 'Sideboard', count: `${counts.sideboard}/${SIDEBOARD_MAX}`, done: false, open: canChooseStep },
     ];
     const curve = (() => {
@@ -563,6 +565,33 @@ export default function DeckEditor() {
                         })()}
                     </div>
                     <button type="button" onClick={handleExportDeck} className="btn-outline"><Copy aria-hidden="true" className="w-4 h-4" />Copy list</button>
+                    <div className="relative" onBlur={e => { if (!e.currentTarget.contains(e.relatedTarget)) setMenuOpen(false); }}>
+                        <button
+                            type="button"
+                            aria-label="Deck options"
+                            aria-haspopup="menu"
+                            aria-expanded={menuOpen}
+                            onClick={() => setMenuOpen(o => !o)}
+                            onKeyDown={e => { if (e.key === 'Escape') setMenuOpen(false); }}
+                            className="w-11 h-full min-h-11 flex items-center justify-center border border-line text-ivory hover:border-line-strong cursor-pointer"
+                        >
+                            <MoreHorizontal aria-hidden="true" className="w-5 h-5" />
+                        </button>
+                        {menuOpen && (
+                            <div role="menu" className="absolute right-0 top-full mt-1 z-30 w-52 panel shadow-2xl shadow-black/60 py-1 flex flex-col">
+                                <button type="button" role="menuitem" onClick={() => { setMenuOpen(false); setNewName(deck.name); setIsEditingName(true); }} className="flex items-center gap-3 min-h-11 px-4 text-left hover:bg-raised cursor-pointer">
+                                    <Pencil aria-hidden="true" className="w-4 h-4 text-gold" />Rename
+                                </button>
+                                <button type="button" role="menuitem" onClick={() => { setMenuOpen(false); handleExportDeck(); }} className="flex items-center gap-3 min-h-11 px-4 text-left hover:bg-raised cursor-pointer">
+                                    <Copy aria-hidden="true" className="w-4 h-4 text-gold" />Copy decklist
+                                </button>
+                                <div className="h-px bg-line my-1" />
+                                <button type="button" role="menuitem" onClick={() => { setMenuOpen(false); setConfirmDelete(true); }} className="flex items-center gap-3 min-h-11 px-4 text-left text-banned hover:bg-banned/15 cursor-pointer">
+                                    <Trash2 aria-hidden="true" className="w-4 h-4" />Delete deck
+                                </button>
+                            </div>
+                        )}
+                    </div>
                 </div>
 
                 <nav aria-label="Build steps" className="flex flex-wrap gap-1.5">
@@ -572,7 +601,7 @@ export default function DeckEditor() {
                             <>
                                 <span aria-hidden="true" className={`w-2 h-2 rotate-45 ${s.done ? 'bg-[#508C33]' : current ? 'bg-gold' : 'bg-line-strong'}`} />
                                 {s.label}
-                                <span className={`rift-number text-[15px] ${s.done ? 'text-muted' : 'text-gold'}`}>{s.count}</span>
+                                <span className={`rift-number text-[15px] ${s.over ? 'text-banned' : s.done ? 'text-muted' : 'text-gold'}`}>{s.count}</span>
                             </>
                         );
                         const cls = `min-h-[38px] flex items-center gap-2 px-3.5 border text-sm font-semibold ${current ? 'bg-gold-wash border-gold-deep text-gold' : 'bg-surface border-line text-parchment'}`;
@@ -769,6 +798,26 @@ export default function DeckEditor() {
                 </aside>
             </div>
 
+            {confirmDelete && (
+                <Dialog
+                    title={`Delete "${deck.name}"?`}
+                    onClose={() => setConfirmDelete(false)}
+                    footer={
+                        <div className="flex justify-end gap-2">
+                            <button type="button" className="btn-quiet" onClick={() => setConfirmDelete(false)}>Cancel</button>
+                            <button
+                                type="button"
+                                className="btn-quiet border-banned bg-banned text-white hover:bg-banned/80"
+                                onClick={() => { setConfirmDelete(false); navigate('/decks', { replace: true }); deleteDeck(deck.deckId); }}
+                            >
+                                Delete deck
+                            </button>
+                        </div>
+                    }
+                >
+                    <p className="text-parchment">The deck is deleted from every device. Your cards stay in your collection.</p>
+                </Dialog>
+            )}
             {confirmAddAll && (
                 <Dialog
                     title={`Add ${missingTotal} ${missingTotal === 1 ? 'card' : 'cards'} to your collection?`}

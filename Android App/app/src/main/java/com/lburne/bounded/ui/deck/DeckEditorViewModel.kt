@@ -41,8 +41,8 @@ enum class DeckBuildStep(val step: DeckStep, val title: String, val instruction:
     SELECT_CHAMPION(DeckStep.CHAMPION, "Select Champion", "Choose the Champion unit that matches your Legend."),
     SELECT_RUNES(DeckStep.RUNES, "Select Runes", "Choose 12 Runes from your Legend's domains."),
     SELECT_BATTLEFIELDS(DeckStep.BATTLEFIELDS, "Select Battlefields", "Choose 3 Battlefields with different names."),
-    SELECT_MAIN(DeckStep.MAIN, "Build Main Deck", "Add Units, Spells and Gear: at least 40 cards, including your Champion."),
-    SELECT_SIDEBOARD(DeckStep.SIDEBOARD, "Sideboard", "Add up to 8 cards (optional)."),
+    SELECT_MAIN(DeckStep.MAIN, "Build Main Deck", "Add Units, Spells and Gear: 40 cards, including your Champion."),
+    SELECT_SIDEBOARD(DeckStep.SIDEBOARD, "Sideboard", "Add up to 10 cards (optional)."),
     COMPLETE(DeckStep.COMPLETE, "Deck Complete", "Your deck is ready!");
 
     companion object {
@@ -117,6 +117,30 @@ class DeckEditorViewModel(
         if (contents == null) DeckBuildStep.SELECT_LEGEND else DeckBuildStep.from(DeckRules.currentStep(contents, cards))
     }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), DeckBuildStep.SELECT_LEGEND)
 
+    /**
+     * Once the main deck is built, the picker can add to the main deck or the sideboard. Null
+     * follows the build step: the sideboard while it's being filled, the main deck once the
+     * deck is complete, so cards can still be added past 40 (the deck is then flagged).
+     */
+    private val pickerTarget = MutableStateFlow<DeckStep?>(null)
+
+    /** The step the card picker is showing and adding to. */
+    val pickerStep: StateFlow<DeckBuildStep> = combine(currentStep, pickerTarget) { current, target ->
+        when {
+            current.step in LATE_STEPS && target != null -> DeckBuildStep.from(target)
+            current == DeckBuildStep.COMPLETE -> DeckBuildStep.SELECT_MAIN
+            else -> current
+        }
+    }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), DeckBuildStep.SELECT_LEGEND)
+
+    /** Whether the main deck / sideboard switch is offered. */
+    val canChoosePickerTarget: StateFlow<Boolean> = currentStep.map { it.step in LATE_STEPS }
+        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), false)
+
+    fun choosePickerTarget(step: DeckStep) {
+        pickerTarget.value = step
+    }
+
     /** Short messages for the screen to show, e.g. why a card couldn't be added. */
     private val _messages = MutableSharedFlow<String>(extraBufferCapacity = 4)
     val messages: SharedFlow<String> = _messages.asSharedFlow()
@@ -145,6 +169,15 @@ class DeckEditorViewModel(
                 repository.updateDeckFields(deckId, mapOf("mainCount" to counts.mainDeck, "sideCount" to counts.sideboard))
             }
         }
+    }
+
+    /** Deletes this deck. The screen leaves it straight after. */
+    fun deleteDeck() {
+        deck.value?.let { repository.deleteDeck(it) }
+    }
+
+    fun renameDeck(newName: String) {
+        if (newName.isNotBlank()) repository.renameDeck(deckId, newName.trim())
     }
 
     fun getExportText(): String {
@@ -229,7 +262,7 @@ class DeckEditorViewModel(
     val availableCards: StateFlow<List<CardWithQuantity>> = combine(
         repository.getAllCardsWithOwnership(),
         _filter,
-        currentStep,
+        pickerStep,
         deck
     ) { allCards, filters, step, deckObj ->
         val legendCard = allCards.find { it.card.cardId == deckObj?.legendCardId }?.card
@@ -342,16 +375,19 @@ class DeckEditorViewModel(
             }
             DeckStep.RUNES, DeckStep.BATTLEFIELDS, DeckStep.MAIN ->
                 addOne(d, contents, cards, card.cardId, DeckSection.MAIN)
-            DeckStep.SIDEBOARD -> addOne(d, contents, cards, card.cardId, DeckSection.SIDEBOARD)
-            DeckStep.COMPLETE -> {}
+            DeckStep.SIDEBOARD, DeckStep.COMPLETE ->
+                addOne(d, contents, cards, card.cardId, pickerSection())
         }
     }
 
     /** The minus on a card in the picker: removes from the section the current step is building. */
     fun onRemoveCard(cardId: String) = edit { d, contents, cards ->
-        val section = if (DeckRules.currentStep(contents, cards) == DeckStep.SIDEBOARD) DeckSection.SIDEBOARD else DeckSection.MAIN
+        val step = DeckRules.currentStep(contents, cards)
+        val section = if (step in LATE_STEPS) pickerSection() else DeckSection.MAIN
         removeOne(d, contents, cards, cardId, section)
     }
+
+    private fun pickerSection() = if (pickerStep.value.step == DeckStep.SIDEBOARD) DeckSection.SIDEBOARD else DeckSection.MAIN
 
     fun onIncrementCard(cardId: String, isSideboard: Boolean) = edit { d, contents, cards ->
         addOne(d, contents, cards, cardId, if (isSideboard) DeckSection.SIDEBOARD else DeckSection.MAIN)
@@ -393,6 +429,9 @@ class DeckEditorViewModel(
         return priceRepository.getCurrencySymbol()
     }
 }
+
+/** The steps after the main deck is built, when the picker can add to either section. */
+private val LATE_STEPS = setOf(DeckStep.SIDEBOARD, DeckStep.COMPLETE)
 
 class DeckEditorViewModelFactory(
     private val repository: CardRepository,
