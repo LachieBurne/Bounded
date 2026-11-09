@@ -9,7 +9,7 @@ const isTyping = (target: EventTarget | null) =>
     target instanceof HTMLElement && (target.isContentEditable || ['INPUT', 'TEXTAREA', 'SELECT'].includes(target.tagName));
 
 const navClass = ({ isActive }: { isActive: boolean }) =>
-    `flex items-center px-3.5 border-b-2 rift-number text-[17px] tracking-[0.1em] uppercase ${isActive ? 'border-gold text-gold' : 'border-transparent text-parchment hover:text-ivory'}`;
+    `flex items-center px-2 sm:px-3.5 border-b-2 rift-number text-base sm:text-[17px] tracking-[0.1em] uppercase ${isActive ? 'border-gold text-gold' : 'border-transparent text-parchment hover:text-ivory'}`;
 
 /**
  * The bar across every signed-in page: Bounded, Collection and Decks, card search (press /)
@@ -69,10 +69,10 @@ export const TopNavigation = () => {
 
     return (
         <header className="sticky top-0 z-50 bg-bar border-b border-line">
-            <div className="flex flex-wrap items-center gap-x-7 gap-y-2 px-4 sm:px-8 min-h-16 py-2 sm:py-0">
+            <div className="flex flex-wrap items-center gap-x-3 sm:gap-x-7 gap-y-2 px-4 sm:px-8 min-h-16 py-2 sm:py-0">
                 <NavLink to="/" className="flex items-center gap-2.5 text-ivory">
                     <Diamond />
-                    <span className="rift-label text-[22px] tracking-[0.14em]">Bounded</span>
+                    <span className="rift-label text-lg sm:text-[22px] tracking-[0.14em]">Bounded</span>
                 </NavLink>
 
                 <nav aria-label="Main" className="flex self-stretch gap-1 min-h-12">

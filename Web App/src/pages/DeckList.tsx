@@ -98,7 +98,7 @@ const DeckList = () => {
                                             <span className={`h-6 inline-flex items-center px-2 rift-label text-[13px] tracking-[0.1em] text-white ${complete ? 'bg-[#285F24]' : 'bg-ink-muted'}`}>
                                                 {complete ? 'Complete' : 'In progress'}
                                             </span>
-                                            <span className="flex-1 text-sm text-muted">{legend ? legend.name : 'No legend yet'}</span>
+                                            <span className="flex-1 min-w-0 truncate text-sm text-muted">{legend ? legend.name : 'No legend yet'}</span>
                                             <span className="text-[13px] text-muted">{edited(deck.lastModified, now)}</span>
                                         </div>
                                     </button>

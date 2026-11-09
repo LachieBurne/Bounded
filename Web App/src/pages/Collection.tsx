@@ -229,8 +229,8 @@ export default function CollectionPage() {
             </div>
 
             {filtersOpen && (
-                <div className="fixed inset-0 z-40 bg-black/60 xl:static xl:z-auto xl:bg-transparent xl:w-[290px] xl:shrink-0" onMouseDown={e => { if (e.target === e.currentTarget) setFiltersOpen(false); }}>
-                    <aside aria-label="Filters" className="absolute right-0 top-0 h-full w-[min(320px,90vw)] overflow-y-auto panel xl:static xl:h-auto xl:w-full xl:sticky xl:top-24 xl:max-h-[calc(100vh-7rem)]">
+                <div className="fixed inset-0 z-40 bg-black/60 xl:sticky xl:top-24 xl:z-auto xl:bg-transparent xl:w-[290px] xl:shrink-0" onMouseDown={e => { if (e.target === e.currentTarget) setFiltersOpen(false); }}>
+                    <aside aria-label="Filters" className="absolute right-0 top-0 h-full w-[min(320px,90vw)] overflow-y-auto panel xl:static xl:h-auto xl:w-full xl:max-h-[calc(100vh-7rem)]">
                         <FilterPanel
                             filter={fullFilter}
                             onChange={({ query: _q, ...rest }) => { void _q; setFilter(rest); }}

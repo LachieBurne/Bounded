@@ -48,7 +48,12 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
     return (
         <AuthContext.Provider value={value}>
-            {!loading && children}
+            {loading ? (
+                <div role="status" className="min-h-screen bg-ink flex flex-col items-center justify-center gap-4 text-muted">
+                    <span aria-hidden="true" className="w-4 h-4 rotate-45 bg-gold animate-pulse" />
+                    <span className="rift-label text-sm">Bounded</span>
+                </div>
+            ) : children}
         </AuthContext.Provider>
     );
 };
