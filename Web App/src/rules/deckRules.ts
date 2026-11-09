@@ -51,7 +51,7 @@ export const ADD_RESULT_MESSAGES = {
     SIGNATURE_WRONG_CHAMPION: "Signature cards must match your legend's champion.",
     COPY_LIMIT: 'A deck can have at most 3 copies of a card name.',
     SIGNATURE_LIMIT: 'A deck can have at most 3 signature cards.',
-    SIDEBOARD_FULL: 'Your sideboard already has 8 cards.',
+    SIDEBOARD_FULL: 'Your sideboard already has 10 cards.',
 } as const;
 export type AddResult = keyof typeof ADD_RESULT_MESSAGES;
 
@@ -62,7 +62,8 @@ export const ISSUE_MESSAGES = {
     RUNE_COUNT: 'The rune deck needs exactly 12 runes.',
     BATTLEFIELD_COUNT: 'The deck needs exactly 3 battlefields.',
     MAIN_DECK_TOO_SMALL: 'The main deck needs at least 40 cards, including the champion.',
-    SIDEBOARD_TOO_LARGE: 'The sideboard can have at most 8 cards.',
+    MAIN_DECK_TOO_LARGE: 'The main deck has more than 40 cards. Tournaments need exactly 40.',
+    SIDEBOARD_TOO_LARGE: 'The sideboard can have at most 10 cards.',
     COPY_LIMIT: 'More than 3 copies of a card name.',
     SIGNATURE_LIMIT: 'More than 3 signature cards.',
     SIGNATURE_WRONG_CHAMPION: "A signature card doesn't match the legend's champion.",
@@ -79,6 +80,7 @@ export type IssueCode = keyof typeof ISSUE_MESSAGES;
 export const RULE_BREAK_CODES: ReadonlySet<IssueCode> = new Set<IssueCode>([
     'INVALID_CHAMPION', 'COPY_LIMIT', 'SIGNATURE_LIMIT', 'SIGNATURE_WRONG_CHAMPION', 'OUTSIDE_DOMAIN_IDENTITY',
     'DUPLICATE_BATTLEFIELD', 'NOT_PLAYABLE', 'NOT_ALLOWED_IN_SIDEBOARD', 'SIDEBOARD_TOO_LARGE', 'UNKNOWN_CARD',
+    'MAIN_DECK_TOO_LARGE',
     'BANNED',
 ]);
 
@@ -91,9 +93,12 @@ export interface DeckIssue {
 export const issueKey = (issue: DeckIssue) => (issue.subject === undefined ? issue.code : `${issue.code}:${issue.subject}`);
 
 export const MAIN_DECK_MIN = 40;
+/** Tournament rules need exactly 40. More is allowed while building, but flagged. */
+export const MAIN_DECK_MAX = 40;
 export const RUNE_DECK_SIZE = 12;
 export const BATTLEFIELD_COUNT = 3;
-export const SIDEBOARD_MAX = 8;
+/** Raised from 8 in the July 2026 tournament rules. */
+export const SIDEBOARD_MAX = 10;
 export const COPY_LIMIT = 3;
 export const SIGNATURE_LIMIT = 3;
 
@@ -234,6 +239,7 @@ export function validate(deck: DeckContents, cards: CardLookup): DeckIssue[] {
     if (c.runes !== RUNE_DECK_SIZE) add('RUNE_COUNT');
     if (c.battlefields !== BATTLEFIELD_COUNT) add('BATTLEFIELD_COUNT');
     if (c.mainDeck < MAIN_DECK_MIN) add('MAIN_DECK_TOO_SMALL');
+    if (c.mainDeck > MAIN_DECK_MAX) add('MAIN_DECK_TOO_LARGE');
     if (c.sideboard > SIDEBOARD_MAX) add('SIDEBOARD_TOO_LARGE');
 
     const copiesByName = new Map<string, number>();

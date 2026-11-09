@@ -92,6 +92,10 @@ import com.lburne.bounded.ui.theme.Rift
 import com.lburne.bounded.ui.theme.RiftLabel
 import com.lburne.bounded.ui.theme.RiftNumber
 import kotlinx.coroutines.launch
+import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.combinedClickable
+import androidx.compose.ui.hapticfeedback.HapticFeedbackType
+import androidx.compose.ui.platform.LocalHapticFeedback
 
 fun shareDeckText(context: Context, text: String, title: String) {
     val sendIntent = Intent().apply {
@@ -219,6 +223,7 @@ fun DeckListScreen(
     }
 }
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun DeckGridItem(
     summary: DeckSummary,
@@ -230,9 +235,10 @@ fun DeckGridItem(
     onCopy: () -> Unit
 ) {
     val deck = summary.deck
-    var showMenu by remember { mutableStateOf(false) }
+    var showOptions by remember { mutableStateOf(false) }
     var showRenameDialog by remember { mutableStateOf(false) }
     var showDeleteDialog by remember { mutableStateOf(false) }
+    val haptics = LocalHapticFeedback.current
 
     Box(
         modifier = Modifier
@@ -240,7 +246,16 @@ fun DeckGridItem(
             .height(176.dp)
             .background(Rift.Surface)
             .border(1.dp, Rift.Line)
-            .clickable(onClickLabel = "Open deck") { onClick() }
+            // Tap opens the deck; long-press shows its options, like the ⋮ button.
+            .combinedClickable(
+                onClickLabel = "Open deck",
+                onLongClickLabel = "Deck options",
+                onLongClick = {
+                    haptics.performHapticFeedback(HapticFeedbackType.LongPress)
+                    showOptions = true
+                },
+                onClick = onClick
+            )
     ) {
         if (deck.coverCardUrl != null) {
             // The legend's art, framed on its upper half where the character usually is.
@@ -307,79 +322,49 @@ fun DeckGridItem(
             }
         }
 
-        Box(modifier = Modifier.align(Alignment.TopEnd)) {
-                IconButton(onClick = { showMenu = true }) {
-                    Icon(Icons.Default.MoreVert, contentDescription = "${deck.name} options", tint = Color.White)
-                }
-                DropdownMenu(expanded = showMenu, onDismissRequest = { showMenu = false }) {
-                    DropdownMenuItem(
-                        text = { Text("Share decklist") },
-                        onClick = { showMenu = false; onShare() },
-                        leadingIcon = { Icon(Icons.Default.Share, null) }
-                    )
-                    DropdownMenuItem(
-                        text = { Text("Copy decklist") },
-                        onClick = { showMenu = false; onCopy() },
-                        leadingIcon = { Icon(Icons.Default.ContentCopy, null) }
-                    )
-                    HorizontalDivider()
-                    DropdownMenuItem(
-                        text = { Text("Rename") },
-                        onClick = { showMenu = false; showRenameDialog = true },
-                        leadingIcon = { Icon(Icons.Default.Edit, null) }
-                    )
-                    DropdownMenuItem(
-                        text = { Text("Duplicate") },
-                        onClick = { showMenu = false; onDuplicate() },
-                        leadingIcon = { Icon(Icons.Default.FileCopy, null) }
-                    )
-                    DropdownMenuItem(
-                        text = { Text("Delete") },
-                        onClick = { showMenu = false; showDeleteDialog = true },
-                        leadingIcon = { Icon(Icons.Default.Delete, null) }
-                    )
-                }
+        IconButton(
+            onClick = { showOptions = true },
+            modifier = Modifier
+                .align(Alignment.TopEnd)
+                .padding(6.dp)
+                .size(40.dp)
+                .background(Rift.Ink.copy(alpha = 0.7f), CircleShape)
+        ) {
+            Icon(Icons.Default.MoreVert, contentDescription = "${deck.name} options", tint = Rift.Ivory)
         }
     }
 
+    if (showOptions) {
+        DeckOptionsSheet(
+            deckName = deck.name,
+            onDismiss = { showOptions = false },
+            onShare = onShare,
+            onCopy = onCopy,
+            onRename = { showRenameDialog = true },
+            onDuplicate = onDuplicate,
+            onDelete = { showDeleteDialog = true }
+        )
+    }
+
     if (showRenameDialog) {
-        var newName by remember { mutableStateOf(deck.name) }
-        AlertDialog(
-            onDismissRequest = { showRenameDialog = false },
-            title = { Text("Rename deck") },
-            text = {
-                OutlinedTextField(
-                    value = newName,
-                    onValueChange = { newName = it },
-                    singleLine = true,
-                    label = { Text("Name") }
-                )
+        RenameDeckDialog(
+            currentName = deck.name,
+            onRename = { name ->
+                onRename(deck.deckId, name)
+                showRenameDialog = false
             },
-            confirmButton = {
-                TextButton(
-                    onClick = {
-                        onRename(deck.deckId, newName)
-                        showRenameDialog = false
-                    },
-                    enabled = newName.isNotBlank()
-                ) { Text("Save") }
-            },
-            dismissButton = { TextButton(onClick = { showRenameDialog = false }) { Text("Cancel") } }
+            onDismiss = { showRenameDialog = false }
         )
     }
 
     if (showDeleteDialog) {
-        AlertDialog(
-            onDismissRequest = { showDeleteDialog = false },
-            title = { Text("Delete \"${deck.name}\"?") },
-            text = { Text("The deck is deleted from every device. Your cards stay in your collection.") },
-            confirmButton = {
-                TextButton(onClick = {
-                    showDeleteDialog = false
-                    onDelete()
-                }) { Text("Delete") }
+        DeleteDeckDialog(
+            deckName = deck.name,
+            onConfirm = {
+                showDeleteDialog = false
+                onDelete()
             },
-            dismissButton = { TextButton(onClick = { showDeleteDialog = false }) { Text("Cancel") } }
+            onDismiss = { showDeleteDialog = false }
         )
     }
 }
@@ -388,6 +373,7 @@ fun DeckGridItem(
 private fun deckStatus(deck: Deck): String = when {
     deck.legendCardId == null -> "No legend yet"
     deck.mainCount < DeckRules.MAIN_DECK_MIN -> "${deck.mainCount} of ${DeckRules.MAIN_DECK_MIN} cards"
+    deck.mainCount > DeckRules.MAIN_DECK_MAX -> "${deck.mainCount} cards · over ${DeckRules.MAIN_DECK_MAX}"
     deck.sideCount > 0 -> "${deck.mainCount} cards · ${deck.sideCount} sideboard"
     else -> "${deck.mainCount} cards"
 }
