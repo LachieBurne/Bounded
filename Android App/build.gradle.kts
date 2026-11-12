@@ -1,9 +1,9 @@
-// Top-level build file where you can add configuration options common to all sub-projects/modules.
+// Versions live in gradle/libs.versions.toml.
 plugins {
-    id("com.android.application") version "8.13.2" apply false
-    id("com.android.library") version "8.13.2" apply false
-    id("org.jetbrains.kotlin.android") version "1.9.22" apply false
-
-    id("com.google.devtools.ksp") version "1.9.22-1.0.17" apply false
-    id("com.google.gms.google-services") version "4.4.4" apply false
+    alias(libs.plugins.android.application) apply false
+    // AGP 9 compiles Kotlin itself. Declaring the Kotlin plugin here pins the Kotlin version it uses.
+    alias(libs.plugins.kotlin.android) apply false
+    alias(libs.plugins.kotlin.compose) apply false
+    alias(libs.plugins.ksp) apply false
+    alias(libs.plugins.google.services) apply false
 }

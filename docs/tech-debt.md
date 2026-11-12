@@ -26,15 +26,13 @@ A running list. Add to it when you leave something unfinished, and delete an ite
 
 | Item | Why it matters | Next step |
 |---|---|---|
-| Kotlin 1.9.22 with Compose compiler 1.5.10 | Newer Compose and AndroidX libraries need Kotlin 2, which blocks upgrades | Move to Kotlin 2.x and the Compose compiler Gradle plugin. |
-| `gradle/libs.versions.toml` disagrees with the root `build.gradle.kts` (AGP 8.3.1 / Kotlin 1.9.0 vs 8.13.2 / 1.9.22) | It isn't clear which versions are real | Pick one place for versions, ideally the catalog. |
-| Room `2.7.0-alpha01`, Firebase BOM 32.8.0, Accompanist permissions | Alpha or outdated dependencies; Accompanist permissions is deprecated | Upgrade together with Kotlin 2. |
-| Java 8 bytecode target | Old target, no benefit | Move to Java 17 with the Kotlin upgrade. |
-| Release builds aren't minified (`isMinifyEnabled = false`) | Bigger APK | Turn on R8 and add keep rules for Gson models. |
-| OkHttp is used by `PriceRepository` but only arrives transitively | A dependency change could remove it | Declare it in `app/build.gradle.kts`. |
+| Release builds have no signing config | The minified release APK can't be installed or shared until it's signed, so the README still links a debug build | Create an upload key, keep it out of git, and sign release builds from a CI secret. |
+| The minified (R8) release build hasn't been used signed in | Firestore and Gson read the model classes by reflection. The keep rule covers `data/model`, and R8's mapping shows their names kept, but syncing hasn't been tried in a release build | Sign in on a release build, change some quantities and edit a deck. Any reflected class added outside `data/model` needs its own keep rule. |
+| `targetSdk` is 35 while `compileSdk` is 37 | Play requires recent targets for app updates, and raising it opts the app into newer platform behaviour | Raise it one level at a time and test each on a device. |
+| Deprecated Compose APIs: `LocalClipboardManager` (deck list, deck import, deck editor) and `TabRow` (deck editor) | Build warnings now; they'll be removed in a later Compose release | Move to `LocalClipboard` and `PrimaryTabRow`. The deck editor ones can go with its restyle. |
 | Room uses `fallbackToDestructiveMigration` | Fine today because the table only caches card data, but it would wipe anything else stored locally | Keep the database to card data only, or write migrations. |
 | No UI or instrumented tests | Layout and navigation changes are only checked by hand | Part of the testing plan: Compose UI tests for navigation, the filter sheet and deck import. |
-| Navigation uses string routes | Typos in route strings fail at runtime | Move to type-safe routes when upgrading navigation. |
+| Navigation uses string routes | Typos in route strings fail at runtime | Move to type-safe routes. Navigation 2.10 supports them; they need the Kotlin serialization plugin. |
 | `DeckEditorScreen.kt` is about 1,000 lines | Hard to change safely | Split the stats, deck list and card picker into their own files. |
 | Gilded Rift is only fully applied to Collection, the filter sheet, card detail, Decks and the navigation bar | The deck editor, deck import, settings, login and scanner pick up the palette through the Material theme but keep stock layouts | Restyle them screen by screen. The design is the "Bounded mobile redesign" Claude Design canvas. |
 | Labels use the phone's Roboto Condensed instead of Barlow Condensed from the design | Close, but not the designed type | Bundle Barlow and Barlow Condensed (SIL Open Font License) in `res/font`, or use downloadable Google Fonts. |
