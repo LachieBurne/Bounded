@@ -85,6 +85,7 @@ import com.lburne.bounded.data.model.Finish
 import com.lburne.bounded.data.model.finishes
 import kotlinx.coroutines.launch
 import kotlin.math.absoluteValue
+import com.lburne.bounded.ui.common.banDate
 import com.lburne.bounded.ui.common.EnergyToken
 import com.lburne.bounded.ui.common.RarityGem
 import com.lburne.bounded.ui.common.RiftLabelText
@@ -408,16 +409,21 @@ private fun CardInfo(variant: CardVariant, currencySymbol: String, viewModel: Ca
 /** Says where and since when Riot has banned the card. Nothing for legal cards. */
 @Composable
 private fun BannedNotice(card: Card) {
-    if (!card.isBannedInStandard && !card.isBannedIn2v2) return
+    val upcoming = card.upcomingBan()
+    if (!card.isBannedInStandard && !card.isBannedIn2v2 && upcoming == null) return
     val standard = card.isBannedInStandard
     val colour = if (standard) Rift.Banned else Rift.Banned2v2
+    val listed = { format: String -> card.bannedIn?.contains(format) == true }
     val formats = when {
-        standard && card.isBannedIn2v2 -> "Standard and 2v2"
-        standard -> "Standard"
+        listed(Card.BAN_STANDARD) && listed(Card.BAN_2V2) -> "Standard and 2v2"
+        listed(Card.BAN_STANDARD) -> "Standard"
         else -> "2v2"
     }
-    val since = card.bannedSince?.let {
-        runCatching { java.time.LocalDate.parse(it).format(java.time.format.DateTimeFormatter.ofPattern("d MMMM yyyy", java.util.Locale.ENGLISH)) }.getOrNull()
+    val sentence = if (upcoming != null) {
+        "Banned in $formats from ${banDate(upcoming)}. Legal until then."
+    } else {
+        "Banned in $formats" + (card.bannedSince?.let { " since ${banDate(it)}" } ?: "") + "." +
+            (if (standard) "" else " Still legal in Standard.")
     }
     Row(
         Modifier
@@ -430,7 +436,7 @@ private fun BannedNotice(card: Card) {
     ) {
         BannedTag(card, fontSize = 13)
         Text(
-            "Banned in $formats" + (since?.let { " since $it" } ?: "") + "." + (if (standard) "" else " Still legal in Standard."),
+            sentence,
             fontSize = 14.sp,
             color = Rift.Parchment
         )

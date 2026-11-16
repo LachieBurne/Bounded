@@ -1,4 +1,5 @@
 import type { Card, CardType, Domain, RiftRarity } from '../models/card';
+import { isBanned } from './bans';
 
 /*
  * What the card grids show. Mirrors the Android app's CardFilter.kt: within a category a card
@@ -65,7 +66,7 @@ export function matchesQuery(card: Card, query: string): boolean {
 }
 
 export function isBannedInStandard(card: Card): boolean {
-    return card.bannedIn?.includes('STANDARD') ?? false;
+    return isBanned(card);
 }
 
 export function matches(f: CardFilter, card: Card, owned: number): boolean {

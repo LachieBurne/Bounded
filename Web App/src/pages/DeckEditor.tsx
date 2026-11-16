@@ -14,6 +14,8 @@ import {
     type DeckSection, type DeckStep,
 } from '../rules/deckRules';
 import { DOMAIN_LABEL, DOMAIN_SIGIL, domainStripe, isBaseRune, shownDomains } from '../lib/style';
+import { isBanned } from '../lib/bans';
+import { entryFromDoc } from '../lib/deckEntries';
 import { DomainBand } from '../components/rift/DomainBand';
 import { Dialog } from '../components/rift/Dialog';
 import { BannedTag, DomainIcon, EnergyToken, Loading, RiftLabel } from '../components/rift/Rift';
@@ -97,16 +99,7 @@ export default function DeckEditor() {
 
         const entriesRefPath = collection(db, 'users', user.uid, 'decks', deckId, 'entries');
         const unsubscribe = onSnapshot(entriesRefPath, snapshot => {
-            const fetched = snapshot.docs.map(d => {
-                const data = d.data();
-                // The Android app used to store the flag as "sideboard"; read either.
-                return {
-                    deckId: data.deckId ?? deckId,
-                    cardId: data.cardId,
-                    quantity: data.quantity ?? 0,
-                    isSideboard: data.isSideboard ?? data.sideboard ?? false,
-                } as DeckEntry;
-            }).filter(e => e.cardId && e.quantity > 0);
+            const fetched = snapshot.docs.map(d => entryFromDoc(d.data(), deckId)).filter(e => e.cardId && e.quantity > 0);
             entriesRef.current = fetched;
             setEntries(fetched);
             setEntriesLoaded(true);
@@ -664,7 +657,7 @@ export default function DeckEditor() {
                                 const owned = bc.quantity;
                                 const plentiful = isBaseRune(card);
                                 const short = !plentiful && inDeck > owned;
-                                const banned = card.bannedIn?.includes('STANDARD');
+                                const banned = isBanned(card);
                                 return (
                                     <div key={card.cardId} className="tile relative flex flex-col gap-1.5 min-w-0">
                                         <button
@@ -731,7 +724,7 @@ export default function DeckEditor() {
                             </div>
                             {group.items.map(({ card, quantity, isSideboard }) => {
                                 const missing = missingById.get(card.cardId) ?? 0;
-                                const banned = card.bannedIn?.includes('STANDARD');
+                                const banned = isBanned(card);
                                 const fixed = card.type === 'LEGEND' || group.id === 'Champion';
                                 return (
                                     <div key={`${card.cardId}-${isSideboard}-${group.id}`} className={`flex flex-col gap-1.5 px-2 py-1.5 bg-surface border ${banned ? 'border-banned' : 'border-line'}`}>

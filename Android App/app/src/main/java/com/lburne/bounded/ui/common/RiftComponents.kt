@@ -50,14 +50,17 @@ fun RiftLabelText(text: String, modifier: Modifier = Modifier, color: Color = Ri
 }
 
 /**
- * A red "BANNED" tag for cards banned in Standard, or an amber "2V2 BAN" for cards banned
- * only in 2v2. Draws nothing for legal cards.
+ * A red "BANNED" tag for cards banned in Standard, an amber "2V2 BAN" for cards banned only in
+ * 2v2, or an amber "BANNED FROM 23 NOV" for a ban that's been announced but hasn't started.
+ * Draws nothing for legal cards.
  */
 @Composable
 fun BannedTag(card: Card, modifier: Modifier = Modifier, fontSize: Int = 11) {
+    val upcoming = card.upcomingBan()
     val (label, colour) = when {
         card.isBannedInStandard -> "Banned" to Rift.Banned
         card.isBannedIn2v2 -> "2v2 ban" to Rift.Banned2v2
+        upcoming != null -> "Banned from ${banDate(upcoming, short = true)}" to Rift.Banned2v2
         else -> return
     }
     Row(
@@ -69,6 +72,13 @@ fun BannedTag(card: Card, modifier: Modifier = Modifier, fontSize: Int = 11) {
         RiftLabelText(label, color = Color.White, style = RiftLabel.copy(fontSize = fontSize.sp))
     }
 }
+
+/** "23 November 2026", or "23 Nov" when [short]. Returns the input if it isn't a date. */
+fun banDate(iso: String, short: Boolean = false): String = runCatching {
+    java.time.LocalDate.parse(iso).format(
+        java.time.format.DateTimeFormatter.ofPattern(if (short) "d MMM" else "d MMMM yyyy", java.util.Locale.ENGLISH)
+    )
+}.getOrDefault(iso)
 
 /** Progress in gold, with a diamond marking where you are. */
 @Composable

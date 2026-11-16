@@ -32,15 +32,26 @@ data class Card(
     val effect: String? = null,
     /** Formats Riot bans this card in: "STANDARD" (1v1) and/or "2V2". From data/banned_cards.json. */
     val bannedIn: List<String>? = null,
-    /** When the ban took effect, e.g. "2026-03-31". */
+    /** When the ban takes effect, e.g. "2026-03-31". Until then the card is still legal. */
     val bannedSince: String? = null
 ) {
-    /** Banned in Standard, the format the deck builder checks against. */
-    val isBannedInStandard: Boolean get() = bannedIn?.contains(BAN_STANDARD) == true
-    val isBannedIn2v2: Boolean get() = bannedIn?.contains(BAN_2V2) == true
+    /** Banned in Standard today, the format the deck builder checks against. */
+    val isBannedInStandard: Boolean get() = isBannedIn(BAN_STANDARD)
+    val isBannedIn2v2: Boolean get() = isBannedIn(BAN_2V2)
+
+    /** Banned in [format] on [on] (YYYY-MM-DD): listed for that format, and the ban has started. */
+    fun isBannedIn(format: String, on: String = today()): Boolean =
+        bannedIn?.contains(format) == true && (bannedSince == null || bannedSince <= on)
+
+    /** The date an announced ban starts, while it hasn't started yet. */
+    fun upcomingBan(on: String = today()): String? =
+        bannedSince?.takeIf { !bannedIn.isNullOrEmpty() && it > on }
 
     companion object {
         const val BAN_STANDARD = "STANDARD"
         const val BAN_2V2 = "2V2"
+
+        /** Today in the phone's time zone, in the format [bannedSince] uses. */
+        fun today(): String = java.time.LocalDate.now().toString()
     }
 }
