@@ -63,6 +63,7 @@ export default function DeckEditor() {
     const [confirmAddAll, setConfirmAddAll] = useState(false);
     const [menuOpen, setMenuOpen] = useState(false);
     const [confirmDelete, setConfirmDelete] = useState(false);
+    const [askSideboard, setAskSideboard] = useState(false);
     const [notice, setNotice] = useState<string | null>(null);
 
     // The latest deck and entries, updated straight away on every edit. Edits read these
@@ -314,6 +315,16 @@ export default function DeckEditor() {
         const result = checkAdd(current, card.cardId, section, cardsById);
         if (result !== 'OK') return reject(result);
         applyEdit(card.cardId, section, quantityIn(section) + 1);
+
+        // The 40th main deck card: hold the picker on the main deck and ask before moving on.
+        // Otherwise it switches to the sideboard mid-clicking and the next click lands there.
+        if (step === 'MAIN' && section === 'MAIN' && (viewStep === null || viewStep === 'MAIN')) {
+            const after = latestContents();
+            if (after && rulesStep(after, cardsById) === 'SIDEBOARD') {
+                setViewStep('MAIN');
+                setAskSideboard(true);
+            }
+        }
     };
 
     const handleRemoveCard = (cardId: string, fromSideboard?: boolean) => {
@@ -798,6 +809,22 @@ export default function DeckEditor() {
                 </aside>
             </div>
 
+            {askSideboard && (
+                <Dialog
+                    title="Main deck complete"
+                    onClose={() => setAskSideboard(false)}
+                    footer={
+                        <div className="flex justify-end gap-2">
+                            <button type="button" className="btn-quiet" onClick={() => setAskSideboard(false)}>Not yet</button>
+                            <button type="button" className="btn-gold min-h-10 text-base" onClick={() => { setAskSideboard(false); setViewStep('SIDEBOARD'); }}>Add sideboard</button>
+                        </div>
+                    }
+                >
+                    <p className="text-parchment">
+                        Your main deck has {MAIN_DECK_MIN} cards. Add a sideboard now? It's optional, up to {SIDEBOARD_MAX} cards, and you can switch between the two from the step bar at any time.
+                    </p>
+                </Dialog>
+            )}
             {confirmDelete && (
                 <Dialog
                     title={`Delete "${deck.name}"?`}

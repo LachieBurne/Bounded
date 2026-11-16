@@ -29,7 +29,7 @@ import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.CameraAlt
 import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.Close
-import androidx.compose.material.icons.filled.FilterList
+import androidx.compose.material.icons.filled.Tune
 import androidx.compose.material.icons.filled.KeyboardArrowDown
 import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material.icons.filled.Search
@@ -419,7 +419,7 @@ private fun Toolbar(
             modifier = Modifier.height(40.dp)
         ) {
             BadgedBox(badge = { if (filter.activeCount > 0) Badge(containerColor = Rift.Gold, contentColor = Rift.OnGold) { Text(filter.activeCount.toString()) } }) {
-                Icon(Icons.Default.FilterList, contentDescription = null, tint = Rift.Ivory, modifier = Modifier.size(18.dp))
+                Icon(Icons.Default.Tune, contentDescription = null, tint = Rift.Ivory, modifier = Modifier.size(18.dp))
             }
             Text("FILTER", style = RiftNumber.copy(fontSize = 14.sp, letterSpacing = 0.8.sp), color = Rift.Ivory, modifier = Modifier.padding(start = 8.dp))
         }

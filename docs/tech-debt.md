@@ -14,6 +14,7 @@ A running list. Add to it when you leave something unfinished, and delete an ite
 | The gallery's Radiance data is unreliable | 23 cards had the wrong type (now taken from the image alt text), 30 had a missing or wrong domain (fixed by overrides, read from the printed icon), and tags may also be wrong (Meticulous Restorationist was tagged "Device" instead of "Piltover"; Nazuman Ntofo and Protector's Shield were missing "Equipment"; Shadows of the Past had an effect of "1"). Champion tags drive the deck rules. | Check the tags on the 23 retyped cards against the card art and add overrides. The generator now warns when a single-domain card's data doesn't match its printed icon. |
 | Domain overrides are permanent | If the gallery later corrects a Radiance domain, the override hides any further change | Once the gallery's Radiance data agrees with the art, remove the `domain` overrides from `card_overrides.json`. |
 | The ban list is kept by hand (`data/banned_cards.json`) | A new ban isn't shown until someone adds it; the last check was 2026-11-09, after the September 18 bans | Check the Riftbound Rules Hub when Riot announces bans and add them. |
+| No list of which cards have a Nexus Night promo | Every common and uncommon that isn't a rune offers a Nexus Night version, including cards that never had one | See "Nexus Night promo cards" in [card-backlog.md](card-backlog.md). Add the list, then narrow `Card.finishes`. |
 | OGN-235 Karma is fixed by an override | The official gallery still tags it Vi; if the gallery is corrected, the override becomes redundant | Remove the override from `data/card_overrides.json` once the gallery is fixed. |
 
 ## Security
@@ -42,6 +43,9 @@ A running list. Add to it when you leave something unfinished, and delete an ite
 | The deck editor's card picker has its own tile (`DeckBuilderGridItem`) and hard-coded white text | It looks different from the collection grid and ignores the theme | Move it onto `CardTile`/Gilded Rift colours when the deck editor is restyled. |
 | Decklists can only be imported by pasting | Sharing a list from a browser to the app doesn't work | Add an `ACTION_SEND` text intent filter that opens the import screen. |
 | The scanner only matches one card number per frame | Slow for bulk scanning | Revisit after the card ID scheme for promos is settled. |
+| The scanner reads a signature (`OGN-299*`) as its overnumbered card | Its main pattern ends in `\b`, which drops the `*`. Left as it is on purpose: the scan results have a Signature switch. | If the switch isn't enough, end the pattern with `(?![a-z0-9])` instead, and fall back to the plain number when the starred ID doesn't exist. |
+| The scanner doesn't match R-numbered runes (`SFD-R01a`, `VEN-R01`), tokens (`UNL-T01`) or `SP` cards | It pads the number to three digits (`R001a`), which no card ID has, and only allows an `R` prefix. Alternate arts on ordinary numbers (`OGN-027a`) scan fine. | Pad to the width the card IDs use, and allow `T` and `SP`. |
+| The scan results screen still has the pre-redesign purple styling | It doesn't match the rest of the app, and the foil, Nexus Night and Signature chips sit on it | Restyle it with the other Gilded Rift screens. |
 
 ## Web
 
@@ -50,6 +54,7 @@ A running list. Add to it when you leave something unfinished, and delete an ite
 | Deck tiles don't show whether a deck is legal | The deck list only has each deck's counts, not its cards, so a banned card only shows inside the deck | Store a legality flag on the deck document when it's saved (both apps), or load entries for the list. |
 | GitHub Pages still publishes 599 MB of old PNG card images | The APK linked from the README loads them, but they make the Pages site about 750 MB, near GitHub's 1 GB limit and slow to deploy | Replace the README's APK with a current build, then drop the PNGs from `deploy_pages.yml` (or the repository). |
 | The bundle is one 770 kB chunk (mostly Firebase) | Slower first load | Split routes with `React.lazy`, or load Firestore after sign-in. |
+| The web app doesn't show or edit foil and Nexus Night counts | It keeps them when it changes a card's total, but they can only be seen and set in the Android app. Card detail also has no way to move between an overnumbered card and its signature other than "Other printings". | Add finish steppers to the web card detail; see "Finishes" in [binders.md](binders.md). |
 | Collection stats charts were dropped in the redesign | The old Stats tab (cards by type and rarity) is gone; progress by binder and domain replaced it | Bring back a stats view if it's missed. |
 
 ## Prices
@@ -57,4 +62,5 @@ A running list. Add to it when you leave something unfinished, and delete an ite
 | Item | Why it matters | Next step |
 |---|---|---|
 | JustTCG's free tier (1,000 requests a month) limits refresh rates | Common cards refresh every 2 weeks | Revisit `REFRESH_DAYS` if the plan changes. |
+| Foil and Nexus Night copies have no prices of their own | `prices.json` has one price per card (the lowest JustTCG lists), so card detail, collection value and deck value price a foil or Nexus Night copy as a standard one | Have `update_prices.py` keep a price per finish (JustTCG returns a list of variants per card; Nexus Night promos are in its Organized Play set), then use it wherever the apps price a copy. Check the request budget first. |
 | Most promo sets aren't priced | No prices once promos are added | See "Prices" in [card-backlog.md](card-backlog.md). |

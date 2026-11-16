@@ -89,7 +89,7 @@ import com.lburne.bounded.ui.common.getCardBorderBrush
 import com.lburne.bounded.ui.common.getDomainColor
 import com.lburne.bounded.ui.common.rememberCardGridCells
 import androidx.compose.foundation.layout.BoxWithConstraints
-import androidx.compose.material.icons.filled.FilterList
+import androidx.compose.material.icons.filled.Tune
 import androidx.compose.material3.Badge
 import androidx.compose.material3.BadgedBox
 import androidx.compose.material3.VerticalDivider
@@ -147,6 +147,28 @@ fun DeckEditorScreen(
         viewModel.messages.collect { message ->
             android.widget.Toast.makeText(context, message, android.widget.Toast.LENGTH_SHORT).show()
         }
+    }
+
+    // The 40th main deck card: ask before moving on, rather than switching to the sideboard unasked.
+    var askSideboard by remember { mutableStateOf(false) }
+    LaunchedEffect(viewModel) {
+        viewModel.mainDeckFilled.collect { askSideboard = true }
+    }
+    if (askSideboard) {
+        AlertDialog(
+            onDismissRequest = { askSideboard = false },
+            title = { Text("Main deck complete") },
+            text = {
+                Text(
+                    "Your main deck has ${DeckRules.MAIN_DECK_MIN} cards. Add a sideboard now? " +
+                        "It's optional, up to ${DeckRules.SIDEBOARD_MAX} cards, and you can switch between the two at any time."
+                )
+            },
+            confirmButton = {
+                TextButton(onClick = { viewModel.choosePickerTarget(DeckStep.SIDEBOARD); askSideboard = false }) { Text("Add sideboard") }
+            },
+            dismissButton = { TextButton(onClick = { askSideboard = false }) { Text("Not yet") } }
+        )
     }
 
     // Counts & Stats
@@ -1002,7 +1024,7 @@ fun DeckBrowseTab(
                 )
                 IconButton(onClick = { showFilterSheet = true }) {
                     BadgedBox(badge = { if (filter.activeCount > 0) Badge { Text(filter.activeCount.toString()) } }) {
-                        Icon(Icons.Default.FilterList, contentDescription = "Filters")
+                        Icon(Icons.Default.Tune, contentDescription = "Filters")
                     }
                 }
             }

@@ -10,8 +10,23 @@ Everything lives under `users/{uid}/binders`.
 
 | Path | What it holds |
 |---|---|
-| `binders/main/entries/{cardId}` | The collection: `binderId` (`"main"`), `cardId`, `quantity`. An entry is deleted when its quantity reaches 0. |
+| `binders/main/entries/{cardId}` | The collection: `binderId` (`"main"`), `cardId`, `quantity`, and the finish counts `foil` and `nexusNight` (below). An entry is deleted when its quantity reaches 0. |
 | `binders/{binderId}` | A sub-binder definition, below. There's no `main` document, only its `entries`. |
+
+### Finishes
+
+A foil, or a Nexus Night promo, has the same number and art as the standard card, so it isn't a card of its own. The entry counts it instead:
+
+- `quantity` is every copy owned, whatever its finish. Deck "missing" counts, binder progress and filters all read this.
+- `foil` and `nexusNight` say how many of those copies are in that finish. The rest are standard. Both are 0 or absent for most cards.
+- Changing only the total adds standard copies, and removes standard copies first, then foil, then Nexus Night.
+- If the finish counts add up to more than `quantity`, apps cut them down to fit when they read the entry (Nexus Night is kept first).
+
+Commons and uncommons other than runes have finishes. There's no list yet of which cards have a Nexus Night promo, so every card with a foil offers one; see [card-backlog.md](card-backlog.md).
+
+Printings with their own number, such as alternate arts (`OGN-027a`) and signatures (`OGN-299*`), are separate cards with entries of their own.
+
+The Android app implements this in `data/model/BinderEntry.kt` and `data/model/Finish.kt`. The web app keeps the counts when it changes a total (`Web App/src/context/CardContext.tsx`) but doesn't show them yet.
 
 Sub-binder fields:
 
