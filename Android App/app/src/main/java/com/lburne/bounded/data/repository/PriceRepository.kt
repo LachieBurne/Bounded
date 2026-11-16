@@ -50,7 +50,7 @@ class PriceRepository(context: Context) {
             try {
                 client.newCall(request).execute().use { response ->
                     if (!response.isSuccessful) return@use
-                    val jsonString = response.body?.string() ?: return@use
+                    val jsonString = response.body.string()
                     val jsonObject = JSONObject(jsonString)
 
                     val newPrices = mutableMapOf<String, Double>()
@@ -77,7 +77,7 @@ class PriceRepository(context: Context) {
             try {
                 client.newCall(request).execute().use { response ->
                     if (!response.isSuccessful) return@use
-                    val jsonString = response.body?.string() ?: return@use
+                    val jsonString = response.body.string()
                     val json = JSONObject(jsonString)
                     val rates = json.getJSONObject("rates")
 

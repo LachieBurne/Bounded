@@ -1,8 +1,9 @@
 package com.lburne.bounded.ui.scanner
 
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.DisposableEffect
 import android.Manifest
+import android.content.pm.PackageManager
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.camera.core.CameraSelector
 import androidx.camera.core.ImageAnalysis
 import androidx.camera.core.Preview
@@ -25,34 +26,40 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.core.content.ContextCompat
+import androidx.lifecycle.compose.LifecycleResumeEffect
 import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.compose.AsyncImage
-import com.google.accompanist.permissions.ExperimentalPermissionsApi
-import com.google.accompanist.permissions.isGranted
-import com.google.accompanist.permissions.rememberPermissionState
 import com.lburne.bounded.data.model.Card
 
-@OptIn(ExperimentalPermissionsApi::class)
 @Composable
 fun ScannerScreen(
     onFinishScanning: (List<String>) -> Unit,
     onBack: () -> Unit,
     viewModel: ScannerViewModel = viewModel(factory = ScannerViewModel.Factory)
 ) {
-    val cameraPermissionState = rememberPermissionState(Manifest.permission.CAMERA)
-    
-    LaunchedEffect(Unit) {
-        if (!cameraPermissionState.status.isGranted) {
-            cameraPermissionState.launchPermissionRequest()
-        }
+    val context = LocalContext.current
+    fun hasCamera() =
+        ContextCompat.checkSelfPermission(context, Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED
+
+    var cameraGranted by remember { mutableStateOf(hasCamera()) }
+    val requestCamera = rememberLauncherForActivityResult(ActivityResultContracts.RequestPermission()) { granted ->
+        cameraGranted = granted
     }
 
-    if (cameraPermissionState.status.isGranted) {
+    LaunchedEffect(Unit) {
+        if (!cameraGranted) requestCamera.launch(Manifest.permission.CAMERA)
+    }
+    // Picks up a permission granted in system settings while the app was in the background.
+    LifecycleResumeEffect(Unit) {
+        cameraGranted = hasCamera()
+        onPauseOrDispose { }
+    }
+
+    if (cameraGranted) {
         CameraPreviewContainer(
             viewModel = viewModel,
             onFinishScanning = onFinishScanning,
@@ -69,7 +76,7 @@ fun ScannerScreen(
             Column(horizontalAlignment = Alignment.CenterHorizontally) {
                 Text("Camera permission is required to scan cards.", color = Color.White)
                 Spacer(modifier = Modifier.height(16.dp))
-                Button(onClick = { cameraPermissionState.launchPermissionRequest() }) {
+                Button(onClick = { requestCamera.launch(Manifest.permission.CAMERA) }) {
                     Text("Grant Permission")
                 }
             }
