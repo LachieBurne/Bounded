@@ -57,7 +57,11 @@ export interface Card {
 export interface BinderEntry {
     binderId: string;
     cardId: string;
+    /** Every copy owned. */
     quantity: number;
+    /** How many of those copies are foil, and how many are Nexus Night promos. The rest are standard. */
+    foil?: number;
+    nexusNight?: number;
 }
 
 export interface CardWithQuantity {

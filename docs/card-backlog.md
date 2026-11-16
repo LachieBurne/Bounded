@@ -97,7 +97,9 @@ The Organized Play promo set has about 143 Nexus Night-style promos across every
 - `/166` VEN
 - `/167` RAD
 
-Nearly all share their base card's number, so they wait on the ID decision (blocker 2). TCGplayer also sells a *Nexus Night Promo Pack* for OGN, SFD, UNL and VEN, which shows which cards came in each pack.
+The ones that are a common or uncommon with the same art and a stronger foil no longer need an ID: the collection counts them as a finish on the base card's entry (`nexusNight`, see [binders.md](binders.md)). What's missing is **the list of which cards have one**. Until it exists, the Android app offers a Nexus Night version of every common and uncommon that isn't a rune. When there is a list, keep it in `data/` (e.g. `data/nexus_night.json`, by card ID), have `generate_card_data.py` flag those cards, and narrow `Card.finishes` in `data/model/Finish.kt` to them.
+
+Any Nexus Night promos with their own art still share their base card's number, so they wait on the ID decision (blocker 2). TCGplayer also sells a *Nexus Night Promo Pack* for OGN, SFD, UNL and VEN, which shows which cards came in each pack.
 
 Similar small sets:
 - **Judge promos:** SFD-059 Svellsongur, VEN-086 Gangplank, UNL-087 Blue Sentinel, OGN-111 Heimerdinger.

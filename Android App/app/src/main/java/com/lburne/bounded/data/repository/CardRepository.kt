@@ -9,6 +9,7 @@ import com.lburne.bounded.data.local.DeckCardView
 import com.lburne.bounded.data.model.Binder
 import com.lburne.bounded.data.model.BinderEntry
 import com.lburne.bounded.data.model.Card
+import com.lburne.bounded.data.model.Copies
 import com.lburne.bounded.data.model.Deck
 import com.lburne.bounded.data.model.DeckEntry
 import com.lburne.bounded.data.model.DeckFormat
@@ -41,22 +42,38 @@ class CardRepository(
     fun getBinderCards(binderId: String): Flow<List<CardWithQuantity>> {
         return combine(cardDao.getAllCards(), firebaseRepo.getBinderEntries(binderId)) { cards, entries ->
             val entryMap = entries.associateBy { it.cardId }
-            cards.map { card ->
-                CardWithQuantity(card = card, quantity = entryMap[card.cardId]?.quantity ?: 0)
-            }
+            cards.map { card -> withQuantity(card, entryMap[card.cardId]) }
         }
     }
 
     fun getCardWithQuantity(cardId: String, binderId: String): Flow<CardWithQuantity> {
         return combine(cardDao.getCardFlow(cardId), firebaseRepo.getBinderEntries(binderId)) { card, entries ->
-            val qty = entries.find { it.cardId == cardId }?.quantity ?: 0
-            if (card != null) CardWithQuantity(card, qty) else throw IllegalStateException("Card Not Found")
+            if (card != null) withQuantity(card, entries.find { it.cardId == cardId }) else throw IllegalStateException("Card Not Found")
         }
     }
 
+    private fun withQuantity(card: Card, entry: BinderEntry?): CardWithQuantity {
+        val e = entry?.normalised() ?: return CardWithQuantity(card, 0)
+        return CardWithQuantity(card, e.quantity, e.foil, e.nexusNight)
+    }
+
+    /** Sets how many copies of a card are owned in all (see [BinderEntry.withTotal]). */
     suspend fun updateCardQuantity(binderId: String, cardId: String, newQuantity: Int) {
         if (newQuantity < 0) return
-        firebaseRepo.updateBinderEntry(BinderEntry(binderId, cardId, newQuantity))
+        val current = firebaseRepo.getBinderEntries(binderId).first().find { it.cardId == cardId }
+        firebaseRepo.updateBinderEntry((current ?: BinderEntry(binderId, cardId)).withTotal(newQuantity))
+    }
+
+    /**
+     * Adds copies to the collection by finish, one write per card. Negative counts remove
+     * copies; a change that would leave any finish below zero is skipped.
+     */
+    suspend fun addCopies(binderId: String, copies: Map<String, Copies>) {
+        val entries = firebaseRepo.getBinderEntries(binderId).first().associateBy { it.cardId }
+        for ((cardId, add) in copies) {
+            val updated = (entries[cardId] ?: BinderEntry(binderId, cardId)).adding(add) ?: continue
+            firebaseRepo.updateBinderEntry(updated)
+        }
     }
 
     fun saveBinder(binder: Binder) = firebaseRepo.saveBinder(binder)

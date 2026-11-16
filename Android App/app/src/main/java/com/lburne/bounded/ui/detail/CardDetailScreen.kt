@@ -1,6 +1,18 @@
 package com.lburne.bounded.ui.detail
 
+import androidx.compose.animation.core.LinearEasing
+import androidx.compose.animation.core.RepeatMode
+import androidx.compose.animation.core.animateFloat
+import androidx.compose.animation.core.infiniteRepeatable
+import androidx.compose.animation.core.rememberInfiniteTransition
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.pager.HorizontalPager
+import androidx.compose.foundation.pager.PageSize
+import androidx.compose.foundation.pager.PagerState
+import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -33,12 +45,17 @@ import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.blur
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.drawWithContent
 import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.graphics.BlendMode
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
@@ -54,16 +71,20 @@ import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.withStyle
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import coil.compose.SubcomposeAsyncImage
 import coil.request.ImageRequest
-import com.lburne.bounded.data.local.CardWithQuantity
 import com.lburne.bounded.data.model.Card
 import com.lburne.bounded.data.model.CardType
 import androidx.compose.ui.text.style.TextAlign
 import com.lburne.bounded.data.model.Domain
+import com.lburne.bounded.data.model.Finish
+import com.lburne.bounded.data.model.finishes
+import kotlinx.coroutines.launch
+import kotlin.math.absoluteValue
 import com.lburne.bounded.ui.common.EnergyToken
 import com.lburne.bounded.ui.common.RarityGem
 import com.lburne.bounded.ui.common.RiftLabelText
@@ -104,8 +125,11 @@ fun CardDetailScreen(
         return
     }
 
-    val item = state.card
-    val card = item.card
+    // The card's versions sit side by side: swipe between them, or tap a name under the art.
+    val variants = state.variants
+    val pagerState = rememberPagerState(initialPage = state.openedIndex) { variants.size }
+    val variant = variants[pagerState.currentPage.coerceIn(variants.indices)]
+    val card = variant.card
 
     BoxWithConstraints(Modifier.fillMaxSize().background(Rift.Ink)) {
         val sideBySide = maxWidth > maxHeight && maxWidth >= 560.dp
@@ -131,8 +155,12 @@ fun CardDetailScreen(
                     Modifier.fillMaxSize().padding(horizontal = 24.dp, vertical = 8.dp),
                     horizontalArrangement = Arrangement.spacedBy(32.dp)
                 ) {
-                    Box(Modifier.weight(1f).fillMaxHeight(), contentAlignment = Alignment.Center) {
-                        CardArt(card)
+                    Column(
+                        Modifier.weight(1f).fillMaxHeight(),
+                        horizontalAlignment = Alignment.CenterHorizontally,
+                        verticalArrangement = Arrangement.Center
+                    ) {
+                        VariantPager(variants, pagerState, maxArtHeight = viewportHeight * 0.68f)
                     }
                     Column(
                         Modifier
@@ -141,25 +169,78 @@ fun CardDetailScreen(
                             .verticalScroll(rememberScrollState()),
                         verticalArrangement = Arrangement.spacedBy(12.dp, Alignment.CenterVertically)
                     ) {
-                        CardInfo(item, state.price, currencySymbol, viewModel)
+                        CardInfo(variant, currencySymbol, viewModel)
                     }
                 }
             } else {
                 Column(
                     Modifier
                         .fillMaxSize()
-                        .verticalScroll(rememberScrollState())
-                        .padding(horizontal = 16.dp),
+                        .verticalScroll(rememberScrollState()),
                     horizontalAlignment = Alignment.CenterHorizontally,
                     verticalArrangement = Arrangement.spacedBy(12.dp)
                 ) {
                     // Art at most about 45% of the screen height, so the details start on screen.
-                    val artRatio = if (card.isLandscape) 88f / 63f else 63f / 88f
-                    Box(Modifier.widthIn(max = viewportHeight * 0.45f * artRatio).padding(top = 4.dp, bottom = 8.dp)) {
-                        CardArt(card)
+                    VariantPager(variants, pagerState, maxArtHeight = viewportHeight * 0.45f, modifier = Modifier.padding(top = 4.dp))
+                    Box(Modifier.padding(horizontal = 16.dp)) {
+                        CardInfo(variant, currencySymbol, viewModel)
                     }
-                    CardInfo(item, state.price, currencySymbol, viewModel)
                     Spacer(Modifier.height(24.dp))
+                }
+            }
+        }
+    }
+}
+
+/**
+ * The card's art, one page per version, with the versions either side showing at the edges
+ * so it's clear there's something to swipe to. Their names sit underneath; tap one to go to it.
+ * A card with one version is just its art.
+ */
+@Composable
+private fun VariantPager(variants: List<CardVariant>, state: PagerState, maxArtHeight: Dp, modifier: Modifier = Modifier) {
+    val scope = rememberCoroutineScope()
+    Column(modifier.fillMaxWidth(), horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.spacedBy(4.dp)) {
+        BoxWithConstraints(Modifier.fillMaxWidth()) {
+            val ratio = if (variants.first().card.isLandscape) 88f / 63f else 63f / 88f
+            val edge = if (variants.size > 1) 44.dp else 16.dp
+            val pageWidth = minOf(maxWidth - edge * 2, maxArtHeight * ratio)
+            HorizontalPager(
+                state = state,
+                pageSize = PageSize.Fixed(pageWidth),
+                pageSpacing = 14.dp,
+                // Room above and below for the art's shadow.
+                contentPadding = PaddingValues(horizontal = (maxWidth - pageWidth) / 2, vertical = 10.dp),
+                modifier = Modifier.fillMaxWidth().height(pageWidth / ratio + 20.dp)
+            ) { page ->
+                val distance = ((state.currentPage - page) + state.currentPageOffsetFraction).absoluteValue.coerceIn(0f, 1f)
+                Box(
+                    Modifier
+                        .graphicsLayer {
+                            alpha = 1f - 0.5f * distance
+                            scaleX = 1f - 0.06f * distance
+                            scaleY = 1f - 0.06f * distance
+                        }
+                        .clickable(enabled = page != state.currentPage, onClickLabel = "Show ${variants[page].label}") {
+                            scope.launch { state.animateScrollToPage(page) }
+                        }
+                ) {
+                    CardArt(variants[page].card, variants[page].finish)
+                }
+            }
+        }
+        if (variants.size > 1) {
+            Row(horizontalArrangement = Arrangement.spacedBy(4.dp), verticalAlignment = Alignment.CenterVertically) {
+                variants.forEachIndexed { index, option ->
+                    val current = index == state.currentPage
+                    Text(
+                        option.label.uppercase(),
+                        style = RiftLabel.copy(fontSize = 12.sp),
+                        color = if (current) Rift.Gold else Rift.Muted,
+                        modifier = Modifier
+                            .clickable(enabled = !current) { scope.launch { state.animateScrollToPage(index) } }
+                            .padding(horizontal = 8.dp, vertical = 8.dp)
+                    )
                 }
             }
         }
@@ -205,7 +286,7 @@ private fun ArtBackdrop(card: Card, modifier: Modifier) {
 }
 
 @Composable
-private fun CardArt(card: Card) {
+private fun CardArt(card: Card, finish: Finish = Finish.STANDARD) {
     val context = LocalContext.current
     SubcomposeAsyncImage(
         model = ImageRequest.Builder(context).data(card.imageUrl).crossfade(true).build(),
@@ -216,12 +297,51 @@ private fun CardArt(card: Card) {
             .shadow(24.dp, RoundedCornerShape(12.dp))
             .clip(RoundedCornerShape(12.dp))
             .border(1.dp, Rift.GoldDeep, RoundedCornerShape(12.dp))
+            .foilShimmer(finish)
     )
 }
 
+/**
+ * A band of light sweeping across foil art: white for a foil, and a brighter rainbow for the
+ * Nexus Night promos' stronger foil. Nothing for a standard card.
+ */
 @Composable
-private fun CardInfo(item: CardWithQuantity, price: Double?, currencySymbol: String, viewModel: CardDetailViewModel) {
-    val card = item.card
+private fun Modifier.foilShimmer(finish: Finish): Modifier {
+    if (finish == Finish.STANDARD) return this
+    val nexus = finish == Finish.NEXUS_NIGHT
+    val sweep by rememberInfiniteTransition(label = "foil").animateFloat(
+        initialValue = 0f,
+        targetValue = 1f,
+        animationSpec = infiniteRepeatable(tween(if (nexus) 2600 else 3400, easing = LinearEasing), RepeatMode.Restart),
+        label = "sweep"
+    )
+    val colours = if (nexus) {
+        listOf(
+            Color.Transparent,
+            Color(0xFFFF4FD8).copy(alpha = 0.26f),
+            Color(0xFF4FE3FF).copy(alpha = 0.34f),
+            Color(0xFFFFF36B).copy(alpha = 0.26f),
+            Color.Transparent
+        )
+    } else {
+        listOf(Color.Transparent, Color.White.copy(alpha = 0.10f), Color.White.copy(alpha = 0.32f), Color.White.copy(alpha = 0.10f), Color.Transparent)
+    }
+    return drawWithContent {
+        drawContent()
+        // The band is as wide as the card and slanted; it starts off the left edge and leaves off the right.
+        val band = size.width
+        val x = -band + sweep * (size.width + band)
+        drawRect(
+            brush = Brush.linearGradient(colours, start = Offset(x, 0f), end = Offset(x + band, size.height * 0.5f)),
+            blendMode = BlendMode.Screen
+        )
+    }
+}
+
+@Composable
+private fun CardInfo(variant: CardVariant, currencySymbol: String, viewModel: CardDetailViewModel) {
+    val card = variant.card
+    val hasFinishes = card.finishes.size > 1
     Column(Modifier.fillMaxWidth(), verticalArrangement = Arrangement.spacedBy(12.dp)) {
         Column {
             RiftLabelText(typeLine(card), color = Rift.Gold, modifier = Modifier.padding(start = 4.dp))
@@ -242,7 +362,16 @@ private fun CardInfo(item: CardWithQuantity, price: Double?, currencySymbol: Str
 
         StatsRow(card)
 
-        OwnedPanel(item.quantity, price, currencySymbol, viewModel)
+        OwnedPanel(
+            quantity = variant.owned,
+            // With finishes, say which one this count is, and how many copies there are in all.
+            label = if (hasFinishes) "Owned · ${variant.label}" else "Owned",
+            total = variant.item.quantity.takeIf { hasFinishes && it != variant.owned },
+            price = variant.price,
+            currencySymbol = currencySymbol,
+            onDecrement = { viewModel.decrement(variant) },
+            onIncrement = { viewModel.increment(variant) }
+        )
 
         val rules = card.text?.takeIf { it.isNotBlank() && it != "[NO TEXT]" }
         // Equipment prints what it gives the unit it's attached to in a box of its own,
@@ -338,7 +467,15 @@ private fun StatsRow(card: Card) {
 }
 
 @Composable
-private fun OwnedPanel(quantity: Int, price: Double?, currencySymbol: String, viewModel: CardDetailViewModel) {
+private fun OwnedPanel(
+    quantity: Int,
+    label: String,
+    total: Int?,
+    price: Double?,
+    currencySymbol: String,
+    onDecrement: () -> Unit,
+    onIncrement: () -> Unit
+) {
     Row(
         Modifier
             .fillMaxWidth()
@@ -349,15 +486,18 @@ private fun OwnedPanel(quantity: Int, price: Double?, currencySymbol: String, vi
         horizontalArrangement = Arrangement.spacedBy(12.dp)
     ) {
         Column(Modifier.weight(1f)) {
-            RiftLabelText("Owned", color = Rift.Muted, style = RiftLabel.copy(fontSize = 13.sp))
+            RiftLabelText(label, color = Rift.Muted, style = RiftLabel.copy(fontSize = 13.sp))
             Text(
                 if (price != null && price > 0) "$currencySymbol${String.format(java.util.Locale.US, "%,.2f", price)} each" else "No price yet",
                 fontSize = 13.sp,
                 color = if (price != null && price > 0) Rift.Gold else Rift.Muted
             )
+            if (total != null) {
+                Text("$total ${if (total == 1) "copy" else "copies"} in all", fontSize = 13.sp, color = Rift.Muted)
+            }
         }
         FilledIconButton(
-            onClick = { viewModel.decrementQuantity() },
+            onClick = onDecrement,
             enabled = quantity > 0,
             shape = RectangleShape,
             colors = IconButtonDefaults.filledIconButtonColors(containerColor = Rift.Raised, contentColor = Rift.Ivory),
@@ -371,7 +511,7 @@ private fun OwnedPanel(quantity: Int, price: Double?, currencySymbol: String, vi
             modifier = Modifier.widthIn(min = 36.dp)
         )
         FilledIconButton(
-            onClick = { viewModel.incrementQuantity() },
+            onClick = onIncrement,
             shape = RectangleShape,
             colors = IconButtonDefaults.filledIconButtonColors(containerColor = Rift.Gold, contentColor = Rift.OnGold),
             modifier = Modifier.size(48.dp)

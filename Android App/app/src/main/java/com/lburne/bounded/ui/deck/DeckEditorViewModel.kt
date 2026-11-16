@@ -145,6 +145,10 @@ class DeckEditorViewModel(
     private val _messages = MutableSharedFlow<String>(extraBufferCapacity = 4)
     val messages: SharedFlow<String> = _messages.asSharedFlow()
 
+    /** Fires when a tap in the picker brings the main deck to 40, so the screen can ask what's next. */
+    private val _mainDeckFilled = MutableSharedFlow<Unit>(extraBufferCapacity = 1)
+    val mainDeckFilled: SharedFlow<Unit> = _mainDeckFilled.asSharedFlow()
+
     val cardPrices: StateFlow<Map<String, Double>> = combine(
         priceRepository.prices,
         priceRepository.rate // Re-convert when the currency or exchange rates change
@@ -373,8 +377,19 @@ class DeckEditorViewModel(
                 }
                 setQuantity(d, contents, cards, card.cardId, DeckSection.MAIN, contents.quantity(card.cardId, DeckSection.MAIN) + 1, championId = card.cardId)
             }
-            DeckStep.RUNES, DeckStep.BATTLEFIELDS, DeckStep.MAIN ->
+            DeckStep.RUNES, DeckStep.BATTLEFIELDS ->
                 addOne(d, contents, cards, card.cardId, DeckSection.MAIN)
+            DeckStep.MAIN -> {
+                // Hold the picker on the main deck when this card completes it. Otherwise it
+                // switches to the sideboard mid-tapping and the next tap lands there. The
+                // screen asks before moving on.
+                pickerTarget.value = DeckStep.MAIN
+                addOne(d, contents, cards, card.cardId, DeckSection.MAIN)
+                val after = deckContents.value
+                if (after != null && DeckRules.currentStep(after, cards) == DeckStep.SIDEBOARD) {
+                    _mainDeckFilled.tryEmit(Unit)
+                }
+            }
             DeckStep.SIDEBOARD, DeckStep.COMPLETE ->
                 addOne(d, contents, cards, card.cardId, pickerSection())
         }

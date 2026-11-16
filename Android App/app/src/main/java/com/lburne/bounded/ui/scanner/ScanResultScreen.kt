@@ -22,6 +22,8 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import com.lburne.bounded.data.model.Card
+import com.lburne.bounded.data.model.Finish
+import com.lburne.bounded.data.model.finishes
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -33,6 +35,8 @@ fun ScanResultScreen(
 ) {
     val scannedCards by viewModel.scannedCards.collectAsState()
     val selectedIndices by viewModel.selectedIndices.collectAsState()
+    val signatureSiblings by viewModel.signatureSiblings.collectAsState()
+    val finishes by viewModel.finishes.collectAsState()
 
     LaunchedEffect(scannedCardIds) {
         viewModel.loadScannedCards(scannedCardIds)
@@ -120,7 +124,11 @@ fun ScanResultScreen(
                         isSelected = isSelected,
                         price = price,
                         currency = currency,
-                        onClick = { viewModel.toggleSelection(index) }
+                        onClick = { viewModel.toggleSelection(index) },
+                        isSignature = if (card.cardId in signatureSiblings) card.cardId.endsWith("*") else null,
+                        onToggleSignature = { viewModel.toggleSignature(index) },
+                        finish = finishes[index] ?: Finish.STANDARD,
+                        onToggleFinish = { viewModel.toggleFinish(index, it) }
                     )
                 }
             }
@@ -128,13 +136,19 @@ fun ScanResultScreen(
     }
 }
 
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalLayoutApi::class)
 @Composable
 fun ScanResultCardItem(
     card: Card,
     isSelected: Boolean,
     price: Double?,
     currency: String,
-    onClick: () -> Unit
+    onClick: () -> Unit,
+    /** Whether this is the signature printing, or null when the card has no signature version. */
+    isSignature: Boolean? = null,
+    onToggleSignature: () -> Unit = {},
+    finish: Finish = Finish.STANDARD,
+    onToggleFinish: (Finish) -> Unit = {}
 ) {
     Card(
         modifier = Modifier
@@ -192,6 +206,28 @@ fun ScanResultCardItem(
                     color = Color.Green.copy(alpha = 0.8f),
                     fontWeight = FontWeight.Bold
                 )
+
+                // A foil or a signature has the same number as the plain card, so the scanner
+                // can't tell them apart. These say which one was scanned.
+                val otherFinishes = card.finishes - Finish.STANDARD
+                if (isSignature != null || otherFinishes.isNotEmpty()) {
+                    FlowRow(horizontalArrangement = Arrangement.spacedBy(6.dp)) {
+                        otherFinishes.forEach { option ->
+                            FilterChip(
+                                selected = finish == option,
+                                onClick = { onToggleFinish(option) },
+                                label = { Text(option.label) }
+                            )
+                        }
+                        if (isSignature != null) {
+                            FilterChip(
+                                selected = isSignature,
+                                onClick = onToggleSignature,
+                                label = { Text("Signature") }
+                            )
+                        }
+                    }
+                }
             }
         }
     }
