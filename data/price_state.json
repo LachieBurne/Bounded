@@ -158,21 +158,21 @@
     },
     "OGN-025": {
       "ids": {
-        "riftbound-league-of-legends-trading-card-game-origins-blind-fury-rare": 0.18
+        "riftbound-league-of-legends-trading-card-game-origins-blind-fury-rare": 0.19
       },
-      "updated": "2026-11-09"
+      "updated": "2026-11-16"
     },
     "OGN-026": {
       "ids": {
         "riftbound-league-of-legends-trading-card-game-origins-brynhir-thundersong-rare": 0.1
       },
-      "updated": "2026-11-09"
+      "updated": "2026-11-16"
     },
     "OGN-027": {
       "ids": {
         "riftbound-league-of-legends-trading-card-game-origins-darius-trifarian-rare": 0.79
       },
-      "updated": "2026-11-09"
+      "updated": "2026-11-16"
     },
     "OGN-027a": {
       "ids": {
@@ -184,19 +184,19 @@
       "ids": {
         "riftbound-league-of-legends-trading-card-game-origins-draven-showboat-rare": 0.26
       },
-      "updated": "2026-11-09"
+      "updated": "2026-11-16"
     },
     "OGN-029": {
       "ids": {
         "riftbound-league-of-legends-trading-card-game-origins-falling-star-rare": 4.99
       },
-      "updated": "2026-11-09"
+      "updated": "2026-11-16"
     },
     "OGN-030": {
       "ids": {
         "riftbound-league-of-legends-trading-card-game-origins-jinx-demolitionist-rare": 0.15
       },
-      "updated": "2026-11-09"
+      "updated": "2026-11-16"
     },
     "OGN-030a": {
       "ids": {
@@ -208,37 +208,37 @@
       "ids": {
         "riftbound-league-of-legends-trading-card-game-origins-raging-firebrand-rare": 0.17
       },
-      "updated": "2026-11-09"
+      "updated": "2026-11-16"
     },
     "OGN-032": {
       "ids": {
-        "riftbound-league-of-legends-trading-card-game-origins-ravenborn-tome-rare": 0.12
+        "riftbound-league-of-legends-trading-card-game-origins-ravenborn-tome-rare": 0.14
       },
-      "updated": "2026-11-09"
+      "updated": "2026-11-16"
     },
     "OGN-033": {
       "ids": {
         "riftbound-league-of-legends-trading-card-game-origins-shakedown-rare": 0.15
       },
-      "updated": "2026-11-09"
+      "updated": "2026-11-16"
     },
     "OGN-034": {
       "ids": {
-        "riftbound-league-of-legends-trading-card-game-origins-tryndamere-barbarian-rare": 0.25
+        "riftbound-league-of-legends-trading-card-game-origins-tryndamere-barbarian-rare": 0.22
       },
-      "updated": "2026-11-09"
+      "updated": "2026-11-16"
     },
     "OGN-035": {
       "ids": {
         "riftbound-league-of-legends-trading-card-game-origins-vayne-hunter-rare": 0.37
       },
-      "updated": "2026-11-09"
+      "updated": "2026-11-16"
     },
     "OGN-036": {
       "ids": {
-        "riftbound-league-of-legends-trading-card-game-origins-vi-destructive-rare": 0.3
+        "riftbound-league-of-legends-trading-card-game-origins-vi-destructive-rare": 0.27
       },
-      "updated": "2026-11-09"
+      "updated": "2026-11-16"
     },
     "OGN-037": {
       "ids": {
@@ -442,7 +442,7 @@
       "ids": {
         "riftbound-league-of-legends-trading-card-game-origins-ahri-alluring-rare": 0.15
       },
-      "updated": "2026-11-09"
+      "updated": "2026-11-16"
     },
     "OGN-066a": {
       "ids": {
@@ -452,63 +452,63 @@
     },
     "OGN-067": {
       "ids": {
-        "riftbound-league-of-legends-trading-card-game-origins-blitzcrank-impassive-rare": 2.29
+        "riftbound-league-of-legends-trading-card-game-origins-blitzcrank-impassive-rare": 2.34
       },
-      "updated": "2026-11-09"
+      "updated": "2026-11-16"
     },
     "OGN-068": {
       "ids": {
         "riftbound-league-of-legends-trading-card-game-origins-caitlyn-patrolling-rare": 0.32
       },
-      "updated": "2026-11-09"
+      "updated": "2026-11-16"
     },
     "OGN-069": {
       "ids": {
         "riftbound-league-of-legends-trading-card-game-origins-last-stand-rare": 0.22
       },
-      "updated": "2026-11-09"
+      "updated": "2026-11-16"
     },
     "OGN-070": {
       "ids": {
         "riftbound-league-of-legends-trading-card-game-origins-mageseeker-warden-rare": 0.18
       },
-      "updated": "2026-11-09"
+      "updated": "2026-11-16"
     },
     "OGN-071": {
       "ids": {
         "riftbound-league-of-legends-trading-card-game-origins-party-favors-rare": 0.25
       },
-      "updated": "2026-11-09"
+      "updated": "2026-11-16"
     },
     "OGN-072": {
       "ids": {
-        "riftbound-league-of-legends-trading-card-game-origins-solari-shrine-rare": 0.14
+        "riftbound-league-of-legends-trading-card-game-origins-solari-shrine-rare": 0.15
       },
-      "updated": "2026-11-09"
+      "updated": "2026-11-16"
     },
     "OGN-073": {
       "ids": {
-        "riftbound-league-of-legends-trading-card-game-origins-sona-harmonious-rare": 1.2
+        "riftbound-league-of-legends-trading-card-game-origins-sona-harmonious-rare": 1.4
       },
-      "updated": "2026-11-09"
+      "updated": "2026-11-16"
     },
     "OGN-074": {
       "ids": {
-        "riftbound-league-of-legends-trading-card-game-origins-taric-protector-rare": 0.22
+        "riftbound-league-of-legends-trading-card-game-origins-taric-protector-rare": 0.25
       },
-      "updated": "2026-11-09"
+      "updated": "2026-11-16"
     },
     "OGN-075": {
       "ids": {
-        "riftbound-league-of-legends-trading-card-game-origins-tasty-faefolk-rare": 0.39
+        "riftbound-league-of-legends-trading-card-game-origins-tasty-faefolk-rare": 0.42
       },
-      "updated": "2026-11-09"
+      "updated": "2026-11-16"
     },
     "OGN-076": {
       "ids": {
-        "riftbound-league-of-legends-trading-card-game-origins-yasuo-remorseful-rare": 0.32
+        "riftbound-league-of-legends-trading-card-game-origins-yasuo-remorseful-rare": 0.28
       },
-      "updated": "2026-11-09"
+      "updated": "2026-11-16"
     },
     "OGN-076a": {
       "ids": {
@@ -518,9 +518,9 @@
     },
     "OGN-077": {
       "ids": {
-        "riftbound-league-of-legends-trading-card-game-origins-zhonya-s-hourglass-rare": 9.99
+        "riftbound-league-of-legends-trading-card-game-origins-zhonya-s-hourglass-rare": 1.59
       },
-      "updated": "2026-11-09"
+      "updated": "2026-11-16"
     },
     "OGN-078": {
       "ids": {
@@ -724,37 +724,37 @@
       "ids": {
         "riftbound-league-of-legends-trading-card-game-origins-ava-achiever-rare": 0.04
       },
-      "updated": "2026-11-09"
+      "updated": "2026-11-16"
     },
     "OGN-108": {
       "ids": {
-        "riftbound-league-of-legends-trading-card-game-origins-convergent-mutation-rare": 0.12
+        "riftbound-league-of-legends-trading-card-game-origins-convergent-mutation-rare": 0.13
       },
-      "updated": "2026-11-09"
+      "updated": "2026-11-16"
     },
     "OGN-109": {
       "ids": {
-        "riftbound-league-of-legends-trading-card-game-origins-dr-mundo-expert-rare": 0.33
+        "riftbound-league-of-legends-trading-card-game-origins-dr-mundo-expert-rare": 0.31
       },
-      "updated": "2026-11-09"
+      "updated": "2026-11-16"
     },
     "OGN-110": {
       "ids": {
         "riftbound-league-of-legends-trading-card-game-origins-ekko-recurrent-rare": 0.25
       },
-      "updated": "2026-11-09"
+      "updated": "2026-11-16"
     },
     "OGN-111": {
       "ids": {
         "riftbound-league-of-legends-trading-card-game-origins-heimerdinger-inventor-rare": 0.28
       },
-      "updated": "2026-11-09"
+      "updated": "2026-11-16"
     },
     "OGN-112": {
       "ids": {
-        "riftbound-league-of-legends-trading-card-game-origins-kai-sa-evolutionary-rare": 0.28
+        "riftbound-league-of-legends-trading-card-game-origins-kai-sa-evolutionary-rare": 0.33
       },
-      "updated": "2026-11-09"
+      "updated": "2026-11-16"
     },
     "OGN-112a": {
       "ids": {
@@ -764,33 +764,33 @@
     },
     "OGN-113": {
       "ids": {
-        "riftbound-league-of-legends-trading-card-game-origins-malzahar-fanatic-rare": 0.23
+        "riftbound-league-of-legends-trading-card-game-origins-malzahar-fanatic-rare": 0.22
       },
-      "updated": "2026-11-09"
+      "updated": "2026-11-16"
     },
     "OGN-114": {
       "ids": {
-        "riftbound-league-of-legends-trading-card-game-origins-progress-day-rare": 0.44
+        "riftbound-league-of-legends-trading-card-game-origins-progress-day-rare": 0.49
       },
-      "updated": "2026-11-09"
+      "updated": "2026-11-16"
     },
     "OGN-115": {
       "ids": {
-        "riftbound-league-of-legends-trading-card-game-origins-promising-future-rare": 0.32
+        "riftbound-league-of-legends-trading-card-game-origins-promising-future-rare": 0.36
       },
-      "updated": "2026-11-09"
+      "updated": "2026-11-16"
     },
     "OGN-116": {
       "ids": {
         "riftbound-league-of-legends-trading-card-game-origins-thousand-tailed-watcher-rare": 15.0
       },
-      "updated": "2026-11-09"
+      "updated": "2026-11-16"
     },
     "OGN-117": {
       "ids": {
-        "riftbound-league-of-legends-trading-card-game-origins-viktor-innovator-rare": 0.17
+        "riftbound-league-of-legends-trading-card-game-origins-viktor-innovator-rare": 0.24
       },
-      "updated": "2026-11-09"
+      "updated": "2026-11-16"
     },
     "OGN-117a": {
       "ids": {
@@ -802,7 +802,7 @@
       "ids": {
         "riftbound-league-of-legends-trading-card-game-origins-wraith-of-echoes-rare": 0.01
       },
-      "updated": "2026-11-09"
+      "updated": "2026-11-16"
     },
     "OGN-119": {
       "ids": {
@@ -1004,27 +1004,27 @@
     },
     "OGN-148": {
       "ids": {
-        "riftbound-league-of-legends-trading-card-game-origins-anivia-primal-rare": 0.28
+        "riftbound-league-of-legends-trading-card-game-origins-anivia-primal-rare": 0.25
       },
-      "updated": "2026-11-09"
+      "updated": "2026-11-16"
     },
     "OGN-149": {
       "ids": {
         "riftbound-league-of-legends-trading-card-game-origins-carnivorous-snapvine-rare": 0.19
       },
-      "updated": "2026-11-09"
+      "updated": "2026-11-16"
     },
     "OGN-150": {
       "ids": {
-        "riftbound-league-of-legends-trading-card-game-origins-kraken-hunter-rare": 0.18
+        "riftbound-league-of-legends-trading-card-game-origins-kraken-hunter-rare": 0.15
       },
-      "updated": "2026-11-09"
+      "updated": "2026-11-16"
     },
     "OGN-151": {
       "ids": {
         "riftbound-league-of-legends-trading-card-game-origins-lee-sin-centered-rare": 0.22
       },
-      "updated": "2026-11-09"
+      "updated": "2026-11-16"
     },
     "OGN-151a": {
       "ids": {
@@ -1042,43 +1042,43 @@
       "ids": {
         "riftbound-league-of-legends-trading-card-game-origins-mistfall-rare": 0.14
       },
-      "updated": "2026-11-09"
+      "updated": "2026-11-16"
     },
     "OGN-153": {
       "ids": {
         "riftbound-league-of-legends-trading-card-game-origins-overt-operation-rare": 0.21
       },
-      "updated": "2026-11-09"
+      "updated": "2026-11-16"
     },
     "OGN-154": {
       "ids": {
-        "riftbound-league-of-legends-trading-card-game-origins-primal-strength-rare": 0.27
+        "riftbound-league-of-legends-trading-card-game-origins-primal-strength-rare": 0.25
       },
-      "updated": "2026-11-09"
+      "updated": "2026-11-16"
     },
     "OGN-155": {
       "ids": {
-        "riftbound-league-of-legends-trading-card-game-origins-qiyana-victorious-rare": 0.53
+        "riftbound-league-of-legends-trading-card-game-origins-qiyana-victorious-rare": 0.32
       },
-      "updated": "2026-11-09"
+      "updated": "2026-11-16"
     },
     "OGN-156": {
       "ids": {
-        "riftbound-league-of-legends-trading-card-game-origins-sabotage-rare": 7.66
+        "riftbound-league-of-legends-trading-card-game-origins-sabotage-rare": 10.0
       },
-      "updated": "2026-11-09"
+      "updated": "2026-11-16"
     },
     "OGN-157": {
       "ids": {
         "riftbound-league-of-legends-trading-card-game-origins-udyr-wildman-rare": 0.15
       },
-      "updated": "2026-11-09"
+      "updated": "2026-11-16"
     },
     "OGN-158": {
       "ids": {
-        "riftbound-league-of-legends-trading-card-game-origins-volibear-imposing-rare": 0.27
+        "riftbound-league-of-legends-trading-card-game-origins-volibear-imposing-rare": 0.22
       },
-      "updated": "2026-11-09"
+      "updated": "2026-11-16"
     },
     "OGN-158a": {
       "ids": {
@@ -1088,9 +1088,9 @@
     },
     "OGN-159": {
       "ids": {
-        "riftbound-league-of-legends-trading-card-game-origins-warwick-hunter-rare": 0.32
+        "riftbound-league-of-legends-trading-card-game-origins-warwick-hunter-rare": 0.33
       },
-      "updated": "2026-11-09"
+      "updated": "2026-11-16"
     },
     "OGN-160": {
       "ids": {
@@ -1292,33 +1292,33 @@
     },
     "OGN-189": {
       "ids": {
-        "riftbound-league-of-legends-trading-card-game-origins-kayn-unleashed-rare": 0.3
+        "riftbound-league-of-legends-trading-card-game-origins-kayn-unleashed-rare": 0.26
       },
-      "updated": "2026-11-09"
+      "updated": "2026-11-16"
     },
     "OGN-190": {
       "ids": {
-        "riftbound-league-of-legends-trading-card-game-origins-kog-maw-caustic-rare": 0.27
+        "riftbound-league-of-legends-trading-card-game-origins-kog-maw-caustic-rare": 0.25
       },
-      "updated": "2026-11-09"
+      "updated": "2026-11-16"
     },
     "OGN-191": {
       "ids": {
-        "riftbound-league-of-legends-trading-card-game-origins-maddened-marauder-rare": 0.13
+        "riftbound-league-of-legends-trading-card-game-origins-maddened-marauder-rare": 0.11
       },
-      "updated": "2026-11-09"
+      "updated": "2026-11-16"
     },
     "OGN-192": {
       "ids": {
-        "riftbound-league-of-legends-trading-card-game-origins-mindsplitter-rare": 0.4
+        "riftbound-league-of-legends-trading-card-game-origins-mindsplitter-rare": 0.42
       },
-      "updated": "2026-11-09"
+      "updated": "2026-11-16"
     },
     "OGN-193": {
       "ids": {
-        "riftbound-league-of-legends-trading-card-game-origins-miss-fortune-buccaneer-rare": 0.27
+        "riftbound-league-of-legends-trading-card-game-origins-miss-fortune-buccaneer-rare": 0.28
       },
-      "updated": "2026-11-09"
+      "updated": "2026-11-16"
     },
     "OGN-193a": {
       "ids": {
@@ -1328,27 +1328,27 @@
     },
     "OGN-194": {
       "ids": {
-        "riftbound-league-of-legends-trading-card-game-origins-nocturne-horrifying-rare": 2.19
+        "riftbound-league-of-legends-trading-card-game-origins-nocturne-horrifying-rare": 1.58
       },
-      "updated": "2026-11-09"
+      "updated": "2026-11-16"
     },
     "OGN-195": {
       "ids": {
         "riftbound-league-of-legends-trading-card-game-origins-rhasa-the-sunderer-rare": 0.8
       },
-      "updated": "2026-11-09"
+      "updated": "2026-11-16"
     },
     "OGN-196": {
       "ids": {
         "riftbound-league-of-legends-trading-card-game-origins-soulgorger-rare": 0.15
       },
-      "updated": "2026-11-09"
+      "updated": "2026-11-16"
     },
     "OGN-197": {
       "ids": {
         "riftbound-league-of-legends-trading-card-game-origins-teemo-scout-rare": 0.25
       },
-      "updated": "2026-11-09"
+      "updated": "2026-11-16"
     },
     "OGN-197a": {
       "ids": {
@@ -1364,21 +1364,21 @@
     },
     "OGN-198": {
       "ids": {
-        "riftbound-league-of-legends-trading-card-game-origins-the-harrowing-rare": 0.38
+        "riftbound-league-of-legends-trading-card-game-origins-the-harrowing-rare": 0.37
       },
-      "updated": "2026-11-09"
+      "updated": "2026-11-16"
     },
     "OGN-199": {
       "ids": {
-        "riftbound-league-of-legends-trading-card-game-origins-tideturner-rare": 1.47
+        "riftbound-league-of-legends-trading-card-game-origins-tideturner-rare": 1.93
       },
-      "updated": "2026-11-09"
+      "updated": "2026-11-16"
     },
     "OGN-200": {
       "ids": {
-        "riftbound-league-of-legends-trading-card-game-origins-twisted-fate-gambler-rare": 0.27
+        "riftbound-league-of-legends-trading-card-game-origins-twisted-fate-gambler-rare": 0.24
       },
-      "updated": "2026-11-09"
+      "updated": "2026-11-16"
     },
     "OGN-201": {
       "ids": {
@@ -1582,55 +1582,55 @@
       "ids": {
         "riftbound-league-of-legends-trading-card-game-origins-albus-ferros-rare": 0.09
       },
-      "updated": "2026-11-09"
+      "updated": "2026-11-16"
     },
     "OGN-231": {
       "ids": {
-        "riftbound-league-of-legends-trading-card-game-origins-commander-ledros-rare": 0.2
+        "riftbound-league-of-legends-trading-card-game-origins-commander-ledros-rare": 0.21
       },
-      "updated": "2026-11-09"
+      "updated": "2026-11-16"
     },
     "OGN-232": {
       "ids": {
-        "riftbound-league-of-legends-trading-card-game-origins-fiora-victorious-rare": 0.74
+        "riftbound-league-of-legends-trading-card-game-origins-fiora-victorious-rare": 1.0
       },
-      "updated": "2026-11-09"
+      "updated": "2026-11-16"
     },
     "OGN-233": {
       "ids": {
-        "riftbound-league-of-legends-trading-card-game-origins-grand-strategem-rare": 0.34
+        "riftbound-league-of-legends-trading-card-game-origins-grand-strategem-rare": 0.28
       },
-      "updated": "2026-11-09"
+      "updated": "2026-11-16"
     },
     "OGN-234": {
       "ids": {
         "riftbound-league-of-legends-trading-card-game-origins-harnessed-dragon-rare": 0.8
       },
-      "updated": "2026-11-09"
+      "updated": "2026-11-16"
     },
     "OGN-235": {
       "ids": {
         "riftbound-league-of-legends-trading-card-game-origins-karma-channeler-rare": 0.23
       },
-      "updated": "2026-11-09"
+      "updated": "2026-11-16"
     },
     "OGN-236": {
       "ids": {
         "riftbound-league-of-legends-trading-card-game-origins-karthus-eternal-rare": 1.12
       },
-      "updated": "2026-11-09"
+      "updated": "2026-11-16"
     },
     "OGN-237": {
       "ids": {
-        "riftbound-league-of-legends-trading-card-game-origins-king-s-edict-rare": 0.17
+        "riftbound-league-of-legends-trading-card-game-origins-king-s-edict-rare": 0.18
       },
-      "updated": "2026-11-09"
+      "updated": "2026-11-16"
     },
     "OGN-238": {
       "ids": {
         "riftbound-league-of-legends-trading-card-game-origins-leona-determined-rare": 0.19
       },
-      "updated": "2026-11-09"
+      "updated": "2026-11-16"
     },
     "OGN-238a": {
       "ids": {
@@ -1642,13 +1642,13 @@
       "ids": {
         "riftbound-league-of-legends-trading-card-game-origins-machine-evangel-rare": 0.23
       },
-      "updated": "2026-11-09"
+      "updated": "2026-11-16"
     },
     "OGN-240": {
       "ids": {
         "riftbound-league-of-legends-trading-card-game-origins-sett-kingpin-rare": 0.28
       },
-      "updated": "2026-11-09"
+      "updated": "2026-11-16"
     },
     "OGN-240a": {
       "ids": {
@@ -1658,9 +1658,9 @@
     },
     "OGN-241": {
       "ids": {
-        "riftbound-league-of-legends-trading-card-game-origins-shen-kinkou-rare": 0.35
+        "riftbound-league-of-legends-trading-card-game-origins-shen-kinkou-rare": 0.38
       },
-      "updated": "2026-11-09"
+      "updated": "2026-11-16"
     },
     "OGN-242": {
       "ids": {
@@ -1706,9 +1706,9 @@
     },
     "OGN-247": {
       "ids": {
-        "riftbound-league-of-legends-trading-card-game-origins-kai-sa-daughter-of-the-void-rare": 0.27
+        "riftbound-league-of-legends-trading-card-game-origins-kai-sa-daughter-of-the-void-rare": 0.34
       },
-      "updated": "2026-11-09"
+      "updated": "2026-11-16"
     },
     "OGN-248": {
       "ids": {
@@ -1720,7 +1720,7 @@
       "ids": {
         "riftbound-league-of-legends-trading-card-game-origins-volibear-relentless-storm-rare": 0.13
       },
-      "updated": "2026-11-09"
+      "updated": "2026-11-16"
     },
     "OGN-250": {
       "ids": {
@@ -1732,7 +1732,7 @@
       "ids": {
         "riftbound-league-of-legends-trading-card-game-origins-jinx-loose-cannon-rare": 0.01
       },
-      "updated": "2026-11-09"
+      "updated": "2026-11-16"
     },
     "OGN-252": {
       "ids": {
@@ -1742,9 +1742,9 @@
     },
     "OGN-253": {
       "ids": {
-        "riftbound-league-of-legends-trading-card-game-origins-darius-hand-of-noxus-rare": 0.21
+        "riftbound-league-of-legends-trading-card-game-origins-darius-hand-of-noxus-rare": 0.2
       },
-      "updated": "2026-11-09"
+      "updated": "2026-11-16"
     },
     "OGN-254": {
       "ids": {
@@ -1756,7 +1756,7 @@
       "ids": {
         "riftbound-league-of-legends-trading-card-game-origins-ahri-nine-tailed-fox-rare": 0.15
       },
-      "updated": "2026-11-09"
+      "updated": "2026-11-16"
     },
     "OGN-256": {
       "ids": {
@@ -1768,7 +1768,7 @@
       "ids": {
         "riftbound-league-of-legends-trading-card-game-origins-lee-sin-blind-monk-rare": 0.16
       },
-      "updated": "2026-11-09"
+      "updated": "2026-11-16"
     },
     "OGN-258": {
       "ids": {
@@ -1780,7 +1780,7 @@
       "ids": {
         "riftbound-league-of-legends-trading-card-game-origins-yasuo-unforgiven-rare": 0.09
       },
-      "updated": "2026-11-09"
+      "updated": "2026-11-16"
     },
     "OGN-260": {
       "ids": {
@@ -1792,7 +1792,7 @@
       "ids": {
         "riftbound-league-of-legends-trading-card-game-origins-leona-radiant-dawn-rare": 0.15
       },
-      "updated": "2026-11-09"
+      "updated": "2026-11-16"
     },
     "OGN-262": {
       "ids": {
@@ -1804,7 +1804,7 @@
       "ids": {
         "riftbound-league-of-legends-trading-card-game-origins-teemo-swift-scout-rare": 0.17
       },
-      "updated": "2026-11-09"
+      "updated": "2026-11-16"
     },
     "OGN-264": {
       "ids": {
@@ -1816,7 +1816,7 @@
       "ids": {
         "riftbound-league-of-legends-trading-card-game-origins-viktor-herald-of-the-arcane-rare": 0.23
       },
-      "updated": "2026-11-09"
+      "updated": "2026-11-16"
     },
     "OGN-266": {
       "ids": {
@@ -1828,7 +1828,7 @@
       "ids": {
         "riftbound-league-of-legends-trading-card-game-origins-miss-fortune-bounty-hunter-rare": 0.25
       },
-      "updated": "2026-11-09"
+      "updated": "2026-11-16"
     },
     "OGN-268": {
       "ids": {
@@ -1840,7 +1840,7 @@
       "ids": {
         "riftbound-league-of-legends-trading-card-game-origins-sett-the-boss-rare": 0.25
       },
-      "updated": "2026-11-09"
+      "updated": "2026-11-16"
     },
     "OGN-270": {
       "ids": {
@@ -2180,9 +2180,9 @@
     },
     "OGS-004": {
       "ids": {
-        "riftbound-league-of-legends-trading-card-game-origins-proving-grounds-master-yi-meditative-rare": 0.44
+        "riftbound-league-of-legends-trading-card-game-origins-proving-grounds-master-yi-meditative-rare": 0.4
       },
-      "updated": "2026-11-09"
+      "updated": "2026-11-16"
     },
     "OGS-005": {
       "ids": {
@@ -2192,15 +2192,15 @@
     },
     "OGS-006": {
       "ids": {
-        "riftbound-league-of-legends-trading-card-game-origins-proving-grounds-lux-illuminated-rare": 0.53
+        "riftbound-league-of-legends-trading-card-game-origins-proving-grounds-lux-illuminated-rare": 0.54
       },
-      "updated": "2026-11-09"
+      "updated": "2026-11-16"
     },
     "OGS-007": {
       "ids": {
-        "riftbound-league-of-legends-trading-card-game-origins-proving-grounds-garen-rugged-rare": 0.71
+        "riftbound-league-of-legends-trading-card-game-origins-proving-grounds-garen-rugged-rare": 0.74
       },
-      "updated": "2026-11-09"
+      "updated": "2026-11-16"
     },
     "OGS-008": {
       "ids": {
@@ -2216,9 +2216,9 @@
     },
     "OGS-010": {
       "ids": {
-        "riftbound-league-of-legends-trading-card-game-origins-proving-grounds-annie-stubborn-rare": 1.63
+        "riftbound-league-of-legends-trading-card-game-origins-proving-grounds-annie-stubborn-rare": 1.77
       },
-      "updated": "2026-11-09"
+      "updated": "2026-11-16"
     },
     "OGS-011": {
       "ids": {
@@ -2258,9 +2258,9 @@
     },
     "OGS-017": {
       "ids": {
-        "riftbound-league-of-legends-trading-card-game-origins-proving-grounds-annie-dark-child-starter-rare": 2.67
+        "riftbound-league-of-legends-trading-card-game-origins-proving-grounds-annie-dark-child-starter-rare": 2.32
       },
-      "updated": "2026-11-09"
+      "updated": "2026-11-16"
     },
     "OGS-018": {
       "ids": {
@@ -2272,7 +2272,7 @@
       "ids": {
         "riftbound-league-of-legends-trading-card-game-origins-proving-grounds-master-yi-wuju-bladesman-starter-rare": 12.1
       },
-      "updated": "2026-11-09"
+      "updated": "2026-11-16"
     },
     "OGS-020": {
       "ids": {
@@ -2282,9 +2282,9 @@
     },
     "OGS-021": {
       "ids": {
-        "riftbound-league-of-legends-trading-card-game-origins-proving-grounds-lux-lady-of-luminosity-starter-rare": 6.61
+        "riftbound-league-of-legends-trading-card-game-origins-proving-grounds-lux-lady-of-luminosity-starter-rare": 4.95
       },
-      "updated": "2026-11-09"
+      "updated": "2026-11-16"
     },
     "OGS-022": {
       "ids": {
@@ -2294,9 +2294,9 @@
     },
     "OGS-023": {
       "ids": {
-        "riftbound-league-of-legends-trading-card-game-origins-proving-grounds-garen-might-of-demacia-starter-rare": 0.81
+        "riftbound-league-of-legends-trading-card-game-origins-proving-grounds-garen-might-of-demacia-starter-rare": 0.72
       },
-      "updated": "2026-11-09"
+      "updated": "2026-11-16"
     },
     "OGS-024": {
       "ids": {
@@ -2450,9 +2450,9 @@
     },
     "RAD-020a": {
       "ids": {
-        "riftbound-league-of-legends-trading-card-game-radiance-mordekaiser-twice-slain-alternate-art-showcase": 0.87
+        "riftbound-league-of-legends-trading-card-game-radiance-mordekaiser-twice-slain-alternate-art-showcase": 0.79
       },
-      "updated": "2026-11-14"
+      "updated": "2026-11-16"
     },
     "RAD-021": {
       "ids": {
@@ -2462,9 +2462,9 @@
     },
     "RAD-021a": {
       "ids": {
-        "riftbound-league-of-legends-trading-card-game-radiance-ekko-revolutionary-alternate-art-showcase": 3.5
+        "riftbound-league-of-legends-trading-card-game-radiance-ekko-revolutionary-alternate-art-showcase": 3.55
       },
-      "updated": "2026-11-14"
+      "updated": "2026-11-16"
     },
     "RAD-022": {
       "ids": {
@@ -2482,7 +2482,7 @@
       "ids": {
         "riftbound-league-of-legends-trading-card-game-radiance-ziggs-short-fused-alternate-art-showcase": 2.76
       },
-      "updated": "2026-11-14"
+      "updated": "2026-11-16"
     },
     "RAD-024": {
       "ids": {
@@ -2600,9 +2600,9 @@
     },
     "RAD-042a": {
       "ids": {
-        "riftbound-league-of-legends-trading-card-game-radiance-orianna-exquisite-alternate-art-showcase": 3.19
+        "riftbound-league-of-legends-trading-card-game-radiance-orianna-exquisite-alternate-art-showcase": 3.74
       },
-      "updated": "2026-11-14"
+      "updated": "2026-11-16"
     },
     "RAD-043": {
       "ids": {
@@ -2612,9 +2612,9 @@
     },
     "RAD-043a": {
       "ids": {
-        "riftbound-league-of-legends-trading-card-game-radiance-riven-broken-blade-alternate-art-showcase": 4.26
+        "riftbound-league-of-legends-trading-card-game-radiance-riven-broken-blade-alternate-art-showcase": 3.32
       },
-      "updated": "2026-11-14"
+      "updated": "2026-11-16"
     },
     "RAD-044": {
       "ids": {
@@ -2630,9 +2630,9 @@
     },
     "RAD-045a": {
       "ids": {
-        "riftbound-league-of-legends-trading-card-game-radiance-k-sante-dauntless-alternate-art-showcase": 1.75
+        "riftbound-league-of-legends-trading-card-game-radiance-k-sante-dauntless-alternate-art-showcase": 1.71
       },
-      "updated": "2026-11-14"
+      "updated": "2026-11-16"
     },
     "RAD-046": {
       "ids": {
@@ -2732,9 +2732,9 @@
     },
     "RAD-061a": {
       "ids": {
-        "riftbound-league-of-legends-trading-card-game-radiance-ekko-ingenious-alternate-art-showcase": 0.99
+        "riftbound-league-of-legends-trading-card-game-radiance-ekko-ingenious-alternate-art-showcase": 1.0
       },
-      "updated": "2026-11-14"
+      "updated": "2026-11-16"
     },
     "RAD-062": {
       "ids": {
@@ -2762,9 +2762,9 @@
     },
     "RAD-065a": {
       "ids": {
-        "riftbound-league-of-legends-trading-card-game-radiance-seraphine-inspiring-alternate-art-showcase": 0.89
+        "riftbound-league-of-legends-trading-card-game-radiance-seraphine-inspiring-alternate-art-showcase": 0.93
       },
-      "updated": "2026-11-14"
+      "updated": "2026-11-16"
     },
     "RAD-066": {
       "ids": {
@@ -2786,9 +2786,9 @@
     },
     "RAD-068a": {
       "ids": {
-        "riftbound-league-of-legends-trading-card-game-radiance-orianna-mechanical-marvel-alternate-art-showcase": 3.63
+        "riftbound-league-of-legends-trading-card-game-radiance-orianna-mechanical-marvel-alternate-art-showcase": 3.59
       },
-      "updated": "2026-11-14"
+      "updated": "2026-11-16"
     },
     "RAD-069": {
       "ids": {
@@ -2900,9 +2900,9 @@
     },
     "RAD-086a": {
       "ids": {
-        "riftbound-league-of-legends-trading-card-game-radiance-k-sante-courageous-alternate-art-showcase": 2.11
+        "riftbound-league-of-legends-trading-card-game-radiance-k-sante-courageous-alternate-art-showcase": 2.15
       },
-      "updated": "2026-11-14"
+      "updated": "2026-11-16"
     },
     "RAD-087": {
       "ids": {
@@ -2930,9 +2930,9 @@
     },
     "RAD-090a": {
       "ids": {
-        "riftbound-league-of-legends-trading-card-game-radiance-evelynn-consuming-alternate-art-showcase": 3.78
+        "riftbound-league-of-legends-trading-card-game-radiance-evelynn-consuming-alternate-art-showcase": 3.63
       },
-      "updated": "2026-11-14"
+      "updated": "2026-11-16"
     },
     "RAD-091": {
       "ids": {
@@ -2942,9 +2942,9 @@
     },
     "RAD-091a": {
       "ids": {
-        "riftbound-league-of-legends-trading-card-game-radiance-jarvan-iv-martial-paragon-alternate-art-showcase": 1.78
+        "riftbound-league-of-legends-trading-card-game-radiance-jarvan-iv-martial-paragon-alternate-art-showcase": 1.77
       },
-      "updated": "2026-11-14"
+      "updated": "2026-11-16"
     },
     "RAD-092": {
       "ids": {
@@ -3056,9 +3056,9 @@
     },
     "RAD-109a": {
       "ids": {
-        "riftbound-league-of-legends-trading-card-game-radiance-evelynn-in-control-alternate-art-showcase": 2.39
+        "riftbound-league-of-legends-trading-card-game-radiance-evelynn-in-control-alternate-art-showcase": 2.35
       },
-      "updated": "2026-11-14"
+      "updated": "2026-11-16"
     },
     "RAD-110": {
       "ids": {
@@ -3080,9 +3080,9 @@
     },
     "RAD-112a": {
       "ids": {
-        "riftbound-league-of-legends-trading-card-game-radiance-ziggs-explosive-alternate-art-showcase": 1.48
+        "riftbound-league-of-legends-trading-card-game-radiance-ziggs-explosive-alternate-art-showcase": 1.61
       },
-      "updated": "2026-11-14"
+      "updated": "2026-11-16"
     },
     "RAD-113": {
       "ids": {
@@ -3098,9 +3098,9 @@
     },
     "RAD-114a": {
       "ids": {
-        "riftbound-league-of-legends-trading-card-game-radiance-riven-deserter-alternate-art-showcase": 6.19
+        "riftbound-league-of-legends-trading-card-game-radiance-riven-deserter-alternate-art-showcase": 6.64
       },
-      "updated": "2026-11-14"
+      "updated": "2026-11-16"
     },
     "RAD-115": {
       "ids": {
@@ -3218,9 +3218,9 @@
     },
     "RAD-133a": {
       "ids": {
-        "riftbound-league-of-legends-trading-card-game-radiance-jarvan-iv-royal-heir-alternate-art-showcase": 0.84
+        "riftbound-league-of-legends-trading-card-game-radiance-jarvan-iv-royal-heir-alternate-art-showcase": 0.78
       },
-      "updated": "2026-11-14"
+      "updated": "2026-11-16"
     },
     "RAD-134": {
       "ids": {
@@ -3248,9 +3248,9 @@
     },
     "RAD-137a": {
       "ids": {
-        "riftbound-league-of-legends-trading-card-game-radiance-mordekaiser-dominating-alternate-art-showcase": 4.58
+        "riftbound-league-of-legends-trading-card-game-radiance-mordekaiser-dominating-alternate-art-showcase": 4.87
       },
-      "updated": "2026-11-14"
+      "updated": "2026-11-16"
     },
     "RAD-138": {
       "ids": {
@@ -3260,9 +3260,9 @@
     },
     "RAD-138a": {
       "ids": {
-        "riftbound-league-of-legends-trading-card-game-radiance-seraphine-not-alone-alternate-art-showcase": 3.24
+        "riftbound-league-of-legends-trading-card-game-radiance-seraphine-not-alone-alternate-art-showcase": 3.21
       },
-      "updated": "2026-11-14"
+      "updated": "2026-11-16"
     },
     "RAD-139": {
       "ids": {
@@ -3442,187 +3442,187 @@
       "ids": {
         "riftbound-league-of-legends-trading-card-game-radiance-ekko-boy-who-shattered-time-overnumbered-showcase": 50.31
       },
-      "updated": "2026-11-14"
+      "updated": "2026-11-16"
     },
     "RAD-168*": {
       "ids": {
         "riftbound-league-of-legends-trading-card-game-radiance-ekko-boy-who-shattered-time-signature-showcase": 434.11
       },
-      "updated": "2026-11-14"
+      "updated": "2026-11-16"
     },
     "RAD-169": {
       "ids": {
-        "riftbound-league-of-legends-trading-card-game-radiance-ziggs-hexplosives-expert-overnumbered-showcase": 100.05
+        "riftbound-league-of-legends-trading-card-game-radiance-ziggs-hexplosives-expert-overnumbered-showcase": 94.81
       },
-      "updated": "2026-11-14"
+      "updated": "2026-11-16"
     },
     "RAD-169*": {
       "ids": {
         "riftbound-league-of-legends-trading-card-game-radiance-ziggs-hexplosives-expert-signature-showcase": 750.12
       },
-      "updated": "2026-11-14"
+      "updated": "2026-11-16"
     },
     "RAD-170": {
       "ids": {
-        "riftbound-league-of-legends-trading-card-game-radiance-mordekaiser-iron-revenant-overnumbered-showcase": 109.26
+        "riftbound-league-of-legends-trading-card-game-radiance-mordekaiser-iron-revenant-overnumbered-showcase": 100.0
       },
-      "updated": "2026-11-14"
+      "updated": "2026-11-16"
     },
     "RAD-170*": {
       "ids": {
         "riftbound-league-of-legends-trading-card-game-radiance-mordekaiser-iron-revenant-signature-showcase": 450.0
       },
-      "updated": "2026-11-14"
+      "updated": "2026-11-16"
     },
     "RAD-171": {
       "ids": {
-        "riftbound-league-of-legends-trading-card-game-radiance-orianna-lady-of-clockwork-overnumbered-showcase": 74.92
+        "riftbound-league-of-legends-trading-card-game-radiance-orianna-lady-of-clockwork-overnumbered-showcase": 73.36
       },
-      "updated": "2026-11-14"
+      "updated": "2026-11-16"
     },
     "RAD-171*": {
       "ids": {
         "riftbound-league-of-legends-trading-card-game-radiance-orianna-lady-of-clockwork-signature-showcase": 390.0
       },
-      "updated": "2026-11-14"
+      "updated": "2026-11-16"
     },
     "RAD-172": {
       "ids": {
-        "riftbound-league-of-legends-trading-card-game-radiance-k-sante-pride-of-nazumah-overnumbered-showcase": 41.07
+        "riftbound-league-of-legends-trading-card-game-radiance-k-sante-pride-of-nazumah-overnumbered-showcase": 40.85
       },
-      "updated": "2026-11-14"
+      "updated": "2026-11-16"
     },
     "RAD-172*": {
       "ids": {
-        "riftbound-league-of-legends-trading-card-game-radiance-k-sante-pride-of-nazumah-signature-showcase": 279.11
+        "riftbound-league-of-legends-trading-card-game-radiance-k-sante-pride-of-nazumah-signature-showcase": 273.07
       },
-      "updated": "2026-11-14"
+      "updated": "2026-11-16"
     },
     "RAD-173": {
       "ids": {
-        "riftbound-league-of-legends-trading-card-game-radiance-riven-the-exile-overnumbered-showcase": 129.08
+        "riftbound-league-of-legends-trading-card-game-radiance-riven-the-exile-overnumbered-showcase": 131.71
       },
-      "updated": "2026-11-14"
+      "updated": "2026-11-16"
     },
     "RAD-173*": {
       "ids": {
-        "riftbound-league-of-legends-trading-card-game-radiance-riven-the-exile-signature-showcase": 1253.08
+        "riftbound-league-of-legends-trading-card-game-radiance-riven-the-exile-signature-showcase": 1248.22
       },
-      "updated": "2026-11-14"
+      "updated": "2026-11-16"
     },
     "RAD-174": {
       "ids": {
         "riftbound-league-of-legends-trading-card-game-radiance-seraphine-starry-eyed-songstress-overnumbered-showcase": 109.99
       },
-      "updated": "2026-11-14"
+      "updated": "2026-11-16"
     },
     "RAD-174*": {
       "ids": {
-        "riftbound-league-of-legends-trading-card-game-radiance-seraphine-starry-eyed-songstress-signature-showcase": 1110.98
+        "riftbound-league-of-legends-trading-card-game-radiance-seraphine-starry-eyed-songstress-signature-showcase": 985.65
       },
-      "updated": "2026-11-14"
+      "updated": "2026-11-16"
     },
     "RAD-175": {
       "ids": {
-        "riftbound-league-of-legends-trading-card-game-radiance-evelynn-agony-s-embrace-overnumbered-showcase": 150.37
+        "riftbound-league-of-legends-trading-card-game-radiance-evelynn-agony-s-embrace-overnumbered-showcase": 143.27
       },
-      "updated": "2026-11-14"
+      "updated": "2026-11-16"
     },
     "RAD-175*": {
       "ids": {
         "riftbound-league-of-legends-trading-card-game-radiance-evelynn-agony-s-embrace-signature-showcase": 912.99
       },
-      "updated": "2026-11-14"
+      "updated": "2026-11-16"
     },
     "RAD-176": {
       "ids": {
-        "riftbound-league-of-legends-trading-card-game-radiance-jarvan-iv-exemplar-of-demacia-overnumbered-showcase": 53.31
+        "riftbound-league-of-legends-trading-card-game-radiance-jarvan-iv-exemplar-of-demacia-overnumbered-showcase": 51.23
       },
-      "updated": "2026-11-14"
+      "updated": "2026-11-16"
     },
     "RAD-177": {
       "ids": {
-        "riftbound-league-of-legends-trading-card-game-radiance-ekko-revolutionary-overnumbered-showcase": 54.82
+        "riftbound-league-of-legends-trading-card-game-radiance-ekko-revolutionary-overnumbered-showcase": 40.0
       },
-      "updated": "2026-11-14"
+      "updated": "2026-11-16"
     },
     "RAD-178": {
       "ids": {
-        "riftbound-league-of-legends-trading-card-game-radiance-k-sante-courageous-heartsteel-overnumbered-showcase": 44.95
+        "riftbound-league-of-legends-trading-card-game-radiance-k-sante-courageous-heartsteel-overnumbered-showcase": 43.93
       },
-      "updated": "2026-11-14"
+      "updated": "2026-11-16"
     },
     "RAD-178*": {
       "ids": {
         "riftbound-league-of-legends-trading-card-game-radiance-k-sante-courageous-heartsteel-signature-showcase": 349.94
       },
-      "updated": "2026-11-14"
+      "updated": "2026-11-16"
     },
     "RAD-179": {
       "ids": {
         "riftbound-league-of-legends-trading-card-game-radiance-aphelios-exalted-heartsteel-overnumbered-showcase": 20.0
       },
-      "updated": "2026-11-14"
+      "updated": "2026-11-16"
     },
     "RAD-179*": {
       "ids": {
         "riftbound-league-of-legends-trading-card-game-radiance-aphelios-exalted-heartsteel-signature-showcase": 335.83
       },
-      "updated": "2026-11-14"
+      "updated": "2026-11-16"
     },
     "RAD-180": {
       "ids": {
-        "riftbound-league-of-legends-trading-card-game-radiance-ezreal-dashing-heartsteel-overnumbered-showcase": 42.65
+        "riftbound-league-of-legends-trading-card-game-radiance-ezreal-dashing-heartsteel-overnumbered-showcase": 42.07
       },
-      "updated": "2026-11-14"
+      "updated": "2026-11-16"
     },
     "RAD-180*": {
       "ids": {
         "riftbound-league-of-legends-trading-card-game-radiance-ezreal-dashing-heartsteel-signature-showcase": 611.66
       },
-      "updated": "2026-11-14"
+      "updated": "2026-11-16"
     },
     "RAD-181": {
       "ids": {
-        "riftbound-league-of-legends-trading-card-game-radiance-yone-blademaster-heartsteel-overnumbered-showcase": 42.83
+        "riftbound-league-of-legends-trading-card-game-radiance-yone-blademaster-heartsteel-overnumbered-showcase": 42.11
       },
-      "updated": "2026-11-14"
+      "updated": "2026-11-16"
     },
     "RAD-181*": {
       "ids": {
         "riftbound-league-of-legends-trading-card-game-radiance-yone-blademaster-heartsteel-signature-showcase": 428.3
       },
-      "updated": "2026-11-14"
+      "updated": "2026-11-16"
     },
     "RAD-182": {
       "ids": {
-        "riftbound-league-of-legends-trading-card-game-radiance-kayn-unleashed-heartsteel-overnumbered-showcase": 45.87
+        "riftbound-league-of-legends-trading-card-game-radiance-kayn-unleashed-heartsteel-overnumbered-showcase": 42.62
       },
-      "updated": "2026-11-14"
+      "updated": "2026-11-16"
     },
     "RAD-182*": {
       "ids": {
-        "riftbound-league-of-legends-trading-card-game-radiance-kayn-unleashed-heartsteel-signature-showcase": 492.58
+        "riftbound-league-of-legends-trading-card-game-radiance-kayn-unleashed-heartsteel-signature-showcase": 487.53
       },
-      "updated": "2026-11-14"
+      "updated": "2026-11-16"
     },
     "RAD-183": {
       "ids": {
-        "riftbound-league-of-legends-trading-card-game-radiance-sett-kingpin-heartsteel-overnumbered-showcase": 65.0
+        "riftbound-league-of-legends-trading-card-game-radiance-sett-kingpin-heartsteel-overnumbered-showcase": 69.0
       },
-      "updated": "2026-11-14"
+      "updated": "2026-11-16"
     },
     "RAD-183*": {
       "ids": {
-        "riftbound-league-of-legends-trading-card-game-radiance-sett-kingpin-heartsteel-signature-showcase": 484.82
+        "riftbound-league-of-legends-trading-card-game-radiance-sett-kingpin-heartsteel-signature-showcase": 467.16
       },
-      "updated": "2026-11-14"
+      "updated": "2026-11-16"
     },
     "RAD-184": {
       "ids": {
-        "riftbound-league-of-legends-trading-card-game-radiance-packed-amphitheater-ultimate-showcase": 444.42
+        "riftbound-league-of-legends-trading-card-game-radiance-packed-amphitheater-ultimate-showcase": 355.0
       },
-      "updated": "2026-11-14"
+      "updated": "2026-11-16"
     },
     "RAD-R01": {
       "ids": {
@@ -3632,9 +3632,9 @@
     },
     "RAD-R01a": {
       "ids": {
-        "riftbound-league-of-legends-trading-card-game-radiance-fury-rune-r01a-showcase": 2.65
+        "riftbound-league-of-legends-trading-card-game-radiance-fury-rune-r01a-showcase": 2.61
       },
-      "updated": "2026-11-14"
+      "updated": "2026-11-16"
     },
     "RAD-R02": {
       "ids": {
@@ -3644,9 +3644,9 @@
     },
     "RAD-R02a": {
       "ids": {
-        "riftbound-league-of-legends-trading-card-game-radiance-calm-rune-r02a-showcase": 3.36
+        "riftbound-league-of-legends-trading-card-game-radiance-calm-rune-r02a-showcase": 3.27
       },
-      "updated": "2026-11-14"
+      "updated": "2026-11-16"
     },
     "RAD-R03": {
       "ids": {
@@ -3656,9 +3656,9 @@
     },
     "RAD-R03a": {
       "ids": {
-        "riftbound-league-of-legends-trading-card-game-radiance-mind-rune-r03a-showcase": 3.13
+        "riftbound-league-of-legends-trading-card-game-radiance-mind-rune-r03a-showcase": 3.27
       },
-      "updated": "2026-11-14"
+      "updated": "2026-11-16"
     },
     "RAD-R04": {
       "ids": {
@@ -3668,9 +3668,9 @@
     },
     "RAD-R04a": {
       "ids": {
-        "riftbound-league-of-legends-trading-card-game-radiance-body-rune-r04a-showcase": 2.31
+        "riftbound-league-of-legends-trading-card-game-radiance-body-rune-r04a-showcase": 2.65
       },
-      "updated": "2026-11-14"
+      "updated": "2026-11-16"
     },
     "RAD-R05": {
       "ids": {
@@ -3680,9 +3680,9 @@
     },
     "RAD-R05a": {
       "ids": {
-        "riftbound-league-of-legends-trading-card-game-radiance-chaos-rune-r05a-showcase": 4.45
+        "riftbound-league-of-legends-trading-card-game-radiance-chaos-rune-r05a-showcase": 4.38
       },
-      "updated": "2026-11-14"
+      "updated": "2026-11-16"
     },
     "RAD-R06": {
       "ids": {
@@ -3692,39 +3692,39 @@
     },
     "RAD-R06a": {
       "ids": {
-        "riftbound-league-of-legends-trading-card-game-radiance-order-rune-r06a-showcase": 3.46
+        "riftbound-league-of-legends-trading-card-game-radiance-order-rune-r06a-showcase": 3.18
       },
-      "updated": "2026-11-14"
+      "updated": "2026-11-16"
     },
     "RAD-SP1": {
       "ids": {
         "riftbound-league-of-legends-trading-card-game-radiance-ahri-confident-k-da-special-art-card-showcase": 10.0
       },
-      "updated": "2026-11-14"
+      "updated": "2026-11-16"
     },
     "RAD-SP2": {
       "ids": {
-        "riftbound-league-of-legends-trading-card-game-radiance-akali-brash-k-da-special-art-card-showcase": 15.71
+        "riftbound-league-of-legends-trading-card-game-radiance-akali-brash-k-da-special-art-card-showcase": 15.81
       },
-      "updated": "2026-11-14"
+      "updated": "2026-11-16"
     },
     "RAD-SP3": {
       "ids": {
-        "riftbound-league-of-legends-trading-card-game-radiance-evelynn-in-control-k-da-special-art-card-showcase": 16.01
+        "riftbound-league-of-legends-trading-card-game-radiance-evelynn-in-control-k-da-special-art-card-showcase": 15.84
       },
-      "updated": "2026-11-14"
+      "updated": "2026-11-16"
     },
     "RAD-SP4": {
       "ids": {
-        "riftbound-league-of-legends-trading-card-game-radiance-kai-sa-rebel-k-da-special-art-card-showcase": 17.01
+        "riftbound-league-of-legends-trading-card-game-radiance-kai-sa-rebel-k-da-special-art-card-showcase": 16.52
       },
-      "updated": "2026-11-14"
+      "updated": "2026-11-16"
     },
     "RAD-SP5": {
       "ids": {
-        "riftbound-league-of-legends-trading-card-game-radiance-seraphine-not-alone-k-da-special-art-card-showcase": 9.08
+        "riftbound-league-of-legends-trading-card-game-radiance-seraphine-not-alone-k-da-special-art-card-showcase": 9.98
       },
-      "updated": "2026-11-14"
+      "updated": "2026-11-16"
     },
     "RAD-T01": {
       "ids": {
@@ -3878,9 +3878,9 @@
     },
     "SFD-020a": {
       "ids": {
-        "riftbound-league-of-legends-trading-card-game-spiritforged-draven-vanquisher-alternate-art-showcase": 0.84
+        "riftbound-league-of-legends-trading-card-game-spiritforged-draven-vanquisher-alternate-art-showcase": 0.85
       },
-      "updated": "2026-11-14"
+      "updated": "2026-11-16"
     },
     "SFD-021": {
       "ids": {
@@ -3920,45 +3920,45 @@
     },
     "SFD-026a": {
       "ids": {
-        "riftbound-league-of-legends-trading-card-game-spiritforged-rumble-hotheaded-alternate-art-showcase": 0.88
+        "riftbound-league-of-legends-trading-card-game-spiritforged-rumble-hotheaded-alternate-art-showcase": 0.87
       },
-      "updated": "2026-11-14"
+      "updated": "2026-11-16"
     },
     "SFD-027": {
       "ids": {
         "riftbound-league-of-legends-trading-card-game-spiritforged-dunebreaker-epic": 1.0
       },
-      "updated": "2026-11-12"
+      "updated": "2026-11-16"
     },
     "SFD-028": {
       "ids": {
         "riftbound-league-of-legends-trading-card-game-spiritforged-lucian-gunslinger-epic": 0.55
       },
-      "updated": "2026-11-12"
+      "updated": "2026-11-16"
     },
     "SFD-028a": {
       "ids": {
-        "riftbound-league-of-legends-trading-card-game-spiritforged-lucian-gunslinger-alternate-art-showcase": 0.92
+        "riftbound-league-of-legends-trading-card-game-spiritforged-lucian-gunslinger-alternate-art-showcase": 0.9
       },
-      "updated": "2026-11-14"
+      "updated": "2026-11-16"
     },
     "SFD-029": {
       "ids": {
         "riftbound-league-of-legends-trading-card-game-spiritforged-rek-sai-breacher-epic": 4.44
       },
-      "updated": "2026-11-12"
+      "updated": "2026-11-16"
     },
     "SFD-029a": {
       "ids": {
         "riftbound-league-of-legends-trading-card-game-spiritforged-rek-sai-breacher-alternate-art-showcase": 1.29
       },
-      "updated": "2026-11-14"
+      "updated": "2026-11-16"
     },
     "SFD-030": {
       "ids": {
-        "riftbound-league-of-legends-trading-card-game-spiritforged-skyfall-of-areion-epic": 3.66
+        "riftbound-league-of-legends-trading-card-game-spiritforged-skyfall-of-areion-epic": 3.78
       },
-      "updated": "2026-11-12"
+      "updated": "2026-11-16"
     },
     "SFD-031": {
       "ids": {
@@ -4082,9 +4082,9 @@
     },
     "SFD-050a": {
       "ids": {
-        "riftbound-league-of-legends-trading-card-game-spiritforged-azir-ascendant-alternate-art-showcase": 0.66
+        "riftbound-league-of-legends-trading-card-game-spiritforged-azir-ascendant-alternate-art-showcase": 0.7
       },
-      "updated": "2026-11-14"
+      "updated": "2026-11-16"
     },
     "SFD-051": {
       "ids": {
@@ -4112,9 +4112,9 @@
     },
     "SFD-054a": {
       "ids": {
-        "riftbound-league-of-legends-trading-card-game-spiritforged-jax-unmatched-alternate-art-showcase": 1.05
+        "riftbound-league-of-legends-trading-card-game-spiritforged-jax-unmatched-alternate-art-showcase": 1.12
       },
-      "updated": "2026-11-14"
+      "updated": "2026-11-16"
     },
     "SFD-055": {
       "ids": {
@@ -4132,37 +4132,37 @@
       "ids": {
         "riftbound-league-of-legends-trading-card-game-spiritforged-irelia-fervent-epic": 8.75
       },
-      "updated": "2026-11-12"
+      "updated": "2026-11-16"
     },
     "SFD-057a": {
       "ids": {
         "riftbound-league-of-legends-trading-card-game-spiritforged-irelia-fervent-alternate-art-showcase": 7.9
       },
-      "updated": "2026-11-14"
+      "updated": "2026-11-16"
     },
     "SFD-058": {
       "ids": {
         "riftbound-league-of-legends-trading-card-game-spiritforged-ornn-blacksmith-epic": 0.25
       },
-      "updated": "2026-11-12"
+      "updated": "2026-11-16"
     },
     "SFD-058a": {
       "ids": {
         "riftbound-league-of-legends-trading-card-game-spiritforged-ornn-blacksmith-alternate-art-showcase": 1.5
       },
-      "updated": "2026-11-14"
+      "updated": "2026-11-16"
     },
     "SFD-059": {
       "ids": {
         "riftbound-league-of-legends-trading-card-game-spiritforged-svellsongur-epic": 7.5
       },
-      "updated": "2026-11-12"
+      "updated": "2026-11-16"
     },
     "SFD-060": {
       "ids": {
         "riftbound-league-of-legends-trading-card-game-spiritforged-tianna-crownguard-epic": 1.12
       },
-      "updated": "2026-11-12"
+      "updated": "2026-11-16"
     },
     "SFD-061": {
       "ids": {
@@ -4300,7 +4300,7 @@
       "ids": {
         "riftbound-league-of-legends-trading-card-game-spiritforged-ezreal-dashing-alternate-art-showcase": 0.75
       },
-      "updated": "2026-11-14"
+      "updated": "2026-11-16"
     },
     "SFD-083": {
       "ids": {
@@ -4322,9 +4322,9 @@
     },
     "SFD-085a": {
       "ids": {
-        "riftbound-league-of-legends-trading-card-game-spiritforged-ornn-forge-god-alternate-art-showcase": 1.04
+        "riftbound-league-of-legends-trading-card-game-spiritforged-ornn-forge-god-alternate-art-showcase": 1.08
       },
-      "updated": "2026-11-14"
+      "updated": "2026-11-16"
     },
     "SFD-086": {
       "ids": {
@@ -4334,39 +4334,39 @@
     },
     "SFD-087": {
       "ids": {
-        "riftbound-league-of-legends-trading-card-game-spiritforged-premonition-epic": 3.07
+        "riftbound-league-of-legends-trading-card-game-spiritforged-premonition-epic": 2.99
       },
-      "updated": "2026-11-12"
+      "updated": "2026-11-16"
     },
     "SFD-088": {
       "ids": {
-        "riftbound-league-of-legends-trading-card-game-spiritforged-renata-glasc-mastermind-epic": 0.9
+        "riftbound-league-of-legends-trading-card-game-spiritforged-renata-glasc-mastermind-epic": 0.86
       },
-      "updated": "2026-11-12"
+      "updated": "2026-11-16"
     },
     "SFD-088a": {
       "ids": {
-        "riftbound-league-of-legends-trading-card-game-spiritforged-renata-glasc-mastermind-alternate-art-showcase": 1.63
+        "riftbound-league-of-legends-trading-card-game-spiritforged-renata-glasc-mastermind-alternate-art-showcase": 1.61
       },
-      "updated": "2026-11-14"
+      "updated": "2026-11-16"
     },
     "SFD-089": {
       "ids": {
         "riftbound-league-of-legends-trading-card-game-spiritforged-rumble-scrapper-epic": 0.15
       },
-      "updated": "2026-11-12"
+      "updated": "2026-11-16"
     },
     "SFD-089a": {
       "ids": {
-        "riftbound-league-of-legends-trading-card-game-spiritforged-rumble-scrapper-alternate-art-showcase": 1.01
+        "riftbound-league-of-legends-trading-card-game-spiritforged-rumble-scrapper-alternate-art-showcase": 1.06
       },
-      "updated": "2026-11-14"
+      "updated": "2026-11-16"
     },
     "SFD-090": {
       "ids": {
-        "riftbound-league-of-legends-trading-card-game-spiritforged-the-zero-drive-epic": 1.48
+        "riftbound-league-of-legends-trading-card-game-spiritforged-the-zero-drive-epic": 1.33
       },
-      "updated": "2026-11-12"
+      "updated": "2026-11-16"
     },
     "SFD-091": {
       "ids": {
@@ -4490,9 +4490,9 @@
     },
     "SFD-110a": {
       "ids": {
-        "riftbound-league-of-legends-trading-card-game-spiritforged-fiora-peerless-alternate-art-showcase": 2.25
+        "riftbound-league-of-legends-trading-card-game-spiritforged-fiora-peerless-alternate-art-showcase": 2.21
       },
-      "updated": "2026-11-14"
+      "updated": "2026-11-16"
     },
     "SFD-111": {
       "ids": {
@@ -4514,9 +4514,9 @@
     },
     "SFD-113a": {
       "ids": {
-        "riftbound-league-of-legends-trading-card-game-spiritforged-lucian-merciless-alternate-art-showcase": 3.14
+        "riftbound-league-of-legends-trading-card-game-spiritforged-lucian-merciless-alternate-art-showcase": 3.19
       },
-      "updated": "2026-11-14"
+      "updated": "2026-11-16"
     },
     "SFD-114": {
       "ids": {
@@ -4538,39 +4538,39 @@
     },
     "SFD-117": {
       "ids": {
-        "riftbound-league-of-legends-trading-card-game-spiritforged-ancient-henge-epic": 0.92
+        "riftbound-league-of-legends-trading-card-game-spiritforged-ancient-henge-epic": 0.83
       },
-      "updated": "2026-11-12"
+      "updated": "2026-11-16"
     },
     "SFD-118": {
       "ids": {
-        "riftbound-league-of-legends-trading-card-game-spiritforged-boneshiver-epic": 1.38
+        "riftbound-league-of-legends-trading-card-game-spiritforged-boneshiver-epic": 1.29
       },
-      "updated": "2026-11-12"
+      "updated": "2026-11-16"
     },
     "SFD-119": {
       "ids": {
-        "riftbound-league-of-legends-trading-card-game-spiritforged-jax-unrelenting-epic": 0.62
+        "riftbound-league-of-legends-trading-card-game-spiritforged-jax-unrelenting-epic": 0.7
       },
-      "updated": "2026-11-12"
+      "updated": "2026-11-16"
     },
     "SFD-119a": {
       "ids": {
-        "riftbound-league-of-legends-trading-card-game-spiritforged-jax-unrelenting-alternate-art-showcase": 0.81
+        "riftbound-league-of-legends-trading-card-game-spiritforged-jax-unrelenting-alternate-art-showcase": 0.87
       },
-      "updated": "2026-11-14"
+      "updated": "2026-11-16"
     },
     "SFD-120": {
       "ids": {
-        "riftbound-league-of-legends-trading-card-game-spiritforged-sivir-ambitious-epic": 0.47
+        "riftbound-league-of-legends-trading-card-game-spiritforged-sivir-ambitious-epic": 0.46
       },
-      "updated": "2026-11-12"
+      "updated": "2026-11-16"
     },
     "SFD-120a": {
       "ids": {
         "riftbound-league-of-legends-trading-card-game-spiritforged-sivir-ambitious-alternate-art-showcase": 0.75
       },
-      "updated": "2026-11-14"
+      "updated": "2026-11-16"
     },
     "SFD-121": {
       "ids": {
@@ -4700,9 +4700,9 @@
     },
     "SFD-141a": {
       "ids": {
-        "riftbound-league-of-legends-trading-card-game-spiritforged-irelia-graceful-alternate-art-showcase": 1.02
+        "riftbound-league-of-legends-trading-card-game-spiritforged-irelia-graceful-alternate-art-showcase": 1.01
       },
-      "updated": "2026-11-14"
+      "updated": "2026-11-16"
     },
     "SFD-142": {
       "ids": {
@@ -4720,7 +4720,7 @@
       "ids": {
         "riftbound-league-of-legends-trading-card-game-spiritforged-sivir-mercenary-alternate-art-showcase": 0.5
       },
-      "updated": "2026-11-14"
+      "updated": "2026-11-16"
     },
     "SFD-144": {
       "ids": {
@@ -4742,39 +4742,39 @@
     },
     "SFD-147": {
       "ids": {
-        "riftbound-league-of-legends-trading-card-game-spiritforged-downwell-epic": 2.49
+        "riftbound-league-of-legends-trading-card-game-spiritforged-downwell-epic": 2.43
       },
-      "updated": "2026-11-12"
+      "updated": "2026-11-16"
     },
     "SFD-148": {
       "ids": {
-        "riftbound-league-of-legends-trading-card-game-spiritforged-draven-audacious-epic": 0.88
+        "riftbound-league-of-legends-trading-card-game-spiritforged-draven-audacious-epic": 0.93
       },
-      "updated": "2026-11-12"
+      "updated": "2026-11-16"
     },
     "SFD-148a": {
       "ids": {
         "riftbound-league-of-legends-trading-card-game-spiritforged-draven-audacious-alternate-art-showcase": 1.41
       },
-      "updated": "2026-11-14"
+      "updated": "2026-11-16"
     },
     "SFD-149": {
       "ids": {
-        "riftbound-league-of-legends-trading-card-game-spiritforged-ezreal-prodigy-epic": 9.5
+        "riftbound-league-of-legends-trading-card-game-spiritforged-ezreal-prodigy-epic": 10.11
       },
-      "updated": "2026-11-12"
+      "updated": "2026-11-16"
     },
     "SFD-149a": {
       "ids": {
-        "riftbound-league-of-legends-trading-card-game-spiritforged-ezreal-prodigy-alternate-art-showcase": 10.44
+        "riftbound-league-of-legends-trading-card-game-spiritforged-ezreal-prodigy-alternate-art-showcase": 10.31
       },
-      "updated": "2026-11-14"
+      "updated": "2026-11-16"
     },
     "SFD-150": {
       "ids": {
-        "riftbound-league-of-legends-trading-card-game-spiritforged-last-rites-epic": 32.21
+        "riftbound-league-of-legends-trading-card-game-spiritforged-last-rites-epic": 32.09
       },
-      "updated": "2026-11-14"
+      "updated": "2026-11-16"
     },
     "SFD-151": {
       "ids": {
@@ -4898,9 +4898,9 @@
     },
     "SFD-170a": {
       "ids": {
-        "riftbound-league-of-legends-trading-card-game-spiritforged-rek-sai-swarm-queen-alternate-art-showcase": 0.67
+        "riftbound-league-of-legends-trading-card-game-spiritforged-rek-sai-swarm-queen-alternate-art-showcase": 0.72
       },
-      "updated": "2026-11-14"
+      "updated": "2026-11-16"
     },
     "SFD-171": {
       "ids": {
@@ -4910,9 +4910,9 @@
     },
     "SFD-171a": {
       "ids": {
-        "riftbound-league-of-legends-trading-card-game-spiritforged-renata-glasc-industrialist-alternate-art-showcase": 0.85
+        "riftbound-league-of-legends-trading-card-game-spiritforged-renata-glasc-industrialist-alternate-art-showcase": 0.96
       },
-      "updated": "2026-11-14"
+      "updated": "2026-11-16"
     },
     "SFD-172": {
       "ids": {
@@ -4946,39 +4946,39 @@
     },
     "SFD-177": {
       "ids": {
-        "riftbound-league-of-legends-trading-card-game-spiritforged-azir-sovereign-epic": 3.79
+        "riftbound-league-of-legends-trading-card-game-spiritforged-azir-sovereign-epic": 4.01
       },
-      "updated": "2026-11-12"
+      "updated": "2026-11-16"
     },
     "SFD-177a": {
       "ids": {
         "riftbound-league-of-legends-trading-card-game-spiritforged-azir-sovereign-alternate-art-showcase": 0.7
       },
-      "updated": "2026-11-14"
+      "updated": "2026-11-16"
     },
     "SFD-178": {
       "ids": {
         "riftbound-league-of-legends-trading-card-game-spiritforged-blade-of-the-ruined-king-epic": 1.0
       },
-      "updated": "2026-11-12"
+      "updated": "2026-11-16"
     },
     "SFD-179": {
       "ids": {
         "riftbound-league-of-legends-trading-card-game-spiritforged-corina-veraza-epic": 1.5
       },
-      "updated": "2026-11-12"
+      "updated": "2026-11-16"
     },
     "SFD-180": {
       "ids": {
-        "riftbound-league-of-legends-trading-card-game-spiritforged-fiora-worthy-epic": 0.61
+        "riftbound-league-of-legends-trading-card-game-spiritforged-fiora-worthy-epic": 0.62
       },
-      "updated": "2026-11-12"
+      "updated": "2026-11-16"
     },
     "SFD-180a": {
       "ids": {
         "riftbound-league-of-legends-trading-card-game-spiritforged-fiora-worthy-alternate-art-showcase": 3.0
       },
-      "updated": "2026-11-14"
+      "updated": "2026-11-16"
     },
     "SFD-181": {
       "ids": {
@@ -4990,7 +4990,7 @@
       "ids": {
         "riftbound-league-of-legends-trading-card-game-spiritforged-danger-zone-epic": 0.3
       },
-      "updated": "2026-11-12"
+      "updated": "2026-11-16"
     },
     "SFD-183": {
       "ids": {
@@ -5002,7 +5002,7 @@
       "ids": {
         "riftbound-league-of-legends-trading-card-game-spiritforged-relentless-pursuit-epic": 0.55
       },
-      "updated": "2026-11-12"
+      "updated": "2026-11-16"
     },
     "SFD-185": {
       "ids": {
@@ -5012,9 +5012,9 @@
     },
     "SFD-186": {
       "ids": {
-        "riftbound-league-of-legends-trading-card-game-spiritforged-spinning-axe-epic": 0.8
+        "riftbound-league-of-legends-trading-card-game-spiritforged-spinning-axe-epic": 0.98
       },
-      "updated": "2026-11-12"
+      "updated": "2026-11-16"
     },
     "SFD-187": {
       "ids": {
@@ -5024,9 +5024,9 @@
     },
     "SFD-188": {
       "ids": {
-        "riftbound-league-of-legends-trading-card-game-spiritforged-void-rush-epic": 3.98
+        "riftbound-league-of-legends-trading-card-game-spiritforged-void-rush-epic": 4.0
       },
-      "updated": "2026-11-12"
+      "updated": "2026-11-16"
     },
     "SFD-189": {
       "ids": {
@@ -5036,21 +5036,21 @@
     },
     "SFD-190": {
       "ids": {
-        "riftbound-league-of-legends-trading-card-game-spiritforged-forgefire-cape-epic": 0.33
+        "riftbound-league-of-legends-trading-card-game-spiritforged-forgefire-cape-epic": 0.34
       },
-      "updated": "2026-11-12"
+      "updated": "2026-11-16"
     },
     "SFD-191": {
       "ids": {
-        "riftbound-league-of-legends-trading-card-game-spiritforged-rabadon-s-deathcrown-epic": 0.28
+        "riftbound-league-of-legends-trading-card-game-spiritforged-rabadon-s-deathcrown-epic": 0.3
       },
-      "updated": "2026-11-12"
+      "updated": "2026-11-16"
     },
     "SFD-192": {
       "ids": {
-        "riftbound-league-of-legends-trading-card-game-spiritforged-shurelya-s-requiem-epic": 0.36
+        "riftbound-league-of-legends-trading-card-game-spiritforged-shurelya-s-requiem-epic": 0.39
       },
-      "updated": "2026-11-12"
+      "updated": "2026-11-16"
     },
     "SFD-193": {
       "ids": {
@@ -5060,9 +5060,9 @@
     },
     "SFD-194": {
       "ids": {
-        "riftbound-league-of-legends-trading-card-game-spiritforged-counter-strike-epic": 0.75
+        "riftbound-league-of-legends-trading-card-game-spiritforged-counter-strike-epic": 0.74
       },
-      "updated": "2026-11-12"
+      "updated": "2026-11-16"
     },
     "SFD-195": {
       "ids": {
@@ -5072,9 +5072,9 @@
     },
     "SFD-196": {
       "ids": {
-        "riftbound-league-of-legends-trading-card-game-spiritforged-defiant-dance-epic": 8.11
+        "riftbound-league-of-legends-trading-card-game-spiritforged-defiant-dance-epic": 7.25
       },
-      "updated": "2026-11-12"
+      "updated": "2026-11-16"
     },
     "SFD-197": {
       "ids": {
@@ -5086,7 +5086,7 @@
       "ids": {
         "riftbound-league-of-legends-trading-card-game-spiritforged-arise-exclamation-epic": 15.0
       },
-      "updated": "2026-11-12"
+      "updated": "2026-11-16"
     },
     "SFD-199": {
       "ids": {
@@ -5098,7 +5098,7 @@
       "ids": {
         "riftbound-league-of-legends-trading-card-game-spiritforged-arcane-shift-epic": 0.6
       },
-      "updated": "2026-11-12"
+      "updated": "2026-11-16"
     },
     "SFD-201": {
       "ids": {
@@ -5108,9 +5108,9 @@
     },
     "SFD-202": {
       "ids": {
-        "riftbound-league-of-legends-trading-card-game-spiritforged-hostile-takeover-epic": 0.76
+        "riftbound-league-of-legends-trading-card-game-spiritforged-hostile-takeover-epic": 0.85
       },
-      "updated": "2026-11-12"
+      "updated": "2026-11-16"
     },
     "SFD-203": {
       "ids": {
@@ -5122,7 +5122,7 @@
       "ids": {
         "riftbound-league-of-legends-trading-card-game-spiritforged-on-the-hunt-epic": 0.25
       },
-      "updated": "2026-11-12"
+      "updated": "2026-11-16"
     },
     "SFD-205": {
       "ids": {
@@ -5132,9 +5132,9 @@
     },
     "SFD-206": {
       "ids": {
-        "riftbound-league-of-legends-trading-card-game-spiritforged-riposte-epic": 1.62
+        "riftbound-league-of-legends-trading-card-game-spiritforged-riposte-epic": 1.49
       },
-      "updated": "2026-11-12"
+      "updated": "2026-11-16"
     },
     "SFD-207": {
       "ids": {
@@ -5230,253 +5230,253 @@
       "ids": {
         "riftbound-league-of-legends-trading-card-game-spiritforged-seal-of-rage-overnumbered-showcase": 25.0
       },
-      "updated": "2026-11-14"
+      "updated": "2026-11-16"
     },
     "SFD-223": {
       "ids": {
         "riftbound-league-of-legends-trading-card-game-spiritforged-vayne-hunter-overnumbered-showcase": 125.1
       },
-      "updated": "2026-11-14"
+      "updated": "2026-11-16"
     },
     "SFD-223*": {
       "ids": {
         "riftbound-league-of-legends-trading-card-game-spiritforged-vayne-hunter-signature-showcase": 975.0
       },
-      "updated": "2026-11-14"
+      "updated": "2026-11-16"
     },
     "SFD-224": {
       "ids": {
         "riftbound-league-of-legends-trading-card-game-spiritforged-aphelios-exalted-overnumbered-showcase": 51.49
       },
-      "updated": "2026-11-14"
+      "updated": "2026-11-16"
     },
     "SFD-224*": {
       "ids": {
         "riftbound-league-of-legends-trading-card-game-spiritforged-aphelios-exalted-signature-showcase": 300.0
       },
-      "updated": "2026-11-14"
+      "updated": "2026-11-16"
     },
     "SFD-225": {
       "ids": {
-        "riftbound-league-of-legends-trading-card-game-spiritforged-irelia-fervent-overnumbered-showcase": 235.16
+        "riftbound-league-of-legends-trading-card-game-spiritforged-irelia-fervent-overnumbered-showcase": 252.2
       },
-      "updated": "2026-11-14"
+      "updated": "2026-11-16"
     },
     "SFD-225*": {
       "ids": {
         "riftbound-league-of-legends-trading-card-game-spiritforged-irelia-fervent-signature-showcase": 1572.06
       },
-      "updated": "2026-11-14"
+      "updated": "2026-11-16"
     },
     "SFD-226": {
       "ids": {
-        "riftbound-league-of-legends-trading-card-game-spiritforged-seal-of-focus-overnumbered-showcase": 56.88
+        "riftbound-league-of-legends-trading-card-game-spiritforged-seal-of-focus-overnumbered-showcase": 55.89
       },
-      "updated": "2026-11-14"
+      "updated": "2026-11-16"
     },
     "SFD-227": {
       "ids": {
         "riftbound-league-of-legends-trading-card-game-spiritforged-ahri-inquisitive-overnumbered-showcase": 422.25
       },
-      "updated": "2026-11-14"
+      "updated": "2026-11-16"
     },
     "SFD-227*": {
       "ids": {
         "riftbound-league-of-legends-trading-card-game-spiritforged-ahri-inquisitive-signature-showcase": 3390.69
       },
-      "updated": "2026-11-14"
+      "updated": "2026-11-16"
     },
     "SFD-228": {
       "ids": {
         "riftbound-league-of-legends-trading-card-game-spiritforged-bard-mercurial-overnumbered-showcase": 44.64
       },
-      "updated": "2026-11-14"
+      "updated": "2026-11-16"
     },
     "SFD-228*": {
       "ids": {
         "riftbound-league-of-legends-trading-card-game-spiritforged-bard-mercurial-signature-showcase": 300.0
       },
-      "updated": "2026-11-14"
+      "updated": "2026-11-16"
     },
     "SFD-229": {
       "ids": {
-        "riftbound-league-of-legends-trading-card-game-spiritforged-seal-of-insight-overnumbered-showcase": 45.91
+        "riftbound-league-of-legends-trading-card-game-spiritforged-seal-of-insight-overnumbered-showcase": 44.14
       },
-      "updated": "2026-11-14"
+      "updated": "2026-11-16"
     },
     "SFD-230": {
       "ids": {
         "riftbound-league-of-legends-trading-card-game-spiritforged-teemo-strategist-overnumbered-showcase": 60.0
       },
-      "updated": "2026-11-14"
+      "updated": "2026-11-16"
     },
     "SFD-230*": {
       "ids": {
         "riftbound-league-of-legends-trading-card-game-spiritforged-teemo-strategist-signature-showcase": 490.11
       },
-      "updated": "2026-11-14"
+      "updated": "2026-11-16"
     },
     "SFD-231": {
       "ids": {
-        "riftbound-league-of-legends-trading-card-game-spiritforged-seal-of-strength-overnumbered-showcase": 36.73
+        "riftbound-league-of-legends-trading-card-game-spiritforged-seal-of-strength-overnumbered-showcase": 35.09
       },
-      "updated": "2026-11-14"
+      "updated": "2026-11-16"
     },
     "SFD-232": {
       "ids": {
-        "riftbound-league-of-legends-trading-card-game-spiritforged-sett-brawler-overnumbered-showcase": 51.66
+        "riftbound-league-of-legends-trading-card-game-spiritforged-sett-brawler-overnumbered-showcase": 47.91
       },
-      "updated": "2026-11-14"
+      "updated": "2026-11-16"
     },
     "SFD-232*": {
       "ids": {
         "riftbound-league-of-legends-trading-card-game-spiritforged-sett-brawler-signature-showcase": 289.99
       },
-      "updated": "2026-11-14"
+      "updated": "2026-11-16"
     },
     "SFD-233": {
       "ids": {
         "riftbound-league-of-legends-trading-card-game-spiritforged-yone-blademaster-overnumbered-showcase": 58.16
       },
-      "updated": "2026-11-14"
+      "updated": "2026-11-16"
     },
     "SFD-233*": {
       "ids": {
         "riftbound-league-of-legends-trading-card-game-spiritforged-yone-blademaster-signature-showcase": 200.0
       },
-      "updated": "2026-11-14"
+      "updated": "2026-11-16"
     },
     "SFD-234": {
       "ids": {
-        "riftbound-league-of-legends-trading-card-game-spiritforged-seal-of-discord-overnumbered-showcase": 79.25
+        "riftbound-league-of-legends-trading-card-game-spiritforged-seal-of-discord-overnumbered-showcase": 78.52
       },
-      "updated": "2026-11-14"
+      "updated": "2026-11-16"
     },
     "SFD-235": {
       "ids": {
         "riftbound-league-of-legends-trading-card-game-spiritforged-yasuo-windrider-overnumbered-showcase": 56.36
       },
-      "updated": "2026-11-14"
+      "updated": "2026-11-16"
     },
     "SFD-235*": {
       "ids": {
         "riftbound-league-of-legends-trading-card-game-spiritforged-yasuo-windrider-signature-showcase": 350.0
       },
-      "updated": "2026-11-14"
+      "updated": "2026-11-16"
     },
     "SFD-236": {
       "ids": {
         "riftbound-league-of-legends-trading-card-game-spiritforged-darius-executioner-overnumbered-showcase": 32.59
       },
-      "updated": "2026-11-14"
+      "updated": "2026-11-16"
     },
     "SFD-236*": {
       "ids": {
         "riftbound-league-of-legends-trading-card-game-spiritforged-darius-executioner-signature-showcase": 257.5
       },
-      "updated": "2026-11-14"
+      "updated": "2026-11-16"
     },
     "SFD-237": {
       "ids": {
         "riftbound-league-of-legends-trading-card-game-spiritforged-karma-channeler-overnumbered-showcase": 31.99
       },
-      "updated": "2026-11-14"
+      "updated": "2026-11-16"
     },
     "SFD-237*": {
       "ids": {
         "riftbound-league-of-legends-trading-card-game-spiritforged-karma-channeler-signature-showcase": 3.25
       },
-      "updated": "2026-11-14"
+      "updated": "2026-11-16"
     },
     "SFD-238": {
       "ids": {
-        "riftbound-league-of-legends-trading-card-game-spiritforged-seal-of-unity-overnumbered-showcase": 53.27
+        "riftbound-league-of-legends-trading-card-game-spiritforged-seal-of-unity-overnumbered-showcase": 51.04
       },
-      "updated": "2026-11-14"
+      "updated": "2026-11-16"
     },
     "SFD-239": {
       "ids": {
         "riftbound-league-of-legends-trading-card-game-spiritforged-soraka-wanderer-overnumbered-showcase": 60.0
       },
-      "updated": "2026-11-14"
+      "updated": "2026-11-16"
     },
     "SFD-239*": {
       "ids": {
         "riftbound-league-of-legends-trading-card-game-spiritforged-soraka-wanderer-signature-showcase": 722.79
       },
-      "updated": "2026-11-14"
+      "updated": "2026-11-16"
     },
     "SFD-240": {
       "ids": {
         "riftbound-league-of-legends-trading-card-game-spiritforged-rumble-mechanized-menace-overnumbered-showcase": 37.11
       },
-      "updated": "2026-11-14"
+      "updated": "2026-11-16"
     },
     "SFD-241": {
       "ids": {
-        "riftbound-league-of-legends-trading-card-game-spiritforged-lucian-purifier-overnumbered-showcase": 50.76
+        "riftbound-league-of-legends-trading-card-game-spiritforged-lucian-purifier-overnumbered-showcase": 47.67
       },
-      "updated": "2026-11-14"
+      "updated": "2026-11-16"
     },
     "SFD-242": {
       "ids": {
         "riftbound-league-of-legends-trading-card-game-spiritforged-draven-glorious-executioner-overnumbered-showcase": 41.99
       },
-      "updated": "2026-11-14"
+      "updated": "2026-11-16"
     },
     "SFD-243": {
       "ids": {
-        "riftbound-league-of-legends-trading-card-game-spiritforged-rek-sai-void-burrower-overnumbered-showcase": 67.24
+        "riftbound-league-of-legends-trading-card-game-spiritforged-rek-sai-void-burrower-overnumbered-showcase": 66.79
       },
-      "updated": "2026-11-14"
+      "updated": "2026-11-16"
     },
     "SFD-244": {
       "ids": {
         "riftbound-league-of-legends-trading-card-game-spiritforged-ornn-fire-below-the-mountain-overnumbered-showcase": 50.0
       },
-      "updated": "2026-11-14"
+      "updated": "2026-11-16"
     },
     "SFD-245": {
       "ids": {
-        "riftbound-league-of-legends-trading-card-game-spiritforged-jax-grandmaster-at-arms-overnumbered-showcase": 45.81
+        "riftbound-league-of-legends-trading-card-game-spiritforged-jax-grandmaster-at-arms-overnumbered-showcase": 45.33
       },
-      "updated": "2026-11-14"
+      "updated": "2026-11-16"
     },
     "SFD-246": {
       "ids": {
-        "riftbound-league-of-legends-trading-card-game-spiritforged-irelia-blade-dancer-overnumbered-showcase": 134.9
+        "riftbound-league-of-legends-trading-card-game-spiritforged-irelia-blade-dancer-overnumbered-showcase": 140.51
       },
-      "updated": "2026-11-14"
+      "updated": "2026-11-16"
     },
     "SFD-247": {
       "ids": {
         "riftbound-league-of-legends-trading-card-game-spiritforged-azir-emperor-of-the-sands-overnumbered-showcase": 94.99
       },
-      "updated": "2026-11-14"
+      "updated": "2026-11-16"
     },
     "SFD-248": {
       "ids": {
         "riftbound-league-of-legends-trading-card-game-spiritforged-ezreal-prodigal-explorer-overnumbered-showcase": 55.0
       },
-      "updated": "2026-11-14"
+      "updated": "2026-11-16"
     },
     "SFD-249": {
       "ids": {
-        "riftbound-league-of-legends-trading-card-game-spiritforged-renata-glasc-chem-baroness-overnumbered-showcase": 35.62
+        "riftbound-league-of-legends-trading-card-game-spiritforged-renata-glasc-chem-baroness-overnumbered-showcase": 35.28
       },
-      "updated": "2026-11-14"
+      "updated": "2026-11-16"
     },
     "SFD-250": {
       "ids": {
-        "riftbound-league-of-legends-trading-card-game-spiritforged-sivir-battle-mistress-overnumbered-showcase": 43.04
+        "riftbound-league-of-legends-trading-card-game-spiritforged-sivir-battle-mistress-overnumbered-showcase": 41.72
       },
-      "updated": "2026-11-14"
+      "updated": "2026-11-16"
     },
     "SFD-251": {
       "ids": {
-        "riftbound-league-of-legends-trading-card-game-spiritforged-fiora-grand-duelist-overnumbered-showcase": 91.83
+        "riftbound-league-of-legends-trading-card-game-spiritforged-fiora-grand-duelist-overnumbered-showcase": 89.61
       },
-      "updated": "2026-11-14"
+      "updated": "2026-11-16"
     },
     "SFD-R01": {
       "ids": {
@@ -5486,9 +5486,9 @@
     },
     "SFD-R01a": {
       "ids": {
-        "riftbound-league-of-legends-trading-card-game-spiritforged-fury-rune-r01a-showcase": 2.21
+        "riftbound-league-of-legends-trading-card-game-spiritforged-fury-rune-r01a-showcase": 2.23
       },
-      "updated": "2026-11-14"
+      "updated": "2026-11-16"
     },
     "SFD-R01b": {
       "ids": {
@@ -5505,9 +5505,9 @@
     },
     "SFD-R02a": {
       "ids": {
-        "riftbound-league-of-legends-trading-card-game-spiritforged-calm-rune-r02a-showcase": 5.41
+        "riftbound-league-of-legends-trading-card-game-spiritforged-calm-rune-r02a-showcase": 5.5
       },
-      "updated": "2026-11-14"
+      "updated": "2026-11-16"
     },
     "SFD-R02b": {
       "ids": {
@@ -5526,7 +5526,7 @@
       "ids": {
         "riftbound-league-of-legends-trading-card-game-spiritforged-mind-rune-r03a-showcase": 1.0
       },
-      "updated": "2026-11-14"
+      "updated": "2026-11-16"
     },
     "SFD-R03b": {
       "ids": {
@@ -5545,7 +5545,7 @@
       "ids": {
         "riftbound-league-of-legends-trading-card-game-spiritforged-body-rune-r04a-showcase": 1.75
       },
-      "updated": "2026-11-14"
+      "updated": "2026-11-16"
     },
     "SFD-R04b": {
       "ids": {
@@ -5564,7 +5564,7 @@
       "ids": {
         "riftbound-league-of-legends-trading-card-game-spiritforged-chaos-rune-r05a-showcase": 4.0
       },
-      "updated": "2026-11-14"
+      "updated": "2026-11-16"
     },
     "SFD-R05b": {
       "ids": {
@@ -5583,7 +5583,7 @@
       "ids": {
         "riftbound-league-of-legends-trading-card-game-spiritforged-order-rune-r06a-showcase": 1.0
       },
-      "updated": "2026-11-14"
+      "updated": "2026-11-16"
     },
     "SFD-R06b": {
       "ids": {
@@ -5745,9 +5745,9 @@
     },
     "UNL-022a": {
       "ids": {
-        "riftbound-league-of-legends-trading-card-game-unleashed-jhin-murderous-artist-alternate-art-showcase": 3.47
+        "riftbound-league-of-legends-trading-card-game-unleashed-jhin-murderous-artist-alternate-art-showcase": 3.55
       },
-      "updated": "2026-11-14"
+      "updated": "2026-11-16"
     },
     "UNL-023": {
       "ids": {
@@ -5763,9 +5763,9 @@
     },
     "UNL-024a": {
       "ids": {
-        "riftbound-league-of-legends-trading-card-game-unleashed-rengar-unseen-alternate-art-showcase": 2.56
+        "riftbound-league-of-legends-trading-card-game-unleashed-rengar-unseen-alternate-art-showcase": 2.64
       },
-      "updated": "2026-11-14"
+      "updated": "2026-11-16"
     },
     "UNL-025": {
       "ids": {
@@ -5783,7 +5783,7 @@
       "ids": {
         "riftbound-league-of-legends-trading-card-game-unleashed-inviolus-vox-epic": 0.34
       },
-      "updated": "2026-11-12"
+      "updated": "2026-11-16"
     },
     "UNL-028": {
       "ids": {
@@ -5795,31 +5795,31 @@
       "ids": {
         "riftbound-league-of-legends-trading-card-game-unleashed-pyke-dockside-butcher-alternate-art-showcase": 16.79
       },
-      "updated": "2026-11-14"
+      "updated": "2026-11-16"
     },
     "UNL-029": {
       "ids": {
-        "riftbound-league-of-legends-trading-card-game-unleashed-red-brambleback-epic": 0.66
+        "riftbound-league-of-legends-trading-card-game-unleashed-red-brambleback-epic": 0.64
       },
-      "updated": "2026-11-12"
+      "updated": "2026-11-16"
     },
     "UNL-029a": {
       "ids": {
         "riftbound-league-of-legends-trading-card-game-unleashed-red-brambleback-alternate-art-showcase": 1.0
       },
-      "updated": "2026-11-14"
+      "updated": "2026-11-16"
     },
     "UNL-030": {
       "ids": {
         "riftbound-league-of-legends-trading-card-game-unleashed-vi-hotheaded-epic": 0.28
       },
-      "updated": "2026-11-12"
+      "updated": "2026-11-16"
     },
     "UNL-030a": {
       "ids": {
         "riftbound-league-of-legends-trading-card-game-unleashed-vi-hotheaded-alternate-art-showcase": 3.09
       },
-      "updated": "2026-11-14"
+      "updated": "2026-11-16"
     },
     "UNL-031": {
       "ids": {
@@ -5951,7 +5951,7 @@
       "ids": {
         "riftbound-league-of-legends-trading-card-game-unleashed-ivern-nurturer-alternate-art-showcase": 1.0
       },
-      "updated": "2026-11-14"
+      "updated": "2026-11-16"
     },
     "UNL-052": {
       "ids": {
@@ -5981,7 +5981,7 @@
       "ids": {
         "riftbound-league-of-legends-trading-card-game-unleashed-vex-mocking-alternate-art-showcase": 0.99
       },
-      "updated": "2026-11-14"
+      "updated": "2026-11-16"
     },
     "UNL-056": {
       "ids": {
@@ -5991,33 +5991,33 @@
     },
     "UNL-057": {
       "ids": {
-        "riftbound-league-of-legends-trading-card-game-unleashed-alpha-wildclaw-epic": 0.64
+        "riftbound-league-of-legends-trading-card-game-unleashed-alpha-wildclaw-epic": 0.76
       },
-      "updated": "2026-11-12"
+      "updated": "2026-11-16"
     },
     "UNL-058": {
       "ids": {
-        "riftbound-league-of-legends-trading-card-game-unleashed-lillia-protector-of-dreams-epic": 0.52
+        "riftbound-league-of-legends-trading-card-game-unleashed-lillia-protector-of-dreams-epic": 0.48
       },
-      "updated": "2026-11-12"
+      "updated": "2026-11-16"
     },
     "UNL-058a": {
       "ids": {
         "riftbound-league-of-legends-trading-card-game-unleashed-lillia-protector-of-dreams-alternate-art-showcase": 3.5
       },
-      "updated": "2026-11-14"
+      "updated": "2026-11-16"
     },
     "UNL-059": {
       "ids": {
         "riftbound-league-of-legends-trading-card-game-unleashed-master-yi-unstoppable-epic": 0.75
       },
-      "updated": "2026-11-12"
+      "updated": "2026-11-16"
     },
     "UNL-059a": {
       "ids": {
-        "riftbound-league-of-legends-trading-card-game-unleashed-master-yi-unstoppable-alternate-art-showcase": 2.3
+        "riftbound-league-of-legends-trading-card-game-unleashed-master-yi-unstoppable-alternate-art-showcase": 2.35
       },
-      "updated": "2026-11-14"
+      "updated": "2026-11-16"
     },
     "UNL-060": {
       "ids": {
@@ -6027,9 +6027,9 @@
     },
     "UNL-060a": {
       "ids": {
-        "riftbound-league-of-legends-trading-card-game-unleashed-vilemaw-alternate-art-showcase": 14.82
+        "riftbound-league-of-legends-trading-card-game-unleashed-vilemaw-alternate-art-showcase": 13.98
       },
-      "updated": "2026-11-14"
+      "updated": "2026-11-16"
     },
     "UNL-061": {
       "ids": {
@@ -6149,7 +6149,7 @@
       "ids": {
         "riftbound-league-of-legends-trading-card-game-unleashed-diana-lunari-alternate-art-showcase": 3.0
       },
-      "updated": "2026-11-14"
+      "updated": "2026-11-16"
     },
     "UNL-080": {
       "ids": {
@@ -6173,7 +6173,7 @@
       "ids": {
         "riftbound-league-of-legends-trading-card-game-unleashed-lillia-fae-fawn-alternate-art-showcase": 6.32
       },
-      "updated": "2026-11-14"
+      "updated": "2026-11-16"
     },
     "UNL-083": {
       "ids": {
@@ -6201,45 +6201,45 @@
     },
     "UNL-087": {
       "ids": {
-        "riftbound-league-of-legends-trading-card-game-unleashed-blue-sentinel-epic": 1.85
+        "riftbound-league-of-legends-trading-card-game-unleashed-blue-sentinel-epic": 1.71
       },
-      "updated": "2026-11-12"
+      "updated": "2026-11-16"
     },
     "UNL-087a": {
       "ids": {
-        "riftbound-league-of-legends-trading-card-game-unleashed-blue-sentinel-alternate-art-showcase": 2.61
+        "riftbound-league-of-legends-trading-card-game-unleashed-blue-sentinel-alternate-art-showcase": 2.78
       },
-      "updated": "2026-11-14"
+      "updated": "2026-11-16"
     },
     "UNL-088": {
       "ids": {
-        "riftbound-league-of-legends-trading-card-game-unleashed-gutter-palace-epic": 1.06
+        "riftbound-league-of-legends-trading-card-game-unleashed-gutter-palace-epic": 1.07
       },
-      "updated": "2026-11-12"
+      "updated": "2026-11-16"
     },
     "UNL-089": {
       "ids": {
         "riftbound-league-of-legends-trading-card-game-unleashed-jhin-meticulous-killer-epic": 0.75
       },
-      "updated": "2026-11-12"
+      "updated": "2026-11-16"
     },
     "UNL-089a": {
       "ids": {
-        "riftbound-league-of-legends-trading-card-game-unleashed-jhin-meticulous-killer-alternate-art-showcase": 3.2
+        "riftbound-league-of-legends-trading-card-game-unleashed-jhin-meticulous-killer-alternate-art-showcase": 3.14
       },
-      "updated": "2026-11-14"
+      "updated": "2026-11-16"
     },
     "UNL-090": {
       "ids": {
         "riftbound-league-of-legends-trading-card-game-unleashed-leblanc-everywhere-at-once-epic": 1.5
       },
-      "updated": "2026-11-12"
+      "updated": "2026-11-16"
     },
     "UNL-090a": {
       "ids": {
-        "riftbound-league-of-legends-trading-card-game-unleashed-leblanc-everywhere-at-once-alternate-art-showcase": 5.79
+        "riftbound-league-of-legends-trading-card-game-unleashed-leblanc-everywhere-at-once-alternate-art-showcase": 5.62
       },
-      "updated": "2026-11-14"
+      "updated": "2026-11-16"
     },
     "UNL-091": {
       "ids": {
@@ -6383,7 +6383,7 @@
       "ids": {
         "riftbound-league-of-legends-trading-card-game-unleashed-master-yi-tempered-alternate-art-showcase": 1.99
       },
-      "updated": "2026-11-14"
+      "updated": "2026-11-16"
     },
     "UNL-114": {
       "ids": {
@@ -6405,15 +6405,15 @@
     },
     "UNL-116a": {
       "ids": {
-        "riftbound-league-of-legends-trading-card-game-unleashed-poppy-paragon-alternate-art-showcase": 1.49
+        "riftbound-league-of-legends-trading-card-game-unleashed-poppy-paragon-alternate-art-showcase": 1.51
       },
-      "updated": "2026-11-14"
+      "updated": "2026-11-16"
     },
     "UNL-117": {
       "ids": {
-        "riftbound-league-of-legends-trading-card-game-unleashed-arachnoid-horror-epic": 1.28
+        "riftbound-league-of-legends-trading-card-game-unleashed-arachnoid-horror-epic": 1.45
       },
-      "updated": "2026-11-12"
+      "updated": "2026-11-16"
     },
     "UNL-118": {
       "ids": {
@@ -6425,19 +6425,19 @@
       "ids": {
         "riftbound-league-of-legends-trading-card-game-unleashed-elder-dragon-alternate-art-showcase": 15.36
       },
-      "updated": "2026-11-14"
+      "updated": "2026-11-16"
     },
     "UNL-119": {
       "ids": {
         "riftbound-league-of-legends-trading-card-game-unleashed-kha-zix-evolving-hunter-epic": 0.15
       },
-      "updated": "2026-11-12"
+      "updated": "2026-11-16"
     },
     "UNL-119a": {
       "ids": {
         "riftbound-league-of-legends-trading-card-game-unleashed-kha-zix-evolving-hunter-alternate-art-showcase": 1.62
       },
-      "updated": "2026-11-14"
+      "updated": "2026-11-16"
     },
     "UNL-120": {
       "ids": {
@@ -6449,7 +6449,7 @@
       "ids": {
         "riftbound-league-of-legends-trading-card-game-unleashed-rengar-trophy-hunter-alternate-art-showcase": 23.54
       },
-      "updated": "2026-11-14"
+      "updated": "2026-11-16"
     },
     "UNL-121": {
       "ids": {
@@ -6591,9 +6591,9 @@
     },
     "UNL-143a": {
       "ids": {
-        "riftbound-league-of-legends-trading-card-game-unleashed-kha-zix-mutating-horror-alternate-art-showcase": 5.04
+        "riftbound-league-of-legends-trading-card-game-unleashed-kha-zix-mutating-horror-alternate-art-showcase": 5.15
       },
-      "updated": "2026-11-14"
+      "updated": "2026-11-16"
     },
     "UNL-144": {
       "ids": {
@@ -6609,9 +6609,9 @@
     },
     "UNL-145a": {
       "ids": {
-        "riftbound-league-of-legends-trading-card-game-unleashed-pyke-returned-alternate-art-showcase": 7.15
+        "riftbound-league-of-legends-trading-card-game-unleashed-pyke-returned-alternate-art-showcase": 7.76
       },
-      "updated": "2026-11-14"
+      "updated": "2026-11-16"
     },
     "UNL-146": {
       "ids": {
@@ -6627,27 +6627,27 @@
     },
     "UNL-147a": {
       "ids": {
-        "riftbound-league-of-legends-trading-card-game-unleashed-baron-nashor-alternate-art-showcase": 27.05
+        "riftbound-league-of-legends-trading-card-game-unleashed-baron-nashor-alternate-art-showcase": 28.28
       },
-      "updated": "2026-11-14"
+      "updated": "2026-11-16"
     },
     "UNL-148": {
       "ids": {
         "riftbound-league-of-legends-trading-card-game-unleashed-cursed-sarcophagus-epic": 0.38
       },
-      "updated": "2026-11-12"
+      "updated": "2026-11-16"
     },
     "UNL-149": {
       "ids": {
-        "riftbound-league-of-legends-trading-card-game-unleashed-diana-no-longer-human-epic": 0.57
+        "riftbound-league-of-legends-trading-card-game-unleashed-diana-no-longer-human-epic": 0.56
       },
-      "updated": "2026-11-12"
+      "updated": "2026-11-16"
     },
     "UNL-149a": {
       "ids": {
-        "riftbound-league-of-legends-trading-card-game-unleashed-diana-no-longer-human-alternate-art-showcase": 3.96
+        "riftbound-league-of-legends-trading-card-game-unleashed-diana-no-longer-human-alternate-art-showcase": 3.97
       },
-      "updated": "2026-11-14"
+      "updated": "2026-11-16"
     },
     "UNL-150": {
       "ids": {
@@ -6659,7 +6659,7 @@
       "ids": {
         "riftbound-league-of-legends-trading-card-game-unleashed-vex-apathetic-alternate-art-showcase": 15.0
       },
-      "updated": "2026-11-14"
+      "updated": "2026-11-16"
     },
     "UNL-151": {
       "ids": {
@@ -6795,9 +6795,9 @@
     },
     "UNL-172a": {
       "ids": {
-        "riftbound-league-of-legends-trading-card-game-unleashed-leblanc-fragmented-alternate-art-showcase": 2.52
+        "riftbound-league-of-legends-trading-card-game-unleashed-leblanc-fragmented-alternate-art-showcase": 2.7
       },
-      "updated": "2026-11-14"
+      "updated": "2026-11-16"
     },
     "UNL-173": {
       "ids": {
@@ -6827,49 +6827,49 @@
       "ids": {
         "riftbound-league-of-legends-trading-card-game-unleashed-vi-peacekeeper-alternate-art-showcase": 12.0
       },
-      "updated": "2026-11-14"
+      "updated": "2026-11-16"
     },
     "UNL-177": {
       "ids": {
-        "riftbound-league-of-legends-trading-card-game-unleashed-ivern-friend-to-all-epic": 0.9
+        "riftbound-league-of-legends-trading-card-game-unleashed-ivern-friend-to-all-epic": 0.95
       },
-      "updated": "2026-11-12"
+      "updated": "2026-11-16"
     },
     "UNL-177a": {
       "ids": {
-        "riftbound-league-of-legends-trading-card-game-unleashed-ivern-friend-to-all-alternate-art-showcase": 1.74
+        "riftbound-league-of-legends-trading-card-game-unleashed-ivern-friend-to-all-alternate-art-showcase": 1.71
       },
-      "updated": "2026-11-14"
+      "updated": "2026-11-16"
     },
     "UNL-178": {
       "ids": {
         "riftbound-league-of-legends-trading-card-game-unleashed-poppy-defender-of-the-meek-epic": 0.3
       },
-      "updated": "2026-11-12"
+      "updated": "2026-11-16"
     },
     "UNL-178a": {
       "ids": {
-        "riftbound-league-of-legends-trading-card-game-unleashed-poppy-defender-of-the-meek-alternate-art-showcase": 2.03
+        "riftbound-league-of-legends-trading-card-game-unleashed-poppy-defender-of-the-meek-alternate-art-showcase": 2.05
       },
-      "updated": "2026-11-14"
+      "updated": "2026-11-16"
     },
     "UNL-179": {
       "ids": {
         "riftbound-league-of-legends-trading-card-game-unleashed-rift-herald-epic": 4.38
       },
-      "updated": "2026-11-12"
+      "updated": "2026-11-16"
     },
     "UNL-179a": {
       "ids": {
         "riftbound-league-of-legends-trading-card-game-unleashed-rift-herald-alternate-art-showcase": 9.0
       },
-      "updated": "2026-11-14"
+      "updated": "2026-11-16"
     },
     "UNL-180": {
       "ids": {
-        "riftbound-league-of-legends-trading-card-game-unleashed-the-ruination-epic": 5.24
+        "riftbound-league-of-legends-trading-card-game-unleashed-the-ruination-epic": 5.61
       },
-      "updated": "2026-11-12"
+      "updated": "2026-11-16"
     },
     "UNL-181": {
       "ids": {
@@ -6881,7 +6881,7 @@
       "ids": {
         "riftbound-league-of-legends-trading-card-game-unleashed-curtain-call-epic": 0.45
       },
-      "updated": "2026-11-12"
+      "updated": "2026-11-16"
     },
     "UNL-183": {
       "ids": {
@@ -6893,7 +6893,7 @@
       "ids": {
         "riftbound-league-of-legends-trading-card-game-unleashed-thrill-of-the-hunt-epic": 2.67
       },
-      "updated": "2026-11-12"
+      "updated": "2026-11-16"
     },
     "UNL-185": {
       "ids": {
@@ -6903,9 +6903,9 @@
     },
     "UNL-186": {
       "ids": {
-        "riftbound-league-of-legends-trading-card-game-unleashed-death-from-below-epic": 0.55
+        "riftbound-league-of-legends-trading-card-game-unleashed-death-from-below-epic": 0.59
       },
-      "updated": "2026-11-12"
+      "updated": "2026-11-16"
     },
     "UNL-187": {
       "ids": {
@@ -6915,9 +6915,9 @@
     },
     "UNL-188": {
       "ids": {
-        "riftbound-league-of-legends-trading-card-game-unleashed-hextech-gauntlets-epic": 0.38
+        "riftbound-league-of-legends-trading-card-game-unleashed-hextech-gauntlets-epic": 0.39
       },
-      "updated": "2026-11-12"
+      "updated": "2026-11-16"
     },
     "UNL-189": {
       "ids": {
@@ -6927,9 +6927,9 @@
     },
     "UNL-190": {
       "ids": {
-        "riftbound-league-of-legends-trading-card-game-unleashed-lilting-lullaby-epic": 1.39
+        "riftbound-league-of-legends-trading-card-game-unleashed-lilting-lullaby-epic": 1.24
       },
-      "updated": "2026-11-12"
+      "updated": "2026-11-16"
     },
     "UNL-191": {
       "ids": {
@@ -6941,7 +6941,7 @@
       "ids": {
         "riftbound-league-of-legends-trading-card-game-unleashed-alpha-strike-epic": 1.0
       },
-      "updated": "2026-11-12"
+      "updated": "2026-11-16"
     },
     "UNL-193": {
       "ids": {
@@ -6951,9 +6951,9 @@
     },
     "UNL-194": {
       "ids": {
-        "riftbound-league-of-legends-trading-card-game-unleashed-shadow-epic": 0.24
+        "riftbound-league-of-legends-trading-card-game-unleashed-shadow-epic": 0.33
       },
-      "updated": "2026-11-12"
+      "updated": "2026-11-16"
     },
     "UNL-195": {
       "ids": {
@@ -6963,9 +6963,9 @@
     },
     "UNL-196": {
       "ids": {
-        "riftbound-league-of-legends-trading-card-game-unleashed-daisy-exclamation-epic": 0.95
+        "riftbound-league-of-legends-trading-card-game-unleashed-daisy-exclamation-epic": 1.15
       },
-      "updated": "2026-11-12"
+      "updated": "2026-11-16"
     },
     "UNL-197": {
       "ids": {
@@ -7001,7 +7001,7 @@
       "ids": {
         "riftbound-league-of-legends-trading-card-game-unleashed-void-assault-epic": 1.0
       },
-      "updated": "2026-11-12"
+      "updated": "2026-11-16"
     },
     "UNL-203": {
       "ids": {
@@ -7011,9 +7011,9 @@
     },
     "UNL-204": {
       "ids": {
-        "riftbound-league-of-legends-trading-card-game-unleashed-keeper-s-verdict-epic": 0.4
+        "riftbound-league-of-legends-trading-card-game-unleashed-keeper-s-verdict-epic": 0.49
       },
-      "updated": "2026-11-12"
+      "updated": "2026-11-16"
     },
     "UNL-205": {
       "ids": {
@@ -7109,187 +7109,187 @@
       "ids": {
         "riftbound-league-of-legends-trading-card-game-unleashed-pouty-poro-overnumbered-showcase": 90.0
       },
-      "updated": "2026-11-14"
+      "updated": "2026-11-16"
     },
     "UNL-221": {
       "ids": {
         "riftbound-league-of-legends-trading-card-game-unleashed-lonely-poro-overnumbered-showcase": 114.99
       },
-      "updated": "2026-11-14"
+      "updated": "2026-11-16"
     },
     "UNL-222": {
       "ids": {
         "riftbound-league-of-legends-trading-card-game-unleashed-plundering-poro-overnumbered-showcase": 55.0
       },
-      "updated": "2026-11-14"
+      "updated": "2026-11-16"
     },
     "UNL-223": {
       "ids": {
         "riftbound-league-of-legends-trading-card-game-unleashed-veteran-poro-overnumbered-showcase": 45.66
       },
-      "updated": "2026-11-14"
+      "updated": "2026-11-16"
     },
     "UNL-224": {
       "ids": {
         "riftbound-league-of-legends-trading-card-game-unleashed-mystic-poro-overnumbered-showcase": 99.99
       },
-      "updated": "2026-11-14"
+      "updated": "2026-11-16"
     },
     "UNL-225": {
       "ids": {
         "riftbound-league-of-legends-trading-card-game-unleashed-daring-poro-overnumbered-showcase": 80.98
       },
-      "updated": "2026-11-14"
+      "updated": "2026-11-16"
     },
     "UNL-226": {
       "ids": {
         "riftbound-league-of-legends-trading-card-game-unleashed-jhin-virtuoso-overnumbered-showcase": 40.83
       },
-      "updated": "2026-11-14"
+      "updated": "2026-11-16"
     },
     "UNL-226*": {
       "ids": {
         "riftbound-league-of-legends-trading-card-game-unleashed-jhin-virtuoso-signature-showcase": 624.29
       },
-      "updated": "2026-11-14"
+      "updated": "2026-11-16"
     },
     "UNL-227": {
       "ids": {
         "riftbound-league-of-legends-trading-card-game-unleashed-rengar-pridestalker-overnumbered-showcase": 80.61
       },
-      "updated": "2026-11-14"
+      "updated": "2026-11-16"
     },
     "UNL-227*": {
       "ids": {
         "riftbound-league-of-legends-trading-card-game-unleashed-rengar-pridestalker-signature-showcase": 500.0
       },
-      "updated": "2026-11-14"
+      "updated": "2026-11-16"
     },
     "UNL-228": {
       "ids": {
-        "riftbound-league-of-legends-trading-card-game-unleashed-pyke-bloodharbor-ripper-overnumbered-showcase": 74.93
+        "riftbound-league-of-legends-trading-card-game-unleashed-pyke-bloodharbor-ripper-overnumbered-showcase": 72.63
       },
-      "updated": "2026-11-14"
+      "updated": "2026-11-16"
     },
     "UNL-228*": {
       "ids": {
         "riftbound-league-of-legends-trading-card-game-unleashed-pyke-bloodharbor-ripper-signature-showcase": 596.66
       },
-      "updated": "2026-11-14"
+      "updated": "2026-11-16"
     },
     "UNL-229": {
       "ids": {
-        "riftbound-league-of-legends-trading-card-game-unleashed-vi-piltover-enforcer-overnumbered-showcase": 69.9
+        "riftbound-league-of-legends-trading-card-game-unleashed-vi-piltover-enforcer-overnumbered-showcase": 69.55
       },
-      "updated": "2026-11-14"
+      "updated": "2026-11-16"
     },
     "UNL-229*": {
       "ids": {
         "riftbound-league-of-legends-trading-card-game-unleashed-vi-piltover-enforcer-signature-showcase": 520.11
       },
-      "updated": "2026-11-14"
+      "updated": "2026-11-16"
     },
     "UNL-230": {
       "ids": {
-        "riftbound-league-of-legends-trading-card-game-unleashed-lillia-bashful-bloom-overnumbered-showcase": 52.84
+        "riftbound-league-of-legends-trading-card-game-unleashed-lillia-bashful-bloom-overnumbered-showcase": 52.81
       },
-      "updated": "2026-11-14"
+      "updated": "2026-11-16"
     },
     "UNL-230*": {
       "ids": {
         "riftbound-league-of-legends-trading-card-game-unleashed-lillia-bashful-bloom-signature-showcase": 319.99
       },
-      "updated": "2026-11-14"
+      "updated": "2026-11-16"
     },
     "UNL-231": {
       "ids": {
-        "riftbound-league-of-legends-trading-card-game-unleashed-master-yi-wuju-master-overnumbered-showcase": 39.28
+        "riftbound-league-of-legends-trading-card-game-unleashed-master-yi-wuju-master-overnumbered-showcase": 37.65
       },
-      "updated": "2026-11-14"
+      "updated": "2026-11-16"
     },
     "UNL-231*": {
       "ids": {
         "riftbound-league-of-legends-trading-card-game-unleashed-master-yi-wuju-master-signature-showcase": 324.99
       },
-      "updated": "2026-11-14"
+      "updated": "2026-11-16"
     },
     "UNL-232": {
       "ids": {
         "riftbound-league-of-legends-trading-card-game-unleashed-vex-gloomist-overnumbered-showcase": 102.9
       },
-      "updated": "2026-11-14"
+      "updated": "2026-11-16"
     },
     "UNL-232*": {
       "ids": {
         "riftbound-league-of-legends-trading-card-game-unleashed-vex-gloomist-signature-showcase": 500.0
       },
-      "updated": "2026-11-14"
+      "updated": "2026-11-16"
     },
     "UNL-233": {
       "ids": {
         "riftbound-league-of-legends-trading-card-game-unleashed-ivern-green-father-overnumbered-showcase": 51.69
       },
-      "updated": "2026-11-14"
+      "updated": "2026-11-16"
     },
     "UNL-233*": {
       "ids": {
         "riftbound-league-of-legends-trading-card-game-unleashed-ivern-green-father-signature-showcase": 414.37
       },
-      "updated": "2026-11-14"
+      "updated": "2026-11-16"
     },
     "UNL-234": {
       "ids": {
-        "riftbound-league-of-legends-trading-card-game-unleashed-diana-scorn-of-the-moon-overnumbered-showcase": 178.91
+        "riftbound-league-of-legends-trading-card-game-unleashed-diana-scorn-of-the-moon-overnumbered-showcase": 179.43
       },
-      "updated": "2026-11-14"
+      "updated": "2026-11-16"
     },
     "UNL-234*": {
       "ids": {
         "riftbound-league-of-legends-trading-card-game-unleashed-diana-scorn-of-the-moon-signature-showcase": 1529.86
       },
-      "updated": "2026-11-14"
+      "updated": "2026-11-16"
     },
     "UNL-235": {
       "ids": {
         "riftbound-league-of-legends-trading-card-game-unleashed-leblanc-deceiver-overnumbered-showcase": 114.95
       },
-      "updated": "2026-11-14"
+      "updated": "2026-11-16"
     },
     "UNL-235*": {
       "ids": {
         "riftbound-league-of-legends-trading-card-game-unleashed-leblanc-deceiver-signature-showcase": 888.0
       },
-      "updated": "2026-11-14"
+      "updated": "2026-11-16"
     },
     "UNL-236": {
       "ids": {
         "riftbound-league-of-legends-trading-card-game-unleashed-kha-zix-voidreaver-overnumbered-showcase": 63.51
       },
-      "updated": "2026-11-14"
+      "updated": "2026-11-16"
     },
     "UNL-236*": {
       "ids": {
         "riftbound-league-of-legends-trading-card-game-unleashed-kha-zix-voidreaver-signature-showcase": 287.5
       },
-      "updated": "2026-11-14"
+      "updated": "2026-11-16"
     },
     "UNL-237": {
       "ids": {
         "riftbound-league-of-legends-trading-card-game-unleashed-poppy-keeper-of-the-hammer-overnumbered-showcase": 20.0
       },
-      "updated": "2026-11-14"
+      "updated": "2026-11-16"
     },
     "UNL-237*": {
       "ids": {
         "riftbound-league-of-legends-trading-card-game-unleashed-poppy-keeper-of-the-hammer-signature-showcase": 284.0
       },
-      "updated": "2026-11-14"
+      "updated": "2026-11-16"
     },
     "UNL-238": {
       "ids": {
         "riftbound-league-of-legends-trading-card-game-unleashed-baron-nashor-ultimate-showcase": 1420.0
       },
-      "updated": "2026-11-14"
+      "updated": "2026-11-16"
     },
     "UNL-R01": {
       "ids": {
@@ -7555,9 +7555,9 @@
     },
     "VEN-019a": {
       "ids": {
-        "riftbound-league-of-legends-trading-card-game-vendetta-renekton-rage-fueled-alternate-art-rare": 0.85
+        "riftbound-league-of-legends-trading-card-game-vendetta-renekton-rage-fueled-alternate-art-rare": 0.83
       },
-      "updated": "2026-11-14"
+      "updated": "2026-11-16"
     },
     "VEN-020": {
       "ids": {
@@ -7573,9 +7573,9 @@
     },
     "VEN-021a": {
       "ids": {
-        "riftbound-league-of-legends-trading-card-game-vendetta-akali-deadly-weapon-alternate-art-showcase": 5.04
+        "riftbound-league-of-legends-trading-card-game-vendetta-akali-deadly-weapon-alternate-art-showcase": 4.99
       },
-      "updated": "2026-11-14"
+      "updated": "2026-11-16"
     },
     "VEN-022": {
       "ids": {
@@ -7591,9 +7591,9 @@
     },
     "VEN-023a": {
       "ids": {
-        "riftbound-league-of-legends-trading-card-game-vendetta-zed-from-the-shadows-alternate-art-showcase": 1.47
+        "riftbound-league-of-legends-trading-card-game-vendetta-zed-from-the-shadows-alternate-art-showcase": 1.43
       },
-      "updated": "2026-11-14"
+      "updated": "2026-11-16"
     },
     "VEN-024": {
       "ids": {
@@ -7687,9 +7687,9 @@
     },
     "VEN-038a": {
       "ids": {
-        "riftbound-league-of-legends-trading-card-game-vendetta-akali-silent-alternate-art-showcase": 4.88
+        "riftbound-league-of-legends-trading-card-game-vendetta-akali-silent-alternate-art-showcase": 5.29
       },
-      "updated": "2026-11-14"
+      "updated": "2026-11-16"
     },
     "VEN-039": {
       "ids": {
@@ -7719,7 +7719,7 @@
       "ids": {
         "riftbound-league-of-legends-trading-card-game-vendetta-shen-scourge-of-shadows-alternate-art-showcase": 0.5
       },
-      "updated": "2026-11-14"
+      "updated": "2026-11-16"
     },
     "VEN-043": {
       "ids": {
@@ -7731,7 +7731,7 @@
       "ids": {
         "riftbound-league-of-legends-trading-card-game-vendetta-astral-heron-epic": 36.58
       },
-      "updated": "2026-11-14"
+      "updated": "2026-11-16"
     },
     "VEN-045": {
       "ids": {
@@ -7747,9 +7747,9 @@
     },
     "VEN-046a": {
       "ids": {
-        "riftbound-league-of-legends-trading-card-game-vendetta-nasus-ascended-alternate-art-showcase": 1.12
+        "riftbound-league-of-legends-trading-card-game-vendetta-nasus-ascended-alternate-art-showcase": 1.22
       },
-      "updated": "2026-11-14"
+      "updated": "2026-11-16"
     },
     "VEN-047": {
       "ids": {
@@ -7855,9 +7855,9 @@
     },
     "VEN-063a": {
       "ids": {
-        "riftbound-league-of-legends-trading-card-game-vendetta-nasus-guardian-of-knowledge-alternate-art-showcase": 0.78
+        "riftbound-league-of-legends-trading-card-game-vendetta-nasus-guardian-of-knowledge-alternate-art-showcase": 0.8
       },
-      "updated": "2026-11-14"
+      "updated": "2026-11-16"
     },
     "VEN-064": {
       "ids": {
@@ -7891,9 +7891,9 @@
     },
     "VEN-068a": {
       "ids": {
-        "riftbound-league-of-legends-trading-card-game-vendetta-jayce-brilliant-inventor-alternate-art-epic": 1.32
+        "riftbound-league-of-legends-trading-card-game-vendetta-jayce-brilliant-inventor-alternate-art-epic": 1.38
       },
-      "updated": "2026-11-14"
+      "updated": "2026-11-16"
     },
     "VEN-069": {
       "ids": {
@@ -7903,9 +7903,9 @@
     },
     "VEN-069a": {
       "ids": {
-        "riftbound-league-of-legends-trading-card-game-vendetta-mel-newly-awakened-alternate-art-showcase": 1.52
+        "riftbound-league-of-legends-trading-card-game-vendetta-mel-newly-awakened-alternate-art-showcase": 1.62
       },
-      "updated": "2026-11-14"
+      "updated": "2026-11-16"
     },
     "VEN-069b": {
       "ids": {
@@ -8005,9 +8005,9 @@
     },
     "VEN-084a": {
       "ids": {
-        "riftbound-league-of-legends-trading-card-game-vendetta-ambessa-the-wolf-alternate-art-showcase": 1.12
+        "riftbound-league-of-legends-trading-card-game-vendetta-ambessa-the-wolf-alternate-art-showcase": 1.19
       },
-      "updated": "2026-11-14"
+      "updated": "2026-11-16"
     },
     "VEN-085": {
       "ids": {
@@ -8035,9 +8035,9 @@
     },
     "VEN-088a": {
       "ids": {
-        "riftbound-league-of-legends-trading-card-game-vendetta-jayce-hammer-in-hand-alternate-art-showcase": 0.59
+        "riftbound-league-of-legends-trading-card-game-vendetta-jayce-hammer-in-hand-alternate-art-showcase": 0.66
       },
-      "updated": "2026-11-14"
+      "updated": "2026-11-16"
     },
     "VEN-089": {
       "ids": {
@@ -8065,9 +8065,9 @@
     },
     "VEN-092a": {
       "ids": {
-        "riftbound-league-of-legends-trading-card-game-vendetta-renekton-brute-alternate-art-showcase": 0.9
+        "riftbound-league-of-legends-trading-card-game-vendetta-renekton-brute-alternate-art-showcase": 0.86
       },
-      "updated": "2026-11-14"
+      "updated": "2026-11-16"
     },
     "VEN-093": {
       "ids": {
@@ -8179,9 +8179,9 @@
     },
     "VEN-110a": {
       "ids": {
-        "riftbound-league-of-legends-trading-card-game-vendetta-mel-defiant-soul-alternate-art-showcase": 0.75
+        "riftbound-league-of-legends-trading-card-game-vendetta-mel-defiant-soul-alternate-art-showcase": 0.76
       },
-      "updated": "2026-11-14"
+      "updated": "2026-11-16"
     },
     "VEN-111": {
       "ids": {
@@ -8197,9 +8197,9 @@
     },
     "VEN-112a": {
       "ids": {
-        "riftbound-league-of-legends-trading-card-game-vendetta-zed-without-a-sound-alternate-art-showcase": 2.04
+        "riftbound-league-of-legends-trading-card-game-vendetta-zed-without-a-sound-alternate-art-showcase": 2.06
       },
-      "updated": "2026-11-14"
+      "updated": "2026-11-16"
     },
     "VEN-113": {
       "ids": {
@@ -8209,9 +8209,9 @@
     },
     "VEN-113a": {
       "ids": {
-        "riftbound-league-of-legends-trading-card-game-vendetta-kennen-storm-of-shuriken-alternate-art-showcase": 1.98
+        "riftbound-league-of-legends-trading-card-game-vendetta-kennen-storm-of-shuriken-alternate-art-showcase": 1.96
       },
-      "updated": "2026-11-14"
+      "updated": "2026-11-16"
     },
     "VEN-114": {
       "ids": {
@@ -8347,9 +8347,9 @@
     },
     "VEN-135a": {
       "ids": {
-        "riftbound-league-of-legends-trading-card-game-vendetta-kennen-keeper-of-balance-alternate-art-showcase": 2.98
+        "riftbound-league-of-legends-trading-card-game-vendetta-kennen-keeper-of-balance-alternate-art-showcase": 2.88
       },
-      "updated": "2026-11-14"
+      "updated": "2026-11-16"
     },
     "VEN-136": {
       "ids": {
@@ -8359,9 +8359,9 @@
     },
     "VEN-136a": {
       "ids": {
-        "riftbound-league-of-legends-trading-card-game-vendetta-ambessa-respected-and-feared-alternate-art-showcase": 1.17
+        "riftbound-league-of-legends-trading-card-game-vendetta-ambessa-respected-and-feared-alternate-art-showcase": 1.11
       },
-      "updated": "2026-11-14"
+      "updated": "2026-11-16"
     },
     "VEN-137": {
       "ids": {
@@ -8377,9 +8377,9 @@
     },
     "VEN-138a": {
       "ids": {
-        "riftbound-league-of-legends-trading-card-game-vendetta-shen-leader-of-the-kinkou-order-alternate-art-showcase": 1.11
+        "riftbound-league-of-legends-trading-card-game-vendetta-shen-leader-of-the-kinkou-order-alternate-art-showcase": 1.09
       },
-      "updated": "2026-11-14"
+      "updated": "2026-11-16"
     },
     "VEN-139": {
       "ids": {
@@ -8551,243 +8551,243 @@
     },
     "VEN-167": {
       "ids": {
-        "riftbound-league-of-legends-trading-card-game-vendetta-vi-destructive-overnumbered-showcase": 81.56
+        "riftbound-league-of-legends-trading-card-game-vendetta-vi-destructive-overnumbered-showcase": 78.25
       },
-      "updated": "2026-11-14"
+      "updated": "2026-11-16"
     },
     "VEN-168": {
       "ids": {
-        "riftbound-league-of-legends-trading-card-game-vendetta-jinx-demolitionist-overnumbered-showcase": 72.0
+        "riftbound-league-of-legends-trading-card-game-vendetta-jinx-demolitionist-overnumbered-showcase": 69.57
       },
-      "updated": "2026-11-14"
+      "updated": "2026-11-16"
     },
     "VEN-169": {
       "ids": {
-        "riftbound-league-of-legends-trading-card-game-vendetta-zed-from-the-shadows-overnumbered-showcase": 50.5
+        "riftbound-league-of-legends-trading-card-game-vendetta-zed-from-the-shadows-overnumbered-showcase": 48.56
       },
-      "updated": "2026-11-14"
+      "updated": "2026-11-16"
     },
     "VEN-170": {
       "ids": {
         "riftbound-league-of-legends-trading-card-game-vendetta-shen-scourge-of-shadows-overnumbered-showcase": 40.0
       },
-      "updated": "2026-11-14"
+      "updated": "2026-11-16"
     },
     "VEN-171": {
       "ids": {
-        "riftbound-league-of-legends-trading-card-game-vendetta-riven-shattered-overnumbered-showcase": 71.06
+        "riftbound-league-of-legends-trading-card-game-vendetta-riven-shattered-overnumbered-showcase": 67.92
       },
-      "updated": "2026-11-14"
+      "updated": "2026-11-16"
     },
     "VEN-172": {
       "ids": {
-        "riftbound-league-of-legends-trading-card-game-vendetta-draven-showboat-overnumbered-showcase": 62.01
+        "riftbound-league-of-legends-trading-card-game-vendetta-draven-showboat-overnumbered-showcase": 58.28
       },
-      "updated": "2026-11-14"
+      "updated": "2026-11-16"
     },
     "VEN-173": {
       "ids": {
-        "riftbound-league-of-legends-trading-card-game-vendetta-swain-visionary-overnumbered-showcase": 45.98
+        "riftbound-league-of-legends-trading-card-game-vendetta-swain-visionary-overnumbered-showcase": 43.31
       },
-      "updated": "2026-11-14"
+      "updated": "2026-11-16"
     },
     "VEN-174": {
       "ids": {
         "riftbound-league-of-legends-trading-card-game-vendetta-irelia-fervent-overnumbered-showcase": 70.0
       },
-      "updated": "2026-11-14"
+      "updated": "2026-11-16"
     },
     "VEN-175": {
       "ids": {
-        "riftbound-league-of-legends-trading-card-game-vendetta-jayce-man-of-progress-overnumbered-showcase": 78.33
+        "riftbound-league-of-legends-trading-card-game-vendetta-jayce-man-of-progress-overnumbered-showcase": 76.7
       },
-      "updated": "2026-11-14"
+      "updated": "2026-11-16"
     },
     "VEN-176": {
       "ids": {
-        "riftbound-league-of-legends-trading-card-game-vendetta-viktor-innovator-overnumbered-showcase": 64.16
+        "riftbound-league-of-legends-trading-card-game-vendetta-viktor-innovator-overnumbered-showcase": 62.48
       },
-      "updated": "2026-11-14"
+      "updated": "2026-11-16"
     },
     "VEN-177": {
       "ids": {
-        "riftbound-league-of-legends-trading-card-game-vendetta-renekton-brute-overnumbered-showcase": 54.31
+        "riftbound-league-of-legends-trading-card-game-vendetta-renekton-brute-overnumbered-showcase": 50.25
       },
-      "updated": "2026-11-14"
+      "updated": "2026-11-16"
     },
     "VEN-178": {
       "ids": {
         "riftbound-league-of-legends-trading-card-game-vendetta-nasus-guardian-of-knowledge-overnumbered-showcase": 47.99
       },
-      "updated": "2026-11-14"
+      "updated": "2026-11-16"
     },
     "VEN-179": {
       "ids": {
-        "riftbound-league-of-legends-trading-card-game-vendetta-rengar-trophy-hunter-overnumbered-showcase": 138.35
+        "riftbound-league-of-legends-trading-card-game-vendetta-rengar-trophy-hunter-overnumbered-showcase": 133.87
       },
-      "updated": "2026-11-14"
+      "updated": "2026-11-16"
     },
     "VEN-180": {
       "ids": {
-        "riftbound-league-of-legends-trading-card-game-vendetta-kha-zix-evolving-hunter-overnumbered-showcase": 48.68
+        "riftbound-league-of-legends-trading-card-game-vendetta-kha-zix-evolving-hunter-overnumbered-showcase": 46.83
       },
-      "updated": "2026-11-14"
+      "updated": "2026-11-16"
     },
     "VEN-181": {
       "ids": {
-        "riftbound-league-of-legends-trading-card-game-vendetta-gangplank-naval-overnumbered-showcase": 61.25
+        "riftbound-league-of-legends-trading-card-game-vendetta-gangplank-naval-overnumbered-showcase": 60.83
       },
-      "updated": "2026-11-14"
+      "updated": "2026-11-16"
     },
     "VEN-182": {
       "ids": {
-        "riftbound-league-of-legends-trading-card-game-vendetta-illaoi-prophet-of-the-great-kraken-overnumbered-showcase": 74.88
+        "riftbound-league-of-legends-trading-card-game-vendetta-illaoi-prophet-of-the-great-kraken-overnumbered-showcase": 74.56
       },
-      "updated": "2026-11-14"
+      "updated": "2026-11-16"
     },
     "VEN-183": {
       "ids": {
-        "riftbound-league-of-legends-trading-card-game-vendetta-diana-no-longer-human-overnumbered-showcase": 72.76
+        "riftbound-league-of-legends-trading-card-game-vendetta-diana-no-longer-human-overnumbered-showcase": 71.93
       },
-      "updated": "2026-11-14"
+      "updated": "2026-11-16"
     },
     "VEN-184": {
       "ids": {
         "riftbound-league-of-legends-trading-card-game-vendetta-leona-determined-overnumbered-showcase": 69.94
       },
-      "updated": "2026-11-14"
+      "updated": "2026-11-16"
     },
     "VEN-185": {
       "ids": {
-        "riftbound-league-of-legends-trading-card-game-vendetta-kayle-justified-overnumbered-showcase": 131.53
+        "riftbound-league-of-legends-trading-card-game-vendetta-kayle-justified-overnumbered-showcase": 125.53
       },
-      "updated": "2026-11-14"
+      "updated": "2026-11-16"
     },
     "VEN-186": {
       "ids": {
-        "riftbound-league-of-legends-trading-card-game-vendetta-morgana-vindictive-overnumbered-showcase": 95.14
+        "riftbound-league-of-legends-trading-card-game-vendetta-morgana-vindictive-overnumbered-showcase": 92.44
       },
-      "updated": "2026-11-14"
+      "updated": "2026-11-16"
     },
     "VEN-187": {
       "ids": {
         "riftbound-league-of-legends-trading-card-game-vendetta-ambessa-respected-and-feared-overnumbered-showcase": 35.98
       },
-      "updated": "2026-11-14"
+      "updated": "2026-11-16"
     },
     "VEN-188": {
       "ids": {
-        "riftbound-league-of-legends-trading-card-game-vendetta-mel-defiant-soul-overnumbered-showcase": 55.88
+        "riftbound-league-of-legends-trading-card-game-vendetta-mel-defiant-soul-overnumbered-showcase": 53.65
       },
-      "updated": "2026-11-14"
+      "updated": "2026-11-16"
     },
     "VEN-189": {
       "ids": {
         "riftbound-league-of-legends-trading-card-game-vendetta-akali-rogue-assassin-overnumbered-showcase": 413.1
       },
-      "updated": "2026-11-14"
+      "updated": "2026-11-16"
     },
     "VEN-189*": {
       "ids": {
-        "riftbound-league-of-legends-trading-card-game-vendetta-akali-rogue-assassin-signature-showcase": 3229.71
+        "riftbound-league-of-legends-trading-card-game-vendetta-akali-rogue-assassin-signature-showcase": 3160.18
       },
-      "updated": "2026-11-14"
+      "updated": "2026-11-16"
     },
     "VEN-190": {
       "ids": {
-        "riftbound-league-of-legends-trading-card-game-vendetta-renekton-butcher-of-the-sands-overnumbered-showcase": 47.64
+        "riftbound-league-of-legends-trading-card-game-vendetta-renekton-butcher-of-the-sands-overnumbered-showcase": 45.24
       },
-      "updated": "2026-11-14"
+      "updated": "2026-11-16"
     },
     "VEN-190*": {
       "ids": {
         "riftbound-league-of-legends-trading-card-game-vendetta-renekton-butcher-of-the-sands-signature-showcase": 300.0
       },
-      "updated": "2026-11-14"
+      "updated": "2026-11-16"
     },
     "VEN-191": {
       "ids": {
-        "riftbound-league-of-legends-trading-card-game-vendetta-zed-master-of-shadows-overnumbered-showcase": 163.6
+        "riftbound-league-of-legends-trading-card-game-vendetta-zed-master-of-shadows-overnumbered-showcase": 153.66
       },
-      "updated": "2026-11-14"
+      "updated": "2026-11-16"
     },
     "VEN-191*": {
       "ids": {
-        "riftbound-league-of-legends-trading-card-game-vendetta-zed-master-of-shadows-signature-showcase": 1152.47
+        "riftbound-league-of-legends-trading-card-game-vendetta-zed-master-of-shadows-signature-showcase": 1173.12
       },
-      "updated": "2026-11-14"
+      "updated": "2026-11-16"
     },
     "VEN-192": {
       "ids": {
-        "riftbound-league-of-legends-trading-card-game-vendetta-nasus-curator-of-the-sands-overnumbered-showcase": 119.11
+        "riftbound-league-of-legends-trading-card-game-vendetta-nasus-curator-of-the-sands-overnumbered-showcase": 112.18
       },
-      "updated": "2026-11-14"
+      "updated": "2026-11-16"
     },
     "VEN-192*": {
       "ids": {
         "riftbound-league-of-legends-trading-card-game-vendetta-nasus-curator-of-the-sands-signature-showcase": 379.99
       },
-      "updated": "2026-11-14"
+      "updated": "2026-11-16"
     },
     "VEN-193": {
       "ids": {
         "riftbound-league-of-legends-trading-card-game-vendetta-shen-eye-of-twilight-overnumbered-showcase": 63.83
       },
-      "updated": "2026-11-14"
+      "updated": "2026-11-16"
     },
     "VEN-193*": {
       "ids": {
         "riftbound-league-of-legends-trading-card-game-vendetta-shen-eye-of-twilight-signature-showcase": 515.8
       },
-      "updated": "2026-11-14"
+      "updated": "2026-11-16"
     },
     "VEN-194": {
       "ids": {
         "riftbound-league-of-legends-trading-card-game-vendetta-jayce-defender-of-tomorrow-overnumbered-showcase": 180.0
       },
-      "updated": "2026-11-14"
+      "updated": "2026-11-16"
     },
     "VEN-194*": {
       "ids": {
         "riftbound-league-of-legends-trading-card-game-vendetta-jayce-defender-of-tomorrow-signature-showcase": 1147.05
       },
-      "updated": "2026-11-14"
+      "updated": "2026-11-16"
     },
     "VEN-195": {
       "ids": {
-        "riftbound-league-of-legends-trading-card-game-vendetta-mel-soul-s-reflection-overnumbered-showcase": 122.47
+        "riftbound-league-of-legends-trading-card-game-vendetta-mel-soul-s-reflection-overnumbered-showcase": 117.49
       },
-      "updated": "2026-11-14"
+      "updated": "2026-11-16"
     },
     "VEN-195*": {
       "ids": {
-        "riftbound-league-of-legends-trading-card-game-vendetta-mel-soul-s-reflection-signature-showcase": 1072.98
+        "riftbound-league-of-legends-trading-card-game-vendetta-mel-soul-s-reflection-signature-showcase": 1034.18
       },
-      "updated": "2026-11-14"
+      "updated": "2026-11-16"
     },
     "VEN-196": {
       "ids": {
-        "riftbound-league-of-legends-trading-card-game-vendetta-ambessa-matriarch-of-war-overnumbered-showcase": 68.26
+        "riftbound-league-of-legends-trading-card-game-vendetta-ambessa-matriarch-of-war-overnumbered-showcase": 61.94
       },
-      "updated": "2026-11-14"
+      "updated": "2026-11-16"
     },
     "VEN-196*": {
       "ids": {
         "riftbound-league-of-legends-trading-card-game-vendetta-ambessa-matriarch-of-war-signature-showcase": 460.46
       },
-      "updated": "2026-11-14"
+      "updated": "2026-11-16"
     },
     "VEN-197": {
       "ids": {
         "riftbound-league-of-legends-trading-card-game-vendetta-kennen-heart-of-the-tempest-overnumbered-showcase": 166.16
       },
-      "updated": "2026-11-14"
+      "updated": "2026-11-16"
     },
     "VEN-197*": {
       "ids": {
         "riftbound-league-of-legends-trading-card-game-vendetta-kennen-heart-of-the-tempest-signature-showcase": 1152.22
       },
-      "updated": "2026-11-14"
+      "updated": "2026-11-16"
     },
     "VEN-R01": {
       "ids": {
@@ -8799,7 +8799,7 @@
       "ids": {
         "riftbound-league-of-legends-trading-card-game-vendetta-fury-rune-r01a-showcase": 5.0
       },
-      "updated": "2026-11-14"
+      "updated": "2026-11-16"
     },
     "VEN-R02": {
       "ids": {
@@ -8811,7 +8811,7 @@
       "ids": {
         "riftbound-league-of-legends-trading-card-game-vendetta-calm-rune-r02a-showcase": 3.0
       },
-      "updated": "2026-11-14"
+      "updated": "2026-11-16"
     },
     "VEN-R03": {
       "ids": {
@@ -8821,9 +8821,9 @@
     },
     "VEN-R03a": {
       "ids": {
-        "riftbound-league-of-legends-trading-card-game-vendetta-mind-rune-r03a-showcase": 4.3
+        "riftbound-league-of-legends-trading-card-game-vendetta-mind-rune-r03a-showcase": 4.51
       },
-      "updated": "2026-11-14"
+      "updated": "2026-11-16"
     },
     "VEN-R04": {
       "ids": {
@@ -8835,7 +8835,7 @@
       "ids": {
         "riftbound-league-of-legends-trading-card-game-vendetta-body-rune-r04a-showcase": 5.25
       },
-      "updated": "2026-11-14"
+      "updated": "2026-11-16"
     },
     "VEN-R05": {
       "ids": {
@@ -8847,7 +8847,7 @@
       "ids": {
         "riftbound-league-of-legends-trading-card-game-vendetta-chaos-rune-r05a-showcase": 7.25
       },
-      "updated": "2026-11-14"
+      "updated": "2026-11-16"
     },
     "VEN-R06": {
       "ids": {
@@ -8857,45 +8857,45 @@
     },
     "VEN-R06a": {
       "ids": {
-        "riftbound-league-of-legends-trading-card-game-vendetta-order-rune-r06a-showcase": 4.45
+        "riftbound-league-of-legends-trading-card-game-vendetta-order-rune-r06a-showcase": 5.09
       },
-      "updated": "2026-11-14"
+      "updated": "2026-11-16"
     },
     "VEN-SP1": {
       "ids": {
         "riftbound-league-of-legends-trading-card-game-vendetta-kai-sa-survivor-showcase": 49.99
       },
-      "updated": "2026-11-14"
+      "updated": "2026-11-16"
     },
     "VEN-SP2": {
       "ids": {
-        "riftbound-league-of-legends-trading-card-game-vendetta-sona-harmonious-showcase": 18.62
+        "riftbound-league-of-legends-trading-card-game-vendetta-sona-harmonious-showcase": 18.09
       },
-      "updated": "2026-11-14"
+      "updated": "2026-11-16"
     },
     "VEN-SP3": {
       "ids": {
-        "riftbound-league-of-legends-trading-card-game-vendetta-ahri-inquisitive-showcase": 34.69
+        "riftbound-league-of-legends-trading-card-game-vendetta-ahri-inquisitive-showcase": 33.82
       },
-      "updated": "2026-11-14"
+      "updated": "2026-11-16"
     },
     "VEN-SP4": {
       "ids": {
-        "riftbound-league-of-legends-trading-card-game-vendetta-sett-brawler-showcase": 7.06
+        "riftbound-league-of-legends-trading-card-game-vendetta-sett-brawler-showcase": 7.28
       },
-      "updated": "2026-11-14"
+      "updated": "2026-11-16"
     },
     "VEN-SP5": {
       "ids": {
         "riftbound-league-of-legends-trading-card-game-vendetta-ezreal-prodigy-showcase": 9.99
       },
-      "updated": "2026-11-14"
+      "updated": "2026-11-16"
     },
     "VEN-SP6": {
       "ids": {
-        "riftbound-league-of-legends-trading-card-game-vendetta-lux-crownguard-showcase": 13.43
+        "riftbound-league-of-legends-trading-card-game-vendetta-lux-crownguard-showcase": 12.97
       },
-      "updated": "2026-11-14"
+      "updated": "2026-11-16"
     },
     "VEN-T01": {
       "ids": {
