@@ -6,7 +6,10 @@ import { useCards } from '../context/CardContext';
 import type { Deck } from '../models/deck';
 import type { Card } from '../models/card';
 import { contentsOf, parseDecklist } from '../lib/decklist';
-import { ISSUE_MESSAGES, RULE_BREAK_CODES, counts, validate } from '../rules/deckRules';
+import { ISSUE_MESSAGES, RULE_BREAK_CODES, counts, deckContents, validate } from '../rules/deckRules';
+import { banDate } from '../lib/bans';
+import { useDeckEntries } from '../lib/deckEntries';
+import { deckStatus } from '../lib/deckStatus';
 import { shownDomains } from '../lib/style';
 import { DomainBand } from '../components/rift/DomainBand';
 import { Dialog } from '../components/rift/Dialog';
@@ -44,6 +47,7 @@ const DeckList = () => {
     const [newName, setNewName] = useState('');
     const [deleting, setDeleting] = useState<Deck | null>(null);
     const [now] = useState(() => Date.now());
+    const entriesByDeck = useDeckEntries(decks);
 
     const create = async () => {
         if (!newName.trim()) return;
@@ -74,10 +78,14 @@ const DeckList = () => {
                             const legend = deck.legendCardId ? cardsById.get(deck.legendCardId) : undefined;
                             const champion = deck.championCardId ? cardsById.get(deck.championCardId) : undefined;
                             const art = legend?.imageUrl ?? champion?.imageUrl ?? deck.coverCardUrl;
+                            // Checked against today's ban list from the deck's cards. Until they've
+                            // loaded, the counts saved on the deck give a rough status.
+                            const deckEntries = entriesByDeck.get(deck.deckId);
+                            const checked = deckEntries && masterCards.length > 0 ? deckStatus(deckContents(deck, deckEntries), cardsById) : null;
                             const main = deck.mainCount ?? 0;
-                            const status = main > 40 ? { label: 'Over 40', cls: 'bg-banned' }
-                                : main === 40 ? { label: 'Complete', cls: 'bg-[#285F24]' }
-                                    : { label: 'In progress', cls: 'bg-ink-muted' };
+                            const status = checked
+                                ? STATUS[checked.kind]
+                                : main > 40 ? { label: 'Over 40', cls: 'bg-banned' } : { label: main === 40 ? 'Checking' : 'In progress', cls: 'bg-ink-muted' };
                             return (
                                 <div key={deck.deckId} className="relative group panel flex flex-col hover:border-gold-deep">
                                     <button type="button" onClick={() => navigate(`/decks/${deck.deckId}`)} className="flex flex-col text-left cursor-pointer">
@@ -101,9 +109,20 @@ const DeckList = () => {
                                             <span className={`h-6 inline-flex items-center px-2 rift-label text-[13px] tracking-[0.1em] text-white ${status.cls}`}>
                                                 {status.label}
                                             </span>
+                                            {checked?.upcomingBan && (
+                                                <span className="h-6 inline-flex items-center px-2 rift-label text-[13px] tracking-[0.1em] text-white bg-banned-2v2">
+                                                    Ban from {banDate(checked.upcomingBan, true)}
+                                                </span>
+                                            )}
                                             <span className="flex-1 min-w-0 truncate text-sm text-muted">{legend ? legend.name : 'No legend yet'}</span>
                                             <span className="text-[13px] text-muted">{edited(deck.lastModified, now)}</span>
                                         </div>
+                                        {checked && checked.reasons.length > 0 && (
+                                            <p className="px-3.5 pb-3 -mt-1 text-sm text-parchment" title={checked.reasons.join('\n')}>
+                                                {checked.reasons[0]}
+                                                {checked.reasons.length > 1 && <span className="text-muted"> +{checked.reasons.length - 1} more</span>}
+                                            </p>
+                                        )}
                                     </button>
                                     <button
                                         type="button"
@@ -162,6 +181,12 @@ const DeckList = () => {
         </div>
     );
 };
+
+const STATUS = {
+    NOT_LEGAL: { label: 'Not legal', cls: 'bg-banned' },
+    IN_PROGRESS: { label: 'In progress', cls: 'bg-ink-muted' },
+    LEGAL: { label: 'Legal', cls: 'bg-[#285F24]' },
+} as const;
 
 function DeckTitle({ deck }: { deck: Deck }) {
     return (

@@ -1,6 +1,7 @@
 import { Ban } from 'lucide-react';
 import type { CardWithQuantity } from '../../models/card';
 import { domainStripe } from '../../lib/style';
+import { isBanned } from '../../lib/bans';
 import { QuantityStepper } from '../rift/Rift';
 
 /**
@@ -14,7 +15,7 @@ export function CardTile({ item, onOpen, onQuantity }: {
 }) {
     const { card, quantity } = item;
     const owned = quantity > 0;
-    const banned = card.bannedIn?.includes('STANDARD');
+    const banned = isBanned(card);
     const landscape = card.orientation === 'landscape';
     return (
         <div className="tile relative flex flex-col gap-1.5 min-w-0">

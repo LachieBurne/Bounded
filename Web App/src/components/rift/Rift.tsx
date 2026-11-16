@@ -2,6 +2,7 @@ import type { ReactNode } from 'react';
 import { Ban, Minus, Plus } from 'lucide-react';
 import type { Card, Domain, RiftRarity } from '../../models/card';
 import { DOMAIN_LABEL, RARITY_GEM, RARITY_LABEL, domainIconUrl } from '../../lib/style';
+import { banDate, isBanned, upcomingBan } from '../../lib/bans';
 
 /* Small Gilded Rift building blocks, matching the Android app's RiftComponents.kt. */
 
@@ -24,17 +25,20 @@ export function SetCodeBadge({ code, className = '' }: { code: string; className
 }
 
 /**
- * A red "BANNED" tag for cards banned in Standard, or an amber "2V2 BAN" for cards banned only
- * in 2v2. Draws nothing for legal cards.
+ * A red "BANNED" tag for cards banned in Standard, an amber "2V2 BAN" for cards banned only in
+ * 2v2, or an amber "BANNED FROM 23 NOV" for a ban that's been announced but hasn't started.
+ * Draws nothing for legal cards.
  */
 export function BannedTag({ card, className = '' }: { card: Card; className?: string }) {
-    const standard = card.bannedIn?.includes('STANDARD');
-    const twoVTwo = card.bannedIn?.includes('2V2');
-    if (!standard && !twoVTwo) return null;
+    const standard = isBanned(card, 'STANDARD');
+    const twoVTwo = isBanned(card, '2V2');
+    const upcoming = upcomingBan(card);
+    if (!standard && !twoVTwo && !upcoming) return null;
+    const label = standard ? 'Banned' : twoVTwo ? '2v2 ban' : `Banned from ${banDate(upcoming!, true)}`;
     return (
         <span className={`inline-flex items-center gap-1 h-5 px-1.5 text-white rift-label text-[11px] tracking-[0.1em] ${standard ? 'bg-banned' : 'bg-banned-2v2'} ${className}`}>
             <Ban aria-hidden="true" className="w-3 h-3" strokeWidth={3} />
-            {standard ? 'Banned' : '2v2 ban'}
+            {label}
         </span>
     );
 }

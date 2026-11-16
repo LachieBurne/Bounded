@@ -1,5 +1,5 @@
 {
-  "_comment": "Riot's ban lists. Each ban covers every printing of the named card; cardId is one printing, and name must match it. Formats: STANDARD (1v1 Constructed) and 2V2 (2v2 Constructed, which also bans everything banned in Standard). Sources: playriftbound.com announcements of 2026-03-31, 2026-07-17 (effective 2026-07-24) and 2026-09-15 (effective 2026-09-18). Full list: the Riftbound Rules Hub.",
+  "_comment": "Riot's ban lists. Each ban covers every printing of the named card; cardId is one printing, and name must match it. Formats: STANDARD (1v1 Constructed) and 2V2 (2v2 Constructed, which also bans everything banned in Standard). Sources: playriftbound.com announcements of 2026-03-31, 2026-07-17 (effective 2026-07-24) 2026-09-15 (effective 2026-09-18) and 2026-11-14 (effective 2026-11-23). Full list: the Riftbound Rules Hub. since is the date a ban takes effect; the apps treat a ban with a later date as upcoming.",
   "bans": [
     {"cardId": "SFD-122", "name": "Called Shot", "formats": ["STANDARD", "2V2"], "since": "2026-03-31"},
     {"cardId": "SFD-020", "name": "Draven, Vanquisher", "formats": ["STANDARD", "2V2"], "since": "2026-03-31"},
@@ -13,6 +13,16 @@
     {"cardId": "OGN-276", "name": "Aspirant's Climb", "formats": ["STANDARD", "2V2"], "since": "2026-07-24"},
     {"cardId": "OGS-019", "name": "Master Yi - Wuju Bladesman", "formats": ["2V2"], "since": "2026-07-24"},
     {"cardId": "OGN-110", "name": "Ekko, Recurrent", "formats": ["STANDARD", "2V2"], "since": "2026-09-18"},
-    {"cardId": "OGN-183", "name": "Stacked Deck", "formats": ["STANDARD", "2V2"], "since": "2026-09-18"}
+    {"cardId": "OGN-183", "name": "Stacked Deck", "formats": ["STANDARD", "2V2"], "since": "2026-09-18"},
+    {"cardId": "RAD-043", "name": "Riven, Broken Blade", "formats": ["STANDARD", "2V2"], "since": "2026-11-23"},
+    {"cardId": "OGN-077", "name": "Zhonya's Hourglass", "formats": ["STANDARD", "2V2"], "since": "2026-11-23"},
+    {"cardId": "SFD-048", "name": "Stellacorn Herder", "formats": ["STANDARD", "2V2"], "since": "2026-11-23"},
+    {"cardId": "OGN-194", "name": "Nocturne, Horrifying", "formats": ["STANDARD", "2V2"], "since": "2026-11-23"},
+    {"cardId": "OGN-195", "name": "Rhasa the Sunderer", "formats": ["STANDARD", "2V2"], "since": "2026-11-23"},
+    {"cardId": "OGN-026", "name": "Brynhir Thundersong", "formats": ["STANDARD", "2V2"], "since": "2026-11-23"},
+    {"cardId": "OGN-160", "name": "Dazzling Aurora", "formats": ["STANDARD", "2V2"], "since": "2026-11-23"},
+    {"cardId": "OGN-242", "name": "Baited Hook", "formats": ["STANDARD", "2V2"], "since": "2026-11-23"},
+    {"cardId": "SFD-207", "name": "Emperor's Dais", "formats": ["STANDARD", "2V2"], "since": "2026-11-23"},
+    {"cardId": "UNL-215", "name": "Star Spring", "formats": ["STANDARD", "2V2"], "since": "2026-11-23"}
   ]
 }

@@ -5,6 +5,7 @@ import { useCards } from '../context/CardContext';
 import { usePrices } from '../context/PriceContext';
 import type { Card } from '../models/card';
 import { RARITY_LABEL, TYPE_LABEL, shownDomains } from '../lib/style';
+import { banDate, isBanned, upcomingBan } from '../lib/bans';
 import { DomainBand } from '../components/rift/DomainBand';
 import { RulesText } from '../components/rift/RulesText';
 import { BannedTag, DomainIcon, EnergyToken, Loading, QuantityStepper, RarityGem, RiftLabel } from '../components/rift/Rift';
@@ -26,13 +27,13 @@ function typeLine(card: Card): string {
 }
 
 function banSentence(card: Card): string | null {
-    const standard = card.bannedIn?.includes('STANDARD');
-    const twoVTwo = card.bannedIn?.includes('2V2');
-    if (!standard && !twoVTwo) return null;
-    const formats = standard && twoVTwo ? 'Standard and 2v2' : standard ? 'Standard' : '2v2';
-    const since = card.bannedSince
-        ? new Date(`${card.bannedSince}T00:00:00Z`).toLocaleDateString('en-AU', { day: 'numeric', month: 'long', year: 'numeric', timeZone: 'UTC' })
-        : null;
+    const listed = (format: 'STANDARD' | '2V2') => card.bannedIn?.includes(format) ?? false;
+    const formats = listed('STANDARD') && listed('2V2') ? 'Standard and 2v2' : listed('STANDARD') ? 'Standard' : '2v2';
+    const upcoming = upcomingBan(card);
+    if (upcoming) return `Banned in ${formats} from ${banDate(upcoming)}. Legal until then.`;
+    const standard = isBanned(card, 'STANDARD');
+    if (!standard && !isBanned(card, '2V2')) return null;
+    const since = card.bannedSince ? banDate(card.bannedSince) : null;
     return `Banned in ${formats}${since ? ` since ${since}` : ''}.${standard ? '' : ' Still legal in Standard.'}`;
 }
 
@@ -164,7 +165,7 @@ export default function CardDetailPage() {
                         </div>
 
                         {ban && (
-                            <div role="note" className={`flex flex-wrap items-center gap-3 px-3.5 py-3 border ${card.bannedIn?.includes('STANDARD') ? 'border-banned bg-banned/15' : 'border-banned-2v2 bg-banned-2v2/15'}`}>
+                            <div role="note" className={`flex flex-wrap items-center gap-3 px-3.5 py-3 border ${isBanned(card) ? 'border-banned bg-banned/15' : 'border-banned-2v2 bg-banned-2v2/15'}`}>
                                 <BannedTag card={card} className="h-6 text-[13px]" />
                                 <span className="flex-1 text-parchment">{ban}</span>
                             </div>

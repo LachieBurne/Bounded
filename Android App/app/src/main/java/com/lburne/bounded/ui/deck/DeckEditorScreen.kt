@@ -1131,7 +1131,7 @@ fun DeckBuilderGridItem(
                 contentScale = ContentScale.Crop
             )
 
-            if (card.isBannedInStandard || card.isBannedIn2v2) {
+            if (card.isBannedInStandard || card.isBannedIn2v2 || card.upcomingBan() != null) {
                 Box(
                     Modifier
                         .align(Alignment.TopCenter)

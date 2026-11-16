@@ -6,9 +6,10 @@
  * docs/deck-rules.md explains each rule.
  */
 import type { Card, CardType } from '../models/card';
+import { isBanned } from '../lib/bans';
 
 /** Only the fields the rules read, so tests can use small fixtures. */
-export type RulesCard = Pick<Card, 'cardId' | 'name' | 'type' | 'domain' | 'tags' | 'championTag' | 'isToken' | 'isSignature' | 'bannedIn'>;
+export type RulesCard = Pick<Card, 'cardId' | 'name' | 'type' | 'domain' | 'tags' | 'championTag' | 'isToken' | 'isSignature' | 'bannedIn' | 'bannedSince'>;
 export type CardLookup = ReadonlyMap<string, RulesCard>;
 
 /** The deck builder's steps, in order. */
@@ -258,7 +259,7 @@ export function validate(deck: DeckContents, cards: CardLookup): DeckIssue[] {
                 add('NOT_ALLOWED_IN_SIDEBOARD', id);
                 continue;
             }
-            if (card.bannedIn?.includes('STANDARD')) add('BANNED', id);
+            if (isBanned(card)) add('BANNED', id);
             if (card.type === 'LEGEND') continue;
             if (card.isToken || card.type === 'OTHER') {
                 add('NOT_PLAYABLE', id);

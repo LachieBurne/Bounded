@@ -582,6 +582,24 @@
         "2V2"
       ],
       "bannedSince": "2026-07-24"
+    },
+    {
+      "cardId": "BAN-3",
+      "name": "Ban Not Yet Started",
+      "type": "SPELL",
+      "domain": [
+        "CALM"
+      ],
+      "tags": [],
+      "championTag": null,
+      "isToken": false,
+      "isSignature": false,
+      "baseName": "Ban Not Yet Started",
+      "bannedIn": [
+        "STANDARD",
+        "2V2"
+      ],
+      "bannedSince": "2999-01-01"
     }
   ],
   "step": [
@@ -2523,6 +2541,42 @@
           "R-CALM": 6,
           "R-BODY": 6,
           "BAN-2": 1
+        },
+        "side": {
+          "F14": 3,
+          "CB-1": 3,
+          "CL-1": 2
+        }
+      },
+      "expect": []
+    },
+    {
+      "name": "announced ban that has not started is legal",
+      "deck": {
+        "legendId": "L-YI",
+        "championId": "YI-1",
+        "main": {
+          "L-YI": 1,
+          "YI-1": 1,
+          "BF-1": 1,
+          "BF-2": 1,
+          "BF-3": 1,
+          "F01": 3,
+          "F02": 3,
+          "F03": 3,
+          "F04": 3,
+          "F05": 3,
+          "F06": 3,
+          "F07": 3,
+          "F08": 3,
+          "F09": 3,
+          "F10": 3,
+          "F11": 3,
+          "F12": 3,
+          "F13": 2,
+          "R-CALM": 6,
+          "R-BODY": 6,
+          "BAN-3": 1
         },
         "side": {
           "F14": 3,
