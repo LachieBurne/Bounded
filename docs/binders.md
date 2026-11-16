@@ -26,7 +26,7 @@ Commons and uncommons other than runes have finishes. There's no list yet of whi
 
 Printings with their own number, such as alternate arts (`OGN-027a`) and signatures (`OGN-299*`), are separate cards with entries of their own.
 
-The Android app implements this in `data/model/BinderEntry.kt` and `data/model/Finish.kt`. The web app keeps the counts when it changes a total (`Web App/src/context/CardContext.tsx`) but doesn't show them yet.
+The Android app implements this in `data/model/BinderEntry.kt` and `data/model/Finish.kt`, and the web app in `Web App/src/lib/finishes.ts`; their tests run the same cases. Card detail in both apps counts each finish separately: Android swipes between the versions, and the web app has a bar of them under the art.
 
 Sub-binder fields:
 

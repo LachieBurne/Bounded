@@ -56,7 +56,6 @@ A running list. Add to it when you leave something unfinished, and delete an ite
 | The deck list reads every deck's cards to check legality | One Firestore read per entry the first time the list opens in a session (a few hundred for many large decks); after that only changed decks are read again | If it grows, keep the deck's card IDs and counts on the deck document so the list needs only the deck reads. |
 | GitHub Pages still publishes 599 MB of old PNG card images | The APK linked from the README loads them, but they make the Pages site about 750 MB, near GitHub's 1 GB limit and slow to deploy | Replace the README's APK with a current build, then drop the PNGs from `deploy_pages.yml` (or the repository). |
 | The bundle is one 770 kB chunk (mostly Firebase) | Slower first load | Split routes with `React.lazy`, or load Firestore after sign-in. |
-| The web app doesn't show or edit foil and Nexus Night counts | It keeps them when it changes a card's total, but they can only be seen and set in the Android app. Card detail also has no way to move between an overnumbered card and its signature other than "Other printings". | Add finish steppers to the web card detail; see "Finishes" in [binders.md](binders.md). |
 | Collection stats charts were dropped in the redesign | The old Stats tab (cards by type and rarity) is gone; progress by binder and domain replaced it | Bring back a stats view if it's missed. |
 
 ## Prices
