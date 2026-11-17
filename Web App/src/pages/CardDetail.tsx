@@ -261,7 +261,7 @@ export default function CardDetailPage() {
                         <div className="flex flex-wrap items-center gap-[18px]">
                             {['UNIT', 'SPELL', 'GEAR'].includes(card.type) && <EnergyToken value={card.cost} />}
                             {might && <span className="rift-number text-[22px]">{might}</span>}
-                            <span className="flex items-center gap-2 text-parchment"><RarityGem rarity={card.rarity} className="w-[11px] h-[11px]" />{RARITY_LABEL[card.rarity]}</span>
+                            <span className="flex items-center gap-2 text-parchment"><RarityGem rarity={card.rarity} className="w-4 h-4" />{RARITY_LABEL[card.rarity]}</span>
                             <span className="flex-1" />
                             {shownDomains(card.domain).filter(d => d !== 'COLORLESS').map(d => <DomainIcon key={d} domain={d} className="w-[34px] h-[34px]" />)}
                         </div>

@@ -37,8 +37,13 @@ export function domainStripe(domains: Domain[]): string {
 export const RARITY_LABEL: Record<RiftRarity, string> = {
     COMMON: 'Common', UNCOMMON: 'Uncommon', RARE: 'Rare', EPIC: 'Epic', SHOWCASE: 'Showcase',
 };
-export const RARITY_GEM: Record<RiftRarity, string> = {
-    COMMON: '#A69A88', UNCOMMON: '#3E9C8F', RARE: '#3B82C4', EPIC: '#9B5CD6', SHOWCASE: '#D3AC49',
+/** Each rarity's gem as printed on the cards: its colour, and its shape on an 18 x 18 grid (no points means a circle). Same as RarityGem in the Android app. */
+export const RARITY_GEM: Record<RiftRarity, { colour: string; points?: string }> = {
+    COMMON: { colour: '#E8E4DC' },
+    UNCOMMON: { colour: '#2FB5A8', points: '9,2 16,15 2,15' },
+    RARE: { colour: '#D2338A', points: '9,1 17,9 9,17 1,9' },
+    EPIC: { colour: '#F08A24', points: '9,1 17,7 14,16 4,16 1,7' },
+    SHOWCASE: { colour: '#E9C24A', points: '9,1 16,5 16,13 9,17 2,13 2,5' },
 };
 export const RARITIES: RiftRarity[] = ['COMMON', 'UNCOMMON', 'RARE', 'EPIC', 'SHOWCASE'];
 

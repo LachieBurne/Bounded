@@ -57,4 +57,14 @@ Both apps load card images, domain and rarity icons and `prices.json` from [lach
 
 The repository's Pages source must be **GitHub Actions** (Settings › Pages › Build and deployment). With "Deploy from a branch", GitHub would go back to publishing the whole repository on every push.
 
-The site is about 750 MB, and 599 MB of that is 677 old PNG card images. The apps now use WebP, but the APK linked from the README (built in April 2026) still loads every card image as a PNG. Once that download is replaced with a current build, stop publishing the PNGs and the site drops to about 150 MB.
+The site is about 160 MB of WebP card images. The 677 old PNG card images were removed in November 2026 along with the April 2026 APK that loaded them, so that build no longer shows card art.
+
+# Android app download (GitHub Releases)
+
+The README links `releases/latest/download/Bounded.apk`, so it always gets the newest release. To publish one:
+
+1. Bump `versionCode` and `versionName` in `Android App/app/build.gradle.kts`.
+2. Build on `main`: `./gradlew assembleDebug` in `Android App/`. Leave out `-Pandroid.injected.build.abi` so the APK covers every phone.
+3. `gh release create v<version> --target main --title "Bounded <version>" "Android App/app/build/outputs/apk/debug/app-debug.apk#Bounded.apk"`, renaming the asset to `Bounded.apk`.
+
+Builds are signed with the debug key of the machine that builds them, so one built on a different machine won't install over the last; people have to uninstall first. A release signing key would fix that (docs/tech-debt.md).
