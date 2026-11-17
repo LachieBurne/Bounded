@@ -70,7 +70,9 @@ data class CollectionUiState(
     val filter: CardFilter = CardFilter(),
     val sort: CardSort = CardSort.SET,
     /** Sets that don't have a master set binder yet, offered when making a binder. */
-    val suggestedSets: List<RiftSet> = emptyList()
+    val suggestedSets: List<RiftSet> = emptyList(),
+    /** The selected binder broken down, for the stats sheet. Ignores the filters on the grid. */
+    val stats: BinderStats = BinderStats()
 )
 
 /** The six domains a card can belong to, in the order the sets number them. */
@@ -131,7 +133,8 @@ class CollectionViewModel(
             sections = sections,
             filter = userFilter,
             sort = sortOrder,
-            suggestedSets = RiftSet.values().filter { it.code !in coveredSets }
+            suggestedSets = RiftSet.values().filter { it.code !in coveredSets },
+            stats = binderStats(cards, scope, prices, rate)
         )
     }
         .flowOn(Dispatchers.Default)

@@ -56,7 +56,6 @@ A running list. Add to it when you leave something unfinished, and delete an ite
 |---|---|---|
 | The deck list reads every deck's cards to check legality | One Firestore read per entry the first time the list opens in a session (a few hundred for many large decks); after that only changed decks are read again | If it grows, keep the deck's card IDs and counts on the deck document so the list needs only the deck reads. |
 | The bundle is one 770 kB chunk (mostly Firebase) | Slower first load | Split routes with `React.lazy`, or load Firestore after sign-in. |
-| Collection stats charts were dropped in the redesign | The old Stats tab (cards by type and rarity) is gone; progress by binder and domain replaced it | Bring back a stats view if it's missed. |
 
 ## Prices
 
