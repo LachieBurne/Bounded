@@ -59,7 +59,7 @@ class FirebaseUserRepository {
                     close()
                     return@addSnapshotListener
                 }
-                val entries = snapshot?.documents?.mapNotNull { it.toObject(BinderEntry::class.java) } ?: emptyList()
+                val entries = snapshot?.documents?.mapNotNull { entryFrom(it, binderId) } ?: emptyList()
                 trySend(entries)
             }
         awaitClose { registration.remove() }
@@ -77,13 +77,38 @@ class FirebaseUserRepository {
         firestore.collection("users").document(uid).collection("binders").document(binderId).delete()
     }
 
+    /** A collection entry from its Firestore document, including ones older builds wrote (see [BinderEntry.stored]). */
+    private fun entryFrom(doc: com.google.firebase.firestore.DocumentSnapshot, binderId: String): BinderEntry? {
+        val cardId = doc.getString("cardId") ?: doc.id
+        val finishes = (doc.get("finishes") as? Map<*, *>)
+            ?.mapNotNull { (key, value) -> (key as? String)?.let { k -> (value as? Number)?.let { k to it.toInt() } } }
+            ?.toMap()
+        return BinderEntry.stored(
+            binderId = doc.getString("binderId") ?: binderId,
+            cardId = cardId,
+            quantity = doc.getLong("quantity")?.toInt() ?: 0,
+            finishes = finishes,
+            foil = doc.getLong("foil")?.toInt(),
+            nexusNight = doc.getLong("nexusNight")?.toInt()
+        )
+    }
+
     fun updateBinderEntry(entry: BinderEntry) {
         val uid = userId ?: return
         if (entry.quantity > 0) {
+            // Written as a map so only these fields are stored; set() replaces the document, which
+            // drops the foil and nexusNight fields older builds wrote.
             firestore.collection("users").document(uid)
                 .collection("binders").document(entry.binderId)
                 .collection("entries").document(entry.cardId)
-                .set(entry)
+                .set(
+                    mapOf(
+                        "binderId" to entry.binderId,
+                        "cardId" to entry.cardId,
+                        "quantity" to entry.quantity,
+                        "finishes" to entry.finishes
+                    )
+                )
         } else {
             firestore.collection("users").document(uid)
                 .collection("binders").document(entry.binderId)

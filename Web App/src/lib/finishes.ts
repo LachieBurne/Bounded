@@ -1,73 +1,100 @@
-import type { BinderEntry, Card } from '../models/card';
+import type { Card } from '../models/card';
 
 /**
  * How a copy of a card is printed. A finish isn't a card of its own: it shares the card's
  * number and art, so the collection counts it on the card's entry (docs/binders.md, "Finishes").
- * Mirrors data/model/Finish.kt and BinderEntry.kt in the Android app; BinderEntryTest.kt and
- * finishes.test.ts run the same cases.
+ * Mirrors data/model/Finish.kt in the Android app; both run shared/finish-test-cases.json.
+ *
+ * The order is the order copies are taken away in when only a total changes: standard first,
+ * the rarest promo last.
  */
-export type Finish = 'STANDARD' | 'FOIL' | 'NEXUS_NIGHT';
+export const FINISHES = ['STANDARD', 'FOIL', 'NEXUS_NIGHT', 'SKIRMISH_PARTICIPATION', 'SKIRMISH_TOP_8', 'SKIRMISH_CHAMPION'] as const;
+export type Finish = typeof FINISHES[number];
+
+/** Promo printings a card can have, from data/promos.json via the card data. */
+export type PromoKind = Exclude<Finish, 'STANDARD' | 'FOIL'>;
 
 export const FINISH_LABEL: Record<Finish, string> = {
     STANDARD: 'Standard',
     FOIL: 'Foil',
     NEXUS_NIGHT: 'Nexus Night',
+    SKIRMISH_PARTICIPATION: 'Participation',
+    SKIRMISH_TOP_8: 'Top 8',
+    SKIRMISH_CHAMPION: 'Champion',
 };
 
-const ALL_FINISHES: Finish[] = ['STANDARD', 'FOIL', 'NEXUS_NIGHT'];
+/** Promos carry a PROMO stamp on the card; a plain foil doesn't. */
+export const isPromo = (finish: Finish) => finish !== 'STANDARD' && finish !== 'FOIL';
 
 /**
- * The finishes a card comes in. Commons and uncommons have a foil printing, and some have a
- * Nexus Night promo with a stronger foil. Runes have alternate arts instead, which are cards of
- * their own. Until there's a list of the Nexus Night promos (docs/card-backlog.md), every card
- * with a foil offers one.
+ * The finishes a card comes in: standard; a foil for commons and uncommons (runes have
+ * alternate arts instead, which are cards of their own); and the card's promo printings.
  */
-export function finishesOf(card: Pick<Card, 'isToken' | 'type' | 'rarity'>): Finish[] {
+export function finishesOf(card: Pick<Card, 'isToken' | 'type' | 'rarity'> & { promos?: readonly string[] }): Finish[] {
     const hasFoil = !card.isToken && card.type !== 'RUNE' && card.type !== 'OTHER'
         && (card.rarity === 'COMMON' || card.rarity === 'UNCOMMON');
-    return hasFoil ? ALL_FINISHES : ['STANDARD'];
+    const promos = FINISHES.filter(f => isPromo(f) && card.promos?.includes(f));
+    return ['STANDARD', ...(hasFoil ? ['FOIL' as const] : []), ...promos];
 }
 
-/** Copies of one card: every copy, and how many of those are foil and Nexus Night. The rest are standard. */
+/** Copies of one card: every copy, and how many of those are in each non-standard finish. The rest are standard. */
 export interface FinishCounts {
     quantity: number;
-    foil: number;
-    nexusNight: number;
+    finishes: Record<string, number>;
 }
 
-/** How many copies of [finish] the counts hold. */
-export function countOf(c: FinishCounts, finish: Finish): number {
-    if (finish === 'FOIL') return c.foil;
-    if (finish === 'NEXUS_NIGHT') return c.nexusNight;
-    return c.quantity - c.foil - c.nexusNight;
+/** A collection entry as stored, including the foil and nexusNight fields older builds wrote. */
+export interface StoredCounts {
+    quantity?: number;
+    finishes?: Record<string, number>;
+    foil?: number;
+    nexusNight?: number;
 }
 
-/** The finish counts cut down to fit the total, in case something changed only the total. */
-export function normalised(e: Partial<Pick<BinderEntry, 'quantity' | 'foil' | 'nexusNight'>>): FinishCounts {
+/** Which finishes to keep when the total is too small for them all: the rarest first, and kinds this build doesn't know before any. */
+function keepOrder(kinds: string[]): string[] {
+    const known = FINISHES.filter(f => f !== 'STANDARD') as string[];
+    const unknown = kinds.filter(k => k !== 'STANDARD' && !known.includes(k)).sort().reverse();
+    return [...unknown, ...[...known].reverse()];
+}
+
+/** The counts with zeros dropped and the finishes cut down to fit the total. */
+export function normalised(e: StoredCounts): FinishCounts {
     const quantity = Math.max(0, e.quantity ?? 0);
-    const nexusNight = Math.min(Math.max(0, e.nexusNight ?? 0), quantity);
-    const foil = Math.min(Math.max(0, e.foil ?? 0), quantity - nexusNight);
-    return { quantity, foil, nexusNight };
+    const raw = e.finishes ?? { FOIL: e.foil ?? 0, NEXUS_NIGHT: e.nexusNight ?? 0 };
+    const finishes: Record<string, number> = {};
+    let room = quantity;
+    for (const kind of keepOrder(Object.keys(raw))) {
+        const take = Math.min(Math.max(0, raw[kind] ?? 0), room);
+        if (take > 0) finishes[kind] = take;
+        room -= take;
+    }
+    return { quantity, finishes };
+}
+
+/** How many copies of [finish] there are. */
+export function countOf(c: FinishCounts, finish: Finish): number {
+    if (finish !== 'STANDARD') return c.finishes[finish] ?? 0;
+    return c.quantity - Object.values(c.finishes).reduce((a, n) => a + n, 0);
 }
 
 /**
- * The counts with [quantity] copies in all. New copies are standard ones; copies taken away come
- * off the standard ones first, then foil, then Nexus Night.
+ * The counts with [total] copies in all. New copies are standard ones; copies taken away come
+ * off the standard ones first, then each finish in FINISHES order.
  */
-export function withTotal(e: FinishCounts, quantity: number): FinishCounts {
-    const current = normalised(e);
-    const nexusNight = Math.min(current.nexusNight, quantity);
-    return { quantity, nexusNight, foil: Math.min(current.foil, quantity - nexusNight) };
+export function withTotal(e: StoredCounts, total: number): FinishCounts {
+    return normalised({ quantity: total, finishes: normalised(e).finishes });
 }
 
 /** The counts with [delta] copies of [finish] added (or removed, when negative), or null if that finish would go below zero. */
-export function adding(e: FinishCounts, finish: Finish, delta: number): FinishCounts | null {
+export function adding(e: StoredCounts, finish: Finish, delta: number): FinishCounts | null {
     const current = normalised(e);
-    const next = {
-        standard: countOf(current, 'STANDARD') + (finish === 'STANDARD' ? delta : 0),
-        foil: current.foil + (finish === 'FOIL' ? delta : 0),
-        nexusNight: current.nexusNight + (finish === 'NEXUS_NIGHT' ? delta : 0),
-    };
-    if (next.standard < 0 || next.foil < 0 || next.nexusNight < 0) return null;
-    return { quantity: next.standard + next.foil + next.nexusNight, foil: next.foil, nexusNight: next.nexusNight };
+    if (countOf(current, finish) + delta < 0) return null;
+    const finishes = { ...current.finishes };
+    if (finish !== 'STANDARD') {
+        const next = (finishes[finish] ?? 0) + delta;
+        if (next > 0) finishes[finish] = next;
+        else delete finishes[finish];
+    }
+    return { quantity: current.quantity + delta, finishes };
 }

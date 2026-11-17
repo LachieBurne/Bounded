@@ -6,7 +6,7 @@ import { usePrices } from '../context/PriceContext';
 import type { Card } from '../models/card';
 import { RARITY_LABEL, TYPE_LABEL, shownDomains } from '../lib/style';
 import { banDate, isBanned, upcomingBan } from '../lib/bans';
-import { FINISH_LABEL, countOf, finishesOf, type Finish } from '../lib/finishes';
+import { FINISH_LABEL, countOf, finishesOf, isPromo, type Finish } from '../lib/finishes';
 import { DomainBand } from '../components/rift/DomainBand';
 import { RulesText } from '../components/rift/RulesText';
 import { BannedTag, DomainIcon, EnergyToken, Loading, QuantityStepper, RarityGem, RiftLabel } from '../components/rift/Rift';
@@ -40,9 +40,19 @@ function banSentence(card: Card): string | null {
 
 /**
  * One version of a card that's owned and counted separately: a finish of the card (standard,
- * foil, Nexus Night), or, for an overnumbered card, the plain and signature printings, which
+ * foil, and promos such as Nexus Night or a Summoner Skirmish Top 8), or, for an overnumbered
+ * card, the plain and signature printings, which
  * are cards of their own with the same number. Same versions as the Android card detail.
  */
+/** The light over the art: white for a foil, a rainbow for Nexus Night, gold for Skirmish prizes. */
+const SHEEN: Record<Exclude<Finish, 'STANDARD'>, string> = {
+    FOIL: 'foil-sheen',
+    NEXUS_NIGHT: 'foil-sheen-nexus',
+    SKIRMISH_PARTICIPATION: 'foil-sheen-gold',
+    SKIRMISH_TOP_8: 'foil-sheen-gold',
+    SKIRMISH_CHAMPION: 'foil-sheen-gold',
+};
+
 interface Version {
     cardId: string;
     finish: Finish;
@@ -143,6 +153,8 @@ export default function CardDetailPage() {
 
     const price = prices[card.cardId];
     const hasFinishes = finishesOf(card).length > 1;
+    // A checked scan of the promo printing, when there is one (data/promos.json).
+    const promoScan = isPromo(finish) ? card.promoImages?.[finish as keyof NonNullable<Card['promoImages']>] : undefined;
     const ban = banSentence(card);
     const rules = card.text && card.text !== '[NO TEXT]' ? card.text : null;
     // Equipment prints what it gives the unit it's attached to in a box of its own.
@@ -182,11 +194,17 @@ export default function CardDetailPage() {
                     <div className="flex-[0_1_400px] min-w-[240px] flex flex-col gap-3">
                         <a href={card.imageUrl} target="_blank" rel="noreferrer" title="Open the full-size image" className="relative block overflow-hidden border-2 border-gold-deep shadow-[0_24px_60px_rgba(0,0,0,0.6)]">
                             <img
-                                src={card.imageUrl}
+                                src={promoScan ?? card.imageUrl}
                                 alt={finish === 'STANDARD' ? card.name : `${card.name}, ${FINISH_LABEL[finish]}`}
                                 className={`block w-full ${card.orientation === 'landscape' ? '' : 'aspect-[744/1039] object-cover'}`}
                             />
-                            {finish !== 'STANDARD' && <span aria-hidden="true" className={finish === 'NEXUS_NIGHT' ? 'foil-sheen-nexus' : 'foil-sheen'} />}
+                            {finish !== 'STANDARD' && <span aria-hidden="true" className={SHEEN[finish]} />}
+                            {/* No scan of this promo yet: say PROMO along the bottom, as the card does. */}
+                            {isPromo(finish) && !promoScan && (
+                                <span className="absolute left-1/2 -translate-x-1/2 bottom-[3.2%] px-2 py-px bg-ink/85 border border-gold text-gold rift-label text-[11px] tracking-[0.18em]">
+                                    Promo
+                                </span>
+                            )}
                         </a>
                         {versions.length > 1 && (
                             <div role="group" aria-label="Version" className="flex border border-line-strong bg-ink/70">

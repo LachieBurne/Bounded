@@ -1,0 +1,50 @@
+{
+  "_comment": "Finish (foil and promo) cases run by both apps: the Android app's FinishTest.kt and the web app's lib/finishes.test.ts. An entry is a collection entry as stored in Firestore: quantity is every copy, finishes counts the copies of each non-standard finish, and the rest are standard. foil and nexusNight are the fields older builds wrote. Rules: docs/binders.md, Finishes.",
+  "finishesOf": [
+    {"name": "a common has a foil", "card": {"rarity": "COMMON", "type": "UNIT", "isToken": false, "promos": []}, "expect": ["STANDARD", "FOIL"]},
+    {"name": "an uncommon battlefield has a foil", "card": {"rarity": "UNCOMMON", "type": "BATTLEFIELD", "isToken": false, "promos": []}, "expect": ["STANDARD", "FOIL"]},
+    {"name": "a common with a Nexus Night promo", "card": {"rarity": "COMMON", "type": "UNIT", "isToken": false, "promos": ["NEXUS_NIGHT"]}, "expect": ["STANDARD", "FOIL", "NEXUS_NIGHT"]},
+    {"name": "a rare with a Nexus Night promo has no plain foil", "card": {"rarity": "RARE", "type": "LEGEND", "isToken": false, "promos": ["NEXUS_NIGHT"]}, "expect": ["STANDARD", "NEXUS_NIGHT"]},
+    {"name": "Skirmish promos in their order", "card": {"rarity": "RARE", "type": "GEAR", "isToken": false, "promos": ["SKIRMISH_TOP_8", "SKIRMISH_CHAMPION"]}, "expect": ["STANDARD", "SKIRMISH_TOP_8", "SKIRMISH_CHAMPION"]},
+    {"name": "a rare with no promos", "card": {"rarity": "RARE", "type": "UNIT", "isToken": false, "promos": []}, "expect": ["STANDARD"]},
+    {"name": "a showcase", "card": {"rarity": "SHOWCASE", "type": "UNIT", "isToken": false, "promos": []}, "expect": ["STANDARD"]},
+    {"name": "runes have alternate arts instead", "card": {"rarity": "COMMON", "type": "RUNE", "isToken": false, "promos": []}, "expect": ["STANDARD"]},
+    {"name": "tokens", "card": {"rarity": "COMMON", "type": "UNIT", "isToken": true, "promos": []}, "expect": ["STANDARD"]},
+    {"name": "card data from before promos", "card": {"rarity": "COMMON", "type": "UNIT", "isToken": false}, "expect": ["STANDARD", "FOIL"]}
+  ],
+  "normalised": [
+    {"name": "already fits", "entry": {"quantity": 4, "finishes": {"FOIL": 1, "NEXUS_NIGHT": 1}}, "expect": {"quantity": 4, "finishes": {"FOIL": 1, "NEXUS_NIGHT": 1}}},
+    {"name": "finish counts over the total are cut down, rarer kept first", "entry": {"quantity": 2, "finishes": {"FOIL": 3, "NEXUS_NIGHT": 1}}, "expect": {"quantity": 2, "finishes": {"FOIL": 1, "NEXUS_NIGHT": 1}}},
+    {"name": "a champion promo outlasts a top 8 one", "entry": {"quantity": 1, "finishes": {"SKIRMISH_TOP_8": 1, "SKIRMISH_CHAMPION": 1}}, "expect": {"quantity": 1, "finishes": {"SKIRMISH_CHAMPION": 1}}},
+    {"name": "zeros and negatives are dropped", "entry": {"quantity": 3, "finishes": {"FOIL": 0, "NEXUS_NIGHT": -2}}, "expect": {"quantity": 3, "finishes": {}}},
+    {"name": "no finishes field", "entry": {"quantity": 3}, "expect": {"quantity": 3, "finishes": {}}},
+    {"name": "reads the fields older builds wrote", "entry": {"quantity": 3, "foil": 1, "nexusNight": 1}, "expect": {"quantity": 3, "finishes": {"FOIL": 1, "NEXUS_NIGHT": 1}}},
+    {"name": "the finishes map wins over older fields", "entry": {"quantity": 3, "foil": 2, "finishes": {"NEXUS_NIGHT": 1}}, "expect": {"quantity": 3, "finishes": {"NEXUS_NIGHT": 1}}},
+    {"name": "keeps a kind it doesn't know", "entry": {"quantity": 2, "finishes": {"METAL": 1, "FOIL": 1}}, "expect": {"quantity": 2, "finishes": {"FOIL": 1, "METAL": 1}}}
+  ],
+  "withTotal": [
+    {"name": "new copies are standard", "entry": {"quantity": 3, "finishes": {"FOIL": 1, "NEXUS_NIGHT": 1}}, "total": 5, "expect": {"quantity": 5, "finishes": {"FOIL": 1, "NEXUS_NIGHT": 1}}},
+    {"name": "standard copies go first", "entry": {"quantity": 4, "finishes": {"FOIL": 2, "NEXUS_NIGHT": 1}}, "total": 3, "expect": {"quantity": 3, "finishes": {"FOIL": 2, "NEXUS_NIGHT": 1}}},
+    {"name": "then foil", "entry": {"quantity": 4, "finishes": {"FOIL": 2, "NEXUS_NIGHT": 1}}, "total": 2, "expect": {"quantity": 2, "finishes": {"FOIL": 1, "NEXUS_NIGHT": 1}}},
+    {"name": "then Nexus Night", "entry": {"quantity": 4, "finishes": {"FOIL": 2, "NEXUS_NIGHT": 1}}, "total": 1, "expect": {"quantity": 1, "finishes": {"NEXUS_NIGHT": 1}}},
+    {"name": "to zero", "entry": {"quantity": 4, "finishes": {"FOIL": 2, "NEXUS_NIGHT": 1}}, "total": 0, "expect": {"quantity": 0, "finishes": {}}},
+    {"name": "Skirmish promos go participation, top 8, then champion", "entry": {"quantity": 3, "finishes": {"SKIRMISH_PARTICIPATION": 1, "SKIRMISH_TOP_8": 1, "SKIRMISH_CHAMPION": 1}}, "total": 2, "expect": {"quantity": 2, "finishes": {"SKIRMISH_TOP_8": 1, "SKIRMISH_CHAMPION": 1}}}
+  ],
+  "adding": [
+    {"name": "a foil raises the total", "entry": {"quantity": 2}, "finish": "FOIL", "delta": 1, "expect": {"quantity": 3, "finishes": {"FOIL": 1}}},
+    {"name": "a Nexus Night copy", "entry": {"quantity": 2}, "finish": "NEXUS_NIGHT", "delta": 1, "expect": {"quantity": 3, "finishes": {"NEXUS_NIGHT": 1}}},
+    {"name": "a standard copy", "entry": {"quantity": 2, "finishes": {"FOIL": 1}}, "finish": "STANDARD", "delta": 1, "expect": {"quantity": 3, "finishes": {"FOIL": 1}}},
+    {"name": "a champion promo", "entry": {"quantity": 1}, "finish": "SKIRMISH_CHAMPION", "delta": 1, "expect": {"quantity": 2, "finishes": {"SKIRMISH_CHAMPION": 1}}},
+    {"name": "removing a foil", "entry": {"quantity": 2, "finishes": {"FOIL": 2}}, "finish": "FOIL", "delta": -1, "expect": {"quantity": 1, "finishes": {"FOIL": 1}}},
+    {"name": "removing the last of a finish drops it", "entry": {"quantity": 2, "finishes": {"FOIL": 1}}, "finish": "FOIL", "delta": -1, "expect": {"quantity": 1, "finishes": {}}},
+    {"name": "can't remove a foil you don't have", "entry": {"quantity": 2}, "finish": "FOIL", "delta": -1, "expect": null},
+    {"name": "can't remove a standard copy when all are foil", "entry": {"quantity": 2, "finishes": {"FOIL": 2}}, "finish": "STANDARD", "delta": -1, "expect": null},
+    {"name": "fits the entry first", "entry": {"quantity": 2, "finishes": {"FOIL": 3, "NEXUS_NIGHT": 1}}, "finish": "STANDARD", "delta": 1, "expect": {"quantity": 3, "finishes": {"FOIL": 1, "NEXUS_NIGHT": 1}}},
+    {"name": "upgrades an older entry", "entry": {"quantity": 2, "foil": 1}, "finish": "NEXUS_NIGHT", "delta": 1, "expect": {"quantity": 3, "finishes": {"FOIL": 1, "NEXUS_NIGHT": 1}}}
+  ],
+  "countOf": [
+    {"name": "standard is what's left", "entry": {"quantity": 5, "finishes": {"FOIL": 2, "NEXUS_NIGHT": 1}}, "finish": "STANDARD", "expect": 2},
+    {"name": "foil", "entry": {"quantity": 5, "finishes": {"FOIL": 2, "NEXUS_NIGHT": 1}}, "finish": "FOIL", "expect": 2},
+    {"name": "a finish with none", "entry": {"quantity": 5, "finishes": {"FOIL": 2}}, "finish": "SKIRMISH_TOP_8", "expect": 0}
+  ]
+}

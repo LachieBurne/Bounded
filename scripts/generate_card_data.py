@@ -7,7 +7,7 @@ Usage:
 
 The gallery page (playriftbound.com/en-us/card-gallery/) embeds every card in its
 Next.js page data. We normalise those cards, merge in data/extra_cards.json (cards the
-gallery doesn't list, e.g. promos) and data/card_overrides.json (field fixes) and data/banned_cards.json (Riot's ban lists), then:
+gallery doesn't list, e.g. promos) and data/card_overrides.json (field fixes), data/banned_cards.json (Riot's ban lists) and data/promos.json (promo finishes), then:
 
 - write the same riftbound_data.json into the Android and web apps
 - save any missing card image to card_images/<id>.webp (served by GitHub Pages)
@@ -36,6 +36,7 @@ IMAGE_DIR = REPO / "card_images"
 EXTRAS_PATH = REPO / "data" / "extra_cards.json"
 OVERRIDES_PATH = REPO / "data" / "card_overrides.json"
 BANS_PATH = REPO / "data" / "banned_cards.json"
+PROMOS_PATH = REPO / "data" / "promos.json"
 OUTPUT_PATHS = [
     REPO / "Android App" / "app" / "src" / "main" / "assets" / "riftbound_data.json",
     REPO / "Web App" / "public" / "riftbound_data.json",
@@ -48,6 +49,8 @@ CARD_TYPES = {"LEGEND", "UNIT", "SPELL", "GEAR", "RUNE", "BATTLEFIELD", "OTHER"}
 DOMAINS = {"FURY", "CALM", "MIND", "BODY", "CHAOS", "ORDER", "COLORLESS"}
 RARITIES = {"COMMON", "UNCOMMON", "RARE", "EPIC", "SHOWCASE"}
 BAN_FORMATS = {"STANDARD", "2V2"}
+# Promo printings counted as finishes on the card's entry, in the order the apps list them.
+PROMO_KINDS = ["NEXUS_NIGHT", "SKIRMISH_PARTICIPATION", "SKIRMISH_TOP_8", "SKIRMISH_CHAMPION"]
 
 # Gallery tags that aren't printed on the cards. Every Radiance [Deploy] gear is tagged
 # "Device" in the gallery, but the card itself just says "Gear".
@@ -61,7 +64,7 @@ FIELDS = [
     "domain", "rarity", "type", "cost", "might", "isToken",
     "baseName", "subtitle", "setName", "sortOrder", "orientation",
     "power", "mightBonus", "tags", "championTag", "isSignature", "text", "effect",
-    "bannedIn", "bannedSince",
+    "bannedIn", "bannedSince", "promos", "promoImages",
 ]
 
 ID_RE = re.compile(r"^(?P<set>[A-Z]{2,4})-(?P<prefix>[A-Z]*)(?P<num>\d+)(?P<suffix>[a-z*]*)$")
@@ -282,6 +285,45 @@ def apply_extras_and_overrides(cards, set_names):
         by_id[card_id].update(fields)
 
 
+DOTGG_IMAGE_URL = "https://static.dotgg.gg/riftbound/cards/{}.webp"
+
+
+def promo_image_file(card_id, kind):
+    """card_images/ file for a promo scan, e.g. OGN-001-nexus-night."""
+    return f"{image_file_for(card_id)}-{kind.lower().replace('_', '-')}"
+
+
+def apply_promos(cards):
+    """Lists each card's promo printings from data/promos.json, e.g. ["NEXUS_NIGHT"], and the
+    checked promo scans in promoImages. Returns the scans as image jobs for sync_images."""
+    by_id = {c["cardId"]: c for c in cards}
+    kinds_by_id = {}
+    images_by_id = {}
+    jobs = []
+    for promo in json.loads(PROMOS_PATH.read_text(encoding="utf-8"))["promos"]:
+        card = by_id.get(promo["cardId"])
+        if card is None:
+            raise ValueError(f"{PROMOS_PATH.name}: unknown card {promo['cardId']}")
+        if card["name"] != promo["name"]:
+            raise ValueError(f"{PROMOS_PATH.name}: {promo['cardId']} is {card['name']!r}, not {promo['name']!r}")
+        if promo["kind"] not in PROMO_KINDS:
+            raise ValueError(f"{PROMOS_PATH.name}: {promo['cardId']} has unknown kind {promo['kind']!r}")
+        if card["type"] == "RUNE":
+            raise ValueError(f"{PROMOS_PATH.name}: {promo['cardId']} is a rune; rune promos are cards of their own")
+        kinds_by_id.setdefault(card["cardId"], set()).add(promo["kind"])
+        if promo.get("scan"):
+            image_file = promo_image_file(card["cardId"], promo["kind"])
+            images_by_id.setdefault(card["cardId"], {})[promo["kind"]] = f"{PAGES_BASE_URL}/card_images/{image_file}.webp"
+            jobs.append({"cardId": f"{card['cardId']} {promo['kind']}", "_imageFile": image_file,
+                         "_sourceImage": DOTGG_IMAGE_URL.format(promo["scan"])})
+    for card in cards:
+        kinds = kinds_by_id.get(card["cardId"], set())
+        card["promos"] = [k for k in PROMO_KINDS if k in kinds]
+        images = images_by_id.get(card["cardId"], {})
+        card["promoImages"] = {k: images[k] for k in card["promos"] if k in images}
+    return jobs
+
+
 def apply_bans(cards):
     """Marks every printing of each card in data/banned_cards.json with its banned formats."""
     by_id = {c["cardId"]: c for c in cards}
@@ -454,6 +496,14 @@ def validate(cards, previous_ids):
             errors.append(f"{cid}: empty name")
         if set(card["bannedIn"]) - BAN_FORMATS or bool(card["bannedIn"]) != bool(card["bannedSince"]):
             errors.append(f"{cid}: bad ban fields {card['bannedIn']} {card['bannedSince']}")
+        if card["promos"] != [k for k in PROMO_KINDS if k in card["promos"]]:
+            errors.append(f"{cid}: bad promos {card['promos']}")
+        for kind, url in card["promoImages"].items():
+            name = url.rsplit("/", 1)[-1]
+            if kind not in card["promos"]:
+                errors.append(f"{cid}: promo image for {kind}, which isn't one of its promos")
+            if not url.startswith(PAGES_BASE_URL) or not (IMAGE_DIR / name).exists():
+                errors.append(f"{cid}: promo image {name} is missing from card_images/")
         if card["type"] not in CARD_TYPES:
             errors.append(f"{cid}: unknown type {card['type']}")
         if card["rarity"] not in RARITIES:
@@ -583,10 +633,11 @@ def main():
     apply_extras_and_overrides(cards, set_names)
     assign_signatures(cards)
     apply_bans(cards)
+    promo_images = apply_promos(cards)
     assign_sort_order(cards, [code for code, _ in sets])
     warn_incomplete(cards)
 
-    errors = sync_images(cards, args.workers)
+    errors = sync_images(cards + promo_images, args.workers)
     if not errors:
         warn_domain_mismatches(cards)
 

@@ -54,7 +54,7 @@ class CardRepository(
 
     private fun withQuantity(card: Card, entry: BinderEntry?): CardWithQuantity {
         val e = entry?.normalised() ?: return CardWithQuantity(card, 0)
-        return CardWithQuantity(card, e.quantity, e.foil, e.nexusNight)
+        return CardWithQuantity(card, e.quantity, e.finishes)
     }
 
     /** Sets how many copies of a card are owned in all (see [BinderEntry.withTotal]). */

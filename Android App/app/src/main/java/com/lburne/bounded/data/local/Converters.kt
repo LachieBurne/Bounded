@@ -25,6 +25,16 @@ class Converters {
         return gson.fromJson(value, listType) ?: emptyList()
     }
 
+    // Map<String, String> (promo images by finish) <-> JSON
+    @TypeConverter
+    fun fromStringMap(value: Map<String, String>?): String = gson.toJson(value ?: emptyMap<String, String>())
+
+    @TypeConverter
+    fun toStringMap(value: String?): Map<String, String> {
+        val mapType = object : TypeToken<Map<String, String>>() {}.type
+        return value?.let { gson.fromJson<Map<String, String>>(it, mapType) } ?: emptyMap()
+    }
+
     // 1. DOMAIN (Fixes your current crash)
     @TypeConverter
     fun fromDomainList(domains: List<Domain>): String {

@@ -33,7 +33,11 @@ data class Card(
     /** Formats Riot bans this card in: "STANDARD" (1v1) and/or "2V2". From data/banned_cards.json. */
     val bannedIn: List<String>? = null,
     /** When the ban takes effect, e.g. "2026-03-31". Until then the card is still legal. */
-    val bannedSince: String? = null
+    val bannedSince: String? = null,
+    /** Promo printings counted as finishes, by [Finish] name, e.g. ["NEXUS_NIGHT"]. From data/promos.json. */
+    val promos: List<String>? = null,
+    /** Checked scans of those promos, by [Finish] name, e.g. "NEXUS_NIGHT" to its image URL. */
+    val promoImages: Map<String, String>? = null
 ) {
     /** Banned in Standard today, the format the deck builder checks against. */
     val isBannedInStandard: Boolean get() = isBannedIn(BAN_STANDARD)

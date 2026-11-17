@@ -10,23 +10,32 @@ Everything lives under `users/{uid}/binders`.
 
 | Path | What it holds |
 |---|---|
-| `binders/main/entries/{cardId}` | The collection: `binderId` (`"main"`), `cardId`, `quantity`, and the finish counts `foil` and `nexusNight` (below). An entry is deleted when its quantity reaches 0. |
+| `binders/main/entries/{cardId}` | The collection: `binderId` (`"main"`), `cardId`, `quantity`, and `finishes`, the copies in each finish other than standard (below). An entry is deleted when its quantity reaches 0. |
 | `binders/{binderId}` | A sub-binder definition, below. There's no `main` document, only its `entries`. |
 
 ### Finishes
 
-A foil, or a Nexus Night promo, has the same number and art as the standard card, so it isn't a card of its own. The entry counts it instead:
+A foil, or a promo printed with the same number and art as the standard card (a Nexus Night promo, or a Summoner Skirmish prize), isn't a card of its own. The entry counts it instead:
 
 - `quantity` is every copy owned, whatever its finish. Deck "missing" counts, binder progress and filters all read this.
-- `foil` and `nexusNight` say how many of those copies are in that finish. The rest are standard. Both are 0 or absent for most cards.
-- Changing only the total adds standard copies, and removes standard copies first, then foil, then Nexus Night.
-- If the finish counts add up to more than `quantity`, apps cut them down to fit when they read the entry (Nexus Night is kept first).
+- `finishes` maps a finish to how many of those copies are in it, e.g. `{"FOIL": 1, "NEXUS_NIGHT": 2}`. The rest are standard. It's empty or absent for most cards.
+- The finishes, in the order copies are taken away: `FOIL`, `NEXUS_NIGHT`, `SKIRMISH_PARTICIPATION`, `SKIRMISH_TOP_8`, `SKIRMISH_CHAMPION`.
+- Changing only the total adds standard copies, and removes standard copies first, then the finishes in that order.
+- If the finish counts add up to more than `quantity`, apps cut them down to fit when they read the entry, keeping the rarest first.
+- Apps keep finish names they don't know, so a newer app can add finishes without an older one losing them.
+- Builds before promo finishes stored `foil` and `nexusNight` fields instead. Apps still read those when `finishes` is missing, and drop them the next time they save the entry.
 
-Commons and uncommons other than runes have finishes. There's no list yet of which cards have a Nexus Night promo, so every card with a foil offers one; see [card-backlog.md](card-backlog.md).
+Which finishes a card has:
+- **Foil:** commons and uncommons, other than runes.
+- **Promos:** the cards listed in `data/promos.json`. The card data generator copies them into each card's `promos` list. Nexus Night isn't limited to commons: some rares and epics, such as the Proving Grounds starter cards, have one too.
+
+Card detail shows a promo's own scan when `data/promos.json` has a checked one: the generator saves it as `card_images/<cardId>-<finish>.webp` and lists it in the card's `promoImages`. Without one, the apps draw a PROMO badge over the standard art.
+
+Runes have alternate arts instead, which are cards of their own (the Nexus Night runes are `OGN-007b` and the like). The promos not added yet are in [card-backlog.md](card-backlog.md).
 
 Printings with their own number, such as alternate arts (`OGN-027a`) and signatures (`OGN-299*`), are separate cards with entries of their own.
 
-The Android app implements this in `data/model/BinderEntry.kt` and `data/model/Finish.kt`, and the web app in `Web App/src/lib/finishes.ts`; their tests run the same cases. Card detail in both apps counts each finish separately: Android swipes between the versions, and the web app has a bar of them under the art.
+The Android app implements this in `data/model/BinderEntry.kt` and `data/model/Finish.kt`, and the web app in `Web App/src/lib/finishes.ts`; their tests run the same cases. `shared/finish-test-cases.json` holds the cases both run. Card detail in both apps counts each finish separately: Android swipes between the versions, and the web app has a bar of them under the art. Promo finishes show their scan, or a PROMO badge on the standard art.
 
 Sub-binder fields:
 
