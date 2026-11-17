@@ -29,6 +29,13 @@ service cloud.firestore {
         }
       }
 
+      // Where each card's copies are kept: { cardId, places: { name: count } }. Separate from
+      // the collection entries so apps that only write quantities can't erase it
+      // (docs/binders.md, Locations).
+      match /locations/{cardId} {
+        allow read, write: if isOwner(userId);
+      }
+
       // Secure nested Decks collection
       match /decks/{deckId} {
         allow read, write: if isOwner(userId);

@@ -28,6 +28,7 @@ A running list. Add to it when you leave something unfinished, and delete an ite
 
 | Item | Why it matters | Next step |
 |---|---|---|
+| Card locations can only be seen per card | You can note where copies are, but not filter the collection by place ("what's in my deck box?") or see places in stats (both apps) | Add a Location filter that reads `users/{uid}/locations`, and a "By place" row in binder stats. |
 | Release builds have no signing config | The minified release APK can't be installed or shared until it's signed, so the README's release is a debug build, and a build from another machine can't install over it | Create an upload key, keep it out of git, and sign release builds from a CI secret. |
 | The minified (R8) release build hasn't been used signed in | Firestore and Gson read the model classes by reflection. The keep rule covers `data/model`, and R8's mapping shows their names kept, but syncing hasn't been tried in a release build | Sign in on a release build, change some quantities and edit a deck. Any reflected class added outside `data/model` needs its own keep rule. |
 | `targetSdk` is 35 while `compileSdk` is 37 | Play requires recent targets for app updates, and raising it opts the app into newer platform behaviour | Raise it one level at a time and test each on a device. |

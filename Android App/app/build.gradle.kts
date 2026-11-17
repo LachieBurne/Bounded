@@ -15,8 +15,8 @@ android {
         applicationId = "com.lburne.bounded"
         minSdk = 26
         targetSdk = 35
-        versionCode = 3
-        versionName = "1.1.0"
+        versionCode = 4
+        versionName = "1.2.0"
     }
 
     testOptions {
@@ -25,6 +25,7 @@ android {
             it.systemProperty("deckRulesCases", rootProject.file("../shared/deck-rules-test-cases.json").absolutePath)
             // Finish (foil and promo) cases, likewise.
             it.systemProperty("finishCases", rootProject.file("../shared/finish-test-cases.json").absolutePath)
+            it.systemProperty("locationCases", rootProject.file("../shared/location-test-cases.json").absolutePath)
             // Re-run the tests when the shared cases change.
             it.inputs.dir(rootProject.file("../shared")).withPropertyName("sharedTestCases")
         }

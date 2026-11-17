@@ -84,8 +84,8 @@ export function EnergyToken({ value, className = 'w-10 h-10 text-[22px]' }: { va
 
 /** − count +, with the add button in gold. */
 export function QuantityStepper({
-    value, onChange, label, size = 'md', min = 0,
-}: { value: number; onChange: (next: number) => void; label: string; size?: 'sm' | 'md' | 'lg'; min?: number }) {
+    value, onChange, label, size = 'md', min = 0, max,
+}: { value: number; onChange: (next: number) => void; label: string; size?: 'sm' | 'md' | 'lg'; min?: number; max?: number }) {
     const box = { sm: 'w-9 h-9', md: 'w-11 h-11', lg: 'w-12 h-12' }[size];
     const num = { sm: 'w-7 text-lg', md: 'w-10 text-2xl', lg: 'w-14 text-[32px]' }[size];
     return (
@@ -103,8 +103,9 @@ export function QuantityStepper({
             <button
                 type="button"
                 aria-label={`Add a copy of ${label}`}
+                disabled={max !== undefined && value >= max}
                 onClick={() => onChange(value + 1)}
-                className={`${box} flex items-center justify-center bg-gold text-on-gold hover:bg-gold-bright cursor-pointer`}
+                className={`${box} flex items-center justify-center bg-gold text-on-gold hover:bg-gold-bright disabled:opacity-35 disabled:cursor-not-allowed cursor-pointer`}
             >
                 <Plus aria-hidden="true" className="w-4 h-4" />
             </button>

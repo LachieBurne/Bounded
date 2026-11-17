@@ -1,0 +1,29 @@
+{
+  "_comment": "Card location cases run by both apps: the Android app's CardPlacesTest.kt and the web app's lib/places.test.ts. places is a card's stored map of place name to copies there; quantity is the copies owned. Results are [name, count] pairs in display order. Rules: docs/binders.md, Locations.",
+  "normalised": [
+    {"name": "listed by name", "places": {"Red binder": 2, "Deck box": 1}, "quantity": 3, "expect": [["Deck box", 1], ["Red binder", 2]]},
+    {"name": "cut down to the copies owned, in name order", "places": {"B": 2, "A": 2}, "quantity": 3, "expect": [["A", 2], ["B", 1]]},
+    {"name": "blank names, zeros and negatives are dropped", "places": {" ": 1, "A": 0, "B": -1, "C ": 1}, "quantity": 2, "expect": [["C", 1]]},
+    {"name": "names that differ only in case are one place", "places": {"red binder": 1, "Red binder": 1}, "quantity": 5, "expect": [["Red binder", 2]]},
+    {"name": "nothing owned, nothing placed", "places": {"A": 2}, "quantity": 0, "expect": []},
+    {"name": "no places", "places": {}, "quantity": 3, "expect": []}
+  ],
+  "unplaced": [
+    {"name": "copies not in any place", "places": {"A": 1}, "quantity": 3, "expect": 2},
+    {"name": "all placed", "places": {"A": 1, "B": 2}, "quantity": 3, "expect": 0},
+    {"name": "more placed than owned counts as all placed", "places": {"A": 5}, "quantity": 3, "expect": 0}
+  ],
+  "setCount": [
+    {"name": "change a place's count", "places": {"A": 1}, "quantity": 3, "place": "A", "count": 2, "expect": [["A", 2]]},
+    {"name": "limited to the copies not placed elsewhere", "places": {"A": 1, "B": 1}, "quantity": 3, "place": "A", "count": 5, "expect": [["A", 2], ["B", 1]]},
+    {"name": "zero removes the place", "places": {"A": 1, "B": 1}, "quantity": 3, "place": "A", "count": 0, "expect": [["B", 1]]},
+    {"name": "a new place", "places": {"A": 1}, "quantity": 3, "place": " Deck box ", "count": 1, "expect": [["A", 1], ["Deck box", 1]]},
+    {"name": "matches an existing place whatever the case, keeping its spelling", "places": {"Red binder": 1}, "quantity": 3, "place": "red BINDER", "count": 3, "expect": [["Red binder", 3]]},
+    {"name": "a blank name changes nothing", "places": {"A": 1}, "quantity": 3, "place": "  ", "count": 1, "expect": [["A", 1]]}
+  ],
+  "addPlace": [
+    {"name": "all unplaced copies go there", "places": {"A": 1}, "quantity": 4, "place": "Deck box", "expect": [["A", 1], ["Deck box", 3]]},
+    {"name": "onto an existing place", "places": {"A": 1}, "quantity": 4, "place": "a", "expect": [["A", 4]]},
+    {"name": "nothing unplaced changes nothing", "places": {"A": 2}, "quantity": 2, "place": "B", "expect": [["A", 2]]}
+  ]
+}

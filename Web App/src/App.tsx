@@ -4,6 +4,7 @@ import { CardProvider } from './context/CardContext';
 import { DeckProvider } from './context/DeckContext';
 import { PriceProvider } from './context/PriceContext';
 import { BinderProvider } from './context/BinderContext';
+import { LocationProvider } from './context/LocationContext';
 import { ProtectedLayout } from './components/layout/ProtectedLayout';
 import Login from './pages/Login';
 import CollectionPage from './pages/Collection';
@@ -54,11 +55,13 @@ function App() {
       <CardProvider>
         <PriceProvider>
           <BinderProvider>
-            <DeckProvider>
-              <Router>
-                <AppRoutes />
-              </Router>
-            </DeckProvider>
+            <LocationProvider>
+              <DeckProvider>
+                <Router>
+                  <AppRoutes />
+                </Router>
+              </DeckProvider>
+            </LocationProvider>
           </BinderProvider>
         </PriceProvider>
       </CardProvider>

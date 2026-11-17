@@ -48,6 +48,16 @@ From `Web App/`, with `.env.local` filled in and the Firebase CLI logged in:
 npm run build && npx firebase-tools deploy --only hosting
 ```
 
+## Firestore rules
+
+`Web App/firestore.rules` decides who can read and write each path. CI doesn't deploy it, so after changing it, deploy it by hand from `Web App/`:
+
+```bash
+npx firebase-tools deploy --only firestore:rules --project riftbounded-d8951
+```
+
+Deploy rules before the app that needs them: a new path is refused until its rule is live. The apps treat locations as optional, so they carry on without them if the rule is missing. Check the live rules first (`npx firebase-tools firestore:rules:get`, or the Firebase console) in case someone changed them there, since a deploy replaces them.
+
 # Card images and prices (GitHub Pages)
 
 Both apps load card images, domain and rarity icons and `prices.json` from [lachieburne.github.io/Bounded](https://lachieburne.github.io/Bounded/). `.github/workflows/deploy_pages.yml` publishes just those files, so not the whole repository. It runs when one of them changes on `main`, or by hand from the Actions tab.
