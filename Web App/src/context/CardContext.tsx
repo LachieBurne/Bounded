@@ -2,6 +2,7 @@ import React, { createContext, useContext, useEffect, useRef, useState } from 'r
 import { collection, onSnapshot, doc, setDoc, deleteDoc } from 'firebase/firestore';
 import { db, auth } from '../config/firebase';
 import type { Card, CardWithQuantity, BinderEntry } from '../models/card';
+import { adding, normalised, withTotal, type Finish, type FinishCounts } from '../lib/finishes';
 import type { User } from 'firebase/auth';
 import { QuerySnapshot } from 'firebase/firestore';
 import type { DocumentData } from 'firebase/firestore';
@@ -10,7 +11,10 @@ interface CardContextType {
     masterCards: Card[];
     binderCards: CardWithQuantity[];
     loading: boolean;
+    /** Sets how many copies are owned in all, keeping the finish counts (see withTotal in lib/finishes.ts). */
     updateCardQuantity: (cardId: string, quantity: number) => Promise<void>;
+    /** Adds (or, when negative, removes) copies of one finish. Does nothing if that finish would go below zero. */
+    changeFinish: (cardId: string, finish: Finish, delta: number) => Promise<void>;
 }
 
 const CardContext = createContext<CardContextType>({} as CardContextType);
@@ -22,9 +26,8 @@ export const CardProvider: React.FC<{ children: React.ReactNode }> = ({ children
     const [masterCards, setMasterCards] = useState<Card[]>([]);
     const [binderCards, setBinderCards] = useState<CardWithQuantity[]>([]);
     const [loading, setLoading] = useState(true);
-    // Foil and Nexus Night counts by card. The Android app sets them; the web app only has to
-    // keep them when it changes a card's total.
-    const finishes = useRef(new Map<string, { foil: number; nexusNight: number }>());
+    // The latest counts by card, for edits to build on without waiting for a re-render.
+    const counts = useRef(new Map<string, FinishCounts>());
 
     // 1. Fetch Local Master List
     useEffect(() => {
@@ -56,18 +59,16 @@ export const CardProvider: React.FC<{ children: React.ReactNode }> = ({ children
             const entriesRef = collection(db, 'users', user.uid, 'binders', 'main', 'entries');
 
             unsubscribeSnapshot = onSnapshot(entriesRef, (snapshot: QuerySnapshot<DocumentData, DocumentData>) => {
-                const entriesMap = new Map<string, number>();
-                const finishMap = new Map<string, { foil: number; nexusNight: number }>();
+                const entries = new Map<string, FinishCounts>();
                 snapshot.forEach((doc: DocumentData) => {
                     const data = doc.data() as BinderEntry;
-                    entriesMap.set(data.cardId, data.quantity);
-                    if (data.foil || data.nexusNight) finishMap.set(data.cardId, { foil: data.foil ?? 0, nexusNight: data.nexusNight ?? 0 });
+                    entries.set(data.cardId, normalised(data));
                 });
-                finishes.current = finishMap;
+                counts.current = entries;
 
                 const combined = masterCards.map(card => ({
                     card,
-                    quantity: entriesMap.get(card.cardId) || 0
+                    ...(entries.get(card.cardId) ?? { quantity: 0, foil: 0, nexusNight: 0 }),
                 }));
 
                 setBinderCards(combined);
@@ -81,29 +82,35 @@ export const CardProvider: React.FC<{ children: React.ReactNode }> = ({ children
         };
     }, [masterCards]);
 
-    const updateCardQuantity = async (cardId: string, quantity: number) => {
+    const save = async (cardId: string, next: FinishCounts) => {
         const user = auth.currentUser;
         if (!user) return;
-
         const docRef = doc(db, 'users', user.uid, 'binders', 'main', 'entries', cardId);
-
-        if (quantity > 0) {
-            // New copies are standard ones; copies taken away come off the standard ones first,
-            // then foil, then Nexus Night. Same rule as BinderEntry.withTotal in the Android app.
-            const current = finishes.current.get(cardId);
-            const nexusNight = Math.max(0, Math.min(current?.nexusNight ?? 0, quantity));
-            const foil = Math.max(0, Math.min(current?.foil ?? 0, quantity - nexusNight));
-            await setDoc(docRef, { binderId: 'main', cardId, quantity, foil, nexusNight });
+        counts.current.set(cardId, next);
+        if (next.quantity > 0) {
+            await setDoc(docRef, { binderId: 'main', cardId, ...next });
         } else {
             await deleteDoc(docRef);
         }
+    };
+
+    const current = (cardId: string) => counts.current.get(cardId) ?? { quantity: 0, foil: 0, nexusNight: 0 };
+
+    const updateCardQuantity = async (cardId: string, quantity: number) => {
+        await save(cardId, withTotal(current(cardId), Math.max(0, quantity)));
+    };
+
+    const changeFinish = async (cardId: string, finish: Finish, delta: number) => {
+        const next = adding(current(cardId), finish, delta);
+        if (next) await save(cardId, next);
     };
 
     const value = {
         masterCards,
         binderCards,
         loading,
-        updateCardQuantity
+        updateCardQuantity,
+        changeFinish,
     };
 
     return (

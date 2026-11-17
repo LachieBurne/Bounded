@@ -142,4 +142,40 @@
       opacity: 1;
     }
   }
+
+  /*
+   * A band of light sweeping across foil art: white for a foil, and a brighter rainbow for the
+   * Nexus Night promos' stronger foil. Same look as the Android card detail. Sits over the art.
+   */
+  .foil-sheen,
+  .foil-sheen-nexus {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    mix-blend-mode: screen;
+    background-size: 250% 100%;
+    animation: foil-sweep 3.4s linear infinite;
+  }
+
+  .foil-sheen {
+    background-image: linear-gradient(115deg, transparent 30%, rgb(255 255 255 / 0.1) 42%, rgb(255 255 255 / 0.32) 50%, rgb(255 255 255 / 0.1) 58%, transparent 70%);
+  }
+
+  .foil-sheen-nexus {
+    background-image: linear-gradient(115deg, transparent 28%, rgb(255 79 216 / 0.26) 40%, rgb(79 227 255 / 0.34) 50%, rgb(255 243 107 / 0.26) 60%, transparent 72%);
+    animation-duration: 2.6s;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .foil-sheen,
+    .foil-sheen-nexus {
+      animation: none;
+      background-position: 50% 0;
+    }
+  }
+}
+
+@keyframes foil-sweep {
+  from { background-position: 130% 0; }
+  to { background-position: -30% 0; }
 }

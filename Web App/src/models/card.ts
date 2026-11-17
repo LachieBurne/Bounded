@@ -66,5 +66,9 @@ export interface BinderEntry {
 
 export interface CardWithQuantity {
     card: Card;
+    /** Every copy owned. */
     quantity: number;
+    /** How many of those copies are foil, and how many are Nexus Night promos. Fitted to `quantity`. */
+    foil: number;
+    nexusNight: number;
 }
