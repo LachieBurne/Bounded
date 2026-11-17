@@ -11,7 +11,8 @@ These notes come from TCGplayer's product list (the source of JustTCG's data), c
 1. **Images.**
    - The gallery has no images for these cards.
    - TCGplayer's image server refuses automated downloads.
-   - To add a card's art: save it as `card_images/<ID>.webp` and set `imageFile` in the extras entry. Until then, an entry can borrow the base card's image, as the VEN alt-art runes do now.
+   - DotGG (riftbound.gg's card database) has scans of most of them, by card ID: `https://static.dotgg.gg/riftbound/cards/<ID>.webp`, with promos as `<ID>-P.webp`. The full list, with names, is `https://api.dotgg.gg/cgfw/getcards?game=riftbound&mode=indexed&part=cards`.
+   - To add a card's art: set `sourceImage` in the extras entry to the image's URL and `imageFile` to its ID, and the generator downloads it into `card_images/`. Or save it there by hand. Until then, an entry can borrow the base card's image.
 2. **Card IDs for same-number promos.**
    - Most promos are printed with the same number as the base card. For example, the Nexus Night *Blazing Scorcher* is `001/298`, the same as OGN-001.
    - Our ID format (`SET-[prefix]NUM[suffix]`, `ID_RE` in `scripts/generate_card_data.py`) can't tell them apart.
@@ -71,21 +72,17 @@ Left:
 
 ## Alt-art runes
 
-- **VEN-R01a–R06a**: in our data, but showing the standard rune art as a placeholder. They need real images.
-- **Unleashed runes (18 cards)**: the gallery lists no Unleashed runes at all. They are:
-  - base UNL-R01–R06;
-  - alt art UNL-R01a–R06a;
-  - UNL-R01b–R06b.
-
-  JustTCG already prices some of them, e.g. UNL-R02a and UNL-R05b.
-- **SFD-R01–R06** (base Spiritforged runes) are on TCGplayer but not in our data. We have only the SFD-R0Xa/b extras.
+- Done: VEN-R01a–R06a (real art, Greg Ghielmetti) and UNL-R01a–R06a (Envar Studio), from DotGG.
+- **Base Unleashed runes (UNL-R01–R06)**: the gallery lists no Unleashed runes at all, and these aren't in our data. DotGG has them.
+- **SFD-R01–R06** (base Spiritforged runes) are on TCGplayer and DotGG but not in our data. We have only the SFD-R0Xa/b extras.
 
 ## Nexus Night runes
 
-- Origins: done (OGN-007b, 042b, 089b, 126b, 166b, 214b).
-- Spiritforged: SFD-R01b–R06b are in (artist 华锐). Check that these are the Nexus Night printings.
-- **Vendetta**: R01b–R06b, listed as "Fury Rune (Vendetta)" etc. in the Organized Play promos.
-- **R01c–R06c**: also in the Organized Play promos. TCGplayer doesn't say which set they're from; check before choosing IDs.
+All done: Origins (OGN-007b and the other five), Spiritforged (SFD-R01b–R06b, 华锐), Unleashed (UNL-R01b–R06b, the same art as Spiritforged), Vendetta (VEN-R01b–R06b, Pixelverse) and Radiance (RAD-R01b–R06b, Jincheng Guo).
+
+Not added:
+- **Unleashed Regional promo runes, UNL-R01c–R06c.** DotGG has them as `UNL-R0Xc-P`.
+- **Vendetta Chinese promo runes.** DotGG has them as `VEN-R0X-CN-P`.
 
 ## Nexus Night promo cards
 
@@ -171,7 +168,6 @@ From riftbound.gg's list (2026-11-17). Most share their base card's number, so a
 | OGN-159 | Warwick - Hunter | Chinese Arcane Box Set Promo |
 | OGN-259 | Yasuo - Unforgiven | Origins Release Event Promo |
 | SFD-116 | Yone - Blademaster | Pre-Rift Promo |
-| UNL-R01b–R06b? | Fury, Calm, Mind, Body, Chaos and Order Runes | Unleashed Nexus Night (Unleashed runes aren't in our data at all; see Alt-art runes) |
 
 ## Also spotted
 

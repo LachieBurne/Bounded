@@ -1,5 +1,5 @@
 {
-  "_comment": "Cards the official gallery doesn't list (promos, reprint variants). Each entry copies its variantOf card, then applies overrides. imageFile is the card_images/ file to use (without extension).",
+  "_comment": "Cards the official gallery doesn't list (promos, reprint variants). Each entry copies its variantOf card, then applies overrides. imageFile is the card_images/ file to use (without extension). sourceImage, when set, is where the generator downloads a missing image from.",
   "cards": [
     {
       "cardId": "OGN-007b",
@@ -161,6 +161,264 @@
       }
     },
     {
+      "cardId": "UNL-R01b",
+      "variantOf": "SFD-R01b",
+      "_note": "Unleashed Nexus Night rune (riftbound.gg promo list). Same art as the Spiritforged Nexus Night rune.",
+      "imageFile": "SFD-R01b",
+      "overrides": {
+        "setCode": "UNL"
+      }
+    },
+    {
+      "cardId": "UNL-R02b",
+      "variantOf": "SFD-R02b",
+      "_note": "Unleashed Nexus Night rune (riftbound.gg promo list). Same art as the Spiritforged Nexus Night rune.",
+      "imageFile": "SFD-R02b",
+      "overrides": {
+        "setCode": "UNL"
+      }
+    },
+    {
+      "cardId": "UNL-R03b",
+      "variantOf": "SFD-R03b",
+      "_note": "Unleashed Nexus Night rune (riftbound.gg promo list). Same art as the Spiritforged Nexus Night rune.",
+      "imageFile": "SFD-R03b",
+      "overrides": {
+        "setCode": "UNL"
+      }
+    },
+    {
+      "cardId": "UNL-R04b",
+      "variantOf": "SFD-R04b",
+      "_note": "Unleashed Nexus Night rune (riftbound.gg promo list). Same art as the Spiritforged Nexus Night rune.",
+      "imageFile": "SFD-R04b",
+      "overrides": {
+        "setCode": "UNL"
+      }
+    },
+    {
+      "cardId": "UNL-R05b",
+      "variantOf": "SFD-R05b",
+      "_note": "Unleashed Nexus Night rune (riftbound.gg promo list). Same art as the Spiritforged Nexus Night rune.",
+      "imageFile": "SFD-R05b",
+      "overrides": {
+        "setCode": "UNL"
+      }
+    },
+    {
+      "cardId": "UNL-R06b",
+      "variantOf": "SFD-R06b",
+      "_note": "Unleashed Nexus Night rune (riftbound.gg promo list). Same art as the Spiritforged Nexus Night rune.",
+      "imageFile": "SFD-R06b",
+      "overrides": {
+        "setCode": "UNL"
+      }
+    },
+    {
+      "cardId": "UNL-R01a",
+      "variantOf": "OGN-007",
+      "_note": "Unleashed alt-art rune. The gallery has no Unleashed runes; art from DotGG.",
+      "imageFile": "UNL-R01a",
+      "sourceImage": "https://static.dotgg.gg/riftbound/cards/UNL-R01a.webp",
+      "overrides": {
+        "setCode": "UNL",
+        "rarity": "SHOWCASE",
+        "artistName": "Envar Studio"
+      }
+    },
+    {
+      "cardId": "UNL-R02a",
+      "variantOf": "OGN-042",
+      "_note": "Unleashed alt-art rune. The gallery has no Unleashed runes; art from DotGG.",
+      "imageFile": "UNL-R02a",
+      "sourceImage": "https://static.dotgg.gg/riftbound/cards/UNL-R02a.webp",
+      "overrides": {
+        "setCode": "UNL",
+        "rarity": "SHOWCASE",
+        "artistName": "Envar Studio"
+      }
+    },
+    {
+      "cardId": "UNL-R03a",
+      "variantOf": "OGN-089",
+      "_note": "Unleashed alt-art rune. The gallery has no Unleashed runes; art from DotGG.",
+      "imageFile": "UNL-R03a",
+      "sourceImage": "https://static.dotgg.gg/riftbound/cards/UNL-R03a.webp",
+      "overrides": {
+        "setCode": "UNL",
+        "rarity": "SHOWCASE",
+        "artistName": "Envar Studio"
+      }
+    },
+    {
+      "cardId": "UNL-R04a",
+      "variantOf": "OGN-126",
+      "_note": "Unleashed alt-art rune. The gallery has no Unleashed runes; art from DotGG.",
+      "imageFile": "UNL-R04a",
+      "sourceImage": "https://static.dotgg.gg/riftbound/cards/UNL-R04a.webp",
+      "overrides": {
+        "setCode": "UNL",
+        "rarity": "SHOWCASE",
+        "artistName": "Envar Studio"
+      }
+    },
+    {
+      "cardId": "UNL-R05a",
+      "variantOf": "OGN-166",
+      "_note": "Unleashed alt-art rune. The gallery has no Unleashed runes; art from DotGG.",
+      "imageFile": "UNL-R05a",
+      "sourceImage": "https://static.dotgg.gg/riftbound/cards/UNL-R05a.webp",
+      "overrides": {
+        "setCode": "UNL",
+        "rarity": "SHOWCASE",
+        "artistName": "Envar Studio"
+      }
+    },
+    {
+      "cardId": "UNL-R06a",
+      "variantOf": "OGN-214",
+      "_note": "Unleashed alt-art rune. The gallery has no Unleashed runes; art from DotGG.",
+      "imageFile": "UNL-R06a",
+      "sourceImage": "https://static.dotgg.gg/riftbound/cards/UNL-R06a.webp",
+      "overrides": {
+        "setCode": "UNL",
+        "rarity": "SHOWCASE",
+        "artistName": "Envar Studio"
+      }
+    },
+    {
+      "cardId": "VEN-R01b",
+      "variantOf": "VEN-R01",
+      "_note": "Vendetta Nexus Night rune. Art from DotGG.",
+      "imageFile": "VEN-R01b",
+      "sourceImage": "https://static.dotgg.gg/riftbound/cards/VEN-R01B-P.webp",
+      "overrides": {
+        "rarity": "SHOWCASE",
+        "artistName": "Pixelverse"
+      }
+    },
+    {
+      "cardId": "VEN-R02b",
+      "variantOf": "VEN-R02",
+      "_note": "Vendetta Nexus Night rune. Art from DotGG.",
+      "imageFile": "VEN-R02b",
+      "sourceImage": "https://static.dotgg.gg/riftbound/cards/VEN-R02b-P.webp",
+      "overrides": {
+        "rarity": "SHOWCASE",
+        "artistName": "Pixelverse"
+      }
+    },
+    {
+      "cardId": "VEN-R03b",
+      "variantOf": "VEN-R03",
+      "_note": "Vendetta Nexus Night rune. Art from DotGG.",
+      "imageFile": "VEN-R03b",
+      "sourceImage": "https://static.dotgg.gg/riftbound/cards/VEN-R03b-P.webp",
+      "overrides": {
+        "rarity": "SHOWCASE",
+        "artistName": "Pixelverse"
+      }
+    },
+    {
+      "cardId": "VEN-R04b",
+      "variantOf": "VEN-R04",
+      "_note": "Vendetta Nexus Night rune. Art from DotGG.",
+      "imageFile": "VEN-R04b",
+      "sourceImage": "https://static.dotgg.gg/riftbound/cards/VEN-R04B-P.webp",
+      "overrides": {
+        "rarity": "SHOWCASE",
+        "artistName": "Pixelverse"
+      }
+    },
+    {
+      "cardId": "VEN-R05b",
+      "variantOf": "VEN-R05",
+      "_note": "Vendetta Nexus Night rune. Art from DotGG.",
+      "imageFile": "VEN-R05b",
+      "sourceImage": "https://static.dotgg.gg/riftbound/cards/VEN-R05b-P.webp",
+      "overrides": {
+        "rarity": "SHOWCASE",
+        "artistName": "Pixelverse"
+      }
+    },
+    {
+      "cardId": "VEN-R06b",
+      "variantOf": "VEN-R06",
+      "_note": "Vendetta Nexus Night rune. Art from DotGG.",
+      "imageFile": "VEN-R06b",
+      "sourceImage": "https://static.dotgg.gg/riftbound/cards/VEN-R06b-P.webp",
+      "overrides": {
+        "rarity": "SHOWCASE",
+        "artistName": "Pixelverse"
+      }
+    },
+    {
+      "cardId": "RAD-R01b",
+      "variantOf": "RAD-R01",
+      "_note": "Radiance Nexus Night rune. Art from DotGG.",
+      "imageFile": "RAD-R01b",
+      "sourceImage": "https://static.dotgg.gg/riftbound/cards/RAD-R01b-P.webp",
+      "overrides": {
+        "rarity": "SHOWCASE",
+        "artistName": "Jincheng Guo"
+      }
+    },
+    {
+      "cardId": "RAD-R02b",
+      "variantOf": "RAD-R02",
+      "_note": "Radiance Nexus Night rune. Art from DotGG.",
+      "imageFile": "RAD-R02b",
+      "sourceImage": "https://static.dotgg.gg/riftbound/cards/RAD-R02b-P.webp",
+      "overrides": {
+        "rarity": "SHOWCASE",
+        "artistName": "Jincheng Guo"
+      }
+    },
+    {
+      "cardId": "RAD-R03b",
+      "variantOf": "RAD-R03",
+      "_note": "Radiance Nexus Night rune. Art from DotGG.",
+      "imageFile": "RAD-R03b",
+      "sourceImage": "https://static.dotgg.gg/riftbound/cards/RAD-R03b-P.webp",
+      "overrides": {
+        "rarity": "SHOWCASE",
+        "artistName": "Jincheng Guo"
+      }
+    },
+    {
+      "cardId": "RAD-R04b",
+      "variantOf": "RAD-R04",
+      "_note": "Radiance Nexus Night rune. Art from DotGG.",
+      "imageFile": "RAD-R04b",
+      "sourceImage": "https://static.dotgg.gg/riftbound/cards/RAD-R04b-P.webp",
+      "overrides": {
+        "rarity": "SHOWCASE",
+        "artistName": "Jincheng Guo"
+      }
+    },
+    {
+      "cardId": "RAD-R05b",
+      "variantOf": "RAD-R05",
+      "_note": "Radiance Nexus Night rune. Art from DotGG.",
+      "imageFile": "RAD-R05b",
+      "sourceImage": "https://static.dotgg.gg/riftbound/cards/RAD-R05b-P.webp",
+      "overrides": {
+        "rarity": "SHOWCASE",
+        "artistName": "Jincheng Guo"
+      }
+    },
+    {
+      "cardId": "RAD-R06b",
+      "variantOf": "RAD-R06",
+      "_note": "Radiance Nexus Night rune. Art from DotGG.",
+      "imageFile": "RAD-R06b",
+      "sourceImage": "https://static.dotgg.gg/riftbound/cards/RAD-R06b-P.webp",
+      "overrides": {
+        "rarity": "SHOWCASE",
+        "artistName": "Jincheng Guo"
+      }
+    },
+    {
       "cardId": "RAD-168*",
       "variantOf": "RAD-168",
       "_note": "Signature printing, listed on TCGplayer/JustTCG but not the gallery. Uses the overnumbered art.",
@@ -253,56 +511,62 @@
     {
       "cardId": "VEN-R01a",
       "variantOf": "VEN-R01",
-      "_note": "Alt-art rune not in the gallery. Placeholder image: the standard rune art. Save the real art as card_images/VEN-R01a.webp and set imageFile to VEN-R01a.",
-      "imageFile": "VEN-R01",
+      "imageFile": "VEN-R01a",
       "overrides": {
-        "rarity": "SHOWCASE"
-      }
+        "rarity": "SHOWCASE",
+        "artistName": "Greg Ghielmetti"
+      },
+      "sourceImage": "https://static.dotgg.gg/riftbound/cards/VEN-R01a.webp"
     },
     {
       "cardId": "VEN-R02a",
       "variantOf": "VEN-R02",
-      "_note": "Alt-art rune not in the gallery. Placeholder image: the standard rune art. Save the real art as card_images/VEN-R02a.webp and set imageFile to VEN-R02a.",
-      "imageFile": "VEN-R02",
+      "imageFile": "VEN-R02a",
       "overrides": {
-        "rarity": "SHOWCASE"
-      }
+        "rarity": "SHOWCASE",
+        "artistName": "Greg Ghielmetti"
+      },
+      "sourceImage": "https://static.dotgg.gg/riftbound/cards/VEN-R02a.webp"
     },
     {
       "cardId": "VEN-R03a",
       "variantOf": "VEN-R03",
-      "_note": "Alt-art rune not in the gallery. Placeholder image: the standard rune art. Save the real art as card_images/VEN-R03a.webp and set imageFile to VEN-R03a.",
-      "imageFile": "VEN-R03",
+      "imageFile": "VEN-R03a",
       "overrides": {
-        "rarity": "SHOWCASE"
-      }
+        "rarity": "SHOWCASE",
+        "artistName": "Greg Ghielmetti"
+      },
+      "sourceImage": "https://static.dotgg.gg/riftbound/cards/VEN-R03a.webp"
     },
     {
       "cardId": "VEN-R04a",
       "variantOf": "VEN-R04",
-      "_note": "Alt-art rune not in the gallery. Placeholder image: the standard rune art. Save the real art as card_images/VEN-R04a.webp and set imageFile to VEN-R04a.",
-      "imageFile": "VEN-R04",
+      "imageFile": "VEN-R04a",
       "overrides": {
-        "rarity": "SHOWCASE"
-      }
+        "rarity": "SHOWCASE",
+        "artistName": "Greg Ghielmetti"
+      },
+      "sourceImage": "https://static.dotgg.gg/riftbound/cards/VEN-R04a.webp"
     },
     {
       "cardId": "VEN-R05a",
       "variantOf": "VEN-R05",
-      "_note": "Alt-art rune not in the gallery. Placeholder image: the standard rune art. Save the real art as card_images/VEN-R05a.webp and set imageFile to VEN-R05a.",
-      "imageFile": "VEN-R05",
+      "imageFile": "VEN-R05a",
       "overrides": {
-        "rarity": "SHOWCASE"
-      }
+        "rarity": "SHOWCASE",
+        "artistName": "Greg Ghielmetti"
+      },
+      "sourceImage": "https://static.dotgg.gg/riftbound/cards/VEN-R05a.webp"
     },
     {
       "cardId": "VEN-R06a",
       "variantOf": "VEN-R06",
-      "_note": "Alt-art rune not in the gallery. Placeholder image: the standard rune art. Save the real art as card_images/VEN-R06a.webp and set imageFile to VEN-R06a.",
-      "imageFile": "VEN-R06",
+      "imageFile": "VEN-R06a",
       "overrides": {
-        "rarity": "SHOWCASE"
-      }
+        "rarity": "SHOWCASE",
+        "artistName": "Greg Ghielmetti"
+      },
+      "sourceImage": "https://static.dotgg.gg/riftbound/cards/VEN-R06a.webp"
     }
   ]
 }
