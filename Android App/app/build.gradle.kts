@@ -21,8 +21,12 @@ android {
 
     testOptions {
         unitTests.all {
-            // Deck rule cases shared with the web app's tests.
+            // Test cases shared with the web app's tests.
             it.systemProperty("deckRulesCases", rootProject.file("../shared/deck-rules-test-cases.json").absolutePath)
+            // Finish (foil and promo) cases, likewise.
+            it.systemProperty("finishCases", rootProject.file("../shared/finish-test-cases.json").absolutePath)
+            // Re-run the tests when the shared cases change.
+            it.inputs.dir(rootProject.file("../shared")).withPropertyName("sharedTestCases")
         }
     }
 

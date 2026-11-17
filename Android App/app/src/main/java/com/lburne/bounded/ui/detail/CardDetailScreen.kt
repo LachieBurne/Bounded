@@ -289,43 +289,66 @@ private fun ArtBackdrop(card: Card, modifier: Modifier) {
 @Composable
 private fun CardArt(card: Card, finish: Finish = Finish.STANDARD) {
     val context = LocalContext.current
-    SubcomposeAsyncImage(
-        model = ImageRequest.Builder(context).data(card.imageUrl).crossfade(true).build(),
-        contentDescription = card.name,
-        contentScale = ContentScale.FillBounds,
-        modifier = Modifier
-            .aspectRatio(if (card.isLandscape) 88f / 63f else 63f / 88f)
-            .shadow(24.dp, RoundedCornerShape(12.dp))
-            .clip(RoundedCornerShape(12.dp))
-            .border(1.dp, Rift.GoldDeep, RoundedCornerShape(12.dp))
-            .foilShimmer(finish)
-    )
+    Box(contentAlignment = Alignment.BottomCenter) {
+        SubcomposeAsyncImage(
+            model = ImageRequest.Builder(context).data(card.imageUrl).crossfade(true).build(),
+            contentDescription = if (finish == Finish.STANDARD) card.name else "${card.name}, ${finish.label}",
+            contentScale = ContentScale.FillBounds,
+            modifier = Modifier
+                .aspectRatio(if (card.isLandscape) 88f / 63f else 63f / 88f)
+                .shadow(24.dp, RoundedCornerShape(12.dp))
+                .clip(RoundedCornerShape(12.dp))
+                .border(1.dp, Rift.GoldDeep, RoundedCornerShape(12.dp))
+                .foilShimmer(finish)
+        )
+        // Promo printings say PROMO along the bottom of the card.
+        if (finish.promo) {
+            Text(
+                "PROMO",
+                style = RiftLabel.copy(fontSize = 11.sp, letterSpacing = 2.sp),
+                color = Rift.Gold,
+                modifier = Modifier
+                    .padding(bottom = 10.dp)
+                    .background(Rift.Ink.copy(alpha = 0.85f))
+                    .border(1.dp, Rift.Gold)
+                    .padding(horizontal = 8.dp, vertical = 1.dp)
+            )
+        }
+    }
 }
 
 /**
- * A band of light sweeping across foil art: white for a foil, and a brighter rainbow for the
- * Nexus Night promos' stronger foil. Nothing for a standard card.
+ * A band of light sweeping across foil art: white for a foil, a brighter rainbow for the Nexus
+ * Night promos' stronger foil, and gold for Summoner Skirmish prizes. Nothing for a standard card.
+ * Same look as the web card detail.
  */
 @Composable
 private fun Modifier.foilShimmer(finish: Finish): Modifier {
     if (finish == Finish.STANDARD) return this
     val nexus = finish == Finish.NEXUS_NIGHT
+    val gold = finish.promo && !nexus
     val sweep by rememberInfiniteTransition(label = "foil").animateFloat(
         initialValue = 0f,
         targetValue = 1f,
-        animationSpec = infiniteRepeatable(tween(if (nexus) 2600 else 3400, easing = LinearEasing), RepeatMode.Restart),
+        animationSpec = infiniteRepeatable(tween(if (nexus) 2600 else if (gold) 3000 else 3400, easing = LinearEasing), RepeatMode.Restart),
         label = "sweep"
     )
-    val colours = if (nexus) {
-        listOf(
+    val colours = when {
+        nexus -> listOf(
             Color.Transparent,
             Color(0xFFFF4FD8).copy(alpha = 0.26f),
             Color(0xFF4FE3FF).copy(alpha = 0.34f),
             Color(0xFFFFF36B).copy(alpha = 0.26f),
             Color.Transparent
         )
-    } else {
-        listOf(Color.Transparent, Color.White.copy(alpha = 0.10f), Color.White.copy(alpha = 0.32f), Color.White.copy(alpha = 0.10f), Color.Transparent)
+        gold -> listOf(
+            Color.Transparent,
+            Color(0xFFFFD678).copy(alpha = 0.16f),
+            Color(0xFFFFE8A0).copy(alpha = 0.40f),
+            Color(0xFFFFD678).copy(alpha = 0.16f),
+            Color.Transparent
+        )
+        else -> listOf(Color.Transparent, Color.White.copy(alpha = 0.10f), Color.White.copy(alpha = 0.32f), Color.White.copy(alpha = 0.10f), Color.Transparent)
     }
     return drawWithContent {
         drawContent()

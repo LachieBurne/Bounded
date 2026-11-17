@@ -68,7 +68,7 @@ export const CardProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
                 const combined = masterCards.map(card => ({
                     card,
-                    ...(entries.get(card.cardId) ?? { quantity: 0, foil: 0, nexusNight: 0 }),
+                    ...(entries.get(card.cardId) ?? { quantity: 0, finishes: {} }),
                 }));
 
                 setBinderCards(combined);
@@ -94,7 +94,7 @@ export const CardProvider: React.FC<{ children: React.ReactNode }> = ({ children
         }
     };
 
-    const current = (cardId: string) => counts.current.get(cardId) ?? { quantity: 0, foil: 0, nexusNight: 0 };
+    const current = (cardId: string) => counts.current.get(cardId) ?? { quantity: 0, finishes: {} };
 
     const updateCardQuantity = async (cardId: string, quantity: number) => {
         await save(cardId, withTotal(current(cardId), Math.max(0, quantity)));

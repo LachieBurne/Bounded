@@ -1,3 +1,5 @@
+import type { PromoKind } from '../lib/finishes';
+
 export type CardType =
     | 'LEGEND'
     | 'UNIT'
@@ -51,6 +53,7 @@ export interface Card {
     effect: string | null;
     bannedIn?: ('STANDARD' | '2V2')[]; // Formats Riot bans this card in, from data/banned_cards.json
     bannedSince?: string | null;       // When the ban took effect, e.g. "2026-03-31"
+    promos?: PromoKind[];              // Promo printings counted as finishes, from data/promos.json
     flavorText?: string | null;
 }
 
@@ -59,7 +62,9 @@ export interface BinderEntry {
     cardId: string;
     /** Every copy owned. */
     quantity: number;
-    /** How many of those copies are foil, and how many are Nexus Night promos. The rest are standard. */
+    /** How many of those copies are in each finish other than standard, e.g. { FOIL: 1, NEXUS_NIGHT: 2 }. */
+    finishes?: Record<string, number>;
+    /** What builds before promo finishes wrote instead of `finishes`. Read, never written. */
     foil?: number;
     nexusNight?: number;
 }
@@ -68,7 +73,6 @@ export interface CardWithQuantity {
     card: Card;
     /** Every copy owned. */
     quantity: number;
-    /** How many of those copies are foil, and how many are Nexus Night promos. Fitted to `quantity`. */
-    foil: number;
-    nexusNight: number;
+    /** How many of those copies are in each finish other than standard. Fitted to `quantity`. */
+    finishes: Record<string, number>;
 }

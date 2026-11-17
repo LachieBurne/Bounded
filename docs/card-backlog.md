@@ -89,7 +89,11 @@ Left:
 
 ## Nexus Night promo cards
 
-The Organized Play promo set has about 143 Nexus Night-style promos across every set:
+Done for the cards on riftbound.gg's list: `data/promos.json` lists 72 cards with a Nexus Night promo, counted as a finish on the card's entry (`NEXUS_NIGHT`, see [binders.md](binders.md)). The apps only offer a Nexus Night version for those cards.
+
+Still missing: **Vendetta and Radiance** Nexus Night promos, which the list didn't cover yet (read 2026-11-17), and any Origins, Spiritforged or Unleashed ones it missed. Add them to `data/promos.json` and re-run the generator.
+
+For reference, the Organized Play promo set has about 143 Nexus Night-style promos across every set:
 - `/024` OGS
 - `/298` OGN
 - `/221` SFD
@@ -97,27 +101,77 @@ The Organized Play promo set has about 143 Nexus Night-style promos across every
 - `/166` VEN
 - `/167` RAD
 
-The ones that are a common or uncommon with the same art and a stronger foil no longer need an ID: the collection counts them as a finish on the base card's entry (`nexusNight`, see [binders.md](binders.md)). What's missing is **the list of which cards have one**. Until it exists, the Android app offers a Nexus Night version of every common and uncommon that isn't a rune. When there is a list, keep it in `data/` (e.g. `data/nexus_night.json`, by card ID), have `generate_card_data.py` flag those cards, and narrow `Card.finishes` in `data/model/Finish.kt` to them.
-
 Any Nexus Night promos with their own art still share their base card's number, so they wait on the ID decision (blocker 2). TCGplayer also sells a *Nexus Night Promo Pack* for OGN, SFD, UNL and VEN, which shows which cards came in each pack.
 
 Similar small sets:
 - **Judge promos:** SFD-059 Svellsongur, VEN-086 Gangplank, UNL-087 Blue Sentinel, OGN-111 Heimerdinger.
 - **Secret Garden:** Lillia, Bashful Bloom; Ivern, Green Father; Ultrasoft Poro (numbered `001–003/003`).
 
-## Skirmish Top 8 and Champion promos
+## Summoner Skirmish promos
 
-Same number as the base card, so they wait on the ID decision.
+Done: Participation, Top 8 and Champion promos are finishes on the base card's entry (`SKIRMISH_PARTICIPATION`, `SKIRMISH_TOP_8`, `SKIRMISH_CHAMPION`), listed in `data/promos.json`. That covers 13 cards from riftbound.gg's list and TCGplayer's product list. Add new ones there as they're announced.
 
-| Base card | Name | Top 8 | Champion |
-|---|---|---|---|
-| SFD-022 | Long Sword | ✓ | |
-| SFD-051 | Guardian Angel | ✓ | ✓ |
-| SFD-139 | Edge of Night | ✓ | ✓ |
-| VEN-109 | Illaoi, Prophet of the Great Kraken | ✓ | ✓ |
-| VEN-134 | Kayle, Justified | ✓ | ✓ |
-| UNL-058 | Lillia, Protector of Dreams | | ✓ |
-| UNL-120 | Rengar, Trophy Hunter | | ✓ |
+## Other promos, not added yet
+
+From riftbound.gg's list (2026-11-17). Most share their base card's number, so as finishes they'd each need a new kind in `Finish` (both apps) and `PROMO_KINDS` in the generator. Ones with their own art, like the Arcane Box Set alt arts, are cards of their own and are listed under "Alternate-art promos" above.
+
+| Base card | Card | Promo |
+|---|---|---|
+| VEN-041 | Riven Shattered | Spiritforged Pre-Rift |
+| RAD-086 | K'Sante Courageous | Riftbound North American Regional Championship 2026 |
+| ? | K'Sante Courageous Top 8 | Riftbound North American Regional Championship 2026 |
+| ? | Bird // Brush | Vault Promo |
+| UNL-178 | Poppy - Defender of the Meek | Unleashed Regionals |
+| UNL-169 | Ashe - Focused | Pre-Rift Promo |
+| UNL-087 | Blue Sentinel | Judge Promo |
+| UNL-082 | Lillia - Fae Fawn | Chinese Unleashed Regional Open |
+| SFD-178 | Blade of the Ruined King | Regional Qualifier Bologna Champion Promo |
+| SFD-178 | Blade of the Ruined King | Regional Qualifier Bologna Top 8 Promo |
+| SFD-118 | Boneshiver | Regional Qualifier Bologna Participation Promo |
+| SFD-084 | Jayce - Man of Progress | Evo 2026 Promo |
+| SFD-059 | Svellsongur | Judge Promo |
+| OGS-011 | Flash | LGS Play Promo |
+| OGN-275 | Altar to Unity | Teamfight Tactics Paris Open Promo |
+| ? | Recruit//Buff | TFT Promo |
+| OGN-066 | Ahri - Alluring | Launch Event Promo |
+| OGN-255 | Ahri - Nine-Tailed Fox | Origins Release Event Promo |
+| OGN-276 | Aspirant's Climb | Worlds Bundle 2025 Promo |
+| OGN-278 | Bandle Tree | Worlds Bundle 2025 Promo |
+| UNL-T04 | Buff | Riot Fist Bump Promo |
+| OGN-068 | Caitlyn - Patrolling | Arcane Box Set Promo |
+| OGN-068 | Caitlyn - Patrolling | Chinese Arcane Box Set Promo |
+| OGN-253 | Darius, Hand of Noxus | Origins Release Event Promo |
+| OGN-111 | Heimerdinger - Inventor | Arcane Box Set Promo |
+| OGN-111 | Heimerdinger - Inventor | Chinese Arcane Box Set Promo |
+| OGN-111 | Heimerdinger - Inventor | Judge Promo |
+| SFD-195 | Irelia - Blade Dancer | Lunar Revel Bundle 2026 |
+| OGN-251 | Jinx - Loose Cannon | Origins Release Event Promo |
+| OGN-202 | Jinx - Rebel | Arcane Box Set Promo |
+| OGN-202 | Jinx - Rebel | Chinese Arcane Box Set Promo |
+| OGN-202 | Jinx - Rebel | Origins Release Event Promo |
+| OGN-247 | Kai'Sa, Daughter of the Void | Origins Release Event Promo |
+| OGN-078 | Lee Sin - Ascetic | Origins Release Event Promo |
+| OGN-257 | Lee Sin - Blind Monk | Origins Release Event Promo |
+| OGN-261 | Leona - Radiant Dawn | Origins Release Event Promo |
+| OGN-267 | Miss Fortune - Bounty Hunter | Origins Release Event Promo |
+| OGN-193 | Miss Fortune - Buccaneer | Regional Qualifier |
+| OGN-193 | Miss Fortune - Buccaneer | Guangzhou Prestige Battle Bunny |
+| OGN-269 | Sett - The Boss | Origins Release Event Promo |
+| OGN-197 | Teemo - Scout | Origins Store Demo Promo |
+| OGN-263 | Teemo - Swift Scout | Origins Release Event Promo |
+| OGN-263 | Teemo - Swift Scout | Worlds Bundle 2025 Promo |
+| OGN-293 | The Grand Plaza | Worlds Bundle 2025 Promo |
+| OGN-036 | Vi - Destructive | Arcane Box Set Promo |
+| OGN-036 | Vi - Destructive | Chinese Arcane Box Set Promo |
+| OGN-265 | Viktor - Herald of the Arcane | Origins Release Event Promo |
+| OGN-246 | Viktor - Leader | Arcane Box Set Promo |
+| OGN-246 | Viktor - Leader | Chinese Arcane Box Set Promo |
+| OGN-249 | Volibear - Relentless Storm | Origins Release Event Promo |
+| OGN-159 | Warwick - Hunter | Arcane Box Set Promo |
+| OGN-159 | Warwick - Hunter | Chinese Arcane Box Set Promo |
+| OGN-259 | Yasuo - Unforgiven | Origins Release Event Promo |
+| SFD-116 | Yone - Blademaster | Pre-Rift Promo |
+| UNL-R01b–R06b? | Fury, Calm, Mind, Body, Chaos and Order Runes | Unleashed Nexus Night (Unleashed runes aren't in our data at all; see Alt-art runes) |
 
 ## Also spotted
 

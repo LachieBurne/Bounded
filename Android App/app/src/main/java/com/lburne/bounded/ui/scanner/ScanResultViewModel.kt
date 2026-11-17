@@ -106,9 +106,9 @@ class ScanResultViewModel(
             val copiesById = mutableMapOf<String, Copies>()
             _scannedCards.value.forEachIndexed { index, card ->
                 if (index !in _selectedIndices.value) return@forEachIndexed
-                val one = Copies.of(_finishes.value[index] ?: Finish.STANDARD, 1)
-                val soFar = copiesById[card.cardId] ?: Copies()
-                copiesById[card.cardId] = Copies(soFar.standard + one.standard, soFar.foil + one.foil, soFar.nexusNight + one.nexusNight)
+                val finish = _finishes.value[index] ?: Finish.STANDARD
+                val soFar = copiesById[card.cardId] ?: emptyMap()
+                copiesById[card.cardId] = soFar + (finish to (soFar[finish] ?: 0) + 1)
             }
             cardRepository.addCopies(targetBinderId, copiesById)
             onComplete()

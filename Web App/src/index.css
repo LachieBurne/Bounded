@@ -144,11 +144,13 @@
   }
 
   /*
-   * A band of light sweeping across foil art: white for a foil, and a brighter rainbow for the
-   * Nexus Night promos' stronger foil. Same look as the Android card detail. Sits over the art.
+   * A band of light sweeping across foil art: white for a foil, a brighter rainbow for the
+   * Nexus Night promos' stronger foil, and gold for Skirmish prizes. Same look as the Android
+   * card detail. Sits over the art.
    */
   .foil-sheen,
-  .foil-sheen-nexus {
+  .foil-sheen-nexus,
+  .foil-sheen-gold {
     position: absolute;
     inset: 0;
     pointer-events: none;
@@ -166,9 +168,16 @@
     animation-duration: 2.6s;
   }
 
+  /* Summoner Skirmish prizes: a warmer, gold light. */
+  .foil-sheen-gold {
+    background-image: linear-gradient(115deg, transparent 28%, rgb(255 214 120 / 0.16) 40%, rgb(255 232 160 / 0.4) 50%, rgb(255 214 120 / 0.16) 60%, transparent 72%);
+    animation-duration: 3s;
+  }
+
   @media (prefers-reduced-motion: reduce) {
     .foil-sheen,
-    .foil-sheen-nexus {
+    .foil-sheen-nexus,
+    .foil-sheen-gold {
       animation: none;
       background-position: 50% 0;
     }

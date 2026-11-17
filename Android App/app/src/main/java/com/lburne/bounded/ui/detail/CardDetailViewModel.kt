@@ -5,7 +5,6 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.lburne.bounded.data.local.CardWithQuantity
 import com.lburne.bounded.data.model.Card
-import com.lburne.bounded.data.model.Copies
 import com.lburne.bounded.data.model.Finish
 import com.lburne.bounded.data.model.finishes
 import com.lburne.bounded.data.repository.CardRepository
@@ -18,8 +17,8 @@ import kotlinx.coroutines.launch
 
 /**
  * One version of a card you can own and count separately: a finish of the card (standard,
- * foil, Nexus Night), or the signature printing of an overnumbered card, which is a card of
- * its own with the same number.
+ * foil, and promos such as Nexus Night or a Summoner Skirmish Top 8), or the signature printing
+ * of an overnumbered card, which is a card of its own with the same number.
  */
 data class CardVariant(
     val item: CardWithQuantity,
@@ -74,7 +73,7 @@ class CardDetailViewModel(
 
     private fun change(variant: CardVariant, by: Int) {
         viewModelScope.launch {
-            repository.addCopies("main", mapOf(variant.card.cardId to Copies.of(variant.finish, by)))
+            repository.addCopies("main", mapOf(variant.card.cardId to mapOf(variant.finish to by)))
         }
     }
 
