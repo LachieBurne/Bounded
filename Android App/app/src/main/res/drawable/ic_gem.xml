@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- The Gilded gem: the ◆ from the BOUNDED wordmark, cut into four facets lit from the top left.
+     The launcher icon's foreground draws the same gem; the login screen shows it on its own. -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="48dp"
+    android:height="56dp"
+    android:viewportWidth="48"
+    android:viewportHeight="56">
+    <path android:fillColor="#F0D27A" android:pathData="M24,0L0,28L24,28Z" />
+    <path android:fillColor="#D3AC49" android:pathData="M24,0L48,28L24,28Z" />
+    <path android:fillColor="#B08A2E" android:pathData="M0,28L24,56L24,28Z" />
+    <path android:fillColor="#8A6A22" android:pathData="M48,28L24,56L24,28Z" />
+</vector>

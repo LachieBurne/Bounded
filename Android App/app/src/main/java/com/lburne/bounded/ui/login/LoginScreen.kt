@@ -111,20 +111,20 @@ fun LoginScreen(
                                     .background(
                                         brush = Brush.radialGradient(
                                             colors = listOf(
-                                                Color(0x669D4EDD), // Glowing purple core
-                                                Color.Transparent  // Fading out to transparent
+                                                Color(0x55D3AC49), // Gold glow behind the gem
+                                                Color.Transparent
                                             )
                                         ),
                                         shape = androidx.compose.foundation.shape.CircleShape
                                     )
                             )
 
-                            // App Logo
+                            // The Gilded gem, the app's logo (also the launcher icon).
                             Image(
-                                painter = painterResource(id = R.drawable.favicon),
-                                contentDescription = "Bounded Logo",
-                                contentScale = ContentScale.Fit, // Switched from Crop to Fit to prevent the edges from cutting off
-                                modifier = Modifier.size(140.dp)
+                                painter = painterResource(id = R.drawable.ic_gem),
+                                contentDescription = "Bounded logo",
+                                contentScale = ContentScale.Fit,
+                                modifier = Modifier.size(width = 96.dp, height = 112.dp)
                             )
                         }
 
