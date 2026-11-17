@@ -153,6 +153,8 @@ export default function CardDetailPage() {
 
     const price = prices[card.cardId];
     const hasFinishes = finishesOf(card).length > 1;
+    // A checked scan of the promo printing, when there is one (data/promos.json).
+    const promoScan = isPromo(finish) ? card.promoImages?.[finish as keyof NonNullable<Card['promoImages']>] : undefined;
     const ban = banSentence(card);
     const rules = card.text && card.text !== '[NO TEXT]' ? card.text : null;
     // Equipment prints what it gives the unit it's attached to in a box of its own.
@@ -192,12 +194,13 @@ export default function CardDetailPage() {
                     <div className="flex-[0_1_400px] min-w-[240px] flex flex-col gap-3">
                         <a href={card.imageUrl} target="_blank" rel="noreferrer" title="Open the full-size image" className="relative block overflow-hidden border-2 border-gold-deep shadow-[0_24px_60px_rgba(0,0,0,0.6)]">
                             <img
-                                src={card.imageUrl}
+                                src={promoScan ?? card.imageUrl}
                                 alt={finish === 'STANDARD' ? card.name : `${card.name}, ${FINISH_LABEL[finish]}`}
                                 className={`block w-full ${card.orientation === 'landscape' ? '' : 'aspect-[744/1039] object-cover'}`}
                             />
                             {finish !== 'STANDARD' && <span aria-hidden="true" className={SHEEN[finish]} />}
-                            {isPromo(finish) && (
+                            {/* No scan of this promo yet: say PROMO along the bottom, as the card does. */}
+                            {isPromo(finish) && !promoScan && (
                                 <span className="absolute left-1/2 -translate-x-1/2 bottom-[3.2%] px-2 py-px bg-ink/85 border border-gold text-gold rift-label text-[11px] tracking-[0.18em]">
                                     Promo
                                 </span>

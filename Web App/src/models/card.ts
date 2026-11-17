@@ -54,6 +54,7 @@ export interface Card {
     bannedIn?: ('STANDARD' | '2V2')[]; // Formats Riot bans this card in, from data/banned_cards.json
     bannedSince?: string | null;       // When the ban took effect, e.g. "2026-03-31"
     promos?: PromoKind[];              // Promo printings counted as finishes, from data/promos.json
+    promoImages?: Partial<Record<PromoKind, string>>; // Checked scans of those promos, by kind
     flavorText?: string | null;
 }
 

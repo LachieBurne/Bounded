@@ -567,6 +567,39 @@
         "artistName": "Greg Ghielmetti"
       },
       "sourceImage": "https://static.dotgg.gg/riftbound/cards/VEN-R06a.webp"
+    },
+    {
+      "cardId": "OGN-151b",
+      "variantOf": "OGN-151",
+      "_note": "Nexus Night alt-art promo (Unleashed Nexus Night). Scan from DotGG, checked by eye.",
+      "imageFile": "OGN-151b",
+      "sourceImage": "https://static.dotgg.gg/riftbound/cards/OGN-151b.webp",
+      "overrides": {
+        "rarity": "SHOWCASE",
+        "artistName": "League Splash Team"
+      }
+    },
+    {
+      "cardId": "VEN-069b",
+      "variantOf": "VEN-069",
+      "_note": "Vendetta Nexus Night alt-art promo. Scan from DotGG, checked by eye.",
+      "imageFile": "VEN-069b",
+      "sourceImage": "https://static.dotgg.gg/riftbound/cards/VEN-069B-P.webp",
+      "overrides": {
+        "rarity": "SHOWCASE",
+        "artistName": "Anna Nikonova"
+      }
+    },
+    {
+      "cardId": "RAD-110a",
+      "variantOf": "RAD-110",
+      "_note": "Radiance Nexus Night alt-art promo. Scan from DotGG, checked by eye.",
+      "imageFile": "RAD-110a",
+      "sourceImage": "https://static.dotgg.gg/riftbound/cards/RAD-110A-P.webp",
+      "overrides": {
+        "rarity": "SHOWCASE",
+        "artistName": "黯荧岛Dark Glow"
+      }
     }
   ]
 }

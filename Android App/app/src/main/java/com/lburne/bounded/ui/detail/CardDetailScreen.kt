@@ -289,9 +289,11 @@ private fun ArtBackdrop(card: Card, modifier: Modifier) {
 @Composable
 private fun CardArt(card: Card, finish: Finish = Finish.STANDARD) {
     val context = LocalContext.current
+    // A checked scan of the promo printing, when there is one (data/promos.json).
+    val promoScan = if (finish.promo) card.promoImages?.get(finish.name) else null
     Box(contentAlignment = Alignment.BottomCenter) {
         SubcomposeAsyncImage(
-            model = ImageRequest.Builder(context).data(card.imageUrl).crossfade(true).build(),
+            model = ImageRequest.Builder(context).data(promoScan ?: card.imageUrl).crossfade(true).build(),
             contentDescription = if (finish == Finish.STANDARD) card.name else "${card.name}, ${finish.label}",
             contentScale = ContentScale.FillBounds,
             modifier = Modifier
@@ -301,8 +303,8 @@ private fun CardArt(card: Card, finish: Finish = Finish.STANDARD) {
                 .border(1.dp, Rift.GoldDeep, RoundedCornerShape(12.dp))
                 .foilShimmer(finish)
         )
-        // Promo printings say PROMO along the bottom of the card.
-        if (finish.promo) {
+        // No scan of this promo yet: say PROMO along the bottom, as the card does.
+        if (finish.promo && promoScan == null) {
             Text(
                 "PROMO",
                 style = RiftLabel.copy(fontSize = 11.sp, letterSpacing = 2.sp),

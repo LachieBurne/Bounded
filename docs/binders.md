@@ -29,11 +29,13 @@ Which finishes a card has:
 - **Foil:** commons and uncommons, other than runes.
 - **Promos:** the cards listed in `data/promos.json`. The card data generator copies them into each card's `promos` list. Nexus Night isn't limited to commons: some rares and epics, such as the Proving Grounds starter cards, have one too.
 
+Card detail shows a promo's own scan when `data/promos.json` has a checked one: the generator saves it as `card_images/<cardId>-<finish>.webp` and lists it in the card's `promoImages`. Without one, the apps draw a PROMO badge over the standard art.
+
 Runes have alternate arts instead, which are cards of their own (the Nexus Night runes are `OGN-007b` and the like). The promos not added yet are in [card-backlog.md](card-backlog.md).
 
 Printings with their own number, such as alternate arts (`OGN-027a`) and signatures (`OGN-299*`), are separate cards with entries of their own.
 
-The Android app implements this in `data/model/BinderEntry.kt` and `data/model/Finish.kt`, and the web app in `Web App/src/lib/finishes.ts`; their tests run the same cases. `shared/finish-test-cases.json` holds the cases both run. Card detail in both apps counts each finish separately: Android swipes between the versions, and the web app has a bar of them under the art. Promo finishes show a PROMO stamp on the art.
+The Android app implements this in `data/model/BinderEntry.kt` and `data/model/Finish.kt`, and the web app in `Web App/src/lib/finishes.ts`; their tests run the same cases. `shared/finish-test-cases.json` holds the cases both run. Card detail in both apps counts each finish separately: Android swipes between the versions, and the web app has a bar of them under the art. Promo finishes show their scan, or a PROMO badge on the standard art.
 
 Sub-binder fields:
 

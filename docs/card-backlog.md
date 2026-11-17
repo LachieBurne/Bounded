@@ -36,12 +36,9 @@ These fit the current ID scheme, so they can be added as soon as there are image
 | OGN-036a | Vi, Destructive | Riftbound Promotional Cards |
 | VEN-041a | Riven, Shattered | Riftbound Promotional Cards |
 | OGN-068a | Caitlyn, Patrolling | Riftbound Promotional Cards |
-| RAD-110a | Lulu, Whimsical | Riftbound Promotional Cards |
 | OGN-111a | Heimerdinger, Inventor | Riftbound Promotional Cards |
 | OGN-159a | Warwick, Hunter | Riftbound Promotional Cards |
 | OGN-246b | Viktor, Leader | Riftbound Promotional Cards |
-| VEN-069b | Mel, Newly Awakened | Organized Play promos |
-| OGN-151b | Lee Sin, Centered | Organized Play promos |
 | SFD-118a | Boneshiver | Organized Play promos |
 | UNL-178a | Poppy, Defender of the Meek | Organized Play promos |
 | OGN-263a | Teemo, Swift Scout | Worlds Bundle 2025 |
@@ -53,7 +50,9 @@ Two more promos share their base card's number, so they wait on the ID decision:
 - OGN-066 *Ahri, Alluring (Launch Exclusive)*;
 - RAD-132 *Heimerdinger, Academy Instructor*.
 
-Already in: OGN-007b, 042b, 089b, 126b, 166b, 214b (Nexus Night runes) and OGN-197b (Teemo, GG EZ).
+Already in: OGN-007b, 042b, 089b, 126b, 166b, 214b (Nexus Night runes), OGN-197b (Teemo, GG EZ), and the Nexus Night alt arts OGN-151b (Lee Sin, Centered), VEN-069b (Mel, Newly Awakened) and RAD-110a (Lulu, Whimsical).
+
+**Rengar, Pouncing (Unleashed Nexus Night):** an alt-art promo of SFD-025, not a finish. DotGG only has the Chinese printing (`SFD-025-P`). Add it as a card (e.g. `SFD-025a`, if that number is free) once there's an English image.
 
 ## Signatures
 
@@ -86,9 +85,7 @@ Not added:
 
 ## Nexus Night promo cards
 
-Done for the cards on riftbound.gg's list: `data/promos.json` lists 72 cards with a Nexus Night promo, counted as a finish on the card's entry (`NEXUS_NIGHT`, see [binders.md](binders.md)). The apps only offer a Nexus Night version for those cards.
-
-Still missing: **Vendetta and Radiance** Nexus Night promos, which the list didn't cover yet (read 2026-11-17), and any Origins, Spiritforged or Unleashed ones it missed. Add them to `data/promos.json` and re-run the generator.
+Done: `data/promos.json` lists 113 cards with a Nexus Night promo, counted as a finish on the card's entry (`NEXUS_NIGHT`, see [binders.md](binders.md)): OGN 18, OGS 16, RAD 24, SFD 19, UNL 18, VEN 18. The apps only offer a Nexus Night version for those cards. Sources: DotGG's card database, riftbound.gg's promo list and TCGplayer (2026-11-17). Add new ones there as sets come out.
 
 For reference, the Organized Play promo set has about 143 Nexus Night-style promos across every set:
 - `/024` OGS
@@ -104,9 +101,38 @@ Similar small sets:
 - **Judge promos:** SFD-059 Svellsongur, VEN-086 Gangplank, UNL-087 Blue Sentinel, OGN-111 Heimerdinger.
 - **Secret Garden:** Lillia, Bashful Bloom; Ivern, Green Father; Ultrasoft Poro (numbered `001–003/003`).
 
+## Promo scans to check again
+
+`data/promos.json` has a checked scan for 96 of its 138 promos; the apps show it when that finish is picked. The rest have a `scanIssue` and show the PROMO badge instead. Look again when DotGG updates its images, or find another source; set `scan` to the DotGG ID once a scan passes, and re-run the generator.
+
+What counts as passing (2026-11-17): a render or flat scan of the English promo printing, about 700 px wide or more, with its promo marking (the PROMO stamp, TOP 8 or CHAMPION on the art, or "P" after the collector number) and no glare.
+
+**Radiance Nexus Night (24):** DotGG's images are pixel for pixel the standard cards, not the promos: RAD-002, RAD-008, RAD-014, RAD-019, RAD-027, RAD-029, RAD-037, RAD-041, RAD-048, RAD-054, RAD-055, RAD-066, RAD-070, RAD-076, RAD-083, RAD-087, RAD-094, RAD-096, RAD-105, RAD-107, RAD-119, RAD-122, RAD-127, RAD-130.
+
+| Card | Name | Promo | Why not yet |
+|---|---|---|---|
+| OGN-034 | Tryndamere, Barbarian | Skirmish Participation | DotGG's image is the standard card, with no participation marking |
+| OGN-067 | Blitzcrank, Impassive | Skirmish Top 8 | DotGG's image is the standard card, with no Top 8 marking |
+| SFD-022 | Long Sword | Skirmish Participation | Photo of the card with glare, 255x361 |
+| SFD-022 | Long Sword | Skirmish Top 8 | No scan on DotGG |
+| SFD-051 | Guardian Angel | Skirmish Top 8 | Photo of the foil card with glare; washed-out text |
+| SFD-051 | Guardian Angel | Skirmish Champion | Photo of the foil card with glare; washed-out text |
+| SFD-086 | World Atlas | Skirmish Participation | Too small: 255x361 |
+| SFD-102 | Hexdrinker | Nexus Night | No scan on DotGG |
+| SFD-139 | Edge of Night | Skirmish Top 8 | Photo of the card, 255x361 |
+| SFD-139 | Edge of Night | Skirmish Champion | Photo of the card, 255x361 |
+| UNL-058 | Lillia, Protector of Dreams | Skirmish Top 8 | Photo of the foil card; faded colours |
+| UNL-058 | Lillia, Protector of Dreams | Skirmish Champion | Photo of the foil card; faded colours |
+| UNL-120 | Rengar, Trophy Hunter | Skirmish Top 8 | Photo of the foil card; faded colours |
+| UNL-120 | Rengar, Trophy Hunter | Skirmish Champion | Photo of the foil card; faded colours |
+| VEN-109 | Illaoi, Prophet of the Great Kraken | Skirmish Top 8 | No scan on DotGG |
+| VEN-109 | Illaoi, Prophet of the Great Kraken | Skirmish Champion | No scan on DotGG |
+| VEN-134 | Kayle, Justified | Skirmish Top 8 | No scan on DotGG |
+| VEN-134 | Kayle, Justified | Skirmish Champion | No scan on DotGG |
+
 ## Summoner Skirmish promos
 
-Done: Participation, Top 8 and Champion promos are finishes on the base card's entry (`SKIRMISH_PARTICIPATION`, `SKIRMISH_TOP_8`, `SKIRMISH_CHAMPION`), listed in `data/promos.json`. That covers 13 cards from riftbound.gg's list and TCGplayer's product list. Add new ones there as they're announced.
+Done: Participation, Top 8 and Champion promos are finishes on the base card's entry (`SKIRMISH_PARTICIPATION`, `SKIRMISH_TOP_8`, `SKIRMISH_CHAMPION`), listed in `data/promos.json`. That covers 16 cards, from DotGG, riftbound.gg's promo list and TCGplayer's product list. Add new ones there as they're announced.
 
 ## Other promos, not added yet
 
