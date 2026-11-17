@@ -1,5 +1,6 @@
 package com.lburne.bounded.ui.deck
 
+import com.lburne.bounded.ui.common.FilterButton
 import com.lburne.bounded.data.rules.DeckIssue
 import com.lburne.bounded.data.rules.DeckRules
 import com.lburne.bounded.data.rules.IssueCode
@@ -1022,11 +1023,12 @@ fun DeckBrowseTab(
                     placeholder = "Search cards",
                     modifier = Modifier.weight(1f)
                 )
-                IconButton(onClick = { showFilterSheet = true }) {
-                    BadgedBox(badge = { if (filter.activeCount > 0) Badge { Text(filter.activeCount.toString()) } }) {
-                        Icon(Icons.Default.Tune, contentDescription = "Filters")
-                    }
-                }
+                FilterButton(
+                    activeCount = filter.activeCount,
+                    onClick = { showFilterSheet = true },
+                    label = null,
+                    modifier = Modifier.padding(start = 8.dp)
+                )
             }
         }
         ActiveFilterRow(filter = filter, onFilterChange = viewModel::updateFilter, modifier = Modifier.fillMaxWidth().padding(bottom = 8.dp))

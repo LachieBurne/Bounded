@@ -34,6 +34,10 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Block
+import androidx.compose.material.icons.filled.Tune
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.widthIn
+import androidx.compose.ui.semantics.Role
 import androidx.compose.material3.Icon
 import com.lburne.bounded.data.model.Card
 import com.lburne.bounded.data.model.Domain
@@ -104,6 +108,43 @@ fun GoldProgressBar(fraction: Float, modifier: Modifier = Modifier, color: Color
 fun ThinProgressBar(fraction: Float, color: Color, modifier: Modifier = Modifier) {
     Box(modifier.fillMaxWidth().height(4.dp).background(Rift.Track)) {
         Box(Modifier.fillMaxWidth(fraction.coerceIn(0f, 1f)).height(4.dp).background(color))
+    }
+}
+
+/**
+ * The Filters button. With filters on, it turns gold-edged and shows how many in a small
+ * square tag after the label, instead of a pill floating over the icon.
+ */
+@Composable
+fun FilterButton(activeCount: Int, onClick: () -> Unit, modifier: Modifier = Modifier, label: String? = "FILTER") {
+    val active = activeCount > 0
+    Row(
+        modifier
+            .height(40.dp)
+            .background(if (active) Rift.GoldWash else Color.Transparent)
+            .border(1.dp, if (active) Rift.Gold else Rift.GoldDeep)
+            .clickable(role = Role.Button, onClickLabel = "Filters") { onClick() }
+            .semantics { contentDescription = if (active) "Filters, $activeCount on" else "Filters" }
+            .padding(horizontal = 10.dp),
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.spacedBy(8.dp)
+    ) {
+        Icon(Icons.Default.Tune, contentDescription = null, tint = if (active) Rift.Gold else Rift.Ivory, modifier = Modifier.size(18.dp))
+        if (label != null) {
+            Text(label, style = RiftNumber.copy(fontSize = 14.sp, letterSpacing = 0.8.sp), color = Rift.Ivory)
+        }
+        if (active) {
+            Box(
+                Modifier
+                    .height(18.dp)
+                    .widthIn(min = 18.dp)
+                    .background(Rift.Gold)
+                    .padding(horizontal = 4.dp),
+                contentAlignment = Alignment.Center
+            ) {
+                Text(activeCount.toString(), style = RiftNumber.copy(fontSize = 12.sp), color = Rift.OnGold)
+            }
+        }
     }
 }
 

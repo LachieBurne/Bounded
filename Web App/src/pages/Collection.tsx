@@ -11,6 +11,8 @@ import { DOMAIN_BAND, DOMAIN_LABEL, DOMAIN_SIGIL, PLAYABLE_DOMAINS } from '../li
 import { CardTile } from '../components/collection/CardTile';
 import { FilterPanel } from '../components/collection/FilterPanel';
 import { BinderEditor } from '../components/collection/BinderEditor';
+import { StatsPanel } from '../components/collection/StatsPanel';
+import { binderStats } from '../lib/stats';
 import { Dialog } from '../components/rift/Dialog';
 import { DomainIcon, GoldProgress, Loading, RiftLabel, Segmented, SetCodeBadge } from '../components/rift/Rift';
 
@@ -35,6 +37,8 @@ export default function CollectionPage() {
     const [filtersOpen, setFiltersOpen] = useState(wideScreen);
     const [editing, setEditing] = useState<{ binder: Binder | null } | null>(null);
     const [confirmDelete, setConfirmDelete] = useState(false);
+    // The grid, or the binder broken down.
+    const [view, setView] = useState<'cards' | 'stats'>('cards');
 
     const query = params.get('q') ?? '';
     const fullFilter: CardFilter = { ...filter, query };
@@ -49,6 +53,10 @@ export default function CollectionPage() {
         .filter(x => x.progress.total > 0), [binderCards, inScope, prices]);
     const binderProgress = useMemo(() => new Map(binders.map(b => [b.binderId, progressOf(binderCards, c => inBinder(b, c), prices)])), [binders, binderCards, prices]);
     const allProgress = useMemo(() => progressOf(binderCards, () => true, prices), [binderCards, prices]);
+    const stats = useMemo(
+        () => (view === 'stats' ? binderStats(binderCards, inScope, prices, sets.map(s => s.code)) : null),
+        [view, binderCards, inScope, prices, sets],
+    );
 
     const shown = useMemo(() => sortCards(
         binderCards.filter(i => inScope(i.card) && matches(fullFilter, i.card, i.quantity)),
@@ -145,6 +153,12 @@ export default function CollectionPage() {
             <div className="flex-1 min-w-0 flex flex-col gap-4">
                 <div className="flex flex-wrap items-center gap-3">
                     <h1 className="flex-1 rift-label text-[34px] sm:text-[40px] leading-none tracking-[0.05em]">{binder?.name ?? 'All cards'}</h1>
+                    <Segmented<'cards' | 'stats'>
+                        label="View"
+                        value={view}
+                        onChange={setView}
+                        options={[{ value: 'cards', label: 'Cards' }, { value: 'stats', label: 'Stats' }]}
+                    />
                     {binder && (
                         <div className="flex gap-2">
                             <button type="button" onClick={() => setEditing({ binder })} className="btn-quiet"><Pencil aria-hidden="true" className="w-4 h-4" />Edit binder</button>
@@ -183,6 +197,9 @@ export default function CollectionPage() {
                     </div>
                 </section>
 
+                {view === 'stats' && stats ? (
+                    <StatsPanel stats={stats} setName={setName} formatPrice={formatPrice} onOpenCard={cardId => navigate(`/cards/${cardId}`, { state: { background: location } })} />
+                ) : (<>
                 <div className="flex flex-wrap items-center gap-2.5">
                     <button
                         type="button"
@@ -226,9 +243,10 @@ export default function CollectionPage() {
                         </section>
                     ))
                 ) : renderGrid(shown)}
+                </>)}
             </div>
 
-            {filtersOpen && (
+            {filtersOpen && view === 'cards' && (
                 <div className="fixed inset-0 z-40 bg-black/60 xl:sticky xl:top-24 xl:z-auto xl:bg-transparent xl:w-[290px] xl:shrink-0" onMouseDown={e => { if (e.target === e.currentTarget) setFiltersOpen(false); }}>
                     <aside aria-label="Filters" className="absolute right-0 top-0 h-full w-[min(320px,90vw)] overflow-y-auto panel xl:static xl:h-auto xl:w-full xl:max-h-[calc(100vh-7rem)]">
                         <FilterPanel

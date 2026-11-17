@@ -77,6 +77,7 @@ import com.lburne.bounded.data.model.Domain
 import com.lburne.bounded.data.repository.GridDensity
 import com.lburne.bounded.ui.binder.BinderEditorSheet
 import com.lburne.bounded.ui.binder.DeleteBinderDialog
+import com.lburne.bounded.ui.common.FilterButton
 import com.lburne.bounded.ui.common.CardFilterSheet
 import com.lburne.bounded.ui.common.CardTile
 import com.lburne.bounded.ui.common.EmptyState
@@ -111,6 +112,7 @@ fun CollectionScreen(
 ) {
     val state by viewModel.uiState.collectAsState()
     var showFilters by remember { mutableStateOf(false) }
+    var showStats by remember { mutableStateOf(false) }
     var searching by remember { mutableStateOf(false) }
     var creating by remember { mutableStateOf(false) }
     var editing by remember { mutableStateOf<Binder?>(null) }
@@ -190,7 +192,7 @@ fun CollectionScreen(
             modifier = Modifier.fillMaxSize()
         ) {
             item(span = { GridItemSpan(maxLineSpan) }, key = "progress", contentType = "progress") {
-                ProgressPanel(state, viewModel.currencySymbol, onDomain = viewModel::toggleDomain)
+                ProgressPanel(state, viewModel.currencySymbol, onDomain = viewModel::toggleDomain, onStats = { showStats = true })
             }
             item(span = { GridItemSpan(maxLineSpan) }, key = "toolbar", contentType = "toolbar") {
                 Toolbar(
@@ -224,6 +226,24 @@ fun CollectionScreen(
             } else {
                 cardItems(state.cards, onCardClick, viewModel)
             }
+        }
+    }
+
+    if (showStats) {
+        ModalBottomSheet(
+            onDismissRequest = { showStats = false },
+            sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true),
+            containerColor = Rift.Surface
+        ) {
+            BinderStatsSheet(
+                title = state.title,
+                stats = state.stats,
+                currencySymbol = viewModel.currencySymbol,
+                onCardClick = { cardId ->
+                    showStats = false
+                    onCardClick(cardId)
+                }
+            )
         }
     }
 
@@ -337,7 +357,7 @@ private fun BinderTabs(tabs: List<BinderTab>, selectedId: String, onSelect: (Str
 
 /** Owned out of total, a gold bar, and each domain's share, which doubles as a filter. */
 @Composable
-private fun ProgressPanel(state: CollectionUiState, currencySymbol: String, onDomain: (Domain) -> Unit) {
+private fun ProgressPanel(state: CollectionUiState, currencySymbol: String, onDomain: (Domain) -> Unit, onStats: () -> Unit) {
     val p = state.progress
     Column(
         Modifier
@@ -358,12 +378,14 @@ private fun ProgressPanel(state: CollectionUiState, currencySymbol: String, onDo
             Text("${p.percent}%", style = RiftNumber.copy(fontSize = 20.sp), color = Rift.Gold, modifier = Modifier.padding(bottom = 4.dp))
         }
         GoldProgressBar(p.fraction)
-        if (p.value > 0) {
+        Row(verticalAlignment = Alignment.CenterVertically) {
             Text(
-                "${"%,d".format(p.copies)} copies · worth ${formatMoney(currencySymbol, p.value)}",
+                "${"%,d".format(p.copies)} copies" + (if (p.value > 0) " · worth ${formatMoney(currencySymbol, p.value)}" else ""),
                 fontSize = 13.sp,
-                color = Rift.Muted
+                color = Rift.Muted,
+                modifier = Modifier.weight(1f)
             )
+            StatsButton(onClick = onStats)
         }
         Row(horizontalArrangement = Arrangement.spacedBy(4.dp)) {
             PlayableDomains.forEach { domain ->
@@ -411,18 +433,7 @@ private fun Toolbar(
     onSortChange: (CardSort) -> Unit
 ) {
     Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-        OutlinedButton(
-            onClick = onOpenFilters,
-            shape = androidx.compose.ui.graphics.RectangleShape,
-            border = BorderStroke(1.dp, Rift.GoldDeep),
-            contentPadding = PaddingValues(horizontal = 12.dp),
-            modifier = Modifier.height(40.dp)
-        ) {
-            BadgedBox(badge = { if (filter.activeCount > 0) Badge(containerColor = Rift.Gold, contentColor = Rift.OnGold) { Text(filter.activeCount.toString()) } }) {
-                Icon(Icons.Default.Tune, contentDescription = null, tint = Rift.Ivory, modifier = Modifier.size(18.dp))
-            }
-            Text("FILTER", style = RiftNumber.copy(fontSize = 14.sp, letterSpacing = 0.8.sp), color = Rift.Ivory, modifier = Modifier.padding(start = 8.dp))
-        }
+        FilterButton(activeCount = filter.activeCount, onClick = onOpenFilters)
 
         Row(Modifier.border(1.dp, Rift.Line)) {
             Ownership.values().forEach { option ->
