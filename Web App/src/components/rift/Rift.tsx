@@ -62,8 +62,15 @@ export function DomainIcon({ domain, className = 'w-6 h-6', decorative = false }
     return <img src={domainIconUrl(domain)} alt={decorative ? '' : DOMAIN_LABEL[domain]} className={className} loading="lazy" />;
 }
 
-export function RarityGem({ rarity, className = 'w-2.5 h-2.5' }: { rarity: RiftRarity; className?: string }) {
-    return <span aria-hidden="true" title={RARITY_LABEL[rarity]} className={`inline-block shrink-0 rotate-45 ${className}`} style={{ background: RARITY_GEM[rarity] }} />;
+/** The rarity's gem in its printed shape: a circle, triangle, diamond, pentagon or hexagon. */
+export function RarityGem({ rarity, className = 'w-3.5 h-3.5' }: { rarity: RiftRarity; className?: string }) {
+    const { colour, points } = RARITY_GEM[rarity];
+    return (
+        <svg viewBox="0 0 18 18" aria-hidden="true" className={`inline-block shrink-0 ${className}`}>
+            <title>{RARITY_LABEL[rarity]}</title>
+            {points ? <polygon points={points} fill={colour} /> : <circle cx="9" cy="9" r="7" fill={colour} />}
+        </svg>
+    );
 }
 
 /** The energy cost as an ivory token, the way the card prints it. */

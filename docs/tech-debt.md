@@ -28,7 +28,7 @@ A running list. Add to it when you leave something unfinished, and delete an ite
 
 | Item | Why it matters | Next step |
 |---|---|---|
-| Release builds have no signing config | The minified release APK can't be installed or shared until it's signed, so the README still links a debug build | Create an upload key, keep it out of git, and sign release builds from a CI secret. |
+| Release builds have no signing config | The minified release APK can't be installed or shared until it's signed, so the README's release is a debug build, and a build from another machine can't install over it | Create an upload key, keep it out of git, and sign release builds from a CI secret. |
 | The minified (R8) release build hasn't been used signed in | Firestore and Gson read the model classes by reflection. The keep rule covers `data/model`, and R8's mapping shows their names kept, but syncing hasn't been tried in a release build | Sign in on a release build, change some quantities and edit a deck. Any reflected class added outside `data/model` needs its own keep rule. |
 | `targetSdk` is 35 while `compileSdk` is 37 | Play requires recent targets for app updates, and raising it opts the app into newer platform behaviour | Raise it one level at a time and test each on a device. |
 | Deprecated Compose APIs: `LocalClipboardManager` (deck list, deck import, deck editor) and `TabRow` (deck editor) | Build warnings now; they'll be removed in a later Compose release | Move to `LocalClipboard` and `PrimaryTabRow`. The deck editor ones can go with its restyle. |
@@ -54,7 +54,6 @@ A running list. Add to it when you leave something unfinished, and delete an ite
 | Item | Why it matters | Next step |
 |---|---|---|
 | The deck list reads every deck's cards to check legality | One Firestore read per entry the first time the list opens in a session (a few hundred for many large decks); after that only changed decks are read again | If it grows, keep the deck's card IDs and counts on the deck document so the list needs only the deck reads. |
-| GitHub Pages still publishes 599 MB of old PNG card images | The APK linked from the README loads them, but they make the Pages site about 750 MB, near GitHub's 1 GB limit and slow to deploy | Replace the README's APK with a current build, then drop the PNGs from `deploy_pages.yml` (or the repository). |
 | The bundle is one 770 kB chunk (mostly Firebase) | Slower first load | Split routes with `React.lazy`, or load Firestore after sign-in. |
 | Collection stats charts were dropped in the redesign | The old Stats tab (cards by type and rarity) is gone; progress by binder and domain replaced it | Bring back a stats view if it's missed. |
 

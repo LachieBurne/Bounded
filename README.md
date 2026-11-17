@@ -5,7 +5,7 @@
 Bounded is a collection tracker and deck builder for the Riftbound trading card game, with an Android app and a web app. Both use the same Google account, so your collection and decks stay in sync between them.
 
 - Web app: [bounded.web.app](https://bounded.web.app)
-- Android app: [riftbound-app.apk](https://github.com/LachieBurne/Bounded/blob/main/Android%20App/riftbound-app.apk) (an older build from April 2026)
+- Android app: [Bounded.apk](https://github.com/LachieBurne/Bounded/releases/latest/download/Bounded.apk), the latest [release](https://github.com/LachieBurne/Bounded/releases)
 - Bugs and requests: [Issues](https://github.com/LachieBurne/Bounded/issues)
 
 ## Features
@@ -27,7 +27,7 @@ The deck rules the apps enforce are listed in [docs/deck-rules.md](docs/deck-rul
 
 **Web:** open [bounded.web.app](https://bounded.web.app) and sign in with Google.
 
-**Android:** download the APK above on your phone and open it. Android asks you to allow installing apps from your browser or file manager the first time.
+**Android:** download the APK above on your phone and open it. Android asks you to allow installing apps from your browser or file manager the first time. If you installed the April 2026 build, uninstall it first: it was signed with a different key, so it can't be updated in place. Your collection and decks are kept with your Google account.
 
 ## Architecture
 
