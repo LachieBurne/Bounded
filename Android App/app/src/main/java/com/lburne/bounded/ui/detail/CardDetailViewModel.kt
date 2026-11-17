@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.lburne.bounded.data.local.CardWithQuantity
 import com.lburne.bounded.data.model.Card
+import com.lburne.bounded.data.model.CardPlaces
 import com.lburne.bounded.data.model.Finish
 import com.lburne.bounded.data.model.finishes
 import com.lburne.bounded.data.repository.CardRepository
@@ -12,6 +13,7 @@ import com.lburne.bounded.data.repository.PriceRepository
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 
@@ -64,6 +66,26 @@ class CardDetailViewModel(
         started = SharingStarted.WhileSubscribed(5000),
         initialValue = CardDetailUiState.Loading
     )
+
+    /** Where each card's copies are kept, by card ID, and place names to suggest. */
+    val locations: StateFlow<Map<String, Map<String, Int>>> = repository.locations
+        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), emptyMap())
+
+    val knownPlaces: StateFlow<List<String>> = repository.locations
+        .map { CardPlaces.known(it.values) }
+        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), emptyList())
+
+    /** Puts every unplaced copy of [item]'s card in [place]. */
+    fun addPlace(item: CardWithQuantity, place: String) {
+        val stored = locations.value[item.card.cardId]
+        repository.savePlaces(item.card.cardId, CardPlaces.addPlace(stored, item.quantity, place), item.quantity)
+    }
+
+    /** Sets how many copies of [item]'s card are in [place]; zero removes it. */
+    fun setPlaceCount(item: CardWithQuantity, place: String, count: Int) {
+        val stored = locations.value[item.card.cardId]
+        repository.savePlaces(item.card.cardId, CardPlaces.setCount(stored, item.quantity, place, count), item.quantity)
+    }
 
     fun increment(variant: CardVariant) = change(variant, 1)
 

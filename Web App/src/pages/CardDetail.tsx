@@ -9,6 +9,7 @@ import { banDate, isBanned, upcomingBan } from '../lib/bans';
 import { FINISH_LABEL, countOf, finishesOf, isPromo, type Finish } from '../lib/finishes';
 import { DomainBand } from '../components/rift/DomainBand';
 import { RulesText } from '../components/rift/RulesText';
+import { LocationPanel } from '../components/collection/LocationPanel';
 import { BannedTag, DomainIcon, EnergyToken, Loading, QuantityStepper, RarityGem, RiftLabel } from '../components/rift/Rift';
 
 interface DetailState {
@@ -279,6 +280,8 @@ export default function CardDetailPage() {
                                 size="lg"
                             />
                         </div>
+
+                        <LocationPanel cardId={card.cardId} cardName={card.name} quantity={total} />
 
                         {(rules || granted) && (
                             <div className="flex flex-col gap-3.5 px-[22px] py-[18px] bg-ivory text-ink-text text-[17px] leading-relaxed">

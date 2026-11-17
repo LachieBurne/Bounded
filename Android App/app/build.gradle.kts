@@ -25,6 +25,7 @@ android {
             it.systemProperty("deckRulesCases", rootProject.file("../shared/deck-rules-test-cases.json").absolutePath)
             // Finish (foil and promo) cases, likewise.
             it.systemProperty("finishCases", rootProject.file("../shared/finish-test-cases.json").absolutePath)
+            it.systemProperty("locationCases", rootProject.file("../shared/location-test-cases.json").absolutePath)
             // Re-run the tests when the shared cases change.
             it.inputs.dir(rootProject.file("../shared")).withPropertyName("sharedTestCases")
         }

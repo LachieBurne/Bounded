@@ -399,6 +399,16 @@ private fun CardInfo(variant: CardVariant, currencySymbol: String, viewModel: Ca
             onIncrement = { viewModel.increment(variant) }
         )
 
+        val locations by viewModel.locations.collectAsState()
+        val knownPlaces by viewModel.knownPlaces.collectAsState()
+        LocationPanel(
+            item = variant.item,
+            stored = locations[card.cardId],
+            known = knownPlaces,
+            onAdd = { viewModel.addPlace(variant.item, it) },
+            onSetCount = { place, count -> viewModel.setPlaceCount(variant.item, place, count) }
+        )
+
         val rules = card.text?.takeIf { it.isNotBlank() && it != "[NO TEXT]" }
         // Equipment prints what it gives the unit it's attached to in a box of its own,
         // which the card data keeps in `effect`.

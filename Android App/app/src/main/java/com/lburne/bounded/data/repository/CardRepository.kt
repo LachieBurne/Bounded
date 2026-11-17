@@ -58,6 +58,13 @@ class CardRepository(
     }
 
     /** Sets how many copies of a card are owned in all (see [BinderEntry.withTotal]). */
+    /** Where each card's copies are kept, by card ID (see CardPlaces). */
+    val locations: Flow<Map<String, Map<String, Int>>> get() = firebaseRepo.getLocations()
+
+    /** Saves a card's places, fitted to the copies owned. */
+    fun savePlaces(cardId: String, places: Map<String, Int>, quantity: Int) =
+        firebaseRepo.savePlaces(cardId, com.lburne.bounded.data.model.CardPlaces.normalised(places, quantity).toMap())
+
     suspend fun updateCardQuantity(binderId: String, cardId: String, newQuantity: Int) {
         if (newQuantity < 0) return
         val current = firebaseRepo.getBinderEntries(binderId).first().find { it.cardId == cardId }

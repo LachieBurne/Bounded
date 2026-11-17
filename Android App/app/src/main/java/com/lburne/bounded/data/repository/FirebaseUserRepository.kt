@@ -93,6 +93,43 @@ class FirebaseUserRepository {
         )
     }
 
+    /**
+     * Where each card's copies are kept, by card ID: place name to count (see CardPlaces).
+     * Stored at users/{uid}/locations/{cardId}, apart from the collection entries.
+     * Locations are optional, so a refused read (e.g. before the Firestore rule is deployed)
+     * gives no locations rather than an error.
+     */
+    fun getLocations(): Flow<Map<String, Map<String, Int>>> = callbackFlow {
+        val uid = userId ?: run {
+            trySend(emptyMap())
+            close()
+            return@callbackFlow
+        }
+        val registration = firestore.collection("users").document(uid).collection("locations")
+            .addSnapshotListener { snapshot, error ->
+                if (error != null) {
+                    android.util.Log.w("FirebaseRepo", "Card locations unavailable", error)
+                    trySend(emptyMap())
+                    return@addSnapshotListener
+                }
+                val locations = snapshot?.documents?.mapNotNull { doc ->
+                    val places = (doc.get("places") as? Map<*, *>)
+                        ?.mapNotNull { (k, v) -> (k as? String)?.let { name -> (v as? Number)?.let { name to it.toInt() } } }
+                        ?.toMap()
+                    places?.let { (doc.getString("cardId") ?: doc.id) to it }
+                }?.toMap() ?: emptyMap()
+                trySend(locations)
+            }
+        awaitClose { registration.remove() }
+    }
+
+    /** Saves a card's places, or removes the document when there are none. */
+    fun savePlaces(cardId: String, places: Map<String, Int>) {
+        val uid = userId ?: return
+        val ref = firestore.collection("users").document(uid).collection("locations").document(cardId)
+        if (places.isEmpty()) ref.delete() else ref.set(mapOf("cardId" to cardId, "places" to places))
+    }
+
     fun updateBinderEntry(entry: BinderEntry) {
         val uid = userId ?: return
         if (entry.quantity > 0) {
